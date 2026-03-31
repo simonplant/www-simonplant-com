@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #fdf3ec;
+  --color-primary-100: #fae4d2;
+  --color-primary-200: #f4c6a4;
+  --color-primary-300: #eda36d;
+  --color-primary-400: #e47f3f;
+  --color-primary-500: #b86b3a;
+  --color-primary-600: #9a5530;
+  --color-primary-700: #7c4127;
+  --color-primary-800: #5e2f1e;
+  --color-primary-900: #401e15;
+  --color-primary: #b86b3a;
+
+  --font-serif: "DM Serif Display", Georgia, serif;
+  --font-sans: "Geist Sans", system-ui, sans-serif;
+}
