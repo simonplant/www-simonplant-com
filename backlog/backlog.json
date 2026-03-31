@@ -45,7 +45,7 @@
     {
       "id": "FEAT-002",
       "title": "Base typography and prose styling",
-      "intent": "Long-form prose must render with editorial-quality serif typography — a reading serif (Source Serif 4, Literata, or Newsreader) for body text, generous line height (1.7–1.8), max ~720px content width, and proper heading hierarchy using DM Serif Display. This is the key differentiator: almost nobody in AI tooling uses serif for prose. It signals depth and careful thinking.",
+      "intent": "Long-form prose must render with Literata serif at comfortable size (17px), line-height 1.75, max ~720px content width, and proper heading hierarchy using DM Serif Display. Code blocks use JetBrains Mono on elevated dark surfaces with amber syntax accents. This editorial typography is the key differentiator.",
       "description": "",
       "priority": "must",
       "category": "foundation",

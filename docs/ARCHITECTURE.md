@@ -76,7 +76,7 @@ Data-driven product pages for the ecosystem: ClawHQ, AIShore, Easy Markdown, Cla
 Dark mode is the only mode. Very dark blue-black backgrounds (#0a0a0f–#111118 range), off-white text, amber/warm gold accent (#d4a853 range) used sparingly for links, CTAs, and code highlights. Light mode is not planned. Rationale: 82% of the target audience uses dark mode, and the restrained palette signals craftsmanship — "forged, not vibed." Avoids electric blue (cybersecurity template), purple gradients (AI startup 2024), and neon green (hacker aesthetic).
 
 ### Editorial Typography
-Body prose uses a reading serif (Source Serif 4, Literata, or Newsreader) — almost no one in AI tooling does this. It signals "this person thinks carefully about what they write." Headings use DM Serif Display. Code uses a monospace (JetBrains Mono or similar). UI elements use Inter or system-ui sans-serif. Three font roles, clearly separated. The homepage reads as an editorial masthead, not a SaaS landing page.
+Body prose uses Literata (TypeTogether, designed for Google Play Books — optimized for screen readability) — almost no one in AI tooling does this. It signals "this person thinks carefully about what they write." Headings use DM Serif Display. Code uses a monospace (JetBrains Mono or similar). UI elements use Inter or system-ui sans-serif. Three font roles, clearly separated. The homepage reads as an editorial masthead, not a SaaS landing page.
 
 ### No Client JS by Default
 Every page must be readable with JavaScript disabled. Interactive enhancements (search, copy buttons, cookie consent) are progressive — they add convenience but never gate content. Rationale: fast load, no hero images, no JS required to read text.
@@ -131,7 +131,7 @@ All design decisions (colors, fonts, spacing, surfaces) are defined as Tailwind 
 
 ## Open Technical Decisions
 
-- **Reading serif choice** — Source Serif 4, Literata, or Newsreader (all viable, need to test rendering on dark backgrounds)
+- ~~Reading serif choice~~ — **Literata** (TypeTogether, designed for screen readability, wide and clean on dark backgrounds)
 - **Newsletter provider** — external service TBD (buttondown, convertkit, resend)
 - **Hosting/deployment** — CDN target not yet chosen (Cloudflare Pages, Netlify, Vercel)
 - **Companion artifact hosting** — GitHub repo structure for checklists/templates

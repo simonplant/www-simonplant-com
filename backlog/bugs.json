@@ -4,25 +4,26 @@
     {
       "id": "BUG-001",
       "title": "Replace Geist Sans with reading serif and clean sans for UI",
-      "intent": "The body font strategy has changed: prose uses a reading serif (Source Serif 4, Literata, or Newsreader), UI elements use a clean sans (Inter or system-ui), and code uses a monospace (JetBrains Mono or similar). Geist Sans was never loaded and is no longer the target. Update the @theme font stack and load the chosen fonts.",
+      "intent": "The font strategy is decided: Literata for prose body text, DM Serif Display for headings, JetBrains Mono for code, Inter/system-ui for UI. Geist Sans is removed. Load Literata and JetBrains Mono via Google Fonts, update @theme font stacks accordingly.",
       "description": "",
       "priority": "must",
       "category": "foundation",
       "steps": [
         "Remove Geist Sans from @theme font-sans declaration",
-        "Add reading serif font: choose Source Serif 4, Literata, or Newsreader — load via Google Fonts or Fontsource",
-        "Update @theme: --font-serif for prose body, --font-sans for UI (Inter or system-ui), add --font-mono for code",
-        "Add font loading links to Base.astro head",
-        "Verify all three font stacks render correctly in browser devtools"
+        "Add Literata (400, 400i, 600) via Google Fonts link in Base.astro",
+        "Add JetBrains Mono (400) via Google Fonts link in Base.astro",
+        "Update @theme: --font-serif to Literata for prose, keep DM Serif Display for headings (add --font-display), --font-sans to Inter/system-ui for UI, --font-mono to JetBrains Mono",
+        "Preconnect fonts for performance",
+        "Verify all three font stacks render in browser devtools"
       ],
       "acceptanceCriteria": [
         {
-          "text": "Reading serif font is loaded and declared in theme",
-          "verify": "grep -r 'Source.Serif\\|Literata\\|Newsreader' src/ --include='*.css' --include='*.astro' -l | grep -q ."
+          "text": "Literata font is loaded and declared in theme",
+          "verify": "grep -r 'Literata' src/ --include='*.css' --include='*.astro' -l | grep -q ."
         },
         {
-          "text": "Monospace font is declared in theme for code blocks",
-          "verify": "grep -q 'font-mono\\|--font-mono' src/styles/global.css"
+          "text": "JetBrains Mono is loaded and declared in theme for code",
+          "verify": "grep -r 'JetBrains' src/ --include='*.css' --include='*.astro' -l | grep -q ."
         },
         {
           "text": "Build succeeds",
