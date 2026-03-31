@@ -1,0 +1,83 @@
+name: Content Validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/content/**'
+
+jobs:
+  validate-content:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Block PRs that touch files outside src/content/
+      - name: Check scope restriction
+        run: |
+          FILES=$(gh pr diff ${{ github.event.pull_request.number }} --name-only)
+          VIOLATIONS=$(echo "$FILES" | grep -v '^src/content/' || true)
+          if [ -n "$VIOLATIONS" ]; then
+            echo "::error::Content PRs must only touch src/content/. Violations:"
+            echo "$VIOLATIONS"
+            exit 1
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Block status: published in content agent PRs
+      - name: Block unauthorized publishing
+        if: github.event.pull_request.user.login != 'simonplant'
+        run: |
+          FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- 'src/content/')
+          PUBLISHED_FILES=""
+          for f in $FILES; do
+            if [ -f "$f" ] && head -20 "$f" | grep -q '^status:.*published'; then
+              PUBLISHED_FILES="$PUBLISHED_FILES\n  $f"
+            fi
+          done
+          if [ -n "$PUBLISHED_FILES" ]; then
+            echo "::error::Only simonplant can set status: published. Found in:$PUBLISHED_FILES"
+            exit 1
+          fi
+
+      # Block oversized PRs (max 3 new content files)
+      - name: Check batch size
+        if: github.event.pull_request.user.login != 'simonplant'
+        run: |
+          NEW_FILES=$(git diff --name-only --diff-filter=A origin/${{ github.base_ref }}...HEAD -- 'src/content/' | wc -l)
+          if [ "$NEW_FILES" -gt 3 ]; then
+            echo "::error::Content PRs are limited to 3 new pieces per PR. Found $NEW_FILES new files."
+            exit 1
+          fi
+
+      # Validate frontmatter has required fields
+      - name: Validate frontmatter
+        run: |
+          ERRORS=""
+          for f in $(git diff --name-only origin/${{ github.base_ref }}...HEAD -- 'src/content/*.md' 'src/content/**/*.md'); do
+            [ -f "$f" ] || continue
+            # Check required fields
+            for field in title description status tags; do
+              if ! head -30 "$f" | grep -q "^${field}:"; then
+                ERRORS="$ERRORS\n  $f: missing '$field' field"
+              fi
+            done
+            # Check status is valid
+            STATUS=$(head -30 "$f" | grep '^status:' | sed 's/status: *//')
+            case "$STATUS" in
+              idea|draft|review|published) ;;
+              *) ERRORS="$ERRORS\n  $f: invalid status '$STATUS' (must be idea/draft/review/published)" ;;
+            esac
+          done
+          if [ -n "$ERRORS" ]; then
+            echo "::error::Frontmatter validation failed:$ERRORS"
+            exit 1
+          fi
+
+      # Build check
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build

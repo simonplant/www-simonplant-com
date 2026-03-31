@@ -38,6 +38,52 @@ npm run preview   # Preview production build locally
 - PostHog auto-disables capturing in dev mode
 - All new pages must use `Base.astro` layout and pass a `title` prop
 
+## Content Pipeline
+
+Content lives in `src/content/` with a status-based editorial workflow:
+
+| Status | Meaning | Builds in prod? | Who can set |
+|--------|---------|-----------------|-------------|
+| `idea` | Placeholder | No | Anyone |
+| `draft` | Being written | No | Anyone |
+| `review` | Ready for Simon's editorial pass | No | Anyone |
+| `published` | Live on site | Yes | Simon only |
+
+### Content Agent Rules (Clawdius)
+
+Clawdius is the primary content producer. He operates under strict constraints:
+
+**CAN do:**
+- Create/edit files in `src/content/commentary/`, `src/content/series/`, `src/content/architecture/`
+- Set status to: `idea`, `draft`, `review`
+- Create branches named `content/<description>`
+- Open PRs with max 3 content pieces
+
+**CANNOT do:**
+- Push to main
+- Touch any file outside `src/content/`
+- Set `status: published`
+- Open a PR while another content PR is unreviewed
+- Merge his own PRs
+
+**Content quality bar:**
+- Write as Simon — direct, opinionated, historically grounded, systems-oriented
+- Every piece must be grounded in real work, real decisions, real code
+- No generic "AI is transforming..." filler
+- No fabricated benchmarks, dates, or project details
+- If unsure about a fact, flag it with `[VERIFY]` inline
+- Commentary: 300-800 words, externally triggered, tagged
+- Series: 1,500-3,000 words, follows the planned arc, ships with companion artifacts where appropriate
+- Architecture KB: structured record template (problem, when to use, how it works, trade-offs, related patterns)
+
+### CI Enforcement
+
+The `content-validation` workflow enforces:
+- Scope restriction: content PRs can only touch `src/content/`
+- Publishing gate: only `simonplant` can set `status: published`
+- Batch limit: max 3 new content pieces per PR
+- Frontmatter validation: required fields (title, description, status, tags) and valid status values
+
 ## Sprint Orchestration (aishore)
 
 Iterative intent-based development with evals. Backlog lives in `backlog/`, tool lives in `.aishore/`. Run `.aishore/aishore help` for full usage.
