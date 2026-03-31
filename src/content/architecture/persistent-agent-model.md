@@ -1,9 +1,11 @@
 ---
 title: The Persistent Agent Model
 description: How Clawdius maintains continuity across sessions through structured memory files, daily logs, and cron-driven routines — the architecture underlying a 24/7 AI operator.
-category: agent-lifecycle
+concern: lifecycle
+patternType: design-pattern
 publishedDate: 2026-03-31
-status: evolving
+status: review
+tags: ["agent-lifecycle", "memory", "persistence", "cron"]
 relatedProjects: [clawhq, clawdius]
 ---
 

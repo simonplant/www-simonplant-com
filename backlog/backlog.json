@@ -996,6 +996,66 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false
+    },
+    {
+      "id": "FEAT-030",
+      "title": "Site build CI workflow",
+      "intent": "Every push and PR must run npm run build and report status — catching type errors, broken imports, and schema violations before they reach main.",
+      "description": "",
+      "priority": "must",
+      "category": "infrastructure",
+      "steps": [
+        "Create .github/workflows/build.yml triggered on push and PR",
+        "Run npm ci and npm run build",
+        "Cache node_modules for speed"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Build workflow runs on every push to main and on PRs",
+          "verify": "test -f .github/workflows/build.yml"
+        },
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        ".github/workflows/**"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-031",
+      "title": "Print stylesheet",
+      "intent": "Long-form content must produce clean, readable output when printed or saved as PDF — developers do this constantly with technical articles. Hide nav, footer, and interactive elements. Optimize typography for paper.",
+      "description": "",
+      "priority": "should",
+      "category": "polish",
+      "steps": [
+        "Add @media print styles to global.css",
+        "Hide nav, footer, cookie banner, copy buttons in print",
+        "Optimize line length and font size for A4/Letter",
+        "Ensure code blocks don't overflow page width"
+      ],
+      "acceptanceCriteria": [
+        "Print preview shows clean content without navigation or interactive elements",
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/styles/**"
+      ],
+      "dependsOn": [
+        "FEAT-002"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
     }
   ]
 }

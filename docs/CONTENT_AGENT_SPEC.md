@@ -67,7 +67,7 @@ status: draft | review             # NEVER 'published'
 ---
 ```
 
-- **Filename:** `src/content/commentary/<slug>.md` (lowercase, hyphenated, no `blog-` prefix)
+- **Filename:** `src/content/commentary/<slug>.md` (lowercase, hyphenated, descriptive — e.g., `agent-credential-access.md`)
 - **Length:** 300-800 words
 - **Tier meanings:**
   - `signal` — quick take, news reaction, observation

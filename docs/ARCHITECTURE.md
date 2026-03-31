@@ -23,7 +23,7 @@
 ```
 ├── src/
 │   ├── content/           # Content collections (series, commentary, architecture, products)
-│   │   └── config.ts      # Collection schemas (Zod-validated)
+│   └── content.config.ts  # Collection schemas (Zod-validated, Astro 6 root-level)
 │   ├── components/        # Reusable Astro components
 │   │   └── CookieConsent.astro
 │   ├── layouts/
