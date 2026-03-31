@@ -3188,6 +3188,12 @@ run_sprint_loop() {
         cp "$PROJECT_ROOT/backlog/sprint.json" "$BACKLOG_DIR/sprint.json"
 
         cd "$wt_dir"
+
+        # Symlink node_modules from main project so build tools are available
+        if [[ -d "$PROJECT_ROOT/node_modules" && ! -e "$wt_dir/node_modules" ]]; then
+            ln -s "$PROJECT_ROOT/node_modules" "$wt_dir/node_modules"
+        fi
+
         log_info "Worktree created: $wt_dir"
 
         # Developer → validation → validator (with retries)
