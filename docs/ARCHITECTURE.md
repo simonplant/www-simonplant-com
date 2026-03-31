@@ -1,19 +1,128 @@
 # Architecture — www.simonplant.com
 
-<!-- TODO: Fill in the sections below to guide implementation decisions -->
-
 ## Tech Stack
 
-What languages, frameworks, and tools does this project use?
+| Layer | Choice | Notes |
+|-------|--------|-------|
+| Framework | **Astro 6** | Static output (`output: 'static'`), no SSR |
+| Styling | **Tailwind CSS v4** | Via `@tailwindcss/vite` plugin, CSS-based config (`@theme`), no `tailwind.config.js` |
+| Language | **TypeScript** | Strict mode (extends `astro/tsconfigs/strict`) |
+| Analytics | **PostHog** | Consent-gated, GDPR-compliant, lazy-loaded via dynamic `import()` |
+| Fonts | **DM Serif Display** (serif headings), **Geist Sans** (body) | Google Fonts, preconnected |
+| JS Frameworks | **None** | Pure Astro components + vanilla `<script>` tags only |
+
+### Why These Choices
+
+- **Astro** — content-heavy site with zero client JS by default. Islands architecture available if interactive components are ever needed, but the design principle is no JS required to read.
+- **Tailwind v4** — CSS-native configuration via `@theme` blocks. No build-time config file. Collocates design tokens with the stylesheet.
+- **No frameworks** — every framework byte is a tax on a site whose job is to serve text. Vanilla `<script>` for the rare interactive element (cookie consent, copy buttons, search).
+- **Static output** — content changes at publish time, not request time. Deploy anywhere (CDN, S3, Netlify, Vercel). Maximum cache-ability.
 
 ## Project Structure
 
-Describe the key directories and their purpose.
+```
+├── src/
+│   ├── content/           # Content collections (series, commentary, architecture, products)
+│   │   └── config.ts      # Collection schemas (Zod-validated)
+│   ├── components/        # Reusable Astro components
+│   │   └── CookieConsent.astro
+│   ├── layouts/
+│   │   └── Base.astro     # Root HTML layout (all pages)
+│   ├── pages/             # File-based routing
+│   │   ├── index.astro
+│   │   ├── about.astro
+│   │   ├── series/        # Landing + [slug] detail pages
+│   │   ├── commentary/    # Feed + [slug] detail pages
+│   │   ├── architecture/  # KB landing + [slug] entries
+│   │   ├── products/      # Ecosystem + [slug] product pages
+│   │   └── ...
+│   └── styles/
+│       └── global.css     # Tailwind v4 @theme config (colors, fonts)
+├── docs/
+│   ├── ARCHITECTURE.md    # This file
+│   └── SITE_PLAN.md       # Product strategy and content plan
+├── backlog/               # Aishore sprint backlog
+│   ├── backlog.json       # Feature items
+│   ├── bugs.json          # Bug/tech debt items
+│   └── archive/           # Sprint history and regression suite
+├── .aishore/              # Sprint orchestration tooling
+└── astro.config.mjs       # Astro config (Tailwind as Vite plugin)
+```
+
+## Content Architecture
+
+The site has four content tracks, each as an Astro content collection:
+
+### Series
+Flagship numbered series on AI agent infrastructure maturation. 1,500–3,000 words per installment, published weekly to biweekly. Each may ship with companion artifacts (checklists, templates, decision frameworks).
+
+### Commentary
+Short-form opinionated takes (300–800 words), externally triggered. Reverse-chronological feed, tagged, filterable.
+
+### Architecture Knowledge Base
+Structured pattern records — not articles. Each entry follows a standard template: pattern name, status (draft/working/stable), problem, when to use, how it works, trade-offs, related patterns, source. Browsable by concern and pattern type.
+
+### Products
+Data-driven product pages for the ecosystem: ClawHQ, AIShore, Easy Markdown, Clawdius. Each with problem statement, architecture context, status, and GitHub link. Overview page shows how they fit together in the agent infrastructure lifecycle.
+
+### Cross-Cutting
+- **Tags** span all tracks — a tag like `agent-security` connects series installments, commentary, and KB entries
+- **Search** indexes all tracks via client-side full-text search (build-time index)
+- **RSS** covers series and commentary
 
 ## Key Design Decisions
 
-Document important architectural choices and their rationale.
+### Dark-First Design
+Dark mode is the default, not an afterthought. The warm primary palette (#b86b3a) is calibrated for dark surfaces. Light mode is not planned for launch. Rationale: developer audience, design differentiation, and the site plan calls for "more typeset document than web application."
+
+### No Client JS by Default
+Every page must be readable with JavaScript disabled. Interactive enhancements (search, copy buttons, cookie consent) are progressive — they add convenience but never gate content. Rationale: fast load, no hero images, no JS required to read text.
+
+### Content Collections Over MDX
+Astro content collections with Zod schemas provide type-safe frontmatter validation at build time. Prefer `.md` over `.mdx` unless a specific page needs interactive components. Rationale: simpler toolchain, faster builds, content authors don't need to know JSX.
+
+### Static Over Dynamic
+No SSR, no API routes, no database. Content changes at publish time. If dynamic features are ever needed (newsletter signup, comments), they connect to external services via client-side JS or form actions to third-party endpoints. Rationale: maximum performance, zero server costs, deploy-anywhere.
+
+### Products as Data, Not Hardcoded Pages
+Product information lives in a content collection or structured data file, rendered through dynamic routes (`[slug].astro`). Adding a product means adding a data entry, not creating a new page. Rationale: maintainability as the ecosystem grows.
+
+### Design Tokens in CSS
+All design decisions (colors, fonts, spacing, surfaces) are defined as Tailwind v4 `@theme` tokens in `global.css`. Components reference tokens, never raw values. Rationale: single source of truth, easy to evolve the visual language.
 
 ## Conventions
 
-Code style, naming conventions, patterns to follow.
+### Pages
+- Every page uses `Base.astro` layout and passes a `title` prop
+- Navigation and footer render on every page via the layout
+- Every page answers within 5 seconds: what will I learn here and is it worth my time
+
+### Components
+- Astro components only — no React, Vue, Svelte, or other framework components
+- Interactive behavior via vanilla `<script>` tags with `is:inline` or standard module scripts
+- No component libraries or UI kits — everything is built from Tailwind utilities
+
+### Styling
+- Tailwind v4 utility classes, extended via `@theme` blocks in CSS
+- No `tailwind.config.js` — all customization in `global.css`
+- Prose/long-form content uses a dedicated prose styling system (not `@tailwindcss/typography` unless it supports v4)
+
+### Analytics
+- PostHog loads only after explicit user consent (GDPR)
+- Auto-disables capturing in dev mode
+- Environment variables: `PUBLIC_POSTHOG_KEY`, `PUBLIC_POSTHOG_HOST`
+
+### Performance
+- Target: Lighthouse 95+ on all four categories
+- Zero cumulative layout shift
+- Sub-100KB page weight for content pages
+- No render-blocking resources beyond critical CSS
+- Fonts preconnected, display=swap
+
+## Open Technical Decisions
+
+- **Search implementation** — Pagefind (build-time, zero-JS index) vs Fuse.js (client-side fuzzy) vs Lunr
+- **Newsletter provider** — external service TBD (buttondown, convertkit, resend)
+- **Hosting/deployment** — CDN target not yet chosen (Cloudflare Pages, Netlify, Vercel)
+- **Geist Sans loading** — currently not loaded (no font import), needs to be added or swapped for system font
+- **Companion artifact hosting** — GitHub repo structure for checklists/templates

@@ -1,4 +1,36 @@
 {
   "description": "Bugs and tech debt",
-  "items": []
+  "items": [
+    {
+      "id": "BUG-001",
+      "title": "Geist Sans font is declared but never loaded",
+      "intent": "The body font (Geist Sans) must actually load and render. Currently global.css declares it in @theme but no font file or stylesheet is imported — every page silently falls back to system-ui.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Determine loading strategy: Google Fonts, Fontsource, or self-hosted woff2",
+        "Add font import/link so Geist Sans loads on all pages",
+        "Verify the font renders in browser devtools"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Geist Sans font files are loaded by the browser",
+          "verify": "grep -r 'geist' src/ public/ --include='*.css' --include='*.astro' -l | grep -q ."
+        },
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/styles/**",
+        "src/layouts/**"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": true
+    }
+  ]
 }
