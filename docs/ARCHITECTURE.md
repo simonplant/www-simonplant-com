@@ -73,7 +73,10 @@ Data-driven product pages for the ecosystem: ClawHQ, AIShore, Easy Markdown, Cla
 ## Key Design Decisions
 
 ### Dark-First Design
-Dark mode is the default, not an afterthought. The warm primary palette (#b86b3a) is calibrated for dark surfaces. Light mode is not planned for launch. Rationale: developer audience, design differentiation, and the site plan calls for "more typeset document than web application."
+Dark mode is the only mode. Very dark blue-black backgrounds (#0a0a0f–#111118 range), off-white text, amber/warm gold accent (#d4a853 range) used sparingly for links, CTAs, and code highlights. Light mode is not planned. Rationale: 82% of the target audience uses dark mode, and the restrained palette signals craftsmanship — "forged, not vibed." Avoids electric blue (cybersecurity template), purple gradients (AI startup 2024), and neon green (hacker aesthetic).
+
+### Editorial Typography
+Body prose uses a reading serif (Source Serif 4, Literata, or Newsreader) — almost no one in AI tooling does this. It signals "this person thinks carefully about what they write." Headings use DM Serif Display. Code uses a monospace (JetBrains Mono or similar). UI elements use Inter or system-ui sans-serif. Three font roles, clearly separated. The homepage reads as an editorial masthead, not a SaaS landing page.
 
 ### No Client JS by Default
 Every page must be readable with JavaScript disabled. Interactive enhancements (search, copy buttons, cookie consent) are progressive — they add convenience but never gate content. Rationale: fast load, no hero images, no JS required to read text.
@@ -119,10 +122,16 @@ All design decisions (colors, fonts, spacing, surfaces) are defined as Tailwind 
 - No render-blocking resources beyond critical CSS
 - Fonts preconnected, display=swap
 
+## Decided
+
+- **Search** — Pagefind (build-time static index, zero JS cost until activated, Cmd/Ctrl+K overlay)
+- **Color direction** — Dark-primary (#0a0a0f–#111118) with amber/gold accent (#d4a853 range)
+- **Typography** — Editorial serif for prose (Source Serif 4 / Literata / Newsreader), DM Serif Display headings, monospace code, sans-serif UI
+- **Font loading** — Geist Sans removed; replaced with reading serif + Inter/system-ui for UI
+
 ## Open Technical Decisions
 
-- **Search implementation** — Pagefind (build-time, zero-JS index) vs Fuse.js (client-side fuzzy) vs Lunr
+- **Reading serif choice** — Source Serif 4, Literata, or Newsreader (all viable, need to test rendering on dark backgrounds)
 - **Newsletter provider** — external service TBD (buttondown, convertkit, resend)
 - **Hosting/deployment** — CDN target not yet chosen (Cloudflare Pages, Netlify, Vercel)
-- **Geist Sans loading** — currently not loaded (no font import), needs to be added or swapped for system font
 - **Companion artifact hosting** — GitHub repo structure for checklists/templates

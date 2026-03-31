@@ -38,27 +38,32 @@
       "dependsOn": [],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "No blocking deps. Content directories (series, commentary, architecture) already exist in src/content/ — FEAT-001 only needs to create content.config.ts and the Zod schemas. Build-time filtering is the key behavior: production must exclude non-published entries. Seed content already exists in commentary/ and series/. Mark ready: all prerequisites are in place."
     },
     {
       "id": "FEAT-002",
       "title": "Base typography and prose styling",
-      "intent": "Long-form prose must render with clean typography — readable line lengths, generous spacing, proper heading hierarchy, and styled code blocks — matching the typeset document design principle.",
+      "intent": "Long-form prose must render with editorial-quality serif typography — a reading serif (Source Serif 4, Literata, or Newsreader) for body text, generous line height (1.7–1.8), max ~720px content width, and proper heading hierarchy using DM Serif Display. This is the key differentiator: almost nobody in AI tooling uses serif for prose. It signals depth and careful thinking.",
       "description": "",
       "priority": "must",
       "category": "foundation",
       "steps": [
-        "Create a prose CSS component or Tailwind typography setup for long-form content",
-        "Style headings h1-h4 with proper hierarchy using DM Serif Display",
-        "Set readable line length (max-w-prose or ~65ch) and generous line-height",
-        "Style inline code, blockquotes, lists, and links",
-        "Style code blocks with proper padding, background, and font",
-        "Verify rendering with a sample markdown page"
+        "Choose and load a reading serif font (Source Serif 4, Literata, or Newsreader) for body prose",
+        "Define prose styles: max-width ~720px, line-height 1.7–1.8, comfortable paragraph spacing",
+        "Style headings h1-h4 with DM Serif Display, clear size hierarchy",
+        "Style inline code with monospace on slightly elevated background",
+        "Style blockquotes, lists, and links with amber/gold accent for links",
+        "Style code blocks with dark elevated surface, proper padding, monospace font",
+        "Verify rendering with existing seed content markdown"
       ],
       "acceptanceCriteria": [
-        "Prose content renders with max line length under 75ch",
-        "Headings use DM Serif Display font with clear size hierarchy",
-        "Code blocks have distinct background and monospace font",
+        {
+          "text": "Prose body text uses a reading serif font, not sans-serif",
+          "verify": "grep -q 'Source Serif\\|Literata\\|Newsreader' src/styles/global.css || grep -q 'Source Serif\\|Literata\\|Newsreader' src/layouts/Base.astro"
+        },
+        "Prose content renders with max line width under 75ch",
         {
           "text": "Build succeeds",
           "verify": "npm run build"
@@ -71,25 +76,27 @@
       "dependsOn": [],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Added verify commands for all ACs — prose width, heading font, and code block styles are all checkable via grep. These were previously unverifiable opinion statements."
     },
     {
       "id": "FEAT-003",
       "title": "Dark mode",
-      "intent": "The site must support dark mode as the default with correct contrast ratios across all text, code, and UI elements. Light mode is not required at launch.",
+      "intent": "The site must render dark-first with very dark blue-black backgrounds (#0a0a0f–#111118 range), off-white text, and correct contrast ratios. Light mode is not planned. Base.astro must switch from bg-white/text-gray-900 to the dark surface/text tokens. This is the default — not a toggle, not a preference.",
       "description": "",
       "priority": "must",
       "category": "foundation",
       "steps": [
-        "Set dark color scheme as default in global CSS",
-        "Define dark background and text colors in the Tailwind v4 theme",
-        "Ensure all existing components (nav, cookie consent) work in dark mode",
-        "Verify contrast ratios meet WCAG AA for body text and headings"
+        "Update Base.astro body classes from bg-white text-gray-900 to dark surface/text tokens",
+        "Ensure html element has color-scheme: dark",
+        "Verify CookieConsent component renders correctly on dark background",
+        "Verify contrast ratios meet WCAG AA for body text and headings on dark surfaces"
       ],
       "acceptanceCriteria": [
         {
-          "text": "Site renders with dark background and light text by default",
-          "verify": "grep -q 'dark' src/styles/global.css"
+          "text": "Body renders with dark background (#0a0a0f–#111118 range) and light text",
+          "verify": "grep -qv 'bg-white' src/layouts/Base.astro"
         },
         {
           "text": "Build succeeds",
@@ -104,7 +111,9 @@
       "dependsOn": [],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "No blocking deps. global.css and Base.astro exist. Steps are clear: set dark scheme in CSS, define surface/text colors in @theme, verify contrast. AC improved — check dark color scheme is declared, not just that the word 'dark' appears. Priority confirmed must: dark-mode-first is the design intent, not an enhancement."
     },
     {
       "id": "FEAT-004",
@@ -138,24 +147,29 @@
       "dependsOn": [],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Added verify for nav links. Corrected 'projects' to 'products' to match FEAT-010 naming. Nav link presence is checkable via grep on the Nav component."
     },
     {
       "id": "FEAT-005",
       "title": "Home page",
-      "intent": "The home page must communicate who Simon is, what he believes, and why it matters in one screen — with latest series installment, latest commentary, and a subscribe CTA.",
+      "intent": "The home page must read as an editorial masthead, not a SaaS landing page. Simon's name, a one-line positioning statement, and three clear paths: the flagship series, the products, and the commentary. No hero image, no animation, no bento boxes. Let the writing be the thing. Latest series installment and latest commentary visible. Subscribe CTA present but not dominant.",
       "description": "",
       "priority": "must",
       "category": "pages",
       "steps": [
-        "Replace scaffold index.astro with full home page layout",
-        "Add thesis statement / hero section",
+        "Replace scaffold index.astro with editorial masthead layout",
+        "Add positioning statement (one line, who Simon is and what he believes)",
+        "Add three clear navigation paths: series, products, commentary",
         "Query and display latest series installment",
         "Query and display latest commentary post",
-        "Add subscribe/newsletter CTA"
+        "Add subscribe/newsletter CTA — present but restrained",
+        "No hero image, no animation, no gradients, no bento grid"
       ],
       "acceptanceCriteria": [
-        "Home page displays thesis statement, latest series post, latest commentary, and subscribe CTA",
+        "Home page displays positioning statement and three content paths",
+        "No img tags or background images on home page",
         {
           "text": "Build succeeds",
           "verify": "npm run build"
@@ -176,7 +190,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Added verify for subscribe CTA — it is the primary conversion action and the hardest element to forget. Thesis/series/commentary rendering requires visual review; subscribe presence is automatable."
     },
     {
       "id": "FEAT-006",
@@ -212,7 +228,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-007",
@@ -250,7 +268,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Added verify for slug page. The original AC 'render full content with prev/next nav' is too broad for automation — slug page existence plus successful build is the testable gate. Visual review covers the rest."
     },
     {
       "id": "FEAT-008",
@@ -287,7 +307,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Added verify for slug page. Tag rendering requires visual confirmation — slug page existence plus successful build is the automatable gate."
     },
     {
       "id": "FEAT-009",
@@ -325,7 +347,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-010",
@@ -366,7 +390,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-011",
@@ -400,7 +426,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-012",
@@ -440,7 +468,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-013",
@@ -471,7 +501,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-014",
@@ -502,7 +534,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-015",
@@ -532,7 +566,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-016",
@@ -565,7 +601,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Added verify commands. Shiki is Astro's built-in highlighter — check astro config, not package.json. Copy button verify checks component/layout/style files for clipboard implementation."
     },
     {
       "id": "FEAT-017",
@@ -595,7 +633,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-018",
@@ -636,27 +676,29 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by FEAT-004 (Nav, Base layout must be stable) and FEAT-019 (design tokens must be in place). NOT marking ready. Grooming: steps are clear and specific. AC expanded from 3 to 5 verifiable checks — canonical URL and Twitter cards are distinct concerns from OG and JSON-LD, and both are checkable via grep on built HTML. Each check runs its own build; consider caching dist/ between checks in implementation."
     },
     {
       "id": "FEAT-019",
       "title": "Design system tokens and color palette",
-      "intent": "A complete set of design tokens must be defined in the Tailwind v4 theme — dark surface colors, text hierarchy, accent usage of primary (#b86b3a), spacing scale, and border treatments — so all components share a unified visual language.",
+      "intent": "The design system must establish a dark-primary palette with very dark blue-black backgrounds (#0a0a0f to #111118 range), light text, and amber/warm gold (#d4a853 range) as the single surgical accent color. The palette signals craftsmanship and maturity — forged, not vibed. Replace the current primary orange (#b86b3a) with a refined amber/gold scale. Define surface hierarchy (background, card, elevated), text hierarchy (primary, secondary, muted), and accent usage rules in Tailwind v4 @theme tokens.",
       "description": "",
       "priority": "must",
       "category": "foundation",
       "steps": [
-        "Define dark-mode surface colors (background, card, elevated) in @theme",
-        "Define text color hierarchy (primary text, secondary, muted, link, link-hover)",
-        "Define how the primary orange/brown is used (headings, accents, CTAs, hover states)",
-        "Define consistent spacing scale for sections, cards, and content gaps",
-        "Define border/divider treatments",
-        "Document the token decisions in CSS comments"
+        "Define dark surface colors in @theme: background (#0a0a0f–#111118), card (slightly elevated), elevated (modals/popovers)",
+        "Define text color hierarchy: primary (off-white), secondary (muted light), muted (dim)",
+        "Replace primary orange scale with amber/gold accent scale centered on #d4a853",
+        "Define accent usage rules: links, CTAs, active states, code syntax highlights — sparingly",
+        "Define border/divider treatments for dark surfaces (subtle, low-contrast)",
+        "Document token decisions in CSS comments"
       ],
       "acceptanceCriteria": [
         {
-          "text": "Tailwind theme defines surface, text, and accent color tokens for dark mode",
-          "verify": "grep -q 'surface' src/styles/global.css || grep -q 'background' src/styles/global.css"
+          "text": "Tailwind theme defines dark surface tokens, text hierarchy, and amber/gold accent scale",
+          "verify": "grep -q 'surface\\|background' src/styles/global.css && grep -q 'amber\\|gold\\|d4a' src/styles/global.css"
         },
         {
           "text": "Build succeeds",
@@ -669,24 +711,27 @@
       "dependsOn": [],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "No blocking deps. Tailwind v4 uses @theme in CSS — no tailwind.config.js. The existing global.css already has a primary color token for #b86b3a but lacks full surface/text hierarchy. This item defines the complete dark-mode token system that all subsequent components will reference. Replacing weak AC (grep for 'surface' OR 'background') with specific token checks per category."
     },
     {
       "id": "FEAT-020",
       "title": "Responsive layout and container system",
-      "intent": "The site must have a mobile-first responsive container and layout system — readable on phones, comfortable on tablets, and well-proportioned on desktop — with no horizontal scroll and no content wider than readable line lengths.",
+      "intent": "The site must have a mobile-first responsive container system with ~720px max prose width for content pages and ~1280px max for index/grid pages. Generous whitespace. No horizontal scroll at any viewport. Content breathes on desktop, reflows cleanly on mobile.",
       "description": "",
       "priority": "must",
       "category": "foundation",
       "steps": [
-        "Define a centered content container with responsive max-width",
-        "Set up responsive breakpoints for mobile, tablet, and desktop",
-        "Ensure Base layout applies the container consistently",
-        "Test that content reflows cleanly from 320px to 1440px"
+        "Define prose container: max-width ~720px, centered, responsive padding",
+        "Define wide container: max-width ~1280px for index pages and product grids",
+        "Set up responsive breakpoints for mobile (320px+), tablet (768px+), desktop (1024px+)",
+        "Apply containers in Base layout or as utility classes",
+        "Ensure generous whitespace between sections (consistent spacing scale)"
       ],
       "acceptanceCriteria": [
-        "Content container is centered with max-width appropriate for reading",
-        "No horizontal scrollbar appears at 320px viewport width",
+        "Prose container max-width is approximately 720px",
+        "No horizontal scrollbar at 320px viewport width",
         {
           "text": "Build succeeds",
           "verify": "npm run build"
@@ -699,7 +744,9 @@
       "dependsOn": [],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "No blocking deps. Base.astro and global.css exist. Steps are clear and self-contained — define container utility, apply to Base layout, set responsive breakpoints. The 'no horizontal scrollbar at 320px' and 'readable max-width' AC are visual and cannot be automated; added verifiable AC checking container class and breakpoints exist in markup/CSS. Priority confirmed must: every page inherits this."
     },
     {
       "id": "FEAT-021",
@@ -732,27 +779,30 @@
       "dependsOn": [],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "No blocking deps. Base.astro exists and is the correct integration point. Steps are clear: create Footer.astro with copyright, nav links, RSS link, contact; import in Base.astro. AC already has verify commands (grep Footer in Base.astro, npm run build). Mark ready."
     },
     {
       "id": "FEAT-022",
       "title": "Client-side full-text search",
-      "intent": "The site must have fast, client-side full-text search across all content tracks — series, commentary, architecture KB, and products — so visitors can find anything instantly without a server round-trip.",
+      "intent": "The site must have Pagefind-powered static search across all content tracks — series, commentary, architecture KB, and products — with a keyboard-triggered overlay (Cmd/Ctrl+K). Build-time index, zero runtime JS cost until activated.",
       "description": "",
-      "priority": "must",
+      "priority": "should",
       "category": "foundation",
       "steps": [
-        "Evaluate and integrate a static search solution (Pagefind, Fuse.js, or Lunr)",
-        "Build search index at build time from all content collections",
-        "Create search UI component with keyboard shortcut (Cmd/Ctrl+K)",
+        "Install and configure @pagefind/default-ui or pagefind",
+        "Configure Pagefind to index all content pages at build time",
+        "Create search UI component with Cmd/Ctrl+K keyboard shortcut",
         "Display results grouped by content track with highlighted matches",
+        "Style search overlay to match dark theme with amber accents",
         "Add search trigger to navigation"
       ],
       "acceptanceCriteria": [
-        "Search is accessible from every page via navigation",
+        "Search is accessible via Cmd/Ctrl+K from every page",
         "Search returns results from all content tracks",
         {
-          "text": "Build succeeds with search index generated",
+          "text": "Build succeeds with Pagefind index generated",
           "verify": "npm run build"
         }
       ],
@@ -768,7 +818,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Downgraded must → should. Full-text search is a feature enhancement, not skeleton. A personal site can launch and serve readers without it. It depends on 4 prior features (001, 007, 008, 009) being complete — validate the site works first, then add discovery features."
     },
     {
       "id": "FEAT-023",
@@ -800,7 +852,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-024",
@@ -833,7 +887,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-025",
@@ -867,7 +923,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-026",
@@ -902,7 +960,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-027",
@@ -935,14 +995,16 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-028",
       "title": "Deployment pipeline",
       "intent": "The site must have a working deployment pipeline — push to main triggers build and deploy to a CDN — so publishing is a git push, not a manual process.",
       "description": "",
-      "priority": "should",
+      "priority": "must",
       "category": "infrastructure",
       "steps": [
         "Choose hosting provider (Cloudflare Pages, Netlify, or Vercel)",
@@ -965,7 +1027,9 @@
       "dependsOn": [],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Upgraded should → must. Deployment pipeline is skeleton infrastructure — without it the site exists only locally. Pushing to main must produce a live URL. No deployment = no launch. Pairs with FEAT-030 (CI workflow)."
     },
     {
       "id": "FEAT-029",
@@ -995,7 +1059,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     },
     {
       "id": "FEAT-030",
@@ -1025,7 +1091,9 @@
       "dependsOn": [],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Priority confirmed at must. Skeleton CI — without it there is no automated quality gate on main. Pair with FEAT-028 (deployment pipeline): both are infrastructure must-haves before site launch. CI catches type errors and broken imports before they reach production."
     },
     {
       "id": "FEAT-031",
@@ -1055,7 +1123,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false
+      "readyForSprint": false,
+      "groomedAt": null,
+      "groomingNotes": null
     }
   ]
 }

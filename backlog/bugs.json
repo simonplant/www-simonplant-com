@@ -3,20 +3,26 @@
   "items": [
     {
       "id": "BUG-001",
-      "title": "Geist Sans font is declared but never loaded",
-      "intent": "The body font (Geist Sans) must actually load and render. Currently global.css declares it in @theme but no font file or stylesheet is imported — every page silently falls back to system-ui.",
+      "title": "Replace Geist Sans with reading serif and clean sans for UI",
+      "intent": "The body font strategy has changed: prose uses a reading serif (Source Serif 4, Literata, or Newsreader), UI elements use a clean sans (Inter or system-ui), and code uses a monospace (JetBrains Mono or similar). Geist Sans was never loaded and is no longer the target. Update the @theme font stack and load the chosen fonts.",
       "description": "",
       "priority": "must",
       "category": "foundation",
       "steps": [
-        "Determine loading strategy: Google Fonts, Fontsource, or self-hosted woff2",
-        "Add font import/link so Geist Sans loads on all pages",
-        "Verify the font renders in browser devtools"
+        "Remove Geist Sans from @theme font-sans declaration",
+        "Add reading serif font: choose Source Serif 4, Literata, or Newsreader — load via Google Fonts or Fontsource",
+        "Update @theme: --font-serif for prose body, --font-sans for UI (Inter or system-ui), add --font-mono for code",
+        "Add font loading links to Base.astro head",
+        "Verify all three font stacks render correctly in browser devtools"
       ],
       "acceptanceCriteria": [
         {
-          "text": "Geist Sans font files are loaded by the browser",
-          "verify": "grep -r 'geist' src/ public/ --include='*.css' --include='*.astro' -l | grep -q ."
+          "text": "Reading serif font is loaded and declared in theme",
+          "verify": "grep -r 'Source.Serif\\|Literata\\|Newsreader' src/ --include='*.css' --include='*.astro' -l | grep -q ."
+        },
+        {
+          "text": "Monospace font is declared in theme for code blocks",
+          "verify": "grep -q 'font-mono\\|--font-mono' src/styles/global.css"
         },
         {
           "text": "Build succeeds",
@@ -30,7 +36,9 @@
       "dependsOn": [],
       "status": "todo",
       "passes": false,
-      "readyForSprint": true
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Priority confirmed at must. Every visitor sees broken body font — falls back to system-ui silently. Fontsource npm package is the recommended fix for Astro projects (import in global.css, no CDN dependency). Low effort, high visual impact. Should ship in sprint 1."
     }
   ]
 }
