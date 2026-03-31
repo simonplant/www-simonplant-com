@@ -8,6 +8,9 @@
     "preview": "astro preview",
     "astro": "astro"
   },
+  "overrides": {
+    "yaml": ">=2.8.3"
+  },
   "dependencies": {
     "astro": "^6.1.0",
     "@astrojs/check": "^0.9.0",
