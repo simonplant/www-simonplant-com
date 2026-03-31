@@ -1,0 +1,940 @@
+{
+  "description": "Feature backlog",
+  "items": [
+    {
+      "id": "FEAT-001",
+      "title": "Content collection schema",
+      "intent": "Astro content collections must be defined for series, commentary, and architecture entries so all content is type-safe, queryable, and validated at build time.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Create src/content/ directory structure",
+        "Define series collection schema with fields: title, number, publishedDate, description, tags, readingTime, companionArtifact",
+        "Define commentary collection schema with fields: title, publishedDate, tags, description",
+        "Define architecture collection schema with fields: title, status (draft/working/stable), concern, patternType, tags",
+        "Configure content collections in src/content.config.ts",
+        "Add sample seed entries to verify schema works"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "npm run build succeeds with content collections configured",
+          "verify": "npm run build"
+        },
+        {
+          "text": "Content collections are defined for series, commentary, and architecture",
+          "verify": "test -f src/content.config.ts && grep -q 'series' src/content.config.ts && grep -q 'commentary' src/content.config.ts && grep -q 'architecture' src/content.config.ts"
+        },
+        {
+          "text": "At least one seed entry exists per collection and passes validation",
+          "verify": "ls src/content/series/*.md src/content/series/*.mdx src/content/commentary/*.md src/content/commentary/*.mdx src/content/architecture/*.md src/content/architecture/*.mdx 2>/dev/null | wc -l | grep -qv '^0$'"
+        }
+      ],
+      "scope": [
+        "src/content/**",
+        "src/content.config.ts"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-002",
+      "title": "Base typography and prose styling",
+      "intent": "Long-form prose must render with clean typography — readable line lengths, generous spacing, proper heading hierarchy, and styled code blocks — matching the typeset document design principle.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Create a prose CSS component or Tailwind typography setup for long-form content",
+        "Style headings h1-h4 with proper hierarchy using DM Serif Display",
+        "Set readable line length (max-w-prose or ~65ch) and generous line-height",
+        "Style inline code, blockquotes, lists, and links",
+        "Style code blocks with proper padding, background, and font",
+        "Verify rendering with a sample markdown page"
+      ],
+      "acceptanceCriteria": [
+        "Prose content renders with max line length under 75ch",
+        "Headings use DM Serif Display font with clear size hierarchy",
+        "Code blocks have distinct background and monospace font",
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/styles/**",
+        "src/layouts/**"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-003",
+      "title": "Dark mode",
+      "intent": "The site must support dark mode as the default with correct contrast ratios across all text, code, and UI elements. Light mode is not required at launch.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Set dark color scheme as default in global CSS",
+        "Define dark background and text colors in the Tailwind v4 theme",
+        "Ensure all existing components (nav, cookie consent) work in dark mode",
+        "Verify contrast ratios meet WCAG AA for body text and headings"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Site renders with dark background and light text by default",
+          "verify": "grep -q 'dark' src/styles/global.css"
+        },
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/styles/**",
+        "src/layouts/**",
+        "src/components/**"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-004",
+      "title": "Navigation component",
+      "intent": "Every page must have consistent site-wide navigation linking to all top-level sections, working on mobile and desktop with no JavaScript required for basic navigation.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Create src/components/Nav.astro with links to all top-level routes",
+        "Include site title/logo linking to home",
+        "Add responsive mobile layout (CSS-only hamburger or always-visible compact nav)",
+        "Integrate Nav into Base.astro layout",
+        "Highlight current page in navigation"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Navigation component renders on every page via Base layout",
+          "verify": "grep -q 'Nav' src/layouts/Base.astro"
+        },
+        "Navigation includes links to series, commentary, architecture, projects, and about",
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/components/Nav.astro",
+        "src/layouts/Base.astro"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-005",
+      "title": "Home page",
+      "intent": "The home page must communicate who Simon is, what he believes, and why it matters in one screen — with latest series installment, latest commentary, and a subscribe CTA.",
+      "description": "",
+      "priority": "must",
+      "category": "pages",
+      "steps": [
+        "Replace scaffold index.astro with full home page layout",
+        "Add thesis statement / hero section",
+        "Query and display latest series installment",
+        "Query and display latest commentary post",
+        "Add subscribe/newsletter CTA"
+      ],
+      "acceptanceCriteria": [
+        "Home page displays thesis statement, latest series post, latest commentary, and subscribe CTA",
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/pages/index.astro",
+        "src/components/**"
+      ],
+      "dependsOn": [
+        "FEAT-001",
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004",
+        "FEAT-019",
+        "FEAT-020",
+        "FEAT-021"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-006",
+      "title": "About page",
+      "intent": "/about must tell the narrative arc from cloud infrastructure to AI infrastructure, state current projects, declare advisory availability, and include contact details — all on one screen.",
+      "description": "",
+      "priority": "must",
+      "category": "pages",
+      "steps": [
+        "Create src/pages/about.astro using Base layout",
+        "Write narrative arc section (cloud infra → AI infra)",
+        "List current projects with brief descriptions",
+        "Add availability statement and contact details",
+        "Add colophon describing how the site is built"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/about route exists and renders",
+          "verify": "test -f src/pages/about.astro && npm run build"
+        },
+        "Page includes contact information and availability statement"
+      ],
+      "scope": [
+        "src/pages/about.astro"
+      ],
+      "dependsOn": [
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004",
+        "FEAT-019",
+        "FEAT-020",
+        "FEAT-021"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-007",
+      "title": "Series landing and detail pages",
+      "intent": "/series must show the full arc with all installments listed; each installment page must render title, number, reading time, full content, prev/next navigation, related KB links, and subscribe CTA.",
+      "description": "",
+      "priority": "must",
+      "category": "pages",
+      "steps": [
+        "Create src/pages/series/index.astro listing all installments from content collection",
+        "Create src/pages/series/[slug].astro for individual installment pages",
+        "Render installment metadata: number, title, date, reading time",
+        "Add prev/next navigation between installments",
+        "Add subscribe CTA at end of each installment"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/series route lists all series installments",
+          "verify": "test -f src/pages/series/index.astro && npm run build"
+        },
+        "Individual installment pages render full content with prev/next nav"
+      ],
+      "scope": [
+        "src/pages/series/**",
+        "src/components/**"
+      ],
+      "dependsOn": [
+        "FEAT-001",
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004",
+        "FEAT-019",
+        "FEAT-020",
+        "FEAT-021"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-008",
+      "title": "Commentary feed",
+      "intent": "/commentary must display a reverse-chronological, tagged, filterable feed of short-form posts with individual post pages.",
+      "description": "",
+      "priority": "must",
+      "category": "pages",
+      "steps": [
+        "Create src/pages/commentary/index.astro with reverse-chronological listing",
+        "Create src/pages/commentary/[slug].astro for individual posts",
+        "Display tags on listing and detail pages",
+        "Add tag-based filtering on the listing page"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/commentary route lists posts in reverse chronological order",
+          "verify": "test -f src/pages/commentary/index.astro && npm run build"
+        },
+        "Individual commentary posts render with tags displayed"
+      ],
+      "scope": [
+        "src/pages/commentary/**",
+        "src/components/**"
+      ],
+      "dependsOn": [
+        "FEAT-001",
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004",
+        "FEAT-019",
+        "FEAT-020",
+        "FEAT-021"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-009",
+      "title": "Architecture KB landing and entry pages",
+      "intent": "/architecture must show structured entries browsable by concern and pattern type, each following the standard record template with problem, when to use, how it works, trade-offs, and related patterns.",
+      "description": "",
+      "priority": "must",
+      "category": "pages",
+      "steps": [
+        "Create src/pages/architecture/index.astro with entries grouped by concern",
+        "Create src/pages/architecture/[slug].astro for individual entries",
+        "Render the standard record template fields from frontmatter",
+        "Add browsing by concern and pattern type",
+        "Show status badge (draft/working/stable) on each entry"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/architecture route lists entries browsable by concern",
+          "verify": "test -f src/pages/architecture/index.astro && npm run build"
+        },
+        "Individual entries render the structured record template"
+      ],
+      "scope": [
+        "src/pages/architecture/**",
+        "src/components/**"
+      ],
+      "dependsOn": [
+        "FEAT-001",
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004",
+        "FEAT-019",
+        "FEAT-020",
+        "FEAT-021"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-010",
+      "title": "Product ecosystem and individual product pages",
+      "intent": "/products must present the full agent infrastructure ecosystem — how ClawHQ, AIShore, Easy Markdown, and Clawdius fit together — with individual landing pages per product showing problem statement, architecture, current status, quickstart, and GitHub link. Products must be data-driven, not hardcoded.",
+      "description": "",
+      "priority": "must",
+      "category": "pages",
+      "steps": [
+        "Create a products content collection or data file with structured product info",
+        "Create src/pages/products/index.astro showing the ecosystem overview and relationship map",
+        "Create src/pages/products/[slug].astro for individual product landing pages",
+        "Include all four products: ClawHQ, AIShore, Easy Markdown, Clawdius",
+        "Show how products relate to each other in the agent infrastructure lifecycle",
+        "Link to relevant series installments and KB entries from each product page"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/products route shows ecosystem overview with all four products",
+          "verify": "test -f src/pages/products/index.astro && npm run build"
+        },
+        {
+          "text": "Individual product pages exist and render",
+          "verify": "test -f src/pages/products/\\[slug\\].astro && npm run build"
+        }
+      ],
+      "scope": [
+        "src/pages/projects.astro"
+      ],
+      "dependsOn": [
+        "FEAT-001",
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004",
+        "FEAT-019",
+        "FEAT-020",
+        "FEAT-021"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-011",
+      "title": "Tag system with cross-track linking",
+      "intent": "Tags must work across all three content tracks so a tag like agent-security connects series installments, commentary posts, and KB entries on a single tag page.",
+      "description": "",
+      "priority": "should",
+      "category": "foundation",
+      "steps": [
+        "Create src/pages/tags/index.astro listing all tags with counts",
+        "Create src/pages/tags/[tag].astro showing all content with that tag across tracks",
+        "Group results by track (series, commentary, architecture) on tag pages",
+        "Render tag links on all content detail pages"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/tags route lists all tags used across content tracks",
+          "verify": "test -f src/pages/tags/index.astro && npm run build"
+        },
+        "Individual tag pages show content from all three tracks"
+      ],
+      "scope": [
+        "src/pages/tags/**",
+        "src/components/**"
+      ],
+      "dependsOn": [
+        "FEAT-001",
+        "FEAT-007",
+        "FEAT-008",
+        "FEAT-009"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-012",
+      "title": "Newsletter signup and RSS",
+      "intent": "/newsletter must be a compelling landing page that sells the value of subscribing — what readers get, how often, and why it matters. RSS feed must cover all content tracks. This is the primary distribution channel, not an afterthought.",
+      "description": "",
+      "priority": "must",
+      "category": "pages",
+      "steps": [
+        "Create src/pages/newsletter.astro with description and signup form",
+        "Add RSS feed generation using @astrojs/rss",
+        "Include series and commentary in the RSS feed",
+        "Add RSS link to site head and navigation"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/newsletter route exists with signup form",
+          "verify": "test -f src/pages/newsletter.astro && npm run build"
+        },
+        {
+          "text": "RSS feed is generated at /rss.xml",
+          "verify": "npm run build && test -f dist/rss.xml"
+        }
+      ],
+      "scope": [
+        "src/pages/newsletter.astro",
+        "src/pages/rss.xml.ts"
+      ],
+      "dependsOn": [
+        "FEAT-001",
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004",
+        "FEAT-019",
+        "FEAT-020",
+        "FEAT-021"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-013",
+      "title": "Start Here page",
+      "intent": "/start-here must orient first-time visitors by interest area with curated entry points into existing content — if you care about security start here, if you want the full thesis start from installment 1.",
+      "description": "",
+      "priority": "should",
+      "category": "pages",
+      "steps": [
+        "Create src/pages/start-here.astro using Base layout",
+        "Organize entry points by interest area (security, orchestration, full thesis, etc.)",
+        "Link to specific series installments and KB entries",
+        "Add to navigation"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/start-here route exists and renders",
+          "verify": "test -f src/pages/start-here.astro && npm run build"
+        }
+      ],
+      "scope": [
+        "src/pages/start-here.astro"
+      ],
+      "dependsOn": [
+        "FEAT-007",
+        "FEAT-008",
+        "FEAT-009"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-014",
+      "title": "Changelog page",
+      "intent": "/changelog must show dated entries of what shipped, published, or changed — lightweight and low-effort to maintain.",
+      "description": "",
+      "priority": "should",
+      "category": "pages",
+      "steps": [
+        "Create src/pages/changelog.astro using Base layout",
+        "Define a simple data format for changelog entries (date, description)",
+        "Render entries in reverse chronological order"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/changelog route exists and renders",
+          "verify": "test -f src/pages/changelog.astro && npm run build"
+        }
+      ],
+      "scope": [
+        "src/pages/changelog.astro",
+        "src/content/changelog/**"
+      ],
+      "dependsOn": [
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-015",
+      "title": "Talks page",
+      "intent": "/talks must exist as a minimal page that can grow as speaking opportunities emerge — not empty, but honest about being early.",
+      "description": "",
+      "priority": "could",
+      "category": "pages",
+      "steps": [
+        "Create src/pages/talks.astro using Base layout",
+        "Add introductory text about speaking interests and topics",
+        "Include contact info for speaking inquiries"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/talks route exists and renders",
+          "verify": "test -f src/pages/talks.astro && npm run build"
+        }
+      ],
+      "scope": [
+        "src/pages/talks.astro"
+      ],
+      "dependsOn": [
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-016",
+      "title": "Code blocks with syntax highlighting and copy button",
+      "intent": "All code blocks across the site must have language-aware syntax highlighting with a dark-mode-matched theme and a one-click copy button. For a developer audience reading infrastructure code, this is core readability, not polish.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Configure Astro's built-in Shiki syntax highlighter with a dark theme",
+        "Add a copy-to-clipboard button to all code blocks via vanilla JS",
+        "Style the copy button to be unobtrusive but discoverable"
+      ],
+      "acceptanceCriteria": [
+        "Code blocks render with syntax highlighting",
+        "Code blocks have a functional copy button",
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/styles/**",
+        "src/components/**"
+      ],
+      "dependsOn": [
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-019"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-017",
+      "title": "Reading time calculation",
+      "intent": "Every long-form content page (series, commentary, architecture) must display an estimated reading time calculated from word count.",
+      "description": "",
+      "priority": "could",
+      "category": "polish",
+      "steps": [
+        "Create a reading time utility function (words / 200 wpm)",
+        "Integrate into series, commentary, and architecture detail pages",
+        "Display reading time in metadata area of each page"
+      ],
+      "acceptanceCriteria": [
+        "Series detail pages show reading time",
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/components/**",
+        "src/pages/**"
+      ],
+      "dependsOn": [
+        "FEAT-001"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-018",
+      "title": "SEO and Open Graph meta tags",
+      "intent": "Every page must emit correct Open Graph tags, Twitter cards, canonical URLs, and JSON-LD structured data (Article, TechArticle, SoftwareApplication as appropriate) so shares look professional, search indexing is accurate, and Google rich results work.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Extend Base.astro to accept and render OG meta tags (title, description, image, type)",
+        "Add Twitter card meta tags",
+        "Add canonical URL meta tag",
+        "Add JSON-LD Article schema for series and commentary pages",
+        "Add JSON-LD TechArticle schema for architecture KB entries",
+        "Add JSON-LD SoftwareApplication schema for product pages",
+        "Ensure every page passes title and description to Base layout"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Pages render og:title, og:description, and og:type meta tags",
+          "verify": "npm run build && grep -q 'og:title' dist/index.html"
+        },
+        {
+          "text": "Pages include JSON-LD structured data",
+          "verify": "npm run build && grep -q 'application/ld+json' dist/index.html"
+        },
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/layouts/**"
+      ],
+      "dependsOn": [
+        "FEAT-004",
+        "FEAT-019"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-019",
+      "title": "Design system tokens and color palette",
+      "intent": "A complete set of design tokens must be defined in the Tailwind v4 theme — dark surface colors, text hierarchy, accent usage of primary (#b86b3a), spacing scale, and border treatments — so all components share a unified visual language.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Define dark-mode surface colors (background, card, elevated) in @theme",
+        "Define text color hierarchy (primary text, secondary, muted, link, link-hover)",
+        "Define how the primary orange/brown is used (headings, accents, CTAs, hover states)",
+        "Define consistent spacing scale for sections, cards, and content gaps",
+        "Define border/divider treatments",
+        "Document the token decisions in CSS comments"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Tailwind theme defines surface, text, and accent color tokens for dark mode",
+          "verify": "grep -q 'surface' src/styles/global.css || grep -q 'background' src/styles/global.css"
+        },
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/styles/**"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-020",
+      "title": "Responsive layout and container system",
+      "intent": "The site must have a mobile-first responsive container and layout system — readable on phones, comfortable on tablets, and well-proportioned on desktop — with no horizontal scroll and no content wider than readable line lengths.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Define a centered content container with responsive max-width",
+        "Set up responsive breakpoints for mobile, tablet, and desktop",
+        "Ensure Base layout applies the container consistently",
+        "Test that content reflows cleanly from 320px to 1440px"
+      ],
+      "acceptanceCriteria": [
+        "Content container is centered with max-width appropriate for reading",
+        "No horizontal scrollbar appears at 320px viewport width",
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/styles/**",
+        "src/layouts/**"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-021",
+      "title": "Footer component",
+      "intent": "Every page must have a consistent footer with copyright, navigation links, RSS feed link, and contact — completing the page frame alongside the nav header.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Create src/components/Footer.astro",
+        "Include copyright with current year",
+        "Add links to key pages and RSS feed",
+        "Add contact email or link",
+        "Integrate Footer into Base.astro layout"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Footer renders on every page via Base layout",
+          "verify": "grep -q 'Footer' src/layouts/Base.astro"
+        },
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/components/Footer.astro",
+        "src/layouts/Base.astro"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-022",
+      "title": "Client-side full-text search",
+      "intent": "The site must have fast, client-side full-text search across all content tracks — series, commentary, architecture KB, and products — so visitors can find anything instantly without a server round-trip.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Evaluate and integrate a static search solution (Pagefind, Fuse.js, or Lunr)",
+        "Build search index at build time from all content collections",
+        "Create search UI component with keyboard shortcut (Cmd/Ctrl+K)",
+        "Display results grouped by content track with highlighted matches",
+        "Add search trigger to navigation"
+      ],
+      "acceptanceCriteria": [
+        "Search is accessible from every page via navigation",
+        "Search returns results from all content tracks",
+        {
+          "text": "Build succeeds with search index generated",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/components/**",
+        "src/pages/**"
+      ],
+      "dependsOn": [
+        "FEAT-001",
+        "FEAT-007",
+        "FEAT-008",
+        "FEAT-009"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-023",
+      "title": "XML sitemap",
+      "intent": "The site must generate a valid XML sitemap at /sitemap.xml covering all pages and content so search engines can discover and index every page.",
+      "description": "",
+      "priority": "must",
+      "category": "foundation",
+      "steps": [
+        "Install and configure @astrojs/sitemap integration",
+        "Set site URL in astro.config.mjs",
+        "Verify all routes appear in generated sitemap"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Sitemap is generated at /sitemap.xml",
+          "verify": "npm run build && test -f dist/sitemap-index.xml || test -f dist/sitemap-0.xml || test -f dist/sitemap.xml"
+        },
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "astro.config.mjs"
+      ],
+      "dependsOn": [
+        "FEAT-001"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-024",
+      "title": "Custom 404 page",
+      "intent": "Broken links must land on a helpful 404 page that guides visitors to search, popular content, or the home page — not a dead end.",
+      "description": "",
+      "priority": "should",
+      "category": "pages",
+      "steps": [
+        "Create src/pages/404.astro using Base layout",
+        "Include a clear message that the page wasn't found",
+        "Add links to home, search, and popular content",
+        "Match site design language"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "404 page exists and renders",
+          "verify": "test -f src/pages/404.astro && npm run build"
+        }
+      ],
+      "scope": [
+        "src/pages/404.astro"
+      ],
+      "dependsOn": [
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004",
+        "FEAT-019",
+        "FEAT-020"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-025",
+      "title": "Companion artifact system",
+      "intent": "Series installments must be able to ship with companion artifacts — checklists, templates, decision frameworks, comparison matrices — displayed inline and linked to GitHub, so readers get actionable tools alongside the narrative.",
+      "description": "",
+      "priority": "should",
+      "category": "foundation",
+      "steps": [
+        "Extend series content schema with optional companionArtifacts field (title, type, description, githubUrl)",
+        "Create a CompanionArtifact component to render artifact cards",
+        "Display artifacts on series detail pages between content and subscribe CTA",
+        "Link artifacts to GitHub repository"
+      ],
+      "acceptanceCriteria": [
+        "Series entries can define companion artifacts in frontmatter",
+        "Artifacts render on series detail pages with GitHub links",
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/content/**",
+        "src/components/**",
+        "src/pages/series/**"
+      ],
+      "dependsOn": [
+        "FEAT-001",
+        "FEAT-007"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-026",
+      "title": "Performance budget and Lighthouse validation",
+      "intent": "Every page must score 95+ on all four Lighthouse categories (Performance, Accessibility, Best Practices, SEO). Zero layout shift, sub-100KB page weight for content pages, no render-blocking resources. The site plan says fast load — this enforces it.",
+      "description": "",
+      "priority": "should",
+      "category": "polish",
+      "steps": [
+        "Run Lighthouse CI on built pages and establish baseline scores",
+        "Fix any accessibility issues flagged by audit",
+        "Eliminate render-blocking resources",
+        "Verify zero cumulative layout shift",
+        "Ensure content pages are under 100KB total weight",
+        "Add Lighthouse CI check to build process or document manual check"
+      ],
+      "acceptanceCriteria": [
+        "Home page scores 95+ on Lighthouse Performance",
+        "No accessibility violations at WCAG AA level",
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/**"
+      ],
+      "dependsOn": [
+        "FEAT-005",
+        "FEAT-003",
+        "FEAT-019"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    },
+    {
+      "id": "FEAT-027",
+      "title": "Product ecosystem relationship map",
+      "intent": "The products overview page must include a visual relationship map showing how ClawHQ, AIShore, Easy Markdown, and Clawdius fit together in the agent infrastructure lifecycle — so visitors immediately grasp the ecosystem, not just a list of unrelated projects.",
+      "description": "",
+      "priority": "should",
+      "category": "pages",
+      "steps": [
+        "Design a CSS/SVG relationship diagram showing product positioning in the agent lifecycle",
+        "Show connections between products (e.g., AIShore uses ClawHQ, Clawdius extends ClawHQ)",
+        "Keep it static — no JS framework, pure SVG or CSS",
+        "Ensure the diagram is responsive and readable on mobile",
+        "Integrate into the products index page"
+      ],
+      "acceptanceCriteria": [
+        "Products overview page includes a visual ecosystem diagram",
+        "Diagram shows relationships between all four products",
+        {
+          "text": "Build succeeds",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/pages/products/**",
+        "src/components/**"
+      ],
+      "dependsOn": [
+        "FEAT-010"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false
+    }
+  ]
+}
