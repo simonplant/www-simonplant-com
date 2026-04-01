@@ -2,88 +2,6 @@
   "description": "Feature backlog",
   "items": [
     {
-      "id": "FEAT-003",
-      "title": "Dark mode",
-      "intent": "The site must render dark-first with very dark blue-black backgrounds (#0a0a0f–#111118 range), off-white text, and correct contrast ratios. Light mode is not planned. CookieConsent banner is currently styled for white background — it must be restyled for the dark surface. color-scheme: dark must be set on html so browser chrome (scrollbars, form controls) matches.",
-      "description": "",
-      "priority": "must",
-      "category": "foundation",
-      "steps": [
-        "Add color-scheme: dark to the html element in Base.astro",
-        "Restyle CookieConsent.astro for dark surface: dark bg, light text, amber accent buttons",
-        "Audit all components for light-mode assumptions (bg-white, text-gray-600, border-gray-200, hover:bg-gray-50) and fix",
-        "Verify contrast ratios meet WCAG AA for body text and headings on dark surfaces"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Body renders with dark background and color-scheme: dark on html",
-          "verify": "npm run build && grep -q 'color-scheme' dist/index.html"
-        },
-        {
-          "text": "No bg-white or text-gray-600 classes remain in built HTML",
-          "verify": "npm run build && ! grep -q 'bg-white' dist/index.html"
-        },
-        {
-          "text": "Build succeeds",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/styles/**",
-        "src/layouts/**",
-        "src/components/**"
-      ],
-      "dependsOn": [
-        "FEAT-019"
-      ],
-      "status": "done",
-      "passes": true,
-      "readyForSprint": false,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "Blocked by FEAT-019 (tokens). Body already has bg-[#0a0a0f] and text-gray-200 from FEAT-002. Remaining work: color-scheme: dark on html, restyle CookieConsent for dark surface (currently white bg, gray text, gray borders), audit all components for light-mode assumptions.",
-      "completedAt": "2026-04-01T10:38:41-07:00"
-    },
-    {
-      "id": "FEAT-004",
-      "title": "Navigation component",
-      "intent": "Every page must have consistent site-wide navigation linking to all top-level sections, working on mobile and desktop with no JavaScript required for basic navigation.",
-      "description": "",
-      "priority": "must",
-      "category": "foundation",
-      "steps": [
-        "Create src/components/Nav.astro with links to all top-level routes",
-        "Include site title/logo linking to home",
-        "Add responsive mobile layout (CSS-only hamburger or always-visible compact nav)",
-        "Integrate Nav into Base.astro layout",
-        "Highlight current page in navigation"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Navigation component renders on every page via Base layout",
-          "verify": "npm run build && grep -qi '<nav' dist/index.html"
-        },
-        "Navigation includes links to series, commentary, architecture, projects, and about",
-        {
-          "text": "Build succeeds",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/components/Nav.astro",
-        "src/layouts/Base.astro"
-      ],
-      "dependsOn": [
-        "FEAT-019",
-        "FEAT-003"
-      ],
-      "status": "done",
-      "passes": true,
-      "readyForSprint": false,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "Blocked by FEAT-019 (tokens) and FEAT-003 (dark mode) — nav must use the final color palette and dark surface. Replaced theater AC with behavioral checks on built HTML.",
-      "completedAt": "2026-04-01T11:00:31-07:00"
-    },
-    {
       "id": "FEAT-005",
       "title": "Home page",
       "intent": "The home page must read as an editorial masthead, not a SaaS landing page. Simon's name, a one-line positioning statement, and three clear paths: the flagship series, the products, and the commentary. No hero image, no animation, no bento boxes. Let the writing be the thing. Latest series installment and latest commentary visible. Subscribe CTA present but not dominant.",
@@ -122,9 +40,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Added verify for subscribe CTA — it is the primary conversion action and the hardest element to forget. Thesis/series/commentary rendering requires visual review; subscribe presence is automatable."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "All 7 foundation deps now complete. Rewrote all AC with behavioral verifies on built HTML: content path presence (series/commentary/products), subscribe CTA, and no-img enforcement. Previous AC had no verifies. Intent is editorial masthead — typography-first, no hero images. Latest series installment and latest commentary query requires content to exist; sprint may need to create seed entries or stub gracefully."
     },
     {
       "id": "FEAT-006",
@@ -160,9 +78,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by 6 foundation items. Steps are clear: single page with narrative arc, projects, availability, contact. AC has verify (file exists + build). Intent is strong — the about page is Simon's positioning statement. Content is personal so sprint will need Simon's input for narrative details. Not ready: foundation deps unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "All 6 foundation deps now complete. About page fully unblocked. Added behavioral verify for contact/advisory content — sprint must ensure these strings appear in rendered HTML. Content is personal (Simon's narrative arc: cloud infra → AI infra) — the sprint writes actual prose, not Lorem Ipsum. Colophon (how the site is built) is required per steps."
     },
     {
       "id": "FEAT-007",
@@ -200,9 +118,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Added verify for slug page. The original AC 'render full content with prev/next nav' is too broad for automation — slug page existence plus successful build is the testable gate. Visual review covers the rest."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "All 7 foundation deps now complete. Added required step: sprint MUST create at least one seed installment (status: draft) to prove dynamic routing — without seed content the slug verify cannot pass. Updated AC verify for slug pages to check dist/series/*/index.html post-build. Subscribe CTA required per intent. Prev/next nav is visual-confirm but slug existence gates the core routing concern."
     },
     {
       "id": "FEAT-008",
@@ -239,9 +157,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Added verify for slug page. Tag rendering requires visual confirmation — slug page existence plus successful build is the automatable gate."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "All 7 foundation deps now complete. Added required step: sprint MUST create at least one seed commentary post (status: draft) to prove dynamic routing. AC verify checks dist/commentary/*/index.html post-build. Tag rendering is visual-confirm; slug page existence is the automatable gate. Filtering is a nice-to-have within the sprint."
     },
     {
       "id": "FEAT-009",
@@ -279,9 +197,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by 7 foundation items. Steps are clear: index page grouped by concern, slug pages with structured record template, status badges. AC has verify (file exists + build). Intent strong — architecture KB is a key content track. Not ready: foundation deps unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "All 7 foundation deps now complete. Added required step: sprint MUST create at least one seed architecture entry (status: draft) to prove dynamic routing. AC verify checks dist/architecture/*/index.html post-build. Record template rendering is visual-confirm; slug existence gates the core routing concern. Entry schema must include concern, patternType, status (draft/working/stable) fields per CLAUDE.md."
     },
     {
       "id": "FEAT-010",
@@ -324,9 +242,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Fixed scope: was src/pages/projects.astro, corrected to src/pages/products/** plus content and components. Blocked by 7 foundation items. Intent is strong — ecosystem framing is the differentiator vs a plain project list. Steps are clear. AC verify commands already present. Not ready: foundation deps unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "All 7 foundation deps now complete. Products pages fully unblocked. AC verifies already strong: index page existence and ls dist/products/*/index.html for individual pages. Products must be data-driven per intent — sprint should create a products content collection or data file. All 4 products required: ClawHQ, AIShore, Easy Markdown, Clawdius. Ecosystem framing is the differentiator."
     },
     {
       "id": "FEAT-011",
@@ -402,9 +320,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by 7 foundation items. Steps clear: page with signup form + @astrojs/rss integration. AC has strong verify (file exists, rss.xml generated in dist/). RSS is the primary distribution channel per intent — must-have for launch. Newsletter form needs a backend decision (Buttondown, ConvertKit, etc.) — flag during sprint. Not ready: foundation deps unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "All 7 foundation deps now complete. Newsletter/RSS fully unblocked. Both AC verifies present and strong: newsletter page and rss.xml in dist/. Note: newsletter form backend needs a concrete decision during sprint (Buttondown or ConvertKit recommended) — the form action URL is a sprint variable. @astrojs/rss package must be installed."
     },
     {
       "id": "FEAT-013",
@@ -535,9 +453,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Added verify commands. Shiki is Astro's built-in highlighter — check astro config, not package.json. Copy button verify checks component/layout/style files for clipboard implementation."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "Deps FEAT-002, 003, 019 all complete. Added required step: sprint must add at least one code block to a page so the Shiki verify can find class=astro-code in built HTML. Without rendered code blocks the verify will fail. Shiki is Astro's built-in highlighter — config lives in astro.config.mjs markdown.shikiConfig, not a package install. Copy button is vanilla JS only (per Zero JS framework constraint)."
     },
     {
       "id": "FEAT-017",
@@ -613,120 +531,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by FEAT-004 (Nav, Base layout must be stable) and FEAT-019 (design tokens must be in place). NOT marking ready. Grooming: steps are clear and specific. AC expanded from 3 to 5 verifiable checks — canonical URL and Twitter cards are distinct concerns from OG and JSON-LD, and both are checkable via grep on built HTML. Each check runs its own build; consider caching dist/ between checks in implementation."
-    },
-    {
-      "id": "FEAT-019",
-      "title": "Design system tokens and color palette",
-      "intent": "The design system must establish a dark-primary palette with very dark blue-black backgrounds (#0a0a0f to #111118 range), light text, and amber/warm gold (#d4a853 range) as the single surgical accent color. The palette signals craftsmanship and maturity — forged, not vibed. Replace the current primary orange (#b86b3a) with a refined amber/gold scale. Define surface hierarchy (background, card, elevated), text hierarchy (primary, secondary, muted), and accent usage rules in Tailwind v4 @theme tokens. Note: FEAT-002 already defined --font-prose, --font-mono, and --color-primary in @theme. This sprint extends those tokens with surface/text hierarchy and replaces the orange scale with amber/gold. Update .prose class colors to use the new tokens where hardcoded hex values exist.",
-      "description": "",
-      "priority": "must",
-      "category": "foundation",
-      "steps": [
-        "Define dark surface colors in @theme: background (#0a0a0f–#111118), card (slightly elevated), elevated (modals/popovers)",
-        "Define text color hierarchy: primary (off-white), secondary (muted light), muted (dim)",
-        "Replace primary orange scale with amber/gold accent scale centered on #d4a853",
-        "Define accent usage rules: links, CTAs, active states, code syntax highlights — sparingly",
-        "Define border/divider treatments for dark surfaces (subtle, low-contrast)",
-        "Document token decisions in CSS comments"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Tailwind theme defines dark surface tokens, text hierarchy, and amber/gold accent scale",
-          "verify": "npm run build && grep -q 'd4a' dist/_astro/*.css"
-        },
-        {
-          "text": "Build succeeds",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/styles/**"
-      ],
-      "dependsOn": [],
-      "status": "done",
-      "passes": true,
-      "readyForSprint": false,
+      "readyForSprint": true,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Replaced theater AC (grep source CSS for variable names) with behavioral checks on built dist/ output. Tailwind v4 emits @theme tokens as CSS custom properties in the bundle — checking for the actual hex values proves the tokens were defined and compiled. Note: global.css currently has primary orange #b86b3a — this sprint replaces it with amber/gold #d4a853 per intent. The verify command will fail until the sprint implements the replacement, making it a real gate.",
-      "completedAt": "2026-04-01T10:33:26-07:00"
-    },
-    {
-      "id": "FEAT-020",
-      "title": "Responsive layout and container system",
-      "intent": "The site must have a mobile-first responsive container system with ~720px max prose width for content pages and ~1280px max for index/grid pages. Generous whitespace. No horizontal scroll at any viewport. Content breathes on desktop, reflows cleanly on mobile.",
-      "description": "",
-      "priority": "must",
-      "category": "foundation",
-      "steps": [
-        "Define prose container: max-width ~720px, centered, responsive padding",
-        "Define wide container: max-width ~1280px for index pages and product grids",
-        "Set up responsive breakpoints for mobile (320px+), tablet (768px+), desktop (1024px+)",
-        "Apply containers in Base layout or as utility classes",
-        "Ensure generous whitespace between sections (consistent spacing scale)"
-      ],
-      "acceptanceCriteria": [
-        "Prose container max-width is approximately 720px",
-        "No horizontal scrollbar at 320px viewport width",
-        {
-          "text": "Build succeeds",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/styles/**",
-        "src/layouts/**"
-      ],
-      "dependsOn": [
-        "FEAT-019"
-      ],
-      "status": "done",
-      "passes": true,
-      "readyForSprint": false,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "Blocked by FEAT-019 (tokens must be settled before container system uses them). Note: .prose already has max-width: 720px from FEAT-002. This sprint adds the wide container (1280px) for index pages and ensures responsive padding/breakpoints.",
-      "completedAt": "2026-04-01T10:49:25-07:00"
-    },
-    {
-      "id": "FEAT-021",
-      "title": "Footer component",
-      "intent": "Every page must have a consistent footer with copyright, navigation links, RSS feed link, and contact — completing the page frame alongside the nav header.",
-      "description": "",
-      "priority": "must",
-      "category": "foundation",
-      "steps": [
-        "Create src/components/Footer.astro",
-        "Include copyright with current year",
-        "Add links to key pages and RSS feed",
-        "Add contact email or link",
-        "Integrate Footer into Base.astro layout"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Footer renders on every page via Base layout",
-          "verify": "npm run build && grep -qi '<footer' dist/index.html"
-        },
-        {
-          "text": "Build succeeds",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/components/Footer.astro",
-        "src/layouts/Base.astro"
-      ],
-      "dependsOn": [
-        "FEAT-019",
-        "FEAT-003"
-      ],
-      "status": "done",
-      "passes": true,
-      "readyForSprint": false,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "Replaced theater AC (grep for Footer import in Base.astro source) with behavioral check on built HTML. Astro static output inlines component HTML so grepping dist/index.html for the footer element is a reliable behavioral gate.",
-      "completedAt": "2026-04-01T11:03:10-07:00"
+      "groomingNotes": "Deps FEAT-004 and FEAT-019 both complete. SEO/OG now unblocked. AC verifies grep built HTML for og:title and application/ld+json — these test rendered output, not source. Extends Base.astro with optional meta tag props. Every page must pass title and description (per CLAUDE.md convention). JSON-LD type varies: Article for commentary, TechArticle for architecture, SoftwareApplication for products."
     },
     {
       "id": "FEAT-022",
@@ -832,9 +639,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by 5 foundation items. Simple page: clear 404 message + links to home/search/popular. XS size. AC has verify (file + build). Not ready: foundation deps unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "All 5 foundation deps now complete. 404 page trivially unblocked. Astro static output generates dist/404.html — the verify is correct. XS size sprint. Include links to home, search (once FEAT-022 is done), and popular content sections. Should not be a dead end."
     },
     {
       "id": "FEAT-025",
