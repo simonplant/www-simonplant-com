@@ -36,11 +36,12 @@
         "src/content.config.ts"
       ],
       "dependsOn": [],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "No blocking deps. Content directories (series, commentary, architecture) already exist in src/content/ — FEAT-001 only needs to create content.config.ts and the Zod schemas. Build-time filtering is the key behavior: production must exclude non-published entries. Seed content already exists in commentary/ and series/. Mark ready: all prerequisites are in place."
+      "groomingNotes": "No blocking deps. Content directories (series, commentary, architecture) already exist in src/content/ — FEAT-001 only needs to create content.config.ts and the Zod schemas. Build-time filtering is the key behavior: production must exclude non-published entries. Seed content already exists in commentary/ and series/. Mark ready: all prerequisites are in place.",
+      "completedAt": "2026-03-31T17:12:44-07:00"
     },
     {
       "id": "FEAT-002",

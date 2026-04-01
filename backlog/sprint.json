@@ -1,1 +1,44 @@
-{"sprintId": null, "status": "idle", "item": null}
+{
+  "sprintId": "sprint-1775001457",
+  "startedAt": "2026-03-31T16:57:37-07:00",
+  "status": "completed",
+  "item": {
+    "id": "FEAT-001",
+    "title": "Content collection schema",
+    "intent": "Astro content collections must be defined for series, commentary, and architecture entries with a status-based editorial workflow (idea/draft/review/published). All content lives in src/content/ with status in frontmatter — production builds filter to published only, dev server shows everything. Schema must be Zod-validated and type-safe.",
+    "description": "",
+    "sourceBacklog": "backlog.json",
+    "steps": [
+      "Create src/content/ directory structure (series, commentary, architecture)",
+      "Define series collection schema: title, number, publishedDate, description, tags, status (idea/draft/review/published), companionArtifacts (optional)",
+      "Define commentary collection schema: title, publishedDate, tags, description, status, tier (signal/architecture/deep-dive)",
+      "Define architecture collection schema: title, status, concern, patternType, tags, relatedProjects, updated",
+      "Configure content collections in src/content.config.ts with Zod validation",
+      "Implement build-time filtering: only status=published in production, all statuses in dev",
+      "Add seed entries at various statuses to verify filtering works"
+    ],
+    "acceptanceCriteria": [
+      {
+        "text": "Content collections are defined for series, commentary, and architecture with status field",
+        "verify": "test -f src/content.config.ts && grep -q 'status' src/content.config.ts && grep -q 'series' src/content.config.ts && grep -q 'commentary' src/content.config.ts && grep -q 'architecture' src/content.config.ts"
+      },
+      {
+        "text": "Production build excludes non-published content",
+        "verify": "npm run build"
+      },
+      {
+        "text": "At least one seed entry exists per collection",
+        "verify": "ls src/content/series/*.md src/content/series/*.mdx src/content/commentary/*.md src/content/commentary/*.mdx src/content/architecture/*.md src/content/architecture/*.mdx 2>/dev/null | wc -l | grep -qv '^0$'"
+      }
+    ],
+    "scope": [
+      "src/content/**",
+      "src/content.config.ts"
+    ],
+    "startedAt": "2026-03-31T16:57:37-07:00",
+    "status": "passed",
+    "completedAt": "2026-03-31T17:12:44-07:00"
+  },
+  "completedAt": "2026-03-31T17:12:44-07:00",
+  "attempts": 1
+}
