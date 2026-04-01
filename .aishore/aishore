@@ -3192,6 +3192,10 @@ run_sprint_loop() {
         # Symlink node_modules from main project so build tools are available
         if [[ -d "$PROJECT_ROOT/node_modules" && ! -e "$wt_dir/node_modules" ]]; then
             ln -s "$PROJECT_ROOT/node_modules" "$wt_dir/node_modules"
+            # Ensure the symlink is not tracked by git
+            if ! grep -qxF 'node_modules' "$wt_dir/.gitignore" 2>/dev/null; then
+                echo 'node_modules' >> "$wt_dir/.gitignore"
+            fi
         fi
 
         log_info "Worktree created: $wt_dir"
