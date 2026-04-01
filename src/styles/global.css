@@ -14,5 +14,191 @@
   --color-primary: #b86b3a;
 
   --font-serif: "DM Serif Display", Georgia, serif;
-  --font-sans: "Geist Sans", system-ui, sans-serif;
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-prose: "Literata", "Georgia", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Fira Code", monospace;
+}
+
+/* ─── Prose typography ─── */
+
+.prose {
+  font-family: var(--font-prose);
+  font-size: 17px;
+  line-height: 1.75;
+  max-width: 720px;
+  color: var(--color-gray-200, #e5e7eb);
+}
+
+/* Paragraphs */
+.prose p {
+  margin-block: 1.25em;
+}
+
+.prose > :first-child {
+  margin-block-start: 0;
+}
+
+.prose > :last-child {
+  margin-block-end: 0;
+}
+
+/* Headings — DM Serif Display hierarchy */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--color-gray-50, #f9fafb);
+  margin-block-start: 2em;
+  margin-block-end: 0.75em;
+}
+
+.prose h1 {
+  font-size: 2.25rem;
+  line-height: 1.15;
+  margin-block-start: 0;
+}
+
+.prose h2 {
+  font-size: 1.625rem;
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+}
+
+.prose h4 {
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+/* Links — amber/gold accent */
+.prose a {
+  color: var(--color-primary-400, #e47f3f);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--color-primary-400, #e47f3f);
+  transition: color 0.15s ease;
+}
+
+.prose a:hover {
+  color: var(--color-primary-300, #eda36d);
+  text-decoration-color: var(--color-primary-300, #eda36d);
+}
+
+/* Bold & italic */
+.prose strong {
+  font-weight: 700;
+  color: var(--color-gray-50, #f9fafb);
+}
+
+.prose em {
+  font-style: italic;
+}
+
+/* Lists */
+.prose ul {
+  list-style-type: disc;
+  padding-inline-start: 1.5em;
+  margin-block: 1.25em;
+}
+
+.prose ol {
+  list-style-type: decimal;
+  padding-inline-start: 1.5em;
+  margin-block: 1.25em;
+}
+
+.prose li {
+  margin-block: 0.35em;
+}
+
+.prose li > ul,
+.prose li > ol {
+  margin-block: 0.35em;
+}
+
+/* Blockquotes */
+.prose blockquote {
+  border-inline-start: 3px solid var(--color-primary-500, #b86b3a);
+  padding-inline-start: 1.25em;
+  margin-inline: 0;
+  margin-block: 1.5em;
+  font-style: italic;
+  color: var(--color-gray-300, #d1d5db);
+}
+
+.prose blockquote p {
+  margin-block: 0.75em;
+}
+
+/* Inline code */
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 0.15em 0.35em;
+  color: var(--color-primary-300, #eda36d);
+}
+
+/* Code blocks — dark elevated surface with amber accents */
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  background: #16161e;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 1.25em 1.5em;
+  margin-block: 1.75em;
+  overflow-x: auto;
+  color: var(--color-gray-200, #e5e7eb);
+}
+
+.prose pre code {
+  font-family: inherit;
+  font-size: inherit;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+}
+
+/* Horizontal rules */
+.prose hr {
+  border: none;
+  border-block-start: 1px solid rgba(255, 255, 255, 0.1);
+  margin-block: 2.5em;
+}
+
+/* Images */
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-block: 2em;
+}
+
+/* Tables */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: 1.75em;
+  font-size: 0.9375rem;
+}
+
+.prose th {
+  font-weight: 600;
+  text-align: start;
+  padding: 0.625em 1em;
+  border-block-end: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--color-gray-50, #f9fafb);
+}
+
+.prose td {
+  padding: 0.625em 1em;
+  border-block-end: 1px solid rgba(255, 255, 255, 0.06);
 }
