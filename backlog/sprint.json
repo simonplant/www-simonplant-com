@@ -1,41 +1,38 @@
 {
-  "sprintId": "sprint-1775061964",
-  "startedAt": "2026-04-01T09:46:04-07:00",
+  "sprintId": "sprint-1775064611",
+  "startedAt": "2026-04-01T10:30:11-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-002",
-    "title": "Base typography and prose styling",
-    "intent": "Long-form prose must render with Literata serif at comfortable size (17px), line-height 1.75, max ~720px content width, and proper heading hierarchy using DM Serif Display. Code blocks use JetBrains Mono on elevated dark surfaces with amber syntax accents. This editorial typography is the key differentiator.",
+    "id": "FEAT-019",
+    "title": "Design system tokens and color palette",
+    "intent": "The design system must establish a dark-primary palette with very dark blue-black backgrounds (#0a0a0f to #111118 range), light text, and amber/warm gold (#d4a853 range) as the single surgical accent color. The palette signals craftsmanship and maturity — forged, not vibed. Replace the current primary orange (#b86b3a) with a refined amber/gold scale. Define surface hierarchy (background, card, elevated), text hierarchy (primary, secondary, muted), and accent usage rules in Tailwind v4 @theme tokens. Note: FEAT-002 already defined --font-prose, --font-mono, and --color-primary in @theme. This sprint extends those tokens with surface/text hierarchy and replaces the orange scale with amber/gold. Update .prose class colors to use the new tokens where hardcoded hex values exist.",
     "description": "",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Choose and load a reading serif font (Source Serif 4, Literata, or Newsreader) for body prose",
-      "Define prose styles: max-width ~720px, line-height 1.7–1.8, comfortable paragraph spacing",
-      "Style headings h1-h4 with DM Serif Display, clear size hierarchy",
-      "Style inline code with monospace on slightly elevated background",
-      "Style blockquotes, lists, and links with amber/gold accent for links",
-      "Style code blocks with dark elevated surface, proper padding, monospace font",
-      "Verify rendering with existing seed content markdown"
+      "Define dark surface colors in @theme: background (#0a0a0f–#111118), card (slightly elevated), elevated (modals/popovers)",
+      "Define text color hierarchy: primary (off-white), secondary (muted light), muted (dim)",
+      "Replace primary orange scale with amber/gold accent scale centered on #d4a853",
+      "Define accent usage rules: links, CTAs, active states, code syntax highlights — sparingly",
+      "Define border/divider treatments for dark surfaces (subtle, low-contrast)",
+      "Document token decisions in CSS comments"
     ],
     "acceptanceCriteria": [
       {
-        "text": "Prose body text uses a reading serif font, not sans-serif",
-        "verify": "grep -riq 'serif' src/ || grep -riq 'serif' dist/"
+        "text": "Tailwind theme defines dark surface tokens, text hierarchy, and amber/gold accent scale",
+        "verify": "npm run build && grep -q 'd4a' dist/_astro/*.css"
       },
-      "Prose content renders with max line width under 75ch",
       {
         "text": "Build succeeds",
         "verify": "npm run build"
       }
     ],
     "scope": [
-      "src/styles/**",
-      "src/layouts/**"
+      "src/styles/**"
     ],
-    "startedAt": "2026-04-01T09:46:04-07:00",
+    "startedAt": "2026-04-01T10:30:11-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T09:50:59-07:00"
+    "completedAt": "2026-04-01T10:33:26-07:00"
   },
-  "completedAt": "2026-04-01T09:50:59-07:00",
+  "completedAt": "2026-04-01T10:33:26-07:00",
   "attempts": 1
 }

@@ -644,11 +644,12 @@
         "src/styles/**"
       ],
       "dependsOn": [],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Replaced theater AC (grep source CSS for variable names) with behavioral checks on built dist/ output. Tailwind v4 emits @theme tokens as CSS custom properties in the bundle — checking for the actual hex values proves the tokens were defined and compiled. Note: global.css currently has primary orange #b86b3a — this sprint replaces it with amber/gold #d4a853 per intent. The verify command will fail until the sprint implements the replacement, making it a real gate."
+      "groomingNotes": "Replaced theater AC (grep source CSS for variable names) with behavioral checks on built dist/ output. Tailwind v4 emits @theme tokens as CSS custom properties in the bundle — checking for the actual hex values proves the tokens were defined and compiled. Note: global.css currently has primary orange #b86b3a — this sprint replaces it with amber/gold #d4a853 per intent. The verify command will fail until the sprint implements the replacement, making it a real gate.",
+      "completedAt": "2026-04-01T10:33:26-07:00"
     },
     {
       "id": "FEAT-020",
