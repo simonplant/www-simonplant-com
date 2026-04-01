@@ -62,7 +62,7 @@
       "acceptanceCriteria": [
         {
           "text": "Prose body text uses a reading serif font, not sans-serif",
-          "verify": "grep -q 'Source Serif\\|Literata\\|Newsreader' src/styles/global.css || grep -q 'Source Serif\\|Literata\\|Newsreader' src/layouts/Base.astro"
+          "verify": "grep -rq 'Source Serif\\|Literata\\|Newsreader' src/styles/ src/layouts/"
         },
         "Prose content renders with max line width under 75ch",
         {
