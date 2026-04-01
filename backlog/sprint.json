@@ -1,27 +1,27 @@
 {
-  "sprintId": "sprint-1775080742",
-  "startedAt": "2026-04-01T14:59:02-07:00",
+  "sprintId": "sprint-1775081504",
+  "startedAt": "2026-04-01T15:11:44-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-030",
-    "title": "Site build CI workflow",
-    "intent": "Every push and PR must run npm run build and report status — catching type errors, broken imports, and schema violations before they reach main.",
-    "description": "Create a GitHub Actions workflow that runs on push to main and on PRs. Install deps, run build, report status. Cache node_modules for speed.",
+    "id": "FEAT-014",
+    "title": "Changelog page",
+    "intent": "/changelog must show dated entries of what shipped, published, or changed — lightweight and low-effort to maintain. Visitors and Simon must be able to see site evolution at a glance.",
+    "description": "A simple reverse-chronological changelog page. Can use a content collection or a data file — keep it minimal so adding entries is low-friction. Each entry: date, short description, optional link.",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Create .github/workflows/build.yml triggered on push to main and pull_request",
-      "Use actions/setup-node with Node 20, enable npm caching",
-      "Run npm ci && npm run build",
-      "Add timeout and failure reporting"
+      "Create a changelog data source — either a content collection in src/content/changelog/ or a simple JSON/YAML data file",
+      "Create src/pages/changelog.astro using Base layout, rendering entries in reverse chronological order",
+      "Seed with 3-5 initial entries reflecting completed sprints (about page, series pages, products pages, etc.)",
+      "Each entry: date, description, optional link to the relevant page"
     ],
     "acceptanceCriteria": [
       {
-        "text": "Build workflow exists and runs npm run build",
-        "verify": "test -f .github/workflows/build.yml && grep -q 'npm run build' .github/workflows/build.yml"
+        "text": "/changelog route exists and renders",
+        "verify": "npm run build && test -f dist/changelog/index.html"
       },
       {
-        "text": "Workflow triggers on push and PRs",
-        "verify": "grep -q 'push' .github/workflows/build.yml && grep -q 'pull_request' .github/workflows/build.yml"
+        "text": "Changelog page contains dated entries",
+        "verify": "npm run build && grep -qE '202[0-9]' dist/changelog/index.html"
       },
       {
         "text": "Build succeeds cleanly",
@@ -29,12 +29,14 @@
       }
     ],
     "scope": [
-      ".github/workflows/**"
+      "src/pages/changelog.astro",
+      "src/content/changelog/**",
+      "src/data/**"
     ],
-    "startedAt": "2026-04-01T14:59:02-07:00",
+    "startedAt": "2026-04-01T15:11:44-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T15:02:02-07:00"
+    "completedAt": "2026-04-01T15:16:07-07:00"
   },
-  "completedAt": "2026-04-01T15:02:02-07:00",
+  "completedAt": "2026-04-01T15:16:07-07:00",
   "attempts": 1
 }
