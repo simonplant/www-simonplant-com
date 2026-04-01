@@ -78,7 +78,7 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
+      "readyForSprint": true,
       "groomedAt": "2026-04-01",
       "groomingNotes": "Blocked by FEAT-019 (tokens) and FEAT-003 (dark mode) — nav must use the final color palette and dark surface. Replaced theater AC with behavioral checks on built HTML."
     },
@@ -722,7 +722,7 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
+      "readyForSprint": true,
       "groomedAt": "2026-04-01",
       "groomingNotes": "Replaced theater AC (grep for Footer import in Base.astro source) with behavioral check on built HTML. Astro static output inlines component HTML so grepping dist/index.html for the footer element is a reliable behavioral gate."
     },
