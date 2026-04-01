@@ -127,3 +127,15 @@ Intent-based development with evals. Backlog lives in `backlog/`, tool lives in 
 ```
 
 Each sprint creates a worktree, runs a developer agent, validates with AC verify commands, then runs a validator agent. Regressions from prior sprints are checked before each new sprint starts.
+
+### AC Verify Rules
+
+Verify commands must test **built output**, not source files. Source greps break in worktrees when developers restructure files and never prove the code runs.
+
+- **Pages:** `npm run build && test -f dist/<route>/index.html`
+- **HTML content:** `npm run build && grep -qi '<element' dist/index.html`
+- **CSS tokens:** `npm run build && grep -q '<value>' dist/_astro/*.css`
+- **CI files:** `test -f <path> && grep -q '<key content>' <path>`
+- **Never:** `grep -q 'Foo' src/layouts/Bar.astro` or `test -f src/pages/X.astro`
+
+Every AC that can be verified by a shell command must have a `--ac-verify` command. Regressions compound — each sprint's verify commands are saved and re-run before future sprints.
