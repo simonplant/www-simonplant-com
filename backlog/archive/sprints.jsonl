@@ -15,3 +15,4 @@
 {"date":"2026-04-01","sprintId":"sprint-1775080321","itemId":"FEAT-023","status":"complete","attempts":1,"filesChanged":3,"linesAdded":70,"linesRemoved":0,"duration":194,"priority":"must","category":"foundation","title":"XML sitemap"}
 {"date":"2026-04-01","sprintId":"sprint-1775080516","itemId":"FEAT-028","status":"complete","attempts":1,"filesChanged":4,"linesAdded":63,"linesRemoved":21,"duration":225,"priority":"must","category":"infrastructure","title":"Deployment pipeline"}
 {"date":"2026-04-01","sprintId":"sprint-1775080742","itemId":"FEAT-030","status":"complete","attempts":1,"filesChanged":1,"linesAdded":27,"linesRemoved":0,"duration":180,"priority":"must","category":"infrastructure","title":"Site build CI workflow"}
+{"date":"2026-04-01","sprintId":"sprint-1775081504","itemId":"FEAT-014","status":"complete","attempts":1,"filesChanged":2,"linesAdded":121,"linesRemoved":0,"duration":263,"priority":"should","category":"pages","title":"Changelog page"}

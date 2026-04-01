@@ -390,49 +390,6 @@
       "groomingNotes": "v0.5.2 compliance: all deps now done (007, 008, 009 completed). Converted to behavioral verifies: page exists, contains cross-track links. Added description and specific steps. Unblocked and marked ready."
     },
     {
-      "id": "FEAT-014",
-      "title": "Changelog page",
-      "intent": "/changelog must show dated entries of what shipped, published, or changed — lightweight and low-effort to maintain. Visitors and Simon must be able to see site evolution at a glance.",
-      "description": "A simple reverse-chronological changelog page. Can use a content collection or a data file — keep it minimal so adding entries is low-friction. Each entry: date, short description, optional link.",
-      "priority": "should",
-      "category": "pages",
-      "steps": [
-        "Create a changelog data source — either a content collection in src/content/changelog/ or a simple JSON/YAML data file",
-        "Create src/pages/changelog.astro using Base layout, rendering entries in reverse chronological order",
-        "Seed with 3-5 initial entries reflecting completed sprints (about page, series pages, products pages, etc.)",
-        "Each entry: date, description, optional link to the relevant page"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "/changelog route exists and renders",
-          "verify": "npm run build && test -f dist/changelog/index.html"
-        },
-        {
-          "text": "Changelog page contains dated entries",
-          "verify": "npm run build && grep -qE '202[0-9]' dist/changelog/index.html"
-        },
-        {
-          "text": "Build succeeds cleanly",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/pages/changelog.astro",
-        "src/content/changelog/**",
-        "src/data/**"
-      ],
-      "dependsOn": [
-        "FEAT-002",
-        "FEAT-003",
-        "FEAT-004"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: all deps done (002, 003, 004 completed). Converted plain-string AC to behavioral verifies: page exists, contains date strings. Added description and specific steps including seed data. Unblocked and marked ready."
-    },
-    {
       "id": "FEAT-015",
       "title": "Talks page",
       "intent": "/talks must exist as a minimal page that can grow as speaking opportunities emerge — not empty, but honest about being early. Visitors interested in booking Simon for a talk must find topics and contact info.",
