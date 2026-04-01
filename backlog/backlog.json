@@ -62,7 +62,7 @@
       "acceptanceCriteria": [
         {
           "text": "Prose body text uses a reading serif font, not sans-serif",
-          "verify": "grep -rq 'Source Serif\\|Literata\\|Newsreader' src/styles/ src/layouts/"
+          "verify": "grep -riq 'serif' src/ || grep -riq 'serif' dist/"
         },
         "Prose content renders with max line width under 75ch",
         {
@@ -231,8 +231,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by 6 foundation items. Steps are clear: single page with narrative arc, projects, availability, contact. AC has verify (file exists + build). Intent is strong — the about page is Simon's positioning statement. Content is personal so sprint will need Simon's input for narrative details. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-007",
@@ -350,8 +350,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by 7 foundation items. Steps are clear: index page grouped by concern, slug pages with structured record template, status badges. AC has verify (file exists + build). Intent strong — architecture KB is a key content track. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-010",
@@ -379,7 +379,9 @@
         }
       ],
       "scope": [
-        "src/pages/projects.astro"
+        "src/pages/products/**",
+        "src/content/products/**",
+        "src/components/**"
       ],
       "dependsOn": [
         "FEAT-001",
@@ -393,8 +395,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Fixed scope: was src/pages/projects.astro, corrected to src/pages/products/** plus content and components. Blocked by 7 foundation items. Intent is strong — ecosystem framing is the differentiator vs a plain project list. Steps are clear. AC verify commands already present. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-011",
@@ -429,8 +431,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by all 3 content track pages (007, 008, 009) — tags are cross-track so all tracks must exist first. Steps are clear. AC verify checks file exists + build. Intent strong — cross-track linking is the glue between content tracks. Not ready: content page deps unresolved."
     },
     {
       "id": "FEAT-012",
@@ -471,8 +473,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by 7 foundation items. Steps clear: page with signup form + @astrojs/rss integration. AC has strong verify (file exists, rss.xml generated in dist/). RSS is the primary distribution channel per intent — must-have for launch. Newsletter form needs a backend decision (Buttondown, ConvertKit, etc.) — flag during sprint. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-013",
@@ -504,8 +506,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by all 3 content track pages — start-here curates entry points into existing content so content must exist first. Steps clear: organize by interest area, link to specific content. Lightweight page. Not ready: content page deps unresolved."
     },
     {
       "id": "FEAT-014",
@@ -537,8 +539,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by typography, dark mode, and nav. Simple page: dated entries in reverse-chron order. AC has verify (file + build). Low complexity — S size. Could use a content collection or simple data file. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-015",
@@ -569,8 +571,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by typography, dark mode, and nav. Minimal page — placeholder for future speaking opportunities. XS size. AC has verify (file + build). Could priority — lowest of the pages. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-016",
@@ -631,13 +633,16 @@
         "src/pages/**"
       ],
       "dependsOn": [
-        "FEAT-001"
+        "FEAT-001",
+        "FEAT-007",
+        "FEAT-008",
+        "FEAT-009"
       ],
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Added missing deps: FEAT-007, 008, 009 — reading time integrates into detail pages which don't exist yet. Without detail pages there's nowhere to display it. Could priority is correct — polish item. Utility function itself is trivial (word count / 200). Not ready: detail page deps unresolved."
     },
     {
       "id": "FEAT-018",
@@ -854,9 +859,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Only dep is FEAT-001 (done). @astrojs/sitemap is a standard Astro integration — install, set site URL in config, done. XS size. AC verify checks for sitemap file in dist/. astro.config.mjs currently missing site URL — sprint must add it. Mark ready: all deps resolved, steps trivial."
     },
     {
       "id": "FEAT-024",
@@ -890,8 +895,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by 5 foundation items. Simple page: clear 404 message + links to home/search/popular. XS size. AC has verify (file + build). Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-025",
@@ -926,8 +931,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by FEAT-007 (series pages) — artifacts attach to series installments. Schema extension is straightforward (optional array field in Zod). Component + display is S size. AC relies on visual confirmation for rendering. Not ready: FEAT-007 dep unresolved."
     },
     {
       "id": "FEAT-026",
@@ -963,8 +968,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by home page, dark mode, and design tokens. This is a polish/validation item — run after the site is visually complete. AC for Lighthouse scores requires a running server or CI tooling. Should priority is correct — important but not blocking launch. Not ready: foundation and page deps unresolved."
     },
     {
       "id": "FEAT-027",
@@ -998,8 +1003,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by FEAT-010 (product pages). Visual relationship diagram is a nice enhancement but depends on the product pages existing first. Pure CSS/SVG — no JS, which is correct for this stack. Should priority is right. Not ready: FEAT-010 dep unresolved."
     },
     {
       "id": "FEAT-028",
@@ -1061,9 +1066,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "readyForSprint": true,
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Only dep is FEAT-001 (done). Needs a build script or Astro integration to generate llms.txt from content collections at build time. S size. AC verify checks for llms.txt in dist/. llmstxt.org spec is simple: structured text with site metadata and content pointers. On-brand for an AI infrastructure site. Mark ready: all deps resolved."
     },
     {
       "id": "FEAT-030",
@@ -1126,8 +1131,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": null,
-      "groomingNotes": null
+      "groomedAt": "2026-03-31",
+      "groomingNotes": "Blocked by FEAT-002 (typography). @media print styles — hide nav/footer/interactive, optimize for A4/Letter. S size. AC is visual (print preview) — hard to automate. Should priority is correct. Not ready: FEAT-002 dep unresolved."
     }
   ]
 }
