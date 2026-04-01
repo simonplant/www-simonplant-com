@@ -38,17 +38,20 @@ npm run preview   # Preview production build locally
 - **Prose typography:** Literata serif at 17px, line-height 1.75, max-width 720px (`.prose` class)
 - **Headings:** DM Serif Display (h1–h4), weight 400, tight line-height
 - **Code:** JetBrains Mono — inline code on raised surface, code blocks on `#16161e` elevated dark surface
-- **Accent color:** primary amber/gold scale (#b86b3a base) — used for links, blockquote borders, inline code
+- **Accent color:** primary amber/gold scale (#d4a853 base) — used for links, blockquote borders, inline code
 - **Fonts loaded via Google Fonts** in `Base.astro` `<head>`, not npm packages
 
 ### Theme Tokens (`global.css`)
 
 ```
---font-serif    DM Serif Display (headings)
---font-sans     Inter (UI)
---font-prose    Literata (body reading)
---font-mono     JetBrains Mono (code)
---color-primary primary amber scale (50–900)
+--font-serif        DM Serif Display (headings)
+--font-sans         Inter (UI)
+--font-prose        Literata (body reading)
+--font-mono         JetBrains Mono (code)
+--color-primary     amber/gold scale (50–900, base #d4a853)
+--color-surface-*   dark surface hierarchy (bg, card, elevated)
+--color-text-*      text hierarchy (primary, secondary, muted)
+--color-border-*    border treatments (subtle, default)
 ```
 
 ## Key Conventions
