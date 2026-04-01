@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPublishedCollection } from '../../content/_helpers';
+
+const entries = await getPublishedCollection('series');
+const sorted = entries.sort((a, b) => a.data.number - b.data.number);
+---
+
+<Base title="Series — Simon Plant" description="Long-form installments on AI agent infrastructure maturation.">
+  <main class="section-spacing">
+    <div class="container-prose">
+      <h1 class="font-serif text-4xl text-gray-50 mb-4">Series</h1>
+      <p class="text-text-secondary text-lg mb-12 font-prose">
+        The full arc — from scripts to production agent systems. Each installment maps a stage of the infrastructure maturation model.
+      </p>
+
+      {sorted.length === 0 ? (
+        <p class="text-text-muted">No installments published yet. Check back soon.</p>
+      ) : (
+        <ol class="space-y-8 list-none p-0">
+          {sorted.map((entry) => {
+            const wordCount = entry.body ? entry.body.split(/\s+/).length : 0;
+            const readingTime = Math.max(1, Math.round(wordCount / 230));
+            return (
+              <li class="border-b border-border-subtle pb-8 last:border-b-0">
+                <a href={`/series/${entry.id}`} class="group block">
+                  <span class="text-text-muted text-sm font-sans uppercase tracking-wider">
+                    Installment {entry.data.number}
+                  </span>
+                  <h2 class="font-serif text-2xl text-gray-50 mt-1 mb-2 group-hover:text-primary-400 transition-colors">
+                    {entry.data.title}
+                  </h2>
+                  <p class="text-text-secondary font-prose leading-relaxed mb-2">
+                    {entry.data.description}
+                  </p>
+                  <span class="text-text-muted text-sm font-sans">
+                    {entry.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    &middot; {readingTime} min read
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+    </div>
+  </main>
+</Base>

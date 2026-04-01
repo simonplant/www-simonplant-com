@@ -1,0 +1,102 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPublishedCollection } from '../../content/_helpers';
+import { render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getPublishedCollection('series');
+  const sorted = entries.sort((a, b) => a.data.number - b.data.number);
+
+  return sorted.map((entry, index) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      prev: index > 0 ? sorted[index - 1] : null,
+      next: index < sorted.length - 1 ? sorted[index + 1] : null,
+    },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content } = await render(entry);
+
+const wordCount = entry.body ? entry.body.split(/\s+/).length : 0;
+const readingTime = Math.max(1, Math.round(wordCount / 230));
+---
+
+<Base title={`${entry.data.title} — Simon Plant`} description={entry.data.description}>
+  <main class="section-spacing">
+    <article>
+      <header class="container-prose mb-8">
+        <a href="/series" class="text-text-muted text-sm font-sans hover:text-primary-400 transition-colors inline-flex items-center gap-1 mb-6">
+          &larr; All installments
+        </a>
+        <p class="text-text-muted text-sm font-sans uppercase tracking-wider mb-2">
+          Installment {entry.data.number}
+        </p>
+        <h1 class="font-serif text-4xl text-gray-50 leading-tight mb-4">{entry.data.title}</h1>
+        <div class="flex flex-wrap gap-3 text-text-muted text-sm font-sans">
+          <time datetime={entry.data.publishedDate.toISOString().slice(0, 10)}>
+            {entry.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          <span>&middot;</span>
+          <span>{readingTime} min read</span>
+        </div>
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {entry.data.companionArtifacts && entry.data.companionArtifacts.length > 0 && (
+        <aside class="container-prose mt-12">
+          <h2 class="font-serif text-xl text-gray-50 mb-4">Companion Artifacts</h2>
+          <ul class="space-y-2">
+            {entry.data.companionArtifacts.map((artifact) => (
+              <li>
+                <a href={artifact.url} class="text-primary-400 hover:text-primary-300 transition-colors underline underline-offset-2">
+                  {artifact.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
+
+      {(prev || next) && (
+        <nav class="container-prose mt-16 pt-8 border-t border-border-default" aria-label="Series navigation">
+          <div class="flex justify-between gap-4">
+            {prev ? (
+              <a href={`/series/${prev.id}`} class="group flex-1 min-w-0">
+                <span class="text-text-muted text-sm font-sans block mb-1">&larr; Previous</span>
+                <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
+                  {prev.data.title}
+                </span>
+              </a>
+            ) : <div />}
+            {next ? (
+              <a href={`/series/${next.id}`} class="group flex-1 min-w-0 text-right">
+                <span class="text-text-muted text-sm font-sans block mb-1">Next &rarr;</span>
+                <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
+                  {next.data.title}
+                </span>
+              </a>
+            ) : <div />}
+          </div>
+        </nav>
+      )}
+
+      <aside class="container-prose mt-16 pt-8 border-t border-border-default">
+        <div class="bg-surface-card rounded-lg p-6 text-center">
+          <h2 class="font-serif text-xl text-gray-50 mb-2">Follow the series</h2>
+          <p class="text-text-secondary font-prose mb-4">
+            Get notified when new installments ship. No spam, no fluff — just the next chapter.
+          </p>
+          <a href="mailto:simon@simonplant.com?subject=Subscribe%20to%20Series" class="inline-block bg-primary-600 hover:bg-primary-500 text-white font-sans text-sm font-medium px-6 py-2.5 rounded-lg transition-colors">
+            Subscribe
+          </a>
+        </div>
+      </aside>
+    </article>
+  </main>
+</Base>
