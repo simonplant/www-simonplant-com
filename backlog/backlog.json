@@ -244,11 +244,12 @@
         "FEAT-020",
         "FEAT-021"
       ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 7 foundation deps now complete. Products pages fully unblocked. AC verifies already strong: index page existence and ls dist/products/*/index.html for individual pages. Products must be data-driven per intent — sprint should create a products content collection or data file. All 4 products required: ClawHQ, AIShore, Easy Markdown, Clawdius. Ecosystem framing is the differentiator."
+      "groomingNotes": "All 7 foundation deps now complete. Products pages fully unblocked. AC verifies already strong: index page existence and ls dist/products/*/index.html for individual pages. Products must be data-driven per intent — sprint should create a products content collection or data file. All 4 products required: ClawHQ, AIShore, Easy Markdown, Clawdius. Ecosystem framing is the differentiator.",
+      "completedAt": "2026-04-01T12:05:24-07:00"
     },
     {
       "id": "FEAT-011",
