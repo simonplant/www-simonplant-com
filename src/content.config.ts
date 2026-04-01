@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const status = z.enum(['idea', 'draft', 'review', 'published']);
 
@@ -49,4 +50,19 @@ const architecture = defineCollection({
   }),
 });
 
-export const collections = { series, commentary, architecture };
+const products = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/products' }),
+  schema: z.object({
+    title: z.string(),
+    tagline: z.string(),
+    description: z.string(),
+    status: z.enum(['active', 'beta', 'planned', 'stable']),
+    role: z.string(),
+    github: z.string().url().optional(),
+    tags: z.array(z.string()),
+    order: z.number().int(),
+    relatedProducts: z.array(z.string()).optional(),
+  }),
+});
+
+export const collections = { series, commentary, architecture, products };
