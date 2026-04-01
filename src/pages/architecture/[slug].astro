@@ -23,6 +23,19 @@ const { Content } = await render(entry);
 const wordCount = entry.body ? entry.body.split(/\s+/).length : 0;
 const readingTime = Math.max(1, Math.round(wordCount / 230));
 
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: entry.data.title,
+  description: entry.data.description,
+  url: canonicalUrl,
+  ...(entry.data.publishedDate && { datePublished: entry.data.publishedDate.toISOString() }),
+  author: { '@type': 'Person', name: 'Simon Plant' },
+  keywords: entry.data.tags,
+  wordCount,
+};
+
 const statusColors: Record<string, string> = {
   idea: 'text-text-muted border-border-subtle',
   draft: 'text-yellow-400 border-yellow-400/40',
@@ -31,7 +44,14 @@ const statusColors: Record<string, string> = {
 };
 ---
 
-<Base title={`${entry.data.title} — Simon Plant`} description={entry.data.description}>
+<Base
+  title={`${entry.data.title} — Simon Plant`}
+  description={entry.data.description}
+  ogType="article"
+  articleDate={entry.data.publishedDate?.toISOString()}
+  articleTags={entry.data.tags}
+  jsonLd={jsonLd}
+>
   <main class="section-spacing">
     <article>
       <header class="container-prose mb-8">

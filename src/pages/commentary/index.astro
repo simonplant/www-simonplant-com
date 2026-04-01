@@ -8,7 +8,13 @@ const sorted = entries.sort((a, b) => b.data.publishedDate.getTime() - a.data.pu
 const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
 ---
 
-<Base title="Commentary — Simon Plant" description="Short-form takes on AI infrastructure, agent systems, and the tooling that supports them.">
+<Base title="Commentary — Simon Plant" description="Short-form takes on AI infrastructure, agent systems, and the tooling that supports them." jsonLd={{
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Commentary — Simon Plant',
+  url: 'https://www.simonplant.com/commentary',
+  description: 'Short-form takes on AI infrastructure, agent systems, and the tooling that supports them.',
+}}>
   <main class="section-spacing">
     <div class="container-prose">
       <h1 class="font-serif text-4xl text-gray-50 mb-4">Commentary</h1>

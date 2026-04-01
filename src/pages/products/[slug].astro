@@ -21,6 +21,18 @@ export async function getStaticPaths() {
 const { product, titleMap, prev, next } = Astro.props;
 const { Content } = await render(product);
 
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: product.data.title,
+  description: product.data.description,
+  url: canonicalUrl,
+  applicationCategory: 'DeveloperApplication',
+  author: { '@type': 'Person', name: 'Simon Plant' },
+  ...(product.data.github && { codeRepository: product.data.github }),
+};
+
 const statusColors: Record<string, { bg: string; text: string }> = {
   active: { bg: 'bg-green-900/40', text: 'text-green-400' },
   beta: { bg: 'bg-yellow-900/40', text: 'text-yellow-400' },
@@ -31,7 +43,11 @@ const statusColors: Record<string, { bg: string; text: string }> = {
 const colors = statusColors[product.data.status] ?? statusColors.active;
 ---
 
-<Base title={`${product.data.title} — Simon Plant`} description={product.data.description}>
+<Base
+  title={`${product.data.title} — Simon Plant`}
+  description={product.data.description}
+  jsonLd={jsonLd}
+>
   <main class="section-spacing">
     <article>
       <header class="container-prose mb-8">
