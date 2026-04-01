@@ -1,7 +1,7 @@
 {
   "sprintId": "sprint-1775080516",
   "startedAt": "2026-04-01T14:55:16-07:00",
-  "status": "in_progress",
+  "status": "completed",
   "item": {
     "id": "FEAT-028",
     "title": "Deployment pipeline",
@@ -34,6 +34,10 @@
       ".github/workflows/**",
       "wrangler.toml"
     ],
-    "startedAt": "2026-04-01T14:55:16-07:00"
-  }
+    "startedAt": "2026-04-01T14:55:16-07:00",
+    "status": "passed",
+    "completedAt": "2026-04-01T14:59:01-07:00"
+  },
+  "completedAt": "2026-04-01T14:59:01-07:00",
+  "attempts": 1
 }
