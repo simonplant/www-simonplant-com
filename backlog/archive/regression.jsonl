@@ -11,3 +11,4 @@
 {"itemId":"FEAT-021","date":"2026-04-01","text":"Footer renders on every page via Base layout","verify":"npm run build && grep -qi '<footer' dist/index.html"}
 {"itemId":"FEAT-021","date":"2026-04-01","text":"Build succeeds","verify":"npm run build"}
 {"itemId":"FEAT-006","date":"2026-04-01","text":"/about route exists and renders","verify":"npm run build && test -f dist/about/index.html"}
+{"itemId":"FEAT-007","date":"2026-04-01","text":"/series route lists all series installments","verify":"npm run build && test -f dist/series/index.html"}

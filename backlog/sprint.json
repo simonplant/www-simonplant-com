@@ -1,34 +1,35 @@
 {
-  "sprintId": "sprint-1775068529",
-  "startedAt": "2026-04-01T11:35:29-07:00",
+  "sprintId": "sprint-1775068681",
+  "startedAt": "2026-04-01T11:38:01-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-006",
-    "title": "About page",
-    "intent": "/about must tell the narrative arc from cloud infrastructure to AI infrastructure, state current projects, declare advisory availability, and include contact details — all on one screen.",
+    "id": "FEAT-007",
+    "title": "Series landing and detail pages",
+    "intent": "/series must show the full arc with all installments listed; each installment page must render title, number, reading time, full content, prev/next navigation, related KB links, and subscribe CTA.",
     "description": "",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Create src/pages/about.astro using Base layout",
-      "Write narrative arc section (cloud infra → AI infra)",
-      "List current projects with brief descriptions",
-      "Add availability statement and contact details",
-      "Add colophon describing how the site is built"
+      "Create src/pages/series/index.astro listing all installments from content collection",
+      "Create src/pages/series/[slug].astro for individual installment pages",
+      "Render installment metadata: number, title, date, reading time",
+      "Add prev/next navigation between installments",
+      "Add subscribe CTA at end of each installment"
     ],
     "acceptanceCriteria": [
       {
-        "text": "/about route exists and renders",
-        "verify": "npm run build && test -f dist/about/index.html"
+        "text": "/series route lists all series installments",
+        "verify": "npm run build && test -f dist/series/index.html"
       },
-      "Page includes contact information and availability statement"
+      "Individual installment pages render full content with prev/next nav"
     ],
     "scope": [
-      "src/pages/about.astro"
+      "src/pages/series/**",
+      "src/components/**"
     ],
-    "startedAt": "2026-04-01T11:35:29-07:00",
+    "startedAt": "2026-04-01T11:38:01-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T11:37:59-07:00"
+    "completedAt": "2026-04-01T11:46:29-07:00"
   },
-  "completedAt": "2026-04-01T11:37:59-07:00",
+  "completedAt": "2026-04-01T11:46:29-07:00",
   "attempts": 1
 }
