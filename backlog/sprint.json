@@ -1,36 +1,39 @@
 {
-  "sprintId": "sprint-1775065600",
-  "startedAt": "2026-04-01T10:46:40-07:00",
+  "sprintId": "sprint-1775066246",
+  "startedAt": "2026-04-01T10:57:26-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-020",
-    "title": "Responsive layout and container system",
-    "intent": "The site must have a mobile-first responsive container system with ~720px max prose width for content pages and ~1280px max for index/grid pages. Generous whitespace. No horizontal scroll at any viewport. Content breathes on desktop, reflows cleanly on mobile.",
+    "id": "FEAT-004",
+    "title": "Navigation component",
+    "intent": "Every page must have consistent site-wide navigation linking to all top-level sections, working on mobile and desktop with no JavaScript required for basic navigation.",
     "description": "",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Define prose container: max-width ~720px, centered, responsive padding",
-      "Define wide container: max-width ~1280px for index pages and product grids",
-      "Set up responsive breakpoints for mobile (320px+), tablet (768px+), desktop (1024px+)",
-      "Apply containers in Base layout or as utility classes",
-      "Ensure generous whitespace between sections (consistent spacing scale)"
+      "Create src/components/Nav.astro with links to all top-level routes",
+      "Include site title/logo linking to home",
+      "Add responsive mobile layout (CSS-only hamburger or always-visible compact nav)",
+      "Integrate Nav into Base.astro layout",
+      "Highlight current page in navigation"
     ],
     "acceptanceCriteria": [
-      "Prose container max-width is approximately 720px",
-      "No horizontal scrollbar at 320px viewport width",
+      {
+        "text": "Navigation component renders on every page via Base layout",
+        "verify": "npm run build && grep -qi '<nav' dist/index.html"
+      },
+      "Navigation includes links to series, commentary, architecture, projects, and about",
       {
         "text": "Build succeeds",
         "verify": "npm run build"
       }
     ],
     "scope": [
-      "src/styles/**",
-      "src/layouts/**"
+      "src/components/Nav.astro",
+      "src/layouts/Base.astro"
     ],
-    "startedAt": "2026-04-01T10:46:40-07:00",
+    "startedAt": "2026-04-01T10:57:26-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T10:49:25-07:00"
+    "completedAt": "2026-04-01T11:00:31-07:00"
   },
-  "completedAt": "2026-04-01T10:49:25-07:00",
+  "completedAt": "2026-04-01T11:00:31-07:00",
   "attempts": 1
 }
