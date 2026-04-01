@@ -721,11 +721,12 @@
         "FEAT-019",
         "FEAT-003"
       ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Replaced theater AC (grep for Footer import in Base.astro source) with behavioral check on built HTML. Astro static output inlines component HTML so grepping dist/index.html for the footer element is a reliable behavioral gate."
+      "groomingNotes": "Replaced theater AC (grep for Footer import in Base.astro source) with behavioral check on built HTML. Astro static output inlines component HTML so grepping dist/index.html for the footer element is a reliable behavioral gate.",
+      "completedAt": "2026-04-01T11:03:10-07:00"
     },
     {
       "id": "FEAT-022",
