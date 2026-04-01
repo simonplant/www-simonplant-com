@@ -24,11 +24,32 @@ npm run preview   # Preview production build locally
 
 ## Architecture
 
-- `src/layouts/Base.astro` — root HTML layout used by all pages; accepts `title` and optional `description` props; imports global CSS and renders `CookieConsent` at end of body
+- `src/layouts/Base.astro` — root HTML layout; accepts `title` and optional `description` props; loads Google Fonts (DM Serif Display, Literata, JetBrains Mono), imports global CSS, renders `CookieConsent`
 - `src/pages/` — file-based routing (each `.astro` file = one route)
 - `src/components/` — reusable Astro components
-- `src/styles/global.css` — Tailwind v4 `@theme` config: custom `primary` color scale (#b86b3a), DM Serif Display (serif) + Geist Sans (sans) fonts
+- `src/styles/global.css` — Tailwind v4 `@theme` tokens and `.prose` typography system
+- `src/content/` — content collections (series, commentary, architecture) with Zod schemas in `src/content.config.ts`
+- `src/content/_helpers.ts` — build-time content filtering (excludes non-published in production)
 - `astro.config.mjs` — Tailwind is wired as a Vite plugin, not an Astro integration
+
+## Design System
+
+- **Body surface:** `#0a0a0f` dark background, `gray-200` text, Inter sans-serif UI font
+- **Prose typography:** Literata serif at 17px, line-height 1.75, max-width 720px (`.prose` class)
+- **Headings:** DM Serif Display (h1–h4), weight 400, tight line-height
+- **Code:** JetBrains Mono — inline code on raised surface, code blocks on `#16161e` elevated dark surface
+- **Accent color:** primary amber/gold scale (#b86b3a base) — used for links, blockquote borders, inline code
+- **Fonts loaded via Google Fonts** in `Base.astro` `<head>`, not npm packages
+
+### Theme Tokens (`global.css`)
+
+```
+--font-serif    DM Serif Display (headings)
+--font-sans     Inter (UI)
+--font-prose    Literata (body reading)
+--font-mono     JetBrains Mono (code)
+--color-primary primary amber scale (50–900)
+```
 
 ## Key Conventions
 
@@ -37,10 +58,17 @@ npm run preview   # Preview production build locally
 - Environment variables: `PUBLIC_POSTHOG_KEY` and `PUBLIC_POSTHOG_HOST` (see `.env.example`)
 - PostHog auto-disables capturing in dev mode
 - All new pages must use `Base.astro` layout and pass a `title` prop
+- Long-form content pages should wrap body content in a `<div class="prose">` container
 
 ## Content Pipeline
 
-Content lives in `src/content/` with a status-based editorial workflow:
+Content lives in `src/content/` with collections defined in `src/content.config.ts`:
+
+- **series** — long-form installments (number, title, tags, companion artifacts)
+- **commentary** — short-form posts (title, date, tags, description)
+- **architecture** — structured KB entries (concern, pattern type, tags, description)
+
+### Editorial Workflow
 
 | Status | Meaning | Builds in prod? | Who can set |
 |--------|---------|-----------------|-------------|
@@ -48,6 +76,8 @@ Content lives in `src/content/` with a status-based editorial workflow:
 | `draft` | Being written | No | Anyone |
 | `review` | Ready for Simon's editorial pass | No | Anyone |
 | `published` | Live on site | Yes | Simon only |
+
+Use `getPublishedEntries()` from `src/content/_helpers.ts` to filter content at build time.
 
 ### Content Agent Rules (Clawdius)
 
@@ -84,13 +114,16 @@ The `content-validation` workflow enforces:
 - Batch limit: max 3 new content pieces per PR
 - Frontmatter validation: required fields (title, description, status, tags) and valid status values
 
-## Sprint Orchestration (aishore)
+## Sprint Orchestration (aishore v0.5)
 
-Iterative intent-based development with evals. Backlog lives in `backlog/`, tool lives in `.aishore/`. Run `.aishore/aishore help` for full usage.
+Intent-based development with evals. Backlog lives in `backlog/`, tool lives in `.aishore/`.
 
 ```bash
-.aishore/aishore run [N|ID]         # Run sprints (branch, commit, merge, push per item)
-.aishore/aishore groom [--backlog]  # Groom bugs or features
-.aishore/aishore review             # Architecture review
-.aishore/aishore status             # Backlog overview
+.aishore/aishore run [N|ID]    # Run sprints (branch, implement, validate, merge per item)
+.aishore/aishore groom         # Groom bugs and features
+.aishore/aishore scaffold      # Detect missing scaffolding, add skeleton items
+.aishore/aishore review        # Architecture review
+.aishore/aishore status        # Backlog overview
 ```
+
+Each sprint creates a worktree, runs a developer agent, validates with AC verify commands, then runs a validator agent. Regressions from prior sprints are checked before each new sprint starts.
