@@ -1,0 +1,103 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPublishedCollection } from '../../content/_helpers';
+
+const entries = await getPublishedCollection('commentary');
+const sorted = entries.sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+
+const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
+---
+
+<Base title="Commentary — Simon Plant" description="Short-form takes on AI infrastructure, agent systems, and the tooling that supports them.">
+  <main class="section-spacing">
+    <div class="container-prose">
+      <h1 class="font-serif text-4xl text-gray-50 mb-4">Commentary</h1>
+      <p class="text-text-secondary text-lg mb-8 font-prose">
+        Short-form takes — opinionated, externally triggered, tagged. What's happening now and why it matters.
+      </p>
+
+      {allTags.length > 0 && (
+        <nav class="mb-12 flex flex-wrap gap-2" aria-label="Filter by tag">
+          <button
+            data-tag=""
+            class="tag-filter tag-active px-3 py-1 rounded-full text-sm font-sans border border-border-subtle transition-colors"
+          >
+            All
+          </button>
+          {allTags.map((tag) => (
+            <button
+              data-tag={tag}
+              class="tag-filter px-3 py-1 rounded-full text-sm font-sans border border-border-subtle text-text-muted hover:text-primary-400 hover:border-primary-600 transition-colors"
+            >
+              {tag}
+            </button>
+          ))}
+        </nav>
+      )}
+
+      {sorted.length === 0 ? (
+        <p class="text-text-muted">No commentary published yet. Check back soon.</p>
+      ) : (
+        <ol class="space-y-8 list-none p-0" id="commentary-list">
+          {sorted.map((entry) => {
+            const wordCount = entry.body ? entry.body.split(/\s+/).length : 0;
+            const readingTime = Math.max(1, Math.round(wordCount / 230));
+            return (
+              <li class="commentary-item border-b border-border-subtle pb-8 last:border-b-0" data-tags={entry.data.tags.join(',')}>
+                <a href={`/commentary/${entry.id}`} class="group block">
+                  <h2 class="font-serif text-2xl text-gray-50 mb-2 group-hover:text-primary-400 transition-colors">
+                    {entry.data.title}
+                  </h2>
+                  <p class="text-text-secondary font-prose leading-relaxed mb-3">
+                    {entry.data.description}
+                  </p>
+                  <div class="flex flex-wrap items-center gap-2 text-sm font-sans">
+                    <time class="text-text-muted" datetime={entry.data.publishedDate.toISOString().slice(0, 10)}>
+                      {entry.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    </time>
+                    <span class="text-text-muted">&middot;</span>
+                    <span class="text-text-muted">{readingTime} min read</span>
+                    {entry.data.tags.map((tag) => (
+                      <span class="text-primary-400 bg-primary-400/10 px-2 py-0.5 rounded-full text-xs">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+    </div>
+  </main>
+</Base>
+
+<style>
+  .tag-active {
+    color: var(--color-primary-400);
+    border-color: var(--color-primary-600);
+    background-color: color-mix(in srgb, var(--color-primary-400) 10%, transparent);
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.tag-filter');
+    const items = document.querySelectorAll<HTMLLIElement>('.commentary-item');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tag = btn.dataset.tag ?? '';
+
+        buttons.forEach((b) => b.classList.remove('tag-active'));
+        btn.classList.add('tag-active');
+
+        items.forEach((item) => {
+          const itemTags = (item.dataset.tags ?? '').split(',');
+          item.style.display = tag === '' || itemTags.includes(tag) ? '' : 'none';
+        });
+      });
+    });
+  });
+</script>

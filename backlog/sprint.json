@@ -1,35 +1,34 @@
 {
-  "sprintId": "sprint-1775068681",
-  "startedAt": "2026-04-01T11:38:01-07:00",
+  "sprintId": "sprint-1775069191",
+  "startedAt": "2026-04-01T11:46:31-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-007",
-    "title": "Series landing and detail pages",
-    "intent": "/series must show the full arc with all installments listed; each installment page must render title, number, reading time, full content, prev/next navigation, related KB links, and subscribe CTA.",
+    "id": "FEAT-008",
+    "title": "Commentary feed",
+    "intent": "/commentary must display a reverse-chronological, tagged, filterable feed of short-form posts with individual post pages.",
     "description": "",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Create src/pages/series/index.astro listing all installments from content collection",
-      "Create src/pages/series/[slug].astro for individual installment pages",
-      "Render installment metadata: number, title, date, reading time",
-      "Add prev/next navigation between installments",
-      "Add subscribe CTA at end of each installment"
+      "Create src/pages/commentary/index.astro with reverse-chronological listing",
+      "Create src/pages/commentary/[slug].astro for individual posts",
+      "Display tags on listing and detail pages",
+      "Add tag-based filtering on the listing page"
     ],
     "acceptanceCriteria": [
       {
-        "text": "/series route lists all series installments",
-        "verify": "npm run build && test -f dist/series/index.html"
+        "text": "/commentary route lists posts in reverse chronological order",
+        "verify": "npm run build && test -f dist/commentary/index.html"
       },
-      "Individual installment pages render full content with prev/next nav"
+      "Individual commentary posts render with tags displayed"
     ],
     "scope": [
-      "src/pages/series/**",
+      "src/pages/commentary/**",
       "src/components/**"
     ],
-    "startedAt": "2026-04-01T11:38:01-07:00",
+    "startedAt": "2026-04-01T11:46:31-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T11:46:29-07:00"
+    "completedAt": "2026-04-01T11:50:42-07:00"
   },
-  "completedAt": "2026-04-01T11:46:29-07:00",
+  "completedAt": "2026-04-01T11:50:42-07:00",
   "attempts": 1
 }
