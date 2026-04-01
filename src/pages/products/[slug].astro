@@ -1,0 +1,117 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  const sorted = products.sort((a, b) => a.data.order - b.data.order);
+  const titleMap = Object.fromEntries(products.map((p) => [p.id, p.data.title]));
+
+  return sorted.map((product, index) => ({
+    params: { slug: product.id },
+    props: {
+      product,
+      titleMap,
+      prev: index > 0 ? sorted[index - 1] : null,
+      next: index < sorted.length - 1 ? sorted[index + 1] : null,
+    },
+  }));
+}
+
+const { product, titleMap, prev, next } = Astro.props;
+const { Content } = await render(product);
+
+const statusColors: Record<string, { bg: string; text: string }> = {
+  active: { bg: 'bg-green-900/40', text: 'text-green-400' },
+  beta: { bg: 'bg-yellow-900/40', text: 'text-yellow-400' },
+  planned: { bg: 'bg-blue-900/40', text: 'text-blue-400' },
+  stable: { bg: 'bg-emerald-900/40', text: 'text-emerald-400' },
+};
+
+const colors = statusColors[product.data.status] ?? statusColors.active;
+---
+
+<Base title={`${product.data.title} — Simon Plant`} description={product.data.description}>
+  <main class="section-spacing">
+    <article>
+      <header class="container-prose mb-8">
+        <a href="/products" class="text-text-muted text-sm font-sans hover:text-primary-400 transition-colors inline-flex items-center gap-1 mb-6">
+          &larr; All products
+        </a>
+        <div class="flex items-start gap-3 mb-2">
+          <h1 class="font-serif text-4xl text-gray-50 leading-tight">{product.data.title}</h1>
+          <span class={`shrink-0 text-xs font-sans font-medium px-2 py-0.5 rounded mt-2 ${colors.bg} ${colors.text}`}>
+            {product.data.status}
+          </span>
+        </div>
+        <p class="text-primary-400/80 text-lg font-sans mb-3">{product.data.tagline}</p>
+        <p class="text-text-secondary font-prose leading-relaxed mb-4">
+          {product.data.description}
+        </p>
+        <div class="flex flex-wrap gap-4 text-sm font-sans text-text-muted">
+          <span class="uppercase tracking-wider">{product.data.role}</span>
+          {product.data.github && (
+            <>
+              <span>&middot;</span>
+              <a href={product.data.github} class="text-primary-400 hover:text-primary-300 transition-colors">
+                GitHub
+              </a>
+            </>
+          )}
+        </div>
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {product.data.tags.length > 0 && (
+        <div class="container-prose mt-8">
+          <div class="flex flex-wrap gap-2">
+            {product.data.tags.map((tag) => (
+              <span class="text-xs font-sans bg-surface-elevated text-text-muted px-2.5 py-1 rounded">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {product.data.relatedProducts && product.data.relatedProducts.length > 0 && (
+        <aside class="container-prose mt-12">
+          <h2 class="font-serif text-xl text-gray-50 mb-4">Related Products</h2>
+          <div class="flex flex-wrap gap-3">
+            {product.data.relatedProducts.map((slug) => (
+              <a href={`/products/${slug}`} class="text-primary-400 hover:text-primary-300 transition-colors underline underline-offset-2 text-sm font-sans">
+                {titleMap[slug] ?? slug}
+              </a>
+            ))}
+          </div>
+        </aside>
+      )}
+
+      {(prev || next) && (
+        <nav class="container-prose mt-16 pt-8 border-t border-border-default" aria-label="Product navigation">
+          <div class="flex justify-between gap-4">
+            {prev ? (
+              <a href={`/products/${prev.id}`} class="group flex-1 min-w-0">
+                <span class="text-text-muted text-sm font-sans block mb-1">&larr; Previous</span>
+                <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
+                  {prev.data.title}
+                </span>
+              </a>
+            ) : <div />}
+            {next ? (
+              <a href={`/products/${next.id}`} class="group flex-1 min-w-0 text-right">
+                <span class="text-text-muted text-sm font-sans block mb-1">Next &rarr;</span>
+                <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
+                  {next.data.title}
+                </span>
+              </a>
+            ) : <div />}
+          </div>
+        </nav>
+      )}
+    </article>
+  </main>
+</Base>
