@@ -23,3 +23,5 @@
 {"itemId":"FEAT-018","date":"2026-04-01","text":"Home page renders canonical URL","verify":"npm run build && grep -q 'canonical' dist/index.html"}
 {"itemId":"FEAT-018","date":"2026-04-01","text":"Twitter card meta tags present","verify":"npm run build && grep -q 'twitter:card' dist/index.html"}
 {"itemId":"FEAT-018","date":"2026-04-01","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-023","date":"2026-04-01","text":"Sitemap is generated at build time","verify":"npm run build && (test -f dist/sitemap-index.xml || test -f dist/sitemap-0.xml || test -f dist/sitemap.xml)"}
+{"itemId":"FEAT-023","date":"2026-04-01","text":"Build succeeds cleanly","verify":"npm run build"}
