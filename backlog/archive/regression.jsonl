@@ -2,3 +2,6 @@
 {"itemId":"FEAT-002","date":"2026-04-01","text":"Prose body text uses a reading serif font, not sans-serif","verify":"npm run build && grep -qi 'literata' dist/_astro/*.css"}
 {"itemId":"FEAT-019","date":"2026-04-01","text":"Tailwind theme defines dark surface tokens, text hierarchy, and amber/gold accent scale","verify":"npm run build && grep -q 'd4a' dist/_astro/*.css"}
 {"itemId":"FEAT-019","date":"2026-04-01","text":"Build succeeds","verify":"npm run build"}
+{"itemId":"FEAT-003","date":"2026-04-01","text":"Body renders with dark background and color-scheme: dark on html","verify":"npm run build && grep -q 'color-scheme' dist/index.html"}
+{"itemId":"FEAT-003","date":"2026-04-01","text":"No bg-white or text-gray-600 classes remain in built HTML","verify":"npm run build && ! grep -q 'bg-white' dist/index.html"}
+{"itemId":"FEAT-003","date":"2026-04-01","text":"Build succeeds","verify":"npm run build"}

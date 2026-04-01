@@ -1,25 +1,27 @@
 {
-  "sprintId": "sprint-1775064611",
-  "startedAt": "2026-04-01T10:30:11-07:00",
+  "sprintId": "sprint-1775064962",
+  "startedAt": "2026-04-01T10:36:02-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-019",
-    "title": "Design system tokens and color palette",
-    "intent": "The design system must establish a dark-primary palette with very dark blue-black backgrounds (#0a0a0f to #111118 range), light text, and amber/warm gold (#d4a853 range) as the single surgical accent color. The palette signals craftsmanship and maturity — forged, not vibed. Replace the current primary orange (#b86b3a) with a refined amber/gold scale. Define surface hierarchy (background, card, elevated), text hierarchy (primary, secondary, muted), and accent usage rules in Tailwind v4 @theme tokens. Note: FEAT-002 already defined --font-prose, --font-mono, and --color-primary in @theme. This sprint extends those tokens with surface/text hierarchy and replaces the orange scale with amber/gold. Update .prose class colors to use the new tokens where hardcoded hex values exist.",
+    "id": "FEAT-003",
+    "title": "Dark mode",
+    "intent": "The site must render dark-first with very dark blue-black backgrounds (#0a0a0f–#111118 range), off-white text, and correct contrast ratios. Light mode is not planned. CookieConsent banner is currently styled for white background — it must be restyled for the dark surface. color-scheme: dark must be set on html so browser chrome (scrollbars, form controls) matches.",
     "description": "",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Define dark surface colors in @theme: background (#0a0a0f–#111118), card (slightly elevated), elevated (modals/popovers)",
-      "Define text color hierarchy: primary (off-white), secondary (muted light), muted (dim)",
-      "Replace primary orange scale with amber/gold accent scale centered on #d4a853",
-      "Define accent usage rules: links, CTAs, active states, code syntax highlights — sparingly",
-      "Define border/divider treatments for dark surfaces (subtle, low-contrast)",
-      "Document token decisions in CSS comments"
+      "Add color-scheme: dark to the html element in Base.astro",
+      "Restyle CookieConsent.astro for dark surface: dark bg, light text, amber accent buttons",
+      "Audit all components for light-mode assumptions (bg-white, text-gray-600, border-gray-200, hover:bg-gray-50) and fix",
+      "Verify contrast ratios meet WCAG AA for body text and headings on dark surfaces"
     ],
     "acceptanceCriteria": [
       {
-        "text": "Tailwind theme defines dark surface tokens, text hierarchy, and amber/gold accent scale",
-        "verify": "npm run build && grep -q 'd4a' dist/_astro/*.css"
+        "text": "Body renders with dark background and color-scheme: dark on html",
+        "verify": "npm run build && grep -q 'color-scheme' dist/index.html"
+      },
+      {
+        "text": "No bg-white or text-gray-600 classes remain in built HTML",
+        "verify": "npm run build && ! grep -q 'bg-white' dist/index.html"
       },
       {
         "text": "Build succeeds",
@@ -27,12 +29,14 @@
       }
     ],
     "scope": [
-      "src/styles/**"
+      "src/styles/**",
+      "src/layouts/**",
+      "src/components/**"
     ],
-    "startedAt": "2026-04-01T10:30:11-07:00",
+    "startedAt": "2026-04-01T10:36:02-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T10:33:26-07:00"
+    "completedAt": "2026-04-01T10:38:41-07:00"
   },
-  "completedAt": "2026-04-01T10:33:26-07:00",
+  "completedAt": "2026-04-01T10:38:41-07:00",
   "attempts": 1
 }
