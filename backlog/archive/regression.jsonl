@@ -28,3 +28,6 @@
 {"itemId":"FEAT-028","date":"2026-04-01","text":"Deployment workflow exists and references build command","verify":"test -f .github/workflows/deploy.yml && grep -q 'npm run build' .github/workflows/deploy.yml"}
 {"itemId":"FEAT-028","date":"2026-04-01","text":"Workflow triggers on push to main","verify":"grep -q 'push' .github/workflows/deploy.yml && grep -q 'main' .github/workflows/deploy.yml"}
 {"itemId":"FEAT-028","date":"2026-04-01","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-030","date":"2026-04-01","text":"Build workflow exists and runs npm run build","verify":"test -f .github/workflows/build.yml && grep -q 'npm run build' .github/workflows/build.yml"}
+{"itemId":"FEAT-030","date":"2026-04-01","text":"Workflow triggers on push and PRs","verify":"grep -q 'push' .github/workflows/build.yml && grep -q 'pull_request' .github/workflows/build.yml"}
+{"itemId":"FEAT-030","date":"2026-04-01","text":"Build succeeds cleanly","verify":"npm run build"}

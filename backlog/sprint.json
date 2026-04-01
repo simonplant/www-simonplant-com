@@ -1,28 +1,27 @@
 {
-  "sprintId": "sprint-1775080516",
-  "startedAt": "2026-04-01T14:55:16-07:00",
+  "sprintId": "sprint-1775080742",
+  "startedAt": "2026-04-01T14:59:02-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-028",
-    "title": "Deployment pipeline",
-    "intent": "The site must have a working deployment pipeline — push to main triggers build and deploy to a CDN — so publishing is a git push, not a manual process. Cloudflare Pages is the target platform.",
-    "description": "Set up Cloudflare Pages deployment. Create a wrangler.toml or configure via the Cloudflare dashboard. Add a GitHub Actions workflow that builds and deploys on push to main. Set environment variables for PostHog.",
+    "id": "FEAT-030",
+    "title": "Site build CI workflow",
+    "intent": "Every push and PR must run npm run build and report status — catching type errors, broken imports, and schema violations before they reach main.",
+    "description": "Create a GitHub Actions workflow that runs on push to main and on PRs. Install deps, run build, report status. Cache node_modules for speed.",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Create wrangler.toml with project name, build command (npm run build), and output directory (dist/)",
-      "Create .github/workflows/deploy.yml — triggered on push to main, runs npm ci && npm run build, deploys to Cloudflare Pages",
-      "Configure environment variables: PUBLIC_POSTHOG_KEY and PUBLIC_POSTHOG_HOST as GitHub secrets referenced in workflow",
-      "Add the Astro Cloudflare adapter if needed, or confirm static output works with Pages (it does)",
-      "Set site URL in astro.config.mjs to https://simonplant.com"
+      "Create .github/workflows/build.yml triggered on push to main and pull_request",
+      "Use actions/setup-node with Node 20, enable npm caching",
+      "Run npm ci && npm run build",
+      "Add timeout and failure reporting"
     ],
     "acceptanceCriteria": [
       {
-        "text": "Deployment workflow exists and references build command",
-        "verify": "test -f .github/workflows/deploy.yml && grep -q 'npm run build' .github/workflows/deploy.yml"
+        "text": "Build workflow exists and runs npm run build",
+        "verify": "test -f .github/workflows/build.yml && grep -q 'npm run build' .github/workflows/build.yml"
       },
       {
-        "text": "Workflow triggers on push to main",
-        "verify": "grep -q 'push' .github/workflows/deploy.yml && grep -q 'main' .github/workflows/deploy.yml"
+        "text": "Workflow triggers on push and PRs",
+        "verify": "grep -q 'push' .github/workflows/build.yml && grep -q 'pull_request' .github/workflows/build.yml"
       },
       {
         "text": "Build succeeds cleanly",
@@ -30,14 +29,12 @@
       }
     ],
     "scope": [
-      "astro.config.mjs",
-      ".github/workflows/**",
-      "wrangler.toml"
+      ".github/workflows/**"
     ],
-    "startedAt": "2026-04-01T14:55:16-07:00",
+    "startedAt": "2026-04-01T14:59:02-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T14:59:01-07:00"
+    "completedAt": "2026-04-01T15:02:02-07:00"
   },
-  "completedAt": "2026-04-01T14:59:01-07:00",
+  "completedAt": "2026-04-01T15:02:02-07:00",
   "attempts": 1
 }

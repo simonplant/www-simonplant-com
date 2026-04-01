@@ -805,43 +805,6 @@
       "groomingNotes": "v0.5.2 compliance: added second verify to check llms.txt contains meaningful content (site name + URLs), not just an empty file. Steps updated to be specific — Astro static endpoint approach. Ready."
     },
     {
-      "id": "FEAT-030",
-      "title": "Site build CI workflow",
-      "intent": "Every push and PR must run npm run build and report status — catching type errors, broken imports, and schema violations before they reach main.",
-      "description": "Create a GitHub Actions workflow that runs on push to main and on PRs. Install deps, run build, report status. Cache node_modules for speed.",
-      "priority": "must",
-      "category": "infrastructure",
-      "steps": [
-        "Create .github/workflows/build.yml triggered on push to main and pull_request",
-        "Use actions/setup-node with Node 20, enable npm caching",
-        "Run npm ci && npm run build",
-        "Add timeout and failure reporting"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Build workflow exists and runs npm run build",
-          "verify": "test -f .github/workflows/build.yml && grep -q 'npm run build' .github/workflows/build.yml"
-        },
-        {
-          "text": "Workflow triggers on push and PRs",
-          "verify": "grep -q 'push' .github/workflows/build.yml && grep -q 'pull_request' .github/workflows/build.yml"
-        },
-        {
-          "text": "Build succeeds cleanly",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        ".github/workflows/**"
-      ],
-      "dependsOn": [],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: AC already had good verifies. Added verify for PR trigger (was only checking push). Steps updated to be specific. XS size. Ready."
-    },
-    {
       "id": "FEAT-031",
       "title": "Print stylesheet",
       "intent": "Long-form content must produce clean, readable output when printed or saved as PDF — developers do this constantly with technical articles. Hide nav, footer, and interactive elements. Optimize typography for paper.",
