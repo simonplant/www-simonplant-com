@@ -1,0 +1,183 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPublishedCollection } from '../../content/_helpers';
+
+const entries = await getPublishedCollection('architecture');
+const sorted = entries.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const allConcerns = [...new Set(sorted.map((e) => e.data.concern))].sort();
+const allPatternTypes = [...new Set(sorted.map((e) => e.data.patternType))].sort();
+
+// Group entries by concern
+const byConcern = new Map<string, typeof sorted>();
+for (const entry of sorted) {
+  const group = byConcern.get(entry.data.concern) ?? [];
+  group.push(entry);
+  byConcern.set(entry.data.concern, group);
+}
+
+const statusColors: Record<string, string> = {
+  idea: 'text-text-muted border-border-subtle',
+  draft: 'text-yellow-400 border-yellow-400/40',
+  review: 'text-blue-400 border-blue-400/40',
+  published: 'text-emerald-400 border-emerald-400/40',
+};
+---
+
+<Base title="Architecture KB — Simon Plant" description="Structured patterns and decisions — browsable by concern and pattern type.">
+  <main class="section-spacing">
+    <div class="container-wide">
+      <header class="max-w-prose mb-12">
+        <h1 class="font-serif text-4xl text-gray-50 mb-4">Architecture KB</h1>
+        <p class="text-text-secondary text-lg font-prose">
+          Structured pattern records — problem, when to use, how it works, trade-offs, and related patterns. Browse by concern or pattern type.
+        </p>
+      </header>
+
+      {(allConcerns.length > 0 || allPatternTypes.length > 0) && (
+        <div class="mb-12 space-y-4">
+          {allConcerns.length > 0 && (
+            <nav class="flex flex-wrap gap-2" aria-label="Filter by concern">
+              <span class="text-text-muted text-sm font-sans py-1 mr-1">Concern:</span>
+              <button
+                data-concern=""
+                class="concern-filter concern-active px-3 py-1 rounded-full text-sm font-sans border border-border-subtle transition-colors"
+              >
+                All
+              </button>
+              {allConcerns.map((concern) => (
+                <button
+                  data-concern={concern}
+                  class="concern-filter px-3 py-1 rounded-full text-sm font-sans border border-border-subtle text-text-muted hover:text-primary-400 hover:border-primary-600 transition-colors"
+                >
+                  {concern}
+                </button>
+              ))}
+            </nav>
+          )}
+          {allPatternTypes.length > 0 && (
+            <nav class="flex flex-wrap gap-2" aria-label="Filter by pattern type">
+              <span class="text-text-muted text-sm font-sans py-1 mr-1">Type:</span>
+              <button
+                data-pattern=""
+                class="pattern-filter pattern-active px-3 py-1 rounded-full text-sm font-sans border border-border-subtle transition-colors"
+              >
+                All
+              </button>
+              {allPatternTypes.map((pt) => (
+                <button
+                  data-pattern={pt}
+                  class="pattern-filter px-3 py-1 rounded-full text-sm font-sans border border-border-subtle text-text-muted hover:text-primary-400 hover:border-primary-600 transition-colors"
+                >
+                  {pt}
+                </button>
+              ))}
+            </nav>
+          )}
+        </div>
+      )}
+
+      {sorted.length === 0 ? (
+        <p class="text-text-muted">No architecture entries published yet. Check back soon.</p>
+      ) : (
+        <div id="architecture-list">
+          {[...byConcern.entries()].map(([concern, group]) => (
+            <section class="concern-group mb-12" data-concern={concern}>
+              <h2 class="font-serif text-2xl text-gray-50 mb-6 capitalize">{concern}</h2>
+              <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {group.map((entry) => (
+                  <a
+                    href={`/architecture/${entry.id}`}
+                    class="arch-entry group block p-5 rounded-lg border border-border-subtle bg-surface-card hover:border-primary-600 transition-colors"
+                    data-concern={entry.data.concern}
+                    data-pattern={entry.data.patternType}
+                  >
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                      <h3 class="font-serif text-lg text-gray-50 group-hover:text-primary-400 transition-colors">
+                        {entry.data.title}
+                      </h3>
+                      <span class={`shrink-0 text-xs font-sans px-2 py-0.5 rounded-full border ${statusColors[entry.data.status] ?? statusColors.draft}`}>
+                        {entry.data.status}
+                      </span>
+                    </div>
+                    <p class="text-text-secondary text-sm font-prose leading-relaxed mb-3 line-clamp-3">
+                      {entry.data.description}
+                    </p>
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-sans">
+                      <span class="text-text-muted bg-surface-elevated px-2 py-0.5 rounded">
+                        {entry.data.patternType}
+                      </span>
+                      {entry.data.tags.slice(0, 3).map((tag) => (
+                        <span class="text-primary-400 bg-primary-400/10 px-2 py-0.5 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      )}
+    </div>
+  </main>
+</Base>
+
+<style>
+  .concern-active,
+  .pattern-active {
+    color: var(--color-primary-400);
+    border-color: var(--color-primary-600);
+    background-color: color-mix(in srgb, var(--color-primary-400) 10%, transparent);
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const concernBtns = document.querySelectorAll<HTMLButtonElement>('.concern-filter');
+    const patternBtns = document.querySelectorAll<HTMLButtonElement>('.pattern-filter');
+    const groups = document.querySelectorAll<HTMLElement>('.concern-group');
+
+    let activeConcern = '';
+    let activePattern = '';
+
+    function applyFilters() {
+      groups.forEach((group) => {
+        const groupConcern = group.dataset.concern ?? '';
+        const concernMatch = activeConcern === '' || groupConcern === activeConcern;
+
+        // Check if any entry in this group matches the pattern filter
+        const groupEntries = group.querySelectorAll<HTMLAnchorElement>('.arch-entry');
+        let hasVisibleEntry = false;
+
+        groupEntries.forEach((entry) => {
+          const patternMatch = activePattern === '' || entry.dataset.pattern === activePattern;
+          const visible = concernMatch && patternMatch;
+          entry.style.display = visible ? '' : 'none';
+          if (visible) hasVisibleEntry = true;
+        });
+
+        group.style.display = concernMatch && hasVisibleEntry ? '' : 'none';
+      });
+    }
+
+    concernBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeConcern = btn.dataset.concern ?? '';
+        concernBtns.forEach((b) => b.classList.remove('concern-active'));
+        btn.classList.add('concern-active');
+        applyFilters();
+      });
+    });
+
+    patternBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activePattern = btn.dataset.pattern ?? '';
+        patternBtns.forEach((b) => b.classList.remove('pattern-active'));
+        btn.classList.add('pattern-active');
+        applyFilters();
+      });
+    });
+  });
+</script>
