@@ -1,5 +1,6 @@
 ---
 import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import '../styles/global.css';
 
@@ -26,9 +27,12 @@ const { title, description = 'Simon Plant — personal website' } = Astro.props;
     />
     <title>{title}</title>
   </head>
-  <body class="font-sans antialiased text-gray-200 bg-[#0a0a0f] overflow-x-hidden">
+  <body class="font-sans antialiased text-gray-200 bg-[#0a0a0f] overflow-x-hidden min-h-screen flex flex-col">
     <Nav />
-    <slot />
+    <div class="flex-1">
+      <slot />
+    </div>
+    <Footer />
     <CookieConsent />
   </body>
 </html>
