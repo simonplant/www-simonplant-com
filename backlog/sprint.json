@@ -1,34 +1,35 @@
 {
-  "sprintId": "sprint-1775069191",
-  "startedAt": "2026-04-01T11:46:31-07:00",
+  "sprintId": "sprint-1775069444",
+  "startedAt": "2026-04-01T11:50:44-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-008",
-    "title": "Commentary feed",
-    "intent": "/commentary must display a reverse-chronological, tagged, filterable feed of short-form posts with individual post pages.",
+    "id": "FEAT-009",
+    "title": "Architecture KB landing and entry pages",
+    "intent": "/architecture must show structured entries browsable by concern and pattern type, each following the standard record template with problem, when to use, how it works, trade-offs, and related patterns.",
     "description": "",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Create src/pages/commentary/index.astro with reverse-chronological listing",
-      "Create src/pages/commentary/[slug].astro for individual posts",
-      "Display tags on listing and detail pages",
-      "Add tag-based filtering on the listing page"
+      "Create src/pages/architecture/index.astro with entries grouped by concern",
+      "Create src/pages/architecture/[slug].astro for individual entries",
+      "Render the standard record template fields from frontmatter",
+      "Add browsing by concern and pattern type",
+      "Show status badge (draft/working/stable) on each entry"
     ],
     "acceptanceCriteria": [
       {
-        "text": "/commentary route lists posts in reverse chronological order",
-        "verify": "npm run build && test -f dist/commentary/index.html"
+        "text": "/architecture route lists entries browsable by concern",
+        "verify": "npm run build && test -f dist/architecture/index.html"
       },
-      "Individual commentary posts render with tags displayed"
+      "Individual entries render the structured record template"
     ],
     "scope": [
-      "src/pages/commentary/**",
+      "src/pages/architecture/**",
       "src/components/**"
     ],
-    "startedAt": "2026-04-01T11:46:31-07:00",
+    "startedAt": "2026-04-01T11:50:44-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T11:50:42-07:00"
+    "completedAt": "2026-04-01T11:55:48-07:00"
   },
-  "completedAt": "2026-04-01T11:50:42-07:00",
+  "completedAt": "2026-04-01T11:55:48-07:00",
   "attempts": 1
 }

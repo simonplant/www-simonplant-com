@@ -13,3 +13,4 @@
 {"itemId":"FEAT-006","date":"2026-04-01","text":"/about route exists and renders","verify":"npm run build && test -f dist/about/index.html"}
 {"itemId":"FEAT-007","date":"2026-04-01","text":"/series route lists all series installments","verify":"npm run build && test -f dist/series/index.html"}
 {"itemId":"FEAT-008","date":"2026-04-01","text":"/commentary route lists posts in reverse chronological order","verify":"npm run build && test -f dist/commentary/index.html"}
+{"itemId":"FEAT-009","date":"2026-04-01","text":"/architecture route lists entries browsable by concern","verify":"npm run build && test -f dist/architecture/index.html"}

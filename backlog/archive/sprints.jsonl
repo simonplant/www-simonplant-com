@@ -8,3 +8,4 @@
 {"date":"2026-04-01","sprintId":"sprint-1775068529","itemId":"FEAT-006","status":"complete","attempts":1,"filesChanged":1,"linesAdded":49,"linesRemoved":0,"duration":150,"priority":"must","category":"pages","title":"About page"}
 {"date":"2026-04-01","sprintId":"sprint-1775068681","itemId":"FEAT-007","status":"complete","attempts":1,"filesChanged":2,"linesAdded":150,"linesRemoved":0,"duration":508,"priority":"must","category":"pages","title":"Series landing and detail pages"}
 {"date":"2026-04-01","sprintId":"sprint-1775069191","itemId":"FEAT-008","status":"complete","attempts":1,"filesChanged":2,"linesAdded":182,"linesRemoved":0,"duration":251,"priority":"must","category":"pages","title":"Commentary feed"}
+{"date":"2026-04-01","sprintId":"sprint-1775069444","itemId":"FEAT-009","status":"complete","attempts":1,"filesChanged":2,"linesAdded":292,"linesRemoved":0,"duration":304,"priority":"must","category":"pages","title":"Architecture KB landing and entry pages"}
