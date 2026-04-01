@@ -25,7 +25,7 @@ const { title, description = 'Simon Plant — personal website' } = Astro.props;
     />
     <title>{title}</title>
   </head>
-  <body class="font-sans antialiased text-gray-200 bg-[#0a0a0f]">
+  <body class="font-sans antialiased text-gray-200 bg-[#0a0a0f] overflow-x-hidden">
     <slot />
     <CookieConsent />
   </body>

@@ -51,6 +51,59 @@
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Fira Code", monospace;
 }
 
+/* ─── Responsive containers ───
+   Mobile-first: generous padding at small viewports, content breathes on desktop.
+   .container-prose — content pages (~720px max)
+   .container-wide  — index/grid pages (~1280px max)
+   .prose already sets max-width: 720px for the text measure. */
+
+.container-prose {
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.container-wide {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container-prose,
+  .container-wide {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-prose,
+  .container-wide {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* ─── Section spacing ───
+   Consistent vertical rhythm between major content sections. */
+
+.section-spacing {
+  padding-block: 3rem;
+}
+
+@media (min-width: 768px) {
+  .section-spacing {
+    padding-block: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-spacing {
+    padding-block: 5rem;
+  }
+}
+
 /* ─── Prose typography ─── */
 
 .prose {
@@ -58,7 +111,21 @@
   font-size: 17px;
   line-height: 1.75;
   max-width: 720px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
   color: var(--color-text-primary, #e8e6e1);
+}
+
+@media (min-width: 768px) {
+  .prose {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .prose {
+    padding-inline: 2.5rem;
+  }
 }
 
 /* Paragraphs */
