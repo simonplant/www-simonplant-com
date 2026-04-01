@@ -3253,7 +3253,9 @@ run_sprint_loop() {
         if [[ -d "$PROJECT_ROOT/node_modules" && ! -e "$wt_dir/node_modules" ]]; then
             ln -s "$PROJECT_ROOT/node_modules" "$wt_dir/node_modules"
             # Ensure symlink is never committed from the worktree
-            grep -qx 'node_modules' "$wt_dir/.gitignore" 2>/dev/null || echo 'node_modules' >> "$wt_dir/.gitignore"
+            if ! grep -qE '^node_modules/?$' "$wt_dir/.gitignore" 2>/dev/null; then
+                echo 'node_modules' >> "$wt_dir/.gitignore"
+            fi
         fi
 
         # Redirect paths into the worktree so agents and polling work there
