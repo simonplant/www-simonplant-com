@@ -5,3 +5,4 @@
 {"itemId":"FEAT-003","date":"2026-04-01","text":"Body renders with dark background and color-scheme: dark on html","verify":"npm run build && grep -q 'color-scheme' dist/index.html"}
 {"itemId":"FEAT-003","date":"2026-04-01","text":"No bg-white or text-gray-600 classes remain in built HTML","verify":"npm run build && ! grep -q 'bg-white' dist/index.html"}
 {"itemId":"FEAT-003","date":"2026-04-01","text":"Build succeeds","verify":"npm run build"}
+{"itemId":"FEAT-020","date":"2026-04-01","text":"Build succeeds","verify":"npm run build"}
