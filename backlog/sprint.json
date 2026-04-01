@@ -1,1 +1,41 @@
-{"sprintId": null, "status": "idle", "item": null}
+{
+  "sprintId": "sprint-1775061964",
+  "startedAt": "2026-04-01T09:46:04-07:00",
+  "status": "completed",
+  "item": {
+    "id": "FEAT-002",
+    "title": "Base typography and prose styling",
+    "intent": "Long-form prose must render with Literata serif at comfortable size (17px), line-height 1.75, max ~720px content width, and proper heading hierarchy using DM Serif Display. Code blocks use JetBrains Mono on elevated dark surfaces with amber syntax accents. This editorial typography is the key differentiator.",
+    "description": "",
+    "sourceBacklog": "backlog.json",
+    "steps": [
+      "Choose and load a reading serif font (Source Serif 4, Literata, or Newsreader) for body prose",
+      "Define prose styles: max-width ~720px, line-height 1.7–1.8, comfortable paragraph spacing",
+      "Style headings h1-h4 with DM Serif Display, clear size hierarchy",
+      "Style inline code with monospace on slightly elevated background",
+      "Style blockquotes, lists, and links with amber/gold accent for links",
+      "Style code blocks with dark elevated surface, proper padding, monospace font",
+      "Verify rendering with existing seed content markdown"
+    ],
+    "acceptanceCriteria": [
+      {
+        "text": "Prose body text uses a reading serif font, not sans-serif",
+        "verify": "grep -riq 'serif' src/ || grep -riq 'serif' dist/"
+      },
+      "Prose content renders with max line width under 75ch",
+      {
+        "text": "Build succeeds",
+        "verify": "npm run build"
+      }
+    ],
+    "scope": [
+      "src/styles/**",
+      "src/layouts/**"
+    ],
+    "startedAt": "2026-04-01T09:46:04-07:00",
+    "status": "passed",
+    "completedAt": "2026-04-01T09:50:59-07:00"
+  },
+  "completedAt": "2026-04-01T09:50:59-07:00",
+  "attempts": 1
+}
