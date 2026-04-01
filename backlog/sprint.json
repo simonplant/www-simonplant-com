@@ -1,23 +1,28 @@
 {
-  "sprintId": "sprint-1775080321",
-  "startedAt": "2026-04-01T14:52:01-07:00",
+  "sprintId": "sprint-1775080516",
+  "startedAt": "2026-04-01T14:55:16-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-023",
-    "title": "XML sitemap",
-    "intent": "The site must generate a valid XML sitemap at /sitemap.xml covering all pages and content so search engines can discover and index every page.",
-    "description": "Install @astrojs/sitemap, add it to astro.config.mjs integrations, set the site URL. The integration auto-discovers all routes.",
+    "id": "FEAT-028",
+    "title": "Deployment pipeline",
+    "intent": "The site must have a working deployment pipeline — push to main triggers build and deploy to a CDN — so publishing is a git push, not a manual process. Cloudflare Pages is the target platform.",
+    "description": "Set up Cloudflare Pages deployment. Create a wrangler.toml or configure via the Cloudflare dashboard. Add a GitHub Actions workflow that builds and deploys on push to main. Set environment variables for PostHog.",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Install @astrojs/sitemap as a dependency",
-      "Add the sitemap integration to astro.config.mjs integrations array",
-      "Ensure site URL is set in astro.config.mjs (required for sitemap generation)",
-      "Build and verify sitemap files are generated in dist/"
+      "Create wrangler.toml with project name, build command (npm run build), and output directory (dist/)",
+      "Create .github/workflows/deploy.yml — triggered on push to main, runs npm ci && npm run build, deploys to Cloudflare Pages",
+      "Configure environment variables: PUBLIC_POSTHOG_KEY and PUBLIC_POSTHOG_HOST as GitHub secrets referenced in workflow",
+      "Add the Astro Cloudflare adapter if needed, or confirm static output works with Pages (it does)",
+      "Set site URL in astro.config.mjs to https://simonplant.com"
     ],
     "acceptanceCriteria": [
       {
-        "text": "Sitemap is generated at build time",
-        "verify": "npm run build && (test -f dist/sitemap-index.xml || test -f dist/sitemap-0.xml || test -f dist/sitemap.xml)"
+        "text": "Deployment workflow exists and references build command",
+        "verify": "test -f .github/workflows/deploy.yml && grep -q 'npm run build' .github/workflows/deploy.yml"
+      },
+      {
+        "text": "Workflow triggers on push to main",
+        "verify": "grep -q 'push' .github/workflows/deploy.yml && grep -q 'main' .github/workflows/deploy.yml"
       },
       {
         "text": "Build succeeds cleanly",
@@ -26,12 +31,13 @@
     ],
     "scope": [
       "astro.config.mjs",
-      "package.json"
+      ".github/workflows/**",
+      "wrangler.toml"
     ],
-    "startedAt": "2026-04-01T14:52:01-07:00",
+    "startedAt": "2026-04-01T14:55:16-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T14:55:15-07:00"
+    "completedAt": "2026-04-01T14:59:01-07:00"
   },
-  "completedAt": "2026-04-01T14:55:15-07:00",
+  "completedAt": "2026-04-01T14:59:01-07:00",
   "attempts": 1
 }

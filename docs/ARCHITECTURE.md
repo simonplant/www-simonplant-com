@@ -133,5 +133,5 @@ All design decisions (colors, fonts, spacing, surfaces) are defined as Tailwind 
 
 - ~~Reading serif choice~~ — **Literata** (TypeTogether, designed for screen readability, wide and clean on dark backgrounds)
 - **Newsletter provider** — external service TBD (buttondown, convertkit, resend)
-- **Hosting/deployment** — CDN target not yet chosen (Cloudflare Pages, Netlify, Vercel)
+- ~~Hosting/deployment~~ — **Cloudflare Pages** via GitHub Actions (push to main triggers build and deploy)
 - **Companion artifact hosting** — GitHub repo structure for checklists/templates

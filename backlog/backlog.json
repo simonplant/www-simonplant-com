@@ -765,46 +765,6 @@
       "groomingNotes": "v0.5.2 compliance: dep FEAT-010 now done. Converted plain-string AC to behavioral verifies: SVG/diagram markup present, all four product names in rendered HTML. Steps updated to be specific. Unblocked and marked ready."
     },
     {
-      "id": "FEAT-028",
-      "title": "Deployment pipeline",
-      "intent": "The site must have a working deployment pipeline — push to main triggers build and deploy to a CDN — so publishing is a git push, not a manual process. Cloudflare Pages is the target platform.",
-      "description": "Set up Cloudflare Pages deployment. Create a wrangler.toml or configure via the Cloudflare dashboard. Add a GitHub Actions workflow that builds and deploys on push to main. Set environment variables for PostHog.",
-      "priority": "must",
-      "category": "infrastructure",
-      "steps": [
-        "Create wrangler.toml with project name, build command (npm run build), and output directory (dist/)",
-        "Create .github/workflows/deploy.yml — triggered on push to main, runs npm ci && npm run build, deploys to Cloudflare Pages",
-        "Configure environment variables: PUBLIC_POSTHOG_KEY and PUBLIC_POSTHOG_HOST as GitHub secrets referenced in workflow",
-        "Add the Astro Cloudflare adapter if needed, or confirm static output works with Pages (it does)",
-        "Set site URL in astro.config.mjs to https://simonplant.com"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Deployment workflow exists and references build command",
-          "verify": "test -f .github/workflows/deploy.yml && grep -q 'npm run build' .github/workflows/deploy.yml"
-        },
-        {
-          "text": "Workflow triggers on push to main",
-          "verify": "grep -q 'push' .github/workflows/deploy.yml && grep -q 'main' .github/workflows/deploy.yml"
-        },
-        {
-          "text": "Build succeeds cleanly",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "astro.config.mjs",
-        ".github/workflows/**",
-        "wrangler.toml"
-      ],
-      "dependsOn": [],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: converted AC to behavioral verifies — workflow file existence and content checks. Named Cloudflare Pages as concrete target in intent. Steps updated with specific file paths and config details. Scope corrected to include workflow files and wrangler.toml."
-    },
-    {
       "id": "FEAT-029",
       "title": "LLMs.txt generation",
       "intent": "The site must generate a valid llms.txt file (per llmstxt.org spec) at build time so AI models can discover and understand the site's content, structure, and purpose — this is table stakes for an AI infrastructure site.",
