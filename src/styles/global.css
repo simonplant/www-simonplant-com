@@ -1,18 +1,50 @@
 @import "tailwindcss";
 
-@theme {
-  --color-primary-50: #fdf3ec;
-  --color-primary-100: #fae4d2;
-  --color-primary-200: #f4c6a4;
-  --color-primary-300: #eda36d;
-  --color-primary-400: #e47f3f;
-  --color-primary-500: #b86b3a;
-  --color-primary-600: #9a5530;
-  --color-primary-700: #7c4127;
-  --color-primary-800: #5e2f1e;
-  --color-primary-900: #401e15;
-  --color-primary: #b86b3a;
+/* ─── Design Tokens ───
+   Dark-primary palette: very dark blue-black surfaces, off-white text,
+   amber/warm gold accent used sparingly — forged, not vibed.
+   Surface hierarchy: background → card → elevated (increasing lightness).
+   Text hierarchy: primary (off-white) → secondary (muted) → muted (dim).
+   Accent: amber/gold scale centered on #d4a853 — links, CTAs, active states,
+   code highlights. Use surgically, never as fills or large surfaces. */
 
+@theme {
+  /* ── Amber/gold accent scale ── */
+  --color-primary-50: #fdf8ed;
+  --color-primary-100: #faedc8;
+  --color-primary-200: #f2d88f;
+  --color-primary-300: #e6c36a;
+  --color-primary-400: #d4a853;
+  --color-primary-500: #b8903a;
+  --color-primary-600: #96722e;
+  --color-primary-700: #745623;
+  --color-primary-800: #523c19;
+  --color-primary-900: #332410;
+  --color-primary: #d4a853;
+
+  /* ── Dark surface hierarchy ──
+     background: page canvas — deepest dark
+     card: content containers — slightly elevated
+     elevated: modals, popovers, code blocks — highest elevation */
+  --color-surface-bg: #0a0a0f;
+  --color-surface-card: #111118;
+  --color-surface-elevated: #16161e;
+
+  /* ── Text hierarchy ──
+     primary: main body text — high contrast off-white
+     secondary: supporting text — reduced emphasis
+     muted: captions, metadata — lowest emphasis */
+  --color-text-primary: #e8e6e1;
+  --color-text-secondary: #a0a0b0;
+  --color-text-muted: #6b6b7b;
+
+  /* ── Border / divider treatments ──
+     subtle: low-contrast separators within surfaces
+     default: standard borders between sections */
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-default: rgba(255, 255, 255, 0.1);
+
+  /* ── Typography ── */
   --font-serif: "DM Serif Display", Georgia, serif;
   --font-sans: Inter, system-ui, sans-serif;
   --font-prose: "Literata", "Georgia", serif;
@@ -26,7 +58,7 @@
   font-size: 17px;
   line-height: 1.75;
   max-width: 720px;
-  color: var(--color-gray-200, #e5e7eb);
+  color: var(--color-text-primary, #e8e6e1);
 }
 
 /* Paragraphs */
@@ -76,16 +108,16 @@
 
 /* Links — amber/gold accent */
 .prose a {
-  color: var(--color-primary-400, #e47f3f);
+  color: var(--color-primary-400, #d4a853);
   text-decoration: underline;
   text-underline-offset: 2px;
-  text-decoration-color: var(--color-primary-400, #e47f3f);
+  text-decoration-color: var(--color-primary-400, #d4a853);
   transition: color 0.15s ease;
 }
 
 .prose a:hover {
-  color: var(--color-primary-300, #eda36d);
-  text-decoration-color: var(--color-primary-300, #eda36d);
+  color: var(--color-primary-300, #e6c36a);
+  text-decoration-color: var(--color-primary-300, #e6c36a);
 }
 
 /* Bold & italic */
@@ -122,12 +154,12 @@
 
 /* Blockquotes */
 .prose blockquote {
-  border-inline-start: 3px solid var(--color-primary-500, #b86b3a);
+  border-inline-start: 3px solid var(--color-primary-500, #b8903a);
   padding-inline-start: 1.25em;
   margin-inline: 0;
   margin-block: 1.5em;
   font-style: italic;
-  color: var(--color-gray-300, #d1d5db);
+  color: var(--color-text-secondary, #a0a0b0);
 }
 
 .prose blockquote p {
@@ -141,21 +173,21 @@
   background: rgba(255, 255, 255, 0.08);
   border-radius: 4px;
   padding: 0.15em 0.35em;
-  color: var(--color-primary-300, #eda36d);
+  color: var(--color-primary-300, #e6c36a);
 }
 
-/* Code blocks — dark elevated surface with amber accents */
+/* Code blocks — elevated dark surface */
 .prose pre {
   font-family: var(--font-mono);
   font-size: 0.875rem;
   line-height: 1.6;
-  background: #16161e;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-surface-elevated, #16161e);
+  border: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.06));
   border-radius: 8px;
   padding: 1.25em 1.5em;
   margin-block: 1.75em;
   overflow-x: auto;
-  color: var(--color-gray-200, #e5e7eb);
+  color: var(--color-text-primary, #e8e6e1);
 }
 
 .prose pre code {
@@ -170,7 +202,7 @@
 /* Horizontal rules */
 .prose hr {
   border: none;
-  border-block-start: 1px solid rgba(255, 255, 255, 0.1);
+  border-block-start: 1px solid var(--color-border-default, rgba(255, 255, 255, 0.1));
   margin-block: 2.5em;
 }
 
@@ -194,11 +226,11 @@
   font-weight: 600;
   text-align: start;
   padding: 0.625em 1em;
-  border-block-end: 1px solid rgba(255, 255, 255, 0.12);
+  border-block-end: 1px solid var(--color-border-default, rgba(255, 255, 255, 0.12));
   color: var(--color-gray-50, #f9fafb);
 }
 
 .prose td {
   padding: 0.625em 1em;
-  border-block-end: 1px solid rgba(255, 255, 255, 0.06);
+  border-block-end: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.06));
 }
