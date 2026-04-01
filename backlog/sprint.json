@@ -1,40 +1,37 @@
 {
-  "sprintId": "sprint-1775069749",
-  "startedAt": "2026-04-01T11:55:49-07:00",
+  "sprintId": "sprint-1775070325",
+  "startedAt": "2026-04-01T12:05:25-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-010",
-    "title": "Product ecosystem and individual product pages",
-    "intent": "/products must present the full agent infrastructure ecosystem — how ClawHQ, AIShore, Easy Markdown, and Clawdius fit together — with individual landing pages per product showing problem statement, architecture, current status, quickstart, and GitHub link. Products must be data-driven, not hardcoded.",
+    "id": "FEAT-012",
+    "title": "Newsletter signup and RSS",
+    "intent": "/newsletter must be a compelling landing page that sells the value of subscribing — what readers get, how often, and why it matters. RSS feed must cover all content tracks. This is the primary distribution channel, not an afterthought.",
     "description": "",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Create a products content collection or data file with structured product info",
-      "Create src/pages/products/index.astro showing the ecosystem overview and relationship map",
-      "Create src/pages/products/[slug].astro for individual product landing pages",
-      "Include all four products: ClawHQ, AIShore, Easy Markdown, Clawdius",
-      "Show how products relate to each other in the agent infrastructure lifecycle",
-      "Link to relevant series installments and KB entries from each product page"
+      "Create src/pages/newsletter.astro with description and signup form",
+      "Add RSS feed generation using @astrojs/rss",
+      "Include series and commentary in the RSS feed",
+      "Add RSS link to site head and navigation"
     ],
     "acceptanceCriteria": [
       {
-        "text": "/products route shows ecosystem overview with all four products",
-        "verify": "npm run build && test -f dist/products/index.html"
+        "text": "/newsletter route exists with signup form",
+        "verify": "npm run build && test -f dist/newsletter/index.html"
       },
       {
-        "text": "Individual product pages exist and render",
-        "verify": "npm run build && ls dist/products/*/index.html | grep -q ."
+        "text": "RSS feed is generated at /rss.xml",
+        "verify": "npm run build && test -f dist/rss.xml"
       }
     ],
     "scope": [
-      "src/pages/products/**",
-      "src/content/products/**",
-      "src/components/**"
+      "src/pages/newsletter.astro",
+      "src/pages/rss.xml.ts"
     ],
-    "startedAt": "2026-04-01T11:55:49-07:00",
+    "startedAt": "2026-04-01T12:05:25-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T12:05:24-07:00"
+    "completedAt": "2026-04-01T12:11:01-07:00"
   },
-  "completedAt": "2026-04-01T12:05:24-07:00",
+  "completedAt": "2026-04-01T12:11:01-07:00",
   "attempts": 1
 }

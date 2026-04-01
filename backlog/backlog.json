@@ -323,11 +323,12 @@
         "FEAT-020",
         "FEAT-021"
       ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 7 foundation deps now complete. Newsletter/RSS fully unblocked. Both AC verifies present and strong: newsletter page and rss.xml in dist/. Note: newsletter form backend needs a concrete decision during sprint (Buttondown or ConvertKit recommended) — the form action URL is a sprint variable. @astrojs/rss package must be installed."
+      "groomingNotes": "All 7 foundation deps now complete. Newsletter/RSS fully unblocked. Both AC verifies present and strong: newsletter page and rss.xml in dist/. Note: newsletter form backend needs a concrete decision during sprint (Buttondown or ConvertKit recommended) — the form action URL is a sprint variable. @astrojs/rss package must be installed.",
+      "completedAt": "2026-04-01T12:11:01-07:00"
     },
     {
       "id": "FEAT-013",
