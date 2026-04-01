@@ -557,46 +557,6 @@
       "groomingNotes": "v0.5.2 compliance: all deps now done. Converted plain-string AC to behavioral verifies: pagefind directory exists in dist/, search script referenced in built HTML. Added description with concrete implementation approach. Steps updated to be developer-actionable. Unblocked and marked ready."
     },
     {
-      "id": "FEAT-024",
-      "title": "Custom 404 page",
-      "intent": "Broken links must land on a helpful 404 page that guides visitors to search, popular content, or the home page — not a dead end.",
-      "description": "Astro static output generates dist/404.html automatically from src/pages/404.astro. Page should match site design, include a clear message, and link to home and key sections.",
-      "priority": "should",
-      "category": "pages",
-      "steps": [
-        "Create src/pages/404.astro using Base layout",
-        "Add a clear, human-friendly message that the page wasn't found",
-        "Add links to home page, /series, /commentary, /products",
-        "Match site design language (dark theme, amber accents, typography)",
-        "Optionally add a search trigger if FEAT-022 is done, otherwise skip"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "404 page exists in built output",
-          "verify": "npm run build && test -f dist/404.html"
-        },
-        {
-          "text": "404 page contains navigation links back to key sections",
-          "verify": "npm run build && grep -q 'href=' dist/404.html"
-        }
-      ],
-      "scope": [
-        "src/pages/404.astro"
-      ],
-      "dependsOn": [
-        "FEAT-002",
-        "FEAT-003",
-        "FEAT-004",
-        "FEAT-019",
-        "FEAT-020"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: added behavioral verify for navigation links in rendered HTML. All deps complete. XS size. Steps updated to be specific. Ready."
-    },
-    {
       "id": "FEAT-025",
       "title": "Companion artifact system",
       "intent": "Series installments must be able to ship with companion artifacts — checklists, templates, decision frameworks, comparison matrices — displayed inline and linked to GitHub, so readers get actionable tools alongside the narrative.",

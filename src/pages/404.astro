@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page Not Found — Simon Plant" description="The page you're looking for doesn't exist.">
+  <main class="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
+    <h1 class="font-serif text-5xl text-primary mb-4">404</h1>
+    <p class="text-xl text-gray-300 mb-2">Page not found</p>
+    <p class="text-gray-400 mb-10 max-w-md">
+      The page you're looking for doesn't exist or has been moved. Here are some places to start.
+    </p>
+    <nav class="flex flex-wrap justify-center gap-4">
+      <a href="/" class="px-5 py-2.5 rounded-lg bg-primary-900/30 border border-primary-700/40 text-primary-200 hover:bg-primary-900/50 transition-colors">
+        Home
+      </a>
+      <a href="/series" class="px-5 py-2.5 rounded-lg bg-primary-900/30 border border-primary-700/40 text-primary-200 hover:bg-primary-900/50 transition-colors">
+        Series
+      </a>
+      <a href="/commentary" class="px-5 py-2.5 rounded-lg bg-primary-900/30 border border-primary-700/40 text-primary-200 hover:bg-primary-900/50 transition-colors">
+        Commentary
+      </a>
+      <a href="/products" class="px-5 py-2.5 rounded-lg bg-primary-900/30 border border-primary-700/40 text-primary-200 hover:bg-primary-900/50 transition-colors">
+        Products
+      </a>
+    </nav>
+  </main>
+</Base>
