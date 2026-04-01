@@ -7,3 +7,4 @@
 {"date":"2026-04-01","sprintId":"sprint-1775066438","itemId":"FEAT-021","status":"complete","attempts":1,"filesChanged":2,"linesAdded":48,"linesRemoved":2,"duration":152,"priority":"must","category":"foundation","title":"Footer component"}
 {"date":"2026-04-01","sprintId":"sprint-1775068529","itemId":"FEAT-006","status":"complete","attempts":1,"filesChanged":1,"linesAdded":49,"linesRemoved":0,"duration":150,"priority":"must","category":"pages","title":"About page"}
 {"date":"2026-04-01","sprintId":"sprint-1775068681","itemId":"FEAT-007","status":"complete","attempts":1,"filesChanged":2,"linesAdded":150,"linesRemoved":0,"duration":508,"priority":"must","category":"pages","title":"Series landing and detail pages"}
+{"date":"2026-04-01","sprintId":"sprint-1775069191","itemId":"FEAT-008","status":"complete","attempts":1,"filesChanged":2,"linesAdded":182,"linesRemoved":0,"duration":251,"priority":"must","category":"pages","title":"Commentary feed"}
