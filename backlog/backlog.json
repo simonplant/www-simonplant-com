@@ -36,11 +36,12 @@
       "dependsOn": [
         "FEAT-019"
       ],
-      "status": "todo",
-      "passes": false,
+      "status": "done",
+      "passes": true,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Blocked by FEAT-019 (tokens). Body already has bg-[#0a0a0f] and text-gray-200 from FEAT-002. Remaining work: color-scheme: dark on html, restyle CookieConsent for dark surface (currently white bg, gray text, gray borders), audit all components for light-mode assumptions."
+      "groomingNotes": "Blocked by FEAT-019 (tokens). Body already has bg-[#0a0a0f] and text-gray-200 from FEAT-002. Remaining work: color-scheme: dark on html, restyle CookieConsent for dark surface (currently white bg, gray text, gray borders), audit all components for light-mode assumptions.",
+      "completedAt": "2026-04-01T10:38:41-07:00"
     },
     {
       "id": "FEAT-004",
