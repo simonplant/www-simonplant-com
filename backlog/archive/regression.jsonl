@@ -18,3 +18,8 @@
 {"itemId":"FEAT-010","date":"2026-04-01","text":"Individual product pages exist and render","verify":"npm run build && ls dist/products/*/index.html | grep -q ."}
 {"itemId":"FEAT-012","date":"2026-04-01","text":"/newsletter route exists with signup form","verify":"npm run build && test -f dist/newsletter/index.html"}
 {"itemId":"FEAT-012","date":"2026-04-01","text":"RSS feed is generated at /rss.xml","verify":"npm run build && test -f dist/rss.xml"}
+{"itemId":"FEAT-018","date":"2026-04-01","text":"Home page renders og:title meta tag","verify":"npm run build && grep -q 'og:title' dist/index.html"}
+{"itemId":"FEAT-018","date":"2026-04-01","text":"Home page includes JSON-LD structured data","verify":"npm run build && grep -q 'application/ld+json' dist/index.html"}
+{"itemId":"FEAT-018","date":"2026-04-01","text":"Home page renders canonical URL","verify":"npm run build && grep -q 'canonical' dist/index.html"}
+{"itemId":"FEAT-018","date":"2026-04-01","text":"Twitter card meta tags present","verify":"npm run build && grep -q 'twitter:card' dist/index.html"}
+{"itemId":"FEAT-018","date":"2026-04-01","text":"Build succeeds cleanly","verify":"npm run build"}
