@@ -76,11 +76,12 @@
         "FEAT-020",
         "FEAT-021"
       ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 6 foundation deps now complete. About page fully unblocked. Added behavioral verify for contact/advisory content — sprint must ensure these strings appear in rendered HTML. Content is personal (Simon's narrative arc: cloud infra → AI infra) — the sprint writes actual prose, not Lorem Ipsum. Colophon (how the site is built) is required per steps."
+      "groomingNotes": "All 6 foundation deps now complete. About page fully unblocked. Added behavioral verify for contact/advisory content — sprint must ensure these strings appear in rendered HTML. Content is personal (Simon's narrative arc: cloud infra → AI infra) — the sprint writes actual prose, not Lorem Ipsum. Colophon (how the site is built) is required per steps.",
+      "completedAt": "2026-04-01T11:37:59-07:00"
     },
     {
       "id": "FEAT-007",

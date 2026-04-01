@@ -1,38 +1,34 @@
 {
-  "sprintId": "sprint-1775066438",
-  "startedAt": "2026-04-01T11:00:38-07:00",
+  "sprintId": "sprint-1775068529",
+  "startedAt": "2026-04-01T11:35:29-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-021",
-    "title": "Footer component",
-    "intent": "Every page must have a consistent footer with copyright, navigation links, RSS feed link, and contact — completing the page frame alongside the nav header.",
+    "id": "FEAT-006",
+    "title": "About page",
+    "intent": "/about must tell the narrative arc from cloud infrastructure to AI infrastructure, state current projects, declare advisory availability, and include contact details — all on one screen.",
     "description": "",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Create src/components/Footer.astro",
-      "Include copyright with current year",
-      "Add links to key pages and RSS feed",
-      "Add contact email or link",
-      "Integrate Footer into Base.astro layout"
+      "Create src/pages/about.astro using Base layout",
+      "Write narrative arc section (cloud infra → AI infra)",
+      "List current projects with brief descriptions",
+      "Add availability statement and contact details",
+      "Add colophon describing how the site is built"
     ],
     "acceptanceCriteria": [
       {
-        "text": "Footer renders on every page via Base layout",
-        "verify": "npm run build && grep -qi '<footer' dist/index.html"
+        "text": "/about route exists and renders",
+        "verify": "npm run build && test -f dist/about/index.html"
       },
-      {
-        "text": "Build succeeds",
-        "verify": "npm run build"
-      }
+      "Page includes contact information and availability statement"
     ],
     "scope": [
-      "src/components/Footer.astro",
-      "src/layouts/Base.astro"
+      "src/pages/about.astro"
     ],
-    "startedAt": "2026-04-01T11:00:38-07:00",
+    "startedAt": "2026-04-01T11:35:29-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T11:03:10-07:00"
+    "completedAt": "2026-04-01T11:37:59-07:00"
   },
-  "completedAt": "2026-04-01T11:03:10-07:00",
+  "completedAt": "2026-04-01T11:37:59-07:00",
   "attempts": 1
 }
