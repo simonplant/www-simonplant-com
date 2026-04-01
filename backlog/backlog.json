@@ -76,11 +76,12 @@
         "FEAT-019",
         "FEAT-003"
       ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Blocked by FEAT-019 (tokens) and FEAT-003 (dark mode) — nav must use the final color palette and dark surface. Replaced theater AC with behavioral checks on built HTML."
+      "groomingNotes": "Blocked by FEAT-019 (tokens) and FEAT-003 (dark mode) — nav must use the final color palette and dark surface. Replaced theater AC with behavioral checks on built HTML.",
+      "completedAt": "2026-04-01T11:00:31-07:00"
     },
     {
       "id": "FEAT-005",
