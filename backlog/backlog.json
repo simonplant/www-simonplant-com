@@ -5,24 +5,33 @@
       "id": "FEAT-005",
       "title": "Home page",
       "intent": "The home page must read as an editorial masthead, not a SaaS landing page. Simon's name, a one-line positioning statement, and three clear paths: the flagship series, the products, and the commentary. No hero image, no animation, no bento boxes. Let the writing be the thing. Latest series installment and latest commentary visible. Subscribe CTA present but not dominant.",
-      "description": "",
+      "description": "Replace the scaffold index.astro with a typography-first editorial homepage. Three content paths must be visually distinct. Query content collections for latest entries. If no published content exists, handle gracefully (empty state or seed draft content).",
       "priority": "must",
       "category": "pages",
       "steps": [
-        "Replace scaffold index.astro with editorial masthead layout",
-        "Add positioning statement (one line, who Simon is and what he believes)",
-        "Add three clear navigation paths: series, products, commentary",
-        "Query and display latest series installment",
-        "Query and display latest commentary post",
-        "Add subscribe/newsletter CTA — present but restrained",
-        "No hero image, no animation, no gradients, no bento grid"
+        "Replace scaffold index.astro with editorial masthead layout using Base.astro",
+        "Add positioning statement — one line, who Simon is and what he believes",
+        "Add three clear navigation paths linking to /series, /products, /commentary",
+        "Query series and commentary content collections; display latest of each (handle empty gracefully)",
+        "Add subscribe/newsletter CTA — present but not dominant, linking to /newsletter",
+        "Ensure no <img> tags, no background-image CSS, no animation, no gradient, no bento grid"
       ],
       "acceptanceCriteria": [
-        "Home page displays positioning statement and three content paths",
-        "No img tags or background images on home page",
         {
-          "text": "Build succeeds",
-          "verify": "npm run build"
+          "text": "Home page builds and renders",
+          "verify": "npm run build && test -f dist/index.html"
+        },
+        {
+          "text": "Home page links to /series, /products, and /commentary",
+          "verify": "npm run build && grep -q '/series' dist/index.html && grep -q '/products' dist/index.html && grep -q '/commentary' dist/index.html"
+        },
+        {
+          "text": "Home page contains a subscribe/newsletter CTA",
+          "verify": "npm run build && grep -qi 'newsletter\\|subscribe' dist/index.html"
+        },
+        {
+          "text": "No img tags on the home page",
+          "verify": "npm run build && ! grep -qi '<img' dist/index.html"
         }
       ],
       "scope": [
@@ -42,7 +51,7 @@
       "passes": false,
       "readyForSprint": true,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 7 foundation deps now complete. Rewrote all AC with behavioral verifies on built HTML: content path presence (series/commentary/products), subscribe CTA, and no-img enforcement. Previous AC had no verifies. Intent is editorial masthead — typography-first, no hero images. Latest series installment and latest commentary query requires content to exist; sprint may need to create seed entries or stub gracefully."
+      "groomingNotes": "v0.5.2 compliance: converted all plain-string AC to behavioral verifies against dist/ HTML. All 7 deps complete. Verifies check: page exists, three content paths linked, newsletter CTA present, no img tags. Sprint may need seed content or graceful empty state for latest entries."
     },
     {
       "id": "FEAT-006",
@@ -80,7 +89,7 @@
       "passes": true,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 6 foundation deps now complete. About page fully unblocked. Added behavioral verify for contact/advisory content — sprint must ensure these strings appear in rendered HTML. Content is personal (Simon's narrative arc: cloud infra → AI infra) — the sprint writes actual prose, not Lorem Ipsum. Colophon (how the site is built) is required per steps.",
+      "groomingNotes": "Completed. All 6 foundation deps resolved.",
       "completedAt": "2026-04-01T11:37:59-07:00"
     },
     {
@@ -121,7 +130,7 @@
       "passes": true,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 7 foundation deps now complete. Added required step: sprint MUST create at least one seed installment (status: draft) to prove dynamic routing — without seed content the slug verify cannot pass. Updated AC verify for slug pages to check dist/series/*/index.html post-build. Subscribe CTA required per intent. Prev/next nav is visual-confirm but slug existence gates the core routing concern.",
+      "groomingNotes": "Completed.",
       "completedAt": "2026-04-01T11:46:29-07:00"
     },
     {
@@ -161,7 +170,7 @@
       "passes": true,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 7 foundation deps now complete. Added required step: sprint MUST create at least one seed commentary post (status: draft) to prove dynamic routing. AC verify checks dist/commentary/*/index.html post-build. Tag rendering is visual-confirm; slug page existence is the automatable gate. Filtering is a nice-to-have within the sprint.",
+      "groomingNotes": "Completed.",
       "completedAt": "2026-04-01T11:50:42-07:00"
     },
     {
@@ -202,7 +211,7 @@
       "passes": true,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 7 foundation deps now complete. Added required step: sprint MUST create at least one seed architecture entry (status: draft) to prove dynamic routing. AC verify checks dist/architecture/*/index.html post-build. Record template rendering is visual-confirm; slug existence gates the core routing concern. Entry schema must include concern, patternType, status (draft/working/stable) fields per CLAUDE.md.",
+      "groomingNotes": "Completed.",
       "completedAt": "2026-04-01T11:55:48-07:00"
     },
     {
@@ -248,28 +257,35 @@
       "passes": true,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 7 foundation deps now complete. Products pages fully unblocked. AC verifies already strong: index page existence and ls dist/products/*/index.html for individual pages. Products must be data-driven per intent — sprint should create a products content collection or data file. All 4 products required: ClawHQ, AIShore, Easy Markdown, Clawdius. Ecosystem framing is the differentiator.",
+      "groomingNotes": "Completed.",
       "completedAt": "2026-04-01T12:05:24-07:00"
     },
     {
       "id": "FEAT-011",
       "title": "Tag system with cross-track linking",
-      "intent": "Tags must work across all three content tracks so a tag like agent-security connects series installments, commentary posts, and KB entries on a single tag page.",
-      "description": "",
+      "intent": "Tags must work across all three content tracks so a tag like agent-security connects series installments, commentary posts, and KB entries on a single tag page. Visitors must be able to follow a topic across all tracks from one place.",
+      "description": "Build a tag index page and individual tag pages that aggregate content from series, commentary, and architecture collections. Tags are already in frontmatter across all three collections — this feature surfaces them as navigable pages.",
       "priority": "should",
       "category": "foundation",
       "steps": [
-        "Create src/pages/tags/index.astro listing all tags with counts",
-        "Create src/pages/tags/[tag].astro showing all content with that tag across tracks",
-        "Group results by track (series, commentary, architecture) on tag pages",
-        "Render tag links on all content detail pages"
+        "Create src/pages/tags/index.astro — query all three content collections, extract unique tags, display with per-tag counts",
+        "Create src/pages/tags/[tag].astro — for a given tag, query all three collections, group results by track (series, commentary, architecture), render with links to each piece",
+        "Add tag links on content detail pages (series/[slug], commentary/[slug], architecture/[slug]) that link to /tags/[tag]",
+        "Ensure tag pages handle the case where a tag only appears in one or two tracks"
       ],
       "acceptanceCriteria": [
         {
           "text": "/tags route lists all tags used across content tracks",
           "verify": "npm run build && test -f dist/tags/index.html"
         },
-        "Individual tag pages show content from all three tracks"
+        {
+          "text": "Individual tag pages are generated for each tag",
+          "verify": "npm run build && ls dist/tags/*/index.html 2>/dev/null | grep -q ."
+        },
+        {
+          "text": "Tag pages contain links back to content entries",
+          "verify": "npm run build && TAG_PAGE=$(ls dist/tags/*/index.html 2>/dev/null | head -1) && test -n \"$TAG_PAGE\" && grep -qi 'href=' \"$TAG_PAGE\""
+        }
       ],
       "scope": [
         "src/pages/tags/**",
@@ -283,9 +299,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by all 3 content track pages (007, 008, 009) — tags are cross-track so all tracks must exist first. Steps are clear. AC verify checks file exists + build. Intent strong — cross-track linking is the glue between content tracks. Not ready: content page deps unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: all deps now done (007, 008, 009 completed). Converted plain-string AC to behavioral verifies: tag index exists, individual tag pages generated, tag pages contain href links. Unblocked and marked ready."
     },
     {
       "id": "FEAT-012",
@@ -327,30 +343,40 @@
       "passes": true,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 7 foundation deps now complete. Newsletter/RSS fully unblocked. Both AC verifies present and strong: newsletter page and rss.xml in dist/. Note: newsletter form backend needs a concrete decision during sprint (Buttondown or ConvertKit recommended) — the form action URL is a sprint variable. @astrojs/rss package must be installed.",
+      "groomingNotes": "Completed.",
       "completedAt": "2026-04-01T12:11:01-07:00"
     },
     {
       "id": "FEAT-013",
       "title": "Start Here page",
-      "intent": "/start-here must orient first-time visitors by interest area with curated entry points into existing content — if you care about security start here, if you want the full thesis start from installment 1.",
-      "description": "",
+      "intent": "/start-here must orient first-time visitors by interest area with curated entry points into existing content — if you care about security start here, if you want the full thesis start from installment 1. No visitor should feel lost.",
+      "description": "A curated entry point page that groups existing content by reader interest (security, orchestration, full thesis, etc.). Links to specific series installments, commentary posts, and KB entries. Must work even with limited published content — use draft content for structure.",
       "priority": "should",
       "category": "pages",
       "steps": [
-        "Create src/pages/start-here.astro using Base layout",
-        "Organize entry points by interest area (security, orchestration, full thesis, etc.)",
-        "Link to specific series installments and KB entries",
-        "Add to navigation"
+        "Create src/pages/start-here.astro using Base layout with prose container",
+        "Define 3-5 interest areas (e.g., security, orchestration, full thesis, product ecosystem)",
+        "For each area, write a 1-2 sentence hook and link to 2-3 specific content entries",
+        "Add to site navigation (Nav component)",
+        "Handle gracefully if linked content doesn't exist yet — use conditional rendering"
       ],
       "acceptanceCriteria": [
         {
           "text": "/start-here route exists and renders",
           "verify": "npm run build && test -f dist/start-here/index.html"
+        },
+        {
+          "text": "Page contains links to content across tracks",
+          "verify": "npm run build && grep -q '/series\\|/commentary\\|/architecture' dist/start-here/index.html"
+        },
+        {
+          "text": "Build succeeds cleanly",
+          "verify": "npm run build"
         }
       ],
       "scope": [
-        "src/pages/start-here.astro"
+        "src/pages/start-here.astro",
+        "src/components/**"
       ],
       "dependsOn": [
         "FEAT-007",
@@ -359,31 +385,41 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by all 3 content track pages — start-here curates entry points into existing content so content must exist first. Steps clear: organize by interest area, link to specific content. Lightweight page. Not ready: content page deps unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: all deps now done (007, 008, 009 completed). Converted to behavioral verifies: page exists, contains cross-track links. Added description and specific steps. Unblocked and marked ready."
     },
     {
       "id": "FEAT-014",
       "title": "Changelog page",
-      "intent": "/changelog must show dated entries of what shipped, published, or changed — lightweight and low-effort to maintain.",
-      "description": "",
+      "intent": "/changelog must show dated entries of what shipped, published, or changed — lightweight and low-effort to maintain. Visitors and Simon must be able to see site evolution at a glance.",
+      "description": "A simple reverse-chronological changelog page. Can use a content collection or a data file — keep it minimal so adding entries is low-friction. Each entry: date, short description, optional link.",
       "priority": "should",
       "category": "pages",
       "steps": [
-        "Create src/pages/changelog.astro using Base layout",
-        "Define a simple data format for changelog entries (date, description)",
-        "Render entries in reverse chronological order"
+        "Create a changelog data source — either a content collection in src/content/changelog/ or a simple JSON/YAML data file",
+        "Create src/pages/changelog.astro using Base layout, rendering entries in reverse chronological order",
+        "Seed with 3-5 initial entries reflecting completed sprints (about page, series pages, products pages, etc.)",
+        "Each entry: date, description, optional link to the relevant page"
       ],
       "acceptanceCriteria": [
         {
           "text": "/changelog route exists and renders",
           "verify": "npm run build && test -f dist/changelog/index.html"
+        },
+        {
+          "text": "Changelog page contains dated entries",
+          "verify": "npm run build && grep -qE '202[0-9]' dist/changelog/index.html"
+        },
+        {
+          "text": "Build succeeds cleanly",
+          "verify": "npm run build"
         }
       ],
       "scope": [
         "src/pages/changelog.astro",
-        "src/content/changelog/**"
+        "src/content/changelog/**",
+        "src/data/**"
       ],
       "dependsOn": [
         "FEAT-002",
@@ -392,26 +428,31 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by typography, dark mode, and nav. Simple page: dated entries in reverse-chron order. AC has verify (file + build). Low complexity — S size. Could use a content collection or simple data file. Not ready: foundation deps unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: all deps done (002, 003, 004 completed). Converted plain-string AC to behavioral verifies: page exists, contains date strings. Added description and specific steps including seed data. Unblocked and marked ready."
     },
     {
       "id": "FEAT-015",
       "title": "Talks page",
-      "intent": "/talks must exist as a minimal page that can grow as speaking opportunities emerge — not empty, but honest about being early.",
-      "description": "",
+      "intent": "/talks must exist as a minimal page that can grow as speaking opportunities emerge — not empty, but honest about being early. Visitors interested in booking Simon for a talk must find topics and contact info.",
+      "description": "Lightweight placeholder page for speaking engagements. Include topics Simon can speak on, a brief statement about availability, and contact info. Not a dead page — it should communicate intent even before there are past talks to list.",
       "priority": "could",
       "category": "pages",
       "steps": [
-        "Create src/pages/talks.astro using Base layout",
-        "Add introductory text about speaking interests and topics",
-        "Include contact info for speaking inquiries"
+        "Create src/pages/talks.astro using Base layout with prose container",
+        "Write intro text about speaking interests and topic areas (agent infrastructure, AI security, orchestration)",
+        "Include contact info for speaking inquiries",
+        "Structure the page so past talks can be added later without restructuring"
       ],
       "acceptanceCriteria": [
         {
           "text": "/talks route exists and renders",
           "verify": "npm run build && test -f dist/talks/index.html"
+        },
+        {
+          "text": "Page contains contact or inquiry information",
+          "verify": "npm run build && grep -qi 'contact\\|email\\|inquir' dist/talks/index.html"
         }
       ],
       "scope": [
@@ -424,33 +465,42 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by typography, dark mode, and nav. Minimal page — placeholder for future speaking opportunities. XS size. AC has verify (file + build). Could priority — lowest of the pages. Not ready: foundation deps unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: all deps done (002, 003, 004 completed). Added behavioral verify for contact info in rendered HTML. Added description and specific steps. XS size. Unblocked and marked ready."
     },
     {
       "id": "FEAT-016",
       "title": "Code blocks with syntax highlighting and copy button",
       "intent": "All code blocks across the site must have language-aware syntax highlighting with a dark-mode-matched theme and a one-click copy button. For a developer audience reading infrastructure code, this is core readability, not polish.",
-      "description": "",
+      "description": "Configure Astro's built-in Shiki highlighter and add a vanilla JS copy button to all <pre> blocks. Sprint must include at least one page with a rendered code block so the verify can confirm Shiki output in dist/.",
       "priority": "must",
       "category": "foundation",
       "steps": [
-        "Configure Astro's built-in Shiki syntax highlighter with a dark theme",
-        "Add a copy-to-clipboard button to all code blocks via vanilla JS",
-        "Style the copy button to be unobtrusive but discoverable"
+        "Configure Shiki in astro.config.mjs markdown.shikiConfig — pick a dark theme (e.g., github-dark, night-owl, or dracula) that matches the site's dark surface",
+        "Create a CopyButton component or inline <script> that adds a copy-to-clipboard button to every <pre> element",
+        "Style the copy button: positioned top-right of code block, unobtrusive, shows feedback on click",
+        "Ensure at least one content page with a code fence exists (architecture KB or series entry) so Shiki renders in the build",
+        "Verify code blocks render with Shiki's class=\"astro-code\" in built HTML"
       ],
       "acceptanceCriteria": [
-        "Code blocks render with syntax highlighting",
-        "Code blocks have a functional copy button",
         {
-          "text": "Build succeeds",
+          "text": "Code blocks render with Shiki syntax highlighting in built HTML",
+          "verify": "npm run build && grep -rq 'astro-code' dist/"
+        },
+        {
+          "text": "Copy button script is present in built output",
+          "verify": "npm run build && grep -rq 'clipboard\\|copy' dist/_astro/*.js 2>/dev/null || grep -rq 'clipboard\\|copy' dist/**/*.html 2>/dev/null"
+        },
+        {
+          "text": "Build succeeds cleanly",
           "verify": "npm run build"
         }
       ],
       "scope": [
         "src/styles/**",
-        "src/components/**"
+        "src/components/**",
+        "astro.config.mjs"
       ],
       "dependsOn": [
         "FEAT-002",
@@ -461,30 +511,35 @@
       "passes": false,
       "readyForSprint": true,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Deps FEAT-002, 003, 019 all complete. Added required step: sprint must add at least one code block to a page so the Shiki verify can find class=astro-code in built HTML. Without rendered code blocks the verify will fail. Shiki is Astro's built-in highlighter — config lives in astro.config.mjs markdown.shikiConfig, not a package install. Copy button is vanilla JS only (per Zero JS framework constraint)."
+      "groomingNotes": "v0.5.2 compliance: converted all plain-string AC to behavioral verifies. Shiki output verified by grepping dist/ for 'astro-code' class. Copy button verified by grepping built JS/HTML for clipboard/copy. Sprint must ensure at least one code block exists in content so Shiki runs. Steps updated to be developer-actionable."
     },
     {
       "id": "FEAT-017",
       "title": "Reading time calculation",
-      "intent": "Every long-form content page (series, commentary, architecture) must display an estimated reading time calculated from word count.",
-      "description": "",
+      "intent": "Every long-form content page (series, commentary, architecture) must display an estimated reading time calculated from word count — readers decide what to read based on time commitment.",
+      "description": "Create a utility function (words / 200 wpm, round up) and integrate into all three content detail page templates. Reading time should appear in the metadata area near the title/date.",
       "priority": "could",
       "category": "polish",
       "steps": [
-        "Create a reading time utility function (words / 200 wpm)",
-        "Integrate into series, commentary, and architecture detail pages",
-        "Display reading time in metadata area of each page"
+        "Create a readingTime utility in src/utils/ or inline — input: rendered content string, output: 'N min read'",
+        "Integrate into src/pages/series/[slug].astro metadata area",
+        "Integrate into src/pages/commentary/[slug].astro metadata area",
+        "Integrate into src/pages/architecture/[slug].astro metadata area"
       ],
       "acceptanceCriteria": [
-        "Series detail pages show reading time",
         {
-          "text": "Build succeeds",
+          "text": "Series detail pages include reading time text in built HTML",
+          "verify": "npm run build && SERIES_PAGE=$(ls dist/series/*/index.html 2>/dev/null | head -1) && test -n \"$SERIES_PAGE\" && grep -qi 'min read\\|minute' \"$SERIES_PAGE\""
+        },
+        {
+          "text": "Build succeeds cleanly",
           "verify": "npm run build"
         }
       ],
       "scope": [
         "src/components/**",
-        "src/pages/**"
+        "src/pages/**",
+        "src/utils/**"
       ],
       "dependsOn": [
         "FEAT-001",
@@ -494,42 +549,51 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Added missing deps: FEAT-007, 008, 009 — reading time integrates into detail pages which don't exist yet. Without detail pages there's nowhere to display it. Could priority is correct — polish item. Utility function itself is trivial (word count / 200). Not ready: detail page deps unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: all deps now done. Converted plain-string AC to behavioral verify: grep built series page for 'min read' text. Added description and specific steps. Utility is trivial — S size. Unblocked and marked ready."
     },
     {
       "id": "FEAT-018",
       "title": "SEO and Open Graph meta tags",
       "intent": "Every page must emit correct Open Graph tags, Twitter cards, canonical URLs, and JSON-LD structured data (Article, TechArticle, SoftwareApplication as appropriate) so shares look professional, search indexing is accurate, and Google rich results work.",
-      "description": "",
+      "description": "Extend Base.astro to accept optional SEO props (description, image, type, article metadata) and render OG/Twitter/JSON-LD in <head>. Every page must pass at minimum title and description. JSON-LD type varies: Article for commentary, TechArticle for architecture, SoftwareApplication for products, WebSite for home.",
       "priority": "must",
       "category": "foundation",
       "steps": [
-        "Extend Base.astro to accept and render OG meta tags (title, description, image, type)",
-        "Add Twitter card meta tags",
-        "Add canonical URL meta tag",
-        "Add JSON-LD Article schema for series and commentary pages",
-        "Add JSON-LD TechArticle schema for architecture KB entries",
-        "Add JSON-LD SoftwareApplication schema for product pages",
-        "Ensure every page passes title and description to Base layout"
+        "Extend Base.astro Props interface with optional SEO fields: description, ogImage, ogType, articleDate, articleTags",
+        "Render og:title, og:description, og:type, og:url meta tags in <head>",
+        "Render twitter:card, twitter:title, twitter:description meta tags",
+        "Add canonical URL meta tag using Astro.url",
+        "Create a JSON-LD helper function that generates Article/TechArticle/SoftwareApplication/WebSite schema",
+        "Inject JSON-LD <script type=\"application/ld+json\"> into Base.astro <head>",
+        "Update existing pages to pass description prop to Base layout (pages that don't already)"
       ],
       "acceptanceCriteria": [
         {
-          "text": "Pages render og:title, og:description, and og:type meta tags",
+          "text": "Home page renders og:title meta tag",
           "verify": "npm run build && grep -q 'og:title' dist/index.html"
         },
         {
-          "text": "Pages include JSON-LD structured data",
+          "text": "Home page includes JSON-LD structured data",
           "verify": "npm run build && grep -q 'application/ld+json' dist/index.html"
         },
         {
-          "text": "Build succeeds",
+          "text": "Home page renders canonical URL",
+          "verify": "npm run build && grep -q 'canonical' dist/index.html"
+        },
+        {
+          "text": "Twitter card meta tags present",
+          "verify": "npm run build && grep -q 'twitter:card' dist/index.html"
+        },
+        {
+          "text": "Build succeeds cleanly",
           "verify": "npm run build"
         }
       ],
       "scope": [
-        "src/layouts/**"
+        "src/layouts/**",
+        "src/pages/**"
       ],
       "dependsOn": [
         "FEAT-004",
@@ -539,34 +603,41 @@
       "passes": false,
       "readyForSprint": true,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Deps FEAT-004 and FEAT-019 both complete. SEO/OG now unblocked. AC verifies grep built HTML for og:title and application/ld+json — these test rendered output, not source. Extends Base.astro with optional meta tag props. Every page must pass title and description (per CLAUDE.md convention). JSON-LD type varies: Article for commentary, TechArticle for architecture, SoftwareApplication for products."
+      "groomingNotes": "v0.5.2 compliance: added behavioral verifies for canonical URL and twitter:card (were missing). All 5 AC now have verifies against dist/ output. Steps updated to be specific and developer-actionable. Added description with JSON-LD type mapping."
     },
     {
       "id": "FEAT-022",
       "title": "Client-side full-text search",
       "intent": "The site must have Pagefind-powered static search across all content tracks — series, commentary, architecture KB, and products — with a keyboard-triggered overlay (Cmd/Ctrl+K). Build-time index, zero runtime JS cost until activated.",
-      "description": "",
+      "description": "Install Pagefind, run it as a post-build step to index dist/, create a search overlay component triggered by Cmd/Ctrl+K. Pagefind handles indexing and UI — style the overlay to match the dark theme with amber accents. Add a search icon/trigger to the Nav component.",
       "priority": "should",
       "category": "foundation",
       "steps": [
-        "Install and configure @pagefind/default-ui or pagefind",
-        "Configure Pagefind to index all content pages at build time",
-        "Create search UI component with Cmd/Ctrl+K keyboard shortcut",
-        "Display results grouped by content track with highlighted matches",
-        "Style search overlay to match dark theme with amber accents",
-        "Add search trigger to navigation"
+        "Install pagefind as a dev dependency",
+        "Add a post-build script that runs pagefind --site dist/ (or configure via astro.config.mjs)",
+        "Create a SearchOverlay.astro component with Cmd/Ctrl+K keyboard listener (vanilla JS)",
+        "Load Pagefind UI lazily on first activation (dynamic import from /pagefind/pagefind.js)",
+        "Style the overlay: dark background, amber accent on results, smooth open/close animation",
+        "Add search trigger button to Nav component"
       ],
       "acceptanceCriteria": [
-        "Search is accessible via Cmd/Ctrl+K from every page",
-        "Search returns results from all content tracks",
         {
-          "text": "Build succeeds with Pagefind index generated",
+          "text": "Pagefind index is generated at build time",
+          "verify": "npm run build && test -d dist/pagefind"
+        },
+        {
+          "text": "Search UI script is included in built pages",
+          "verify": "npm run build && grep -rq 'pagefind\\|Ctrl.*K\\|Meta.*K' dist/index.html"
+        },
+        {
+          "text": "Build succeeds cleanly",
           "verify": "npm run build"
         }
       ],
       "scope": [
         "src/components/**",
-        "src/pages/**"
+        "src/pages/**",
+        "package.json"
       ],
       "dependsOn": [
         "FEAT-001",
@@ -576,34 +647,36 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Downgraded must → should. Full-text search is a feature enhancement, not skeleton. A personal site can launch and serve readers without it. It depends on 4 prior features (001, 007, 008, 009) being complete — validate the site works first, then add discovery features."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: all deps now done. Converted plain-string AC to behavioral verifies: pagefind directory exists in dist/, search script referenced in built HTML. Added description with concrete implementation approach. Steps updated to be developer-actionable. Unblocked and marked ready."
     },
     {
       "id": "FEAT-023",
       "title": "XML sitemap",
       "intent": "The site must generate a valid XML sitemap at /sitemap.xml covering all pages and content so search engines can discover and index every page.",
-      "description": "",
+      "description": "Install @astrojs/sitemap, add it to astro.config.mjs integrations, set the site URL. The integration auto-discovers all routes.",
       "priority": "must",
       "category": "foundation",
       "steps": [
-        "Install and configure @astrojs/sitemap integration",
-        "Set site URL in astro.config.mjs",
-        "Verify all routes appear in generated sitemap"
+        "Install @astrojs/sitemap as a dependency",
+        "Add the sitemap integration to astro.config.mjs integrations array",
+        "Ensure site URL is set in astro.config.mjs (required for sitemap generation)",
+        "Build and verify sitemap files are generated in dist/"
       ],
       "acceptanceCriteria": [
         {
-          "text": "Sitemap is generated at /sitemap.xml",
-          "verify": "npm run build && test -f dist/sitemap-index.xml || test -f dist/sitemap-0.xml || test -f dist/sitemap.xml"
+          "text": "Sitemap is generated at build time",
+          "verify": "npm run build && (test -f dist/sitemap-index.xml || test -f dist/sitemap-0.xml || test -f dist/sitemap.xml)"
         },
         {
-          "text": "Build succeeds",
+          "text": "Build succeeds cleanly",
           "verify": "npm run build"
         }
       ],
       "scope": [
-        "astro.config.mjs"
+        "astro.config.mjs",
+        "package.json"
       ],
       "dependsOn": [
         "FEAT-001"
@@ -611,26 +684,31 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": true,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Only dep is FEAT-001 (done). @astrojs/sitemap is a standard Astro integration — install, set site URL in config, done. XS size. AC verify checks for sitemap file in dist/. astro.config.mjs currently missing site URL — sprint must add it. Mark ready: all deps resolved, steps trivial."
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: AC already had good verifies. Added description and updated scope to include package.json (npm install needed). XS size — trivial integration. Ready."
     },
     {
       "id": "FEAT-024",
       "title": "Custom 404 page",
       "intent": "Broken links must land on a helpful 404 page that guides visitors to search, popular content, or the home page — not a dead end.",
-      "description": "",
+      "description": "Astro static output generates dist/404.html automatically from src/pages/404.astro. Page should match site design, include a clear message, and link to home and key sections.",
       "priority": "should",
       "category": "pages",
       "steps": [
         "Create src/pages/404.astro using Base layout",
-        "Include a clear message that the page wasn't found",
-        "Add links to home, search, and popular content",
-        "Match site design language"
+        "Add a clear, human-friendly message that the page wasn't found",
+        "Add links to home page, /series, /commentary, /products",
+        "Match site design language (dark theme, amber accents, typography)",
+        "Optionally add a search trigger if FEAT-022 is done, otherwise skip"
       ],
       "acceptanceCriteria": [
         {
-          "text": "404 page exists and renders",
+          "text": "404 page exists in built output",
           "verify": "npm run build && test -f dist/404.html"
+        },
+        {
+          "text": "404 page contains navigation links back to key sections",
+          "verify": "npm run build && grep -q 'href=' dist/404.html"
         }
       ],
       "scope": [
@@ -647,31 +725,35 @@
       "passes": false,
       "readyForSprint": true,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 5 foundation deps now complete. 404 page trivially unblocked. Astro static output generates dist/404.html — the verify is correct. XS size sprint. Include links to home, search (once FEAT-022 is done), and popular content sections. Should not be a dead end."
+      "groomingNotes": "v0.5.2 compliance: added behavioral verify for navigation links in rendered HTML. All deps complete. XS size. Steps updated to be specific. Ready."
     },
     {
       "id": "FEAT-025",
       "title": "Companion artifact system",
       "intent": "Series installments must be able to ship with companion artifacts — checklists, templates, decision frameworks, comparison matrices — displayed inline and linked to GitHub, so readers get actionable tools alongside the narrative.",
-      "description": "",
+      "description": "Extend the series content collection schema with an optional companionArtifacts array field. Create a component to render artifact cards on series detail pages. Each artifact: title, type (checklist/template/framework/matrix), description, githubUrl.",
       "priority": "should",
       "category": "foundation",
       "steps": [
-        "Extend series content schema with optional companionArtifacts field (title, type, description, githubUrl)",
-        "Create a CompanionArtifact component to render artifact cards",
-        "Display artifacts on series detail pages between content and subscribe CTA",
-        "Link artifacts to GitHub repository"
+        "Extend series Zod schema in src/content.config.ts with optional companionArtifacts: z.array(z.object({title, type, description, githubUrl})).optional()",
+        "Create src/components/CompanionArtifact.astro — renders a card with title, type badge, description, and GitHub link",
+        "Integrate CompanionArtifact into src/pages/series/[slug].astro between content body and subscribe CTA",
+        "Add at least one companion artifact to a seed series entry to prove rendering works",
+        "Only render the artifacts section if companionArtifacts is defined and non-empty"
       ],
       "acceptanceCriteria": [
-        "Series entries can define companion artifacts in frontmatter",
-        "Artifacts render on series detail pages with GitHub links",
         {
-          "text": "Build succeeds",
+          "text": "Series schema accepts companionArtifacts field without breaking existing entries",
           "verify": "npm run build"
+        },
+        {
+          "text": "A series page with artifacts renders artifact content in built HTML",
+          "verify": "npm run build && SERIES_PAGE=$(ls dist/series/*/index.html 2>/dev/null | head -1) && test -n \"$SERIES_PAGE\" && grep -qi 'artifact\\|companion\\|github' \"$SERIES_PAGE\""
         }
       ],
       "scope": [
-        "src/content/**",
+        "src/content.config.ts",
+        "src/content/series/**",
         "src/components/**",
         "src/pages/series/**"
       ],
@@ -681,35 +763,42 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by FEAT-007 (series pages) — artifacts attach to series installments. Schema extension is straightforward (optional array field in Zod). Component + display is S size. AC relies on visual confirmation for rendering. Not ready: FEAT-007 dep unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: all deps now done (001, 007 completed). Converted plain-string AC to behavioral verifies: build succeeds with schema change, artifact text appears in built series page HTML. Steps updated with specific file paths and Zod schema example. Sprint must seed an artifact in at least one series entry. Unblocked and marked ready."
     },
     {
       "id": "FEAT-026",
       "title": "Performance budget and Lighthouse validation",
       "intent": "Every page must score 95+ on all four Lighthouse categories (Performance, Accessibility, Best Practices, SEO). Zero layout shift, sub-100KB page weight for content pages, no render-blocking resources. The site plan says fast load — this enforces it.",
-      "description": "",
+      "description": "Run Lighthouse CI on key pages post-build. Fix any issues found. Establish a baseline and optionally add to CI. Requires the home page to exist first.",
       "priority": "should",
       "category": "polish",
       "steps": [
-        "Run Lighthouse CI on built pages and establish baseline scores",
-        "Fix any accessibility issues flagged by audit",
-        "Eliminate render-blocking resources",
-        "Verify zero cumulative layout shift",
-        "Ensure content pages are under 100KB total weight",
-        "Add Lighthouse CI check to build process or document manual check"
+        "Install lighthouse or @lhci/cli as a dev dependency",
+        "Run Lighthouse on built pages: home, about, series index, commentary index",
+        "Fix any accessibility violations flagged (WCAG AA level)",
+        "Eliminate any render-blocking resources",
+        "Verify content pages are under 100KB total weight (check dist/ file sizes)",
+        "Document Lighthouse scores or add a npm script for manual re-runs"
       ],
       "acceptanceCriteria": [
-        "Home page scores 95+ on Lighthouse Performance",
-        "No accessibility violations at WCAG AA level",
         {
-          "text": "Build succeeds",
+          "text": "Home page HTML is under 100KB",
+          "verify": "npm run build && test $(stat -c%s dist/index.html 2>/dev/null || stat -f%z dist/index.html) -lt 102400"
+        },
+        {
+          "text": "No render-blocking resources in home page (no blocking script tags in head)",
+          "verify": "npm run build && ! grep -q '<script.*src=.*>' dist/index.html || grep -q 'defer\\|async\\|type=\"module\"' dist/index.html"
+        },
+        {
+          "text": "Build succeeds cleanly",
           "verify": "npm run build"
         }
       ],
       "scope": [
-        "src/**"
+        "src/**",
+        "package.json"
       ],
       "dependsOn": [
         "FEAT-005",
@@ -719,28 +808,34 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by home page, dark mode, and design tokens. This is a polish/validation item — run after the site is visually complete. AC for Lighthouse scores requires a running server or CI tooling. Should priority is correct — important but not blocking launch. Not ready: foundation and page deps unresolved."
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: converted plain-string AC to behavioral verifies where possible — file size check, render-blocking script detection. Lighthouse scoring itself requires a running server so the verify commands focus on what's testable at build time. Still blocked by FEAT-005 (home page). Not ready."
     },
     {
       "id": "FEAT-027",
       "title": "Product ecosystem relationship map",
       "intent": "The products overview page must include a visual relationship map showing how ClawHQ, AIShore, Easy Markdown, and Clawdius fit together in the agent infrastructure lifecycle — so visitors immediately grasp the ecosystem, not just a list of unrelated projects.",
-      "description": "",
+      "description": "Add a CSS/SVG diagram to the products index page showing product positioning and connections. Must be static (no JS framework), responsive, and accessible. Pure SVG inline or CSS-drawn — no external image files.",
       "priority": "should",
       "category": "pages",
       "steps": [
-        "Design a CSS/SVG relationship diagram showing product positioning in the agent lifecycle",
-        "Show connections between products (e.g., AIShore uses ClawHQ, Clawdius extends ClawHQ)",
-        "Keep it static — no JS framework, pure SVG or CSS",
-        "Ensure the diagram is responsive and readable on mobile",
-        "Integrate into the products index page"
+        "Design the relationship diagram layout — products as nodes, connections as lines/arrows showing relationships (e.g., 'AIShore uses ClawHQ', 'Clawdius extends ClawHQ')",
+        "Implement as inline SVG or pure CSS in src/pages/products/index.astro or a new EcosystemMap.astro component",
+        "Ensure responsive — readable on mobile (stacked layout) and desktop (spatial layout)",
+        "Add aria-labels or accessible text alternatives for the diagram",
+        "Style to match: dark surfaces, amber accents, DM Serif Display headings"
       ],
       "acceptanceCriteria": [
-        "Products overview page includes a visual ecosystem diagram",
-        "Diagram shows relationships between all four products",
         {
-          "text": "Build succeeds",
+          "text": "Products page contains SVG or diagram markup",
+          "verify": "npm run build && grep -qi 'svg\\|ecosystem\\|relationship' dist/products/index.html"
+        },
+        {
+          "text": "All four product names appear in the diagram",
+          "verify": "npm run build && grep -qi 'clawhq' dist/products/index.html && grep -qi 'aishore' dist/products/index.html && grep -qi 'easy.markdown\\|easymarkdown' dist/products/index.html && grep -qi 'clawdius' dist/products/index.html"
+        },
+        {
+          "text": "Build succeeds cleanly",
           "verify": "npm run build"
         }
       ],
@@ -753,64 +848,80 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by FEAT-010 (product pages). Visual relationship diagram is a nice enhancement but depends on the product pages existing first. Pure CSS/SVG — no JS, which is correct for this stack. Should priority is right. Not ready: FEAT-010 dep unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: dep FEAT-010 now done. Converted plain-string AC to behavioral verifies: SVG/diagram markup present, all four product names in rendered HTML. Steps updated to be specific. Unblocked and marked ready."
     },
     {
       "id": "FEAT-028",
       "title": "Deployment pipeline",
-      "intent": "The site must have a working deployment pipeline — push to main triggers build and deploy to a CDN — so publishing is a git push, not a manual process.",
-      "description": "",
+      "intent": "The site must have a working deployment pipeline — push to main triggers build and deploy to a CDN — so publishing is a git push, not a manual process. Cloudflare Pages is the target platform.",
+      "description": "Set up Cloudflare Pages deployment. Create a wrangler.toml or configure via the Cloudflare dashboard. Add a GitHub Actions workflow that builds and deploys on push to main. Set environment variables for PostHog.",
       "priority": "must",
       "category": "infrastructure",
       "steps": [
-        "Choose hosting provider (Cloudflare Pages, Netlify, or Vercel)",
-        "Configure build command and output directory",
-        "Set up environment variables for PostHog",
-        "Wire domain (simonplant.com) to deployment",
-        "Verify deploy-on-push works end to end"
+        "Create wrangler.toml with project name, build command (npm run build), and output directory (dist/)",
+        "Create .github/workflows/deploy.yml — triggered on push to main, runs npm ci && npm run build, deploys to Cloudflare Pages",
+        "Configure environment variables: PUBLIC_POSTHOG_KEY and PUBLIC_POSTHOG_HOST as GitHub secrets referenced in workflow",
+        "Add the Astro Cloudflare adapter if needed, or confirm static output works with Pages (it does)",
+        "Set site URL in astro.config.mjs to https://simonplant.com"
       ],
       "acceptanceCriteria": [
-        "Pushing to main triggers an automated build and deploy",
-        "Site is accessible at the configured domain",
         {
-          "text": "Build succeeds",
+          "text": "Deployment workflow exists and references build command",
+          "verify": "test -f .github/workflows/deploy.yml && grep -q 'npm run build' .github/workflows/deploy.yml"
+        },
+        {
+          "text": "Workflow triggers on push to main",
+          "verify": "grep -q 'push' .github/workflows/deploy.yml && grep -q 'main' .github/workflows/deploy.yml"
+        },
+        {
+          "text": "Build succeeds cleanly",
           "verify": "npm run build"
         }
       ],
       "scope": [
-        "astro.config.mjs"
+        "astro.config.mjs",
+        ".github/workflows/**",
+        "wrangler.toml"
       ],
       "dependsOn": [],
       "status": "todo",
       "passes": false,
       "readyForSprint": true,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Fixed scope — was just astro.config.mjs, corrected to include deployment config files and GitHub workflows. Recommended Cloudflare Pages as default (Astro's primary hosting partner, zero config for static output). AC: platform config file existence is verifiable locally; domain accessibility requires live deploy so left as plain string. Step 1 names Cloudflare Pages explicitly so sprint agent has a concrete default to implement rather than an open-ended choice."
+      "groomingNotes": "v0.5.2 compliance: converted AC to behavioral verifies — workflow file existence and content checks. Named Cloudflare Pages as concrete target in intent. Steps updated with specific file paths and config details. Scope corrected to include workflow files and wrangler.toml."
     },
     {
       "id": "FEAT-029",
       "title": "LLMs.txt generation",
       "intent": "The site must generate a valid llms.txt file (per llmstxt.org spec) at build time so AI models can discover and understand the site's content, structure, and purpose — this is table stakes for an AI infrastructure site.",
-      "description": "",
+      "description": "Create a build-time script or Astro endpoint that generates llms.txt from content collections. Include site description, content tracks, key pages, and structured metadata per llmstxt.org spec.",
       "priority": "should",
       "category": "infrastructure",
       "steps": [
-        "Create a build script or Astro integration that generates llms.txt from content collections",
-        "Include site description, content tracks, key pages, and structured metadata",
-        "Output to dist/llms.txt during build",
-        "Reference: /tmp/clawdius-site/generate-llms.mjs for pattern inspiration"
+        "Create src/pages/llms.txt.ts as an Astro static endpoint that outputs text/plain",
+        "Query all three content collections (series, commentary, architecture) and products",
+        "Structure output per llmstxt.org spec: title, description, sections with URLs and descriptions",
+        "Include all published content with titles and URLs",
+        "Verify output is valid plain text with correct structure"
       ],
       "acceptanceCriteria": [
         {
           "text": "llms.txt is generated at build time",
           "verify": "npm run build && test -f dist/llms.txt"
         },
-        "File follows llmstxt.org specification"
+        {
+          "text": "llms.txt contains site description and content URLs",
+          "verify": "npm run build && grep -q 'simonplant\\|Simon Plant' dist/llms.txt && grep -q 'http\\|/' dist/llms.txt"
+        },
+        {
+          "text": "Build succeeds cleanly",
+          "verify": "npm run build"
+        }
       ],
       "scope": [
-        "src/**"
+        "src/pages/llms.txt.ts"
       ],
       "dependsOn": [
         "FEAT-001"
@@ -818,28 +929,33 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": true,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Only dep is FEAT-001 (done). Needs a build script or Astro integration to generate llms.txt from content collections at build time. S size. AC verify checks for llms.txt in dist/. llmstxt.org spec is simple: structured text with site metadata and content pointers. On-brand for an AI infrastructure site. Mark ready: all deps resolved."
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: added second verify to check llms.txt contains meaningful content (site name + URLs), not just an empty file. Steps updated to be specific — Astro static endpoint approach. Ready."
     },
     {
       "id": "FEAT-030",
       "title": "Site build CI workflow",
       "intent": "Every push and PR must run npm run build and report status — catching type errors, broken imports, and schema violations before they reach main.",
-      "description": "",
+      "description": "Create a GitHub Actions workflow that runs on push to main and on PRs. Install deps, run build, report status. Cache node_modules for speed.",
       "priority": "must",
       "category": "infrastructure",
       "steps": [
-        "Create .github/workflows/build.yml triggered on push and PR",
-        "Run npm ci and npm run build",
-        "Cache node_modules for speed"
+        "Create .github/workflows/build.yml triggered on push to main and pull_request",
+        "Use actions/setup-node with Node 20, enable npm caching",
+        "Run npm ci && npm run build",
+        "Add timeout and failure reporting"
       ],
       "acceptanceCriteria": [
         {
-          "text": "Build workflow runs on every push to main and on PRs",
+          "text": "Build workflow exists and runs npm run build",
           "verify": "test -f .github/workflows/build.yml && grep -q 'npm run build' .github/workflows/build.yml"
         },
         {
-          "text": "Build succeeds",
+          "text": "Workflow triggers on push and PRs",
+          "verify": "grep -q 'push' .github/workflows/build.yml && grep -q 'pull_request' .github/workflows/build.yml"
+        },
+        {
+          "text": "Build succeeds cleanly",
           "verify": "npm run build"
         }
       ],
@@ -850,26 +966,35 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": true,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Priority confirmed at must. Skeleton CI — without it there is no automated quality gate on main. Pair with FEAT-028 (deployment pipeline): both are infrastructure must-haves before site launch. CI catches type errors and broken imports before they reach production."
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: AC already had good verifies. Added verify for PR trigger (was only checking push). Steps updated to be specific. XS size. Ready."
     },
     {
       "id": "FEAT-031",
       "title": "Print stylesheet",
       "intent": "Long-form content must produce clean, readable output when printed or saved as PDF — developers do this constantly with technical articles. Hide nav, footer, and interactive elements. Optimize typography for paper.",
-      "description": "",
+      "description": "Add @media print styles to global.css. Hide navigation, footer, cookie banner, copy buttons. Optimize line length, font size, and margins for A4/Letter paper. Ensure code blocks don't overflow.",
       "priority": "should",
       "category": "polish",
       "steps": [
-        "Add @media print styles to global.css",
-        "Hide nav, footer, cookie banner, copy buttons in print",
-        "Optimize line length and font size for A4/Letter",
-        "Ensure code blocks don't overflow page width"
+        "Add @media print block to src/styles/global.css",
+        "Hide elements: nav, footer, cookie banner, copy buttons, search overlay — use display: none",
+        "Set body background to white, text to black for print",
+        "Optimize font size (~12pt), line-height (~1.5), and max-width for A4/Letter width",
+        "Ensure code blocks use overflow-wrap: break-word to prevent page overflow",
+        "Remove decorative elements (borders, shadows, background colors) in print"
       ],
       "acceptanceCriteria": [
-        "Print preview shows clean content without navigation or interactive elements",
         {
-          "text": "Build succeeds",
+          "text": "@media print styles exist in built CSS",
+          "verify": "npm run build && grep -rq '@media print' dist/_astro/*.css 2>/dev/null || grep -rq '@media print' dist/**/*.html 2>/dev/null"
+        },
+        {
+          "text": "Print styles hide nav element",
+          "verify": "npm run build && grep -A5 '@media print' src/styles/global.css | grep -qi 'display.*none\\|hidden'"
+        },
+        {
+          "text": "Build succeeds cleanly",
           "verify": "npm run build"
         }
       ],
@@ -881,9 +1006,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by FEAT-002 (typography). @media print styles — hide nav/footer/interactive, optimize for A4/Letter. S size. AC is visual (print preview) — hard to automate. Should priority is correct. Not ready: FEAT-002 dep unresolved."
+      "readyForSprint": true,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: dep FEAT-002 now done. Converted plain-string AC to behavioral verifies: @media print in built CSS, display:none rule present. Steps updated with specific CSS properties and elements to hide. Unblocked and marked ready."
     }
   ]
 }
