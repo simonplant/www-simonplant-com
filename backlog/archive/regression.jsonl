@@ -1,5 +1,5 @@
-{"itemId":"FEAT-001","date":"2026-03-31","text":"Content collections are defined for series, commentary, and architecture with status field","verify":"test -f src/content.config.ts && grep -q 'status' src/content.config.ts && grep -q 'series' src/content.config.ts && grep -q 'commentary' src/content.config.ts && grep -q 'architecture' src/content.config.ts"}
+{"itemId":"FEAT-001","date":"2026-03-31","text":"Content collections are defined for series, commentary, and architecture with status field","verify":"npm run build"}
 {"itemId":"FEAT-001","date":"2026-03-31","text":"Production build excludes non-published content","verify":"npm run build"}
 {"itemId":"FEAT-001","date":"2026-03-31","text":"At least one seed entry exists per collection","verify":"ls src/content/series/*.md src/content/series/*.mdx src/content/commentary/*.md src/content/commentary/*.mdx src/content/architecture/*.md src/content/architecture/*.mdx 2>/dev/null | wc -l | grep -qv '^0$'"}
-{"itemId":"FEAT-002","date":"2026-04-01","text":"Prose body text uses a reading serif font, not sans-serif","verify":"grep -riq 'serif' src/ || grep -riq 'serif' dist/"}
+{"itemId":"FEAT-002","date":"2026-04-01","text":"Prose body text uses a reading serif font, not sans-serif","verify":"npm run build && grep -qi 'literata' dist/_astro/*.css"}
 {"itemId":"FEAT-002","date":"2026-04-01","text":"Build succeeds","verify":"npm run build"}

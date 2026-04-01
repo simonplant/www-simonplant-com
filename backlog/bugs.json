@@ -1,45 +1,4 @@
 {
   "description": "Bugs and tech debt",
-  "items": [
-    {
-      "id": "BUG-001",
-      "title": "Replace Geist Sans with reading serif and clean sans for UI",
-      "intent": "The font strategy is decided: Literata for prose body text, DM Serif Display for headings, JetBrains Mono for code, Inter/system-ui for UI. Geist Sans is removed. Load Literata and JetBrains Mono via Google Fonts, update @theme font stacks accordingly.",
-      "description": "",
-      "priority": "must",
-      "category": "foundation",
-      "steps": [
-        "Remove Geist Sans from @theme font-sans declaration",
-        "Add Literata (400, 400i, 600) via Google Fonts link in Base.astro",
-        "Add JetBrains Mono (400) via Google Fonts link in Base.astro",
-        "Update @theme: --font-serif to Literata for prose, keep DM Serif Display for headings (add --font-display), --font-sans to Inter/system-ui for UI, --font-mono to JetBrains Mono",
-        "Preconnect fonts for performance",
-        "Verify all three font stacks render in browser devtools"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Literata font is loaded and declared in theme",
-          "verify": "grep -r 'Literata' src/ --include='*.css' --include='*.astro' -l | grep -q ."
-        },
-        {
-          "text": "JetBrains Mono is loaded and declared in theme for code",
-          "verify": "grep -r 'JetBrains' src/ --include='*.css' --include='*.astro' -l | grep -q ."
-        },
-        {
-          "text": "Build succeeds",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/styles/**",
-        "src/layouts/**"
-      ],
-      "dependsOn": [],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-03-31",
-      "groomingNotes": "Priority confirmed at must. Every visitor sees broken body font — falls back to system-ui silently. Fontsource npm package is the recommended fix for Astro projects (import in global.css, no CDN dependency). Low effort, high visual impact. Should ship in sprint 1."
-    }
-  ]
+  "items": []
 }
