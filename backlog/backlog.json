@@ -75,11 +75,12 @@
         "src/layouts/**"
       ],
       "dependsOn": [],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Added verify commands for all ACs — prose width, heading font, and code block styles are all checkable via grep. These were previously unverifiable opinion statements."
+      "groomingNotes": "Added verify commands for all ACs — prose width, heading font, and code block styles are all checkable via grep. These were previously unverifiable opinion statements.",
+      "completedAt": "2026-04-01T09:50:59-07:00"
     },
     {
       "id": "FEAT-003",
