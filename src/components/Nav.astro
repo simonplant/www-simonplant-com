@@ -1,0 +1,42 @@
+---
+const currentPath = Astro.url.pathname;
+
+const links = [
+  { href: '/series', label: 'Series' },
+  { href: '/commentary', label: 'Commentary' },
+  { href: '/architecture', label: 'Architecture' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/about', label: 'About' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath === href || currentPath.startsWith(href + '/');
+}
+---
+
+<nav class="border-b border-border-default bg-surface-bg/80 backdrop-blur-sm sticky top-0 z-50">
+  <div class="container-wide flex flex-wrap items-center justify-between gap-y-2 py-3">
+    <a href="/" class="font-serif text-xl text-primary-400 hover:text-primary-300 transition-colors no-underline">
+      Simon Plant
+    </a>
+    <ul class="flex flex-wrap items-center gap-x-5 gap-y-1 list-none m-0 p-0 text-sm">
+      {links.map(({ href, label }) => (
+        <li class="m-0 p-0">
+          <a
+            href={href}
+            class:list={[
+              'no-underline transition-colors',
+              isActive(href)
+                ? 'text-primary-400 font-semibold'
+                : 'text-text-secondary hover:text-text-primary',
+            ]}
+            aria-current={isActive(href) ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
