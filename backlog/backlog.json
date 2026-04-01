@@ -4,7 +4,7 @@
     {
       "id": "FEAT-003",
       "title": "Dark mode",
-      "intent": "The site must render dark-first with very dark blue-black backgrounds (#0a0a0f\u2013#111118 range), off-white text, and correct contrast ratios. Light mode is not planned. CookieConsent banner is currently styled for white background \u2014 it must be restyled for the dark surface. color-scheme: dark must be set on html so browser chrome (scrollbars, form controls) matches.",
+      "intent": "The site must render dark-first with very dark blue-black backgrounds (#0a0a0f–#111118 range), off-white text, and correct contrast ratios. Light mode is not planned. CookieConsent banner is currently styled for white background — it must be restyled for the dark surface. color-scheme: dark must be set on html so browser chrome (scrollbars, form controls) matches.",
       "description": "",
       "priority": "must",
       "category": "foundation",
@@ -80,7 +80,7 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Blocked by FEAT-019 (tokens) and FEAT-003 (dark mode) \u2014 nav must use the final color palette and dark surface. Replaced theater AC with behavioral checks on built HTML."
+      "groomingNotes": "Blocked by FEAT-019 (tokens) and FEAT-003 (dark mode) — nav must use the final color palette and dark surface. Replaced theater AC with behavioral checks on built HTML."
     },
     {
       "id": "FEAT-005",
@@ -95,7 +95,7 @@
         "Add three clear navigation paths: series, products, commentary",
         "Query and display latest series installment",
         "Query and display latest commentary post",
-        "Add subscribe/newsletter CTA \u2014 present but restrained",
+        "Add subscribe/newsletter CTA — present but restrained",
         "No hero image, no animation, no gradients, no bento grid"
       ],
       "acceptanceCriteria": [
@@ -123,18 +123,18 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Added verify for subscribe CTA \u2014 it is the primary conversion action and the hardest element to forget. Thesis/series/commentary rendering requires visual review; subscribe presence is automatable."
+      "groomingNotes": "Added verify for subscribe CTA — it is the primary conversion action and the hardest element to forget. Thesis/series/commentary rendering requires visual review; subscribe presence is automatable."
     },
     {
       "id": "FEAT-006",
       "title": "About page",
-      "intent": "/about must tell the narrative arc from cloud infrastructure to AI infrastructure, state current projects, declare advisory availability, and include contact details \u2014 all on one screen.",
+      "intent": "/about must tell the narrative arc from cloud infrastructure to AI infrastructure, state current projects, declare advisory availability, and include contact details — all on one screen.",
       "description": "",
       "priority": "must",
       "category": "pages",
       "steps": [
         "Create src/pages/about.astro using Base layout",
-        "Write narrative arc section (cloud infra \u2192 AI infra)",
+        "Write narrative arc section (cloud infra → AI infra)",
         "List current projects with brief descriptions",
         "Add availability statement and contact details",
         "Add colophon describing how the site is built"
@@ -161,7 +161,7 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by 6 foundation items. Steps are clear: single page with narrative arc, projects, availability, contact. AC has verify (file exists + build). Intent is strong \u2014 the about page is Simon's positioning statement. Content is personal so sprint will need Simon's input for narrative details. Not ready: foundation deps unresolved."
+      "groomingNotes": "Blocked by 6 foundation items. Steps are clear: single page with narrative arc, projects, availability, contact. AC has verify (file exists + build). Intent is strong — the about page is Simon's positioning statement. Content is personal so sprint will need Simon's input for narrative details. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-007",
@@ -201,7 +201,7 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Added verify for slug page. The original AC 'render full content with prev/next nav' is too broad for automation \u2014 slug page existence plus successful build is the testable gate. Visual review covers the rest."
+      "groomingNotes": "Added verify for slug page. The original AC 'render full content with prev/next nav' is too broad for automation — slug page existence plus successful build is the testable gate. Visual review covers the rest."
     },
     {
       "id": "FEAT-008",
@@ -240,7 +240,7 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Added verify for slug page. Tag rendering requires visual confirmation \u2014 slug page existence plus successful build is the automatable gate."
+      "groomingNotes": "Added verify for slug page. Tag rendering requires visual confirmation — slug page existence plus successful build is the automatable gate."
     },
     {
       "id": "FEAT-009",
@@ -280,12 +280,12 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by 7 foundation items. Steps are clear: index page grouped by concern, slug pages with structured record template, status badges. AC has verify (file exists + build). Intent strong \u2014 architecture KB is a key content track. Not ready: foundation deps unresolved."
+      "groomingNotes": "Blocked by 7 foundation items. Steps are clear: index page grouped by concern, slug pages with structured record template, status badges. AC has verify (file exists + build). Intent strong — architecture KB is a key content track. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-010",
       "title": "Product ecosystem and individual product pages",
-      "intent": "/products must present the full agent infrastructure ecosystem \u2014 how ClawHQ, AIShore, Easy Markdown, and Clawdius fit together \u2014 with individual landing pages per product showing problem statement, architecture, current status, quickstart, and GitHub link. Products must be data-driven, not hardcoded.",
+      "intent": "/products must present the full agent infrastructure ecosystem — how ClawHQ, AIShore, Easy Markdown, and Clawdius fit together — with individual landing pages per product showing problem statement, architecture, current status, quickstart, and GitHub link. Products must be data-driven, not hardcoded.",
       "description": "",
       "priority": "must",
       "category": "pages",
@@ -325,7 +325,7 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Fixed scope: was src/pages/projects.astro, corrected to src/pages/products/** plus content and components. Blocked by 7 foundation items. Intent is strong \u2014 ecosystem framing is the differentiator vs a plain project list. Steps are clear. AC verify commands already present. Not ready: foundation deps unresolved."
+      "groomingNotes": "Fixed scope: was src/pages/projects.astro, corrected to src/pages/products/** plus content and components. Blocked by 7 foundation items. Intent is strong — ecosystem framing is the differentiator vs a plain project list. Steps are clear. AC verify commands already present. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-011",
@@ -361,12 +361,12 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by all 3 content track pages (007, 008, 009) \u2014 tags are cross-track so all tracks must exist first. Steps are clear. AC verify checks file exists + build. Intent strong \u2014 cross-track linking is the glue between content tracks. Not ready: content page deps unresolved."
+      "groomingNotes": "Blocked by all 3 content track pages (007, 008, 009) — tags are cross-track so all tracks must exist first. Steps are clear. AC verify checks file exists + build. Intent strong — cross-track linking is the glue between content tracks. Not ready: content page deps unresolved."
     },
     {
       "id": "FEAT-012",
       "title": "Newsletter signup and RSS",
-      "intent": "/newsletter must be a compelling landing page that sells the value of subscribing \u2014 what readers get, how often, and why it matters. RSS feed must cover all content tracks. This is the primary distribution channel, not an afterthought.",
+      "intent": "/newsletter must be a compelling landing page that sells the value of subscribing — what readers get, how often, and why it matters. RSS feed must cover all content tracks. This is the primary distribution channel, not an afterthought.",
       "description": "",
       "priority": "must",
       "category": "pages",
@@ -403,12 +403,12 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by 7 foundation items. Steps clear: page with signup form + @astrojs/rss integration. AC has strong verify (file exists, rss.xml generated in dist/). RSS is the primary distribution channel per intent \u2014 must-have for launch. Newsletter form needs a backend decision (Buttondown, ConvertKit, etc.) \u2014 flag during sprint. Not ready: foundation deps unresolved."
+      "groomingNotes": "Blocked by 7 foundation items. Steps clear: page with signup form + @astrojs/rss integration. AC has strong verify (file exists, rss.xml generated in dist/). RSS is the primary distribution channel per intent — must-have for launch. Newsletter form needs a backend decision (Buttondown, ConvertKit, etc.) — flag during sprint. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-013",
       "title": "Start Here page",
-      "intent": "/start-here must orient first-time visitors by interest area with curated entry points into existing content \u2014 if you care about security start here, if you want the full thesis start from installment 1.",
+      "intent": "/start-here must orient first-time visitors by interest area with curated entry points into existing content — if you care about security start here, if you want the full thesis start from installment 1.",
       "description": "",
       "priority": "should",
       "category": "pages",
@@ -436,12 +436,12 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by all 3 content track pages \u2014 start-here curates entry points into existing content so content must exist first. Steps clear: organize by interest area, link to specific content. Lightweight page. Not ready: content page deps unresolved."
+      "groomingNotes": "Blocked by all 3 content track pages — start-here curates entry points into existing content so content must exist first. Steps clear: organize by interest area, link to specific content. Lightweight page. Not ready: content page deps unresolved."
     },
     {
       "id": "FEAT-014",
       "title": "Changelog page",
-      "intent": "/changelog must show dated entries of what shipped, published, or changed \u2014 lightweight and low-effort to maintain.",
+      "intent": "/changelog must show dated entries of what shipped, published, or changed — lightweight and low-effort to maintain.",
       "description": "",
       "priority": "should",
       "category": "pages",
@@ -469,12 +469,12 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by typography, dark mode, and nav. Simple page: dated entries in reverse-chron order. AC has verify (file + build). Low complexity \u2014 S size. Could use a content collection or simple data file. Not ready: foundation deps unresolved."
+      "groomingNotes": "Blocked by typography, dark mode, and nav. Simple page: dated entries in reverse-chron order. AC has verify (file + build). Low complexity — S size. Could use a content collection or simple data file. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-015",
       "title": "Talks page",
-      "intent": "/talks must exist as a minimal page that can grow as speaking opportunities emerge \u2014 not empty, but honest about being early.",
+      "intent": "/talks must exist as a minimal page that can grow as speaking opportunities emerge — not empty, but honest about being early.",
       "description": "",
       "priority": "could",
       "category": "pages",
@@ -501,7 +501,7 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by typography, dark mode, and nav. Minimal page \u2014 placeholder for future speaking opportunities. XS size. AC has verify (file + build). Could priority \u2014 lowest of the pages. Not ready: foundation deps unresolved."
+      "groomingNotes": "Blocked by typography, dark mode, and nav. Minimal page — placeholder for future speaking opportunities. XS size. AC has verify (file + build). Could priority — lowest of the pages. Not ready: foundation deps unresolved."
     },
     {
       "id": "FEAT-016",
@@ -536,7 +536,7 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Added verify commands. Shiki is Astro's built-in highlighter \u2014 check astro config, not package.json. Copy button verify checks component/layout/style files for clipboard implementation."
+      "groomingNotes": "Added verify commands. Shiki is Astro's built-in highlighter — check astro config, not package.json. Copy button verify checks component/layout/style files for clipboard implementation."
     },
     {
       "id": "FEAT-017",
@@ -571,7 +571,7 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Added missing deps: FEAT-007, 008, 009 \u2014 reading time integrates into detail pages which don't exist yet. Without detail pages there's nowhere to display it. Could priority is correct \u2014 polish item. Utility function itself is trivial (word count / 200). Not ready: detail page deps unresolved."
+      "groomingNotes": "Added missing deps: FEAT-007, 008, 009 — reading time integrates into detail pages which don't exist yet. Without detail pages there's nowhere to display it. Could priority is correct — polish item. Utility function itself is trivial (word count / 200). Not ready: detail page deps unresolved."
     },
     {
       "id": "FEAT-018",
@@ -614,20 +614,20 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by FEAT-004 (Nav, Base layout must be stable) and FEAT-019 (design tokens must be in place). NOT marking ready. Grooming: steps are clear and specific. AC expanded from 3 to 5 verifiable checks \u2014 canonical URL and Twitter cards are distinct concerns from OG and JSON-LD, and both are checkable via grep on built HTML. Each check runs its own build; consider caching dist/ between checks in implementation."
+      "groomingNotes": "Blocked by FEAT-004 (Nav, Base layout must be stable) and FEAT-019 (design tokens must be in place). NOT marking ready. Grooming: steps are clear and specific. AC expanded from 3 to 5 verifiable checks — canonical URL and Twitter cards are distinct concerns from OG and JSON-LD, and both are checkable via grep on built HTML. Each check runs its own build; consider caching dist/ between checks in implementation."
     },
     {
       "id": "FEAT-019",
       "title": "Design system tokens and color palette",
-      "intent": "The design system must establish a dark-primary palette with very dark blue-black backgrounds (#0a0a0f to #111118 range), light text, and amber/warm gold (#d4a853 range) as the single surgical accent color. The palette signals craftsmanship and maturity \u2014 forged, not vibed. Replace the current primary orange (#b86b3a) with a refined amber/gold scale. Define surface hierarchy (background, card, elevated), text hierarchy (primary, secondary, muted), and accent usage rules in Tailwind v4 @theme tokens. Note: FEAT-002 already defined --font-prose, --font-mono, and --color-primary in @theme. This sprint extends those tokens with surface/text hierarchy and replaces the orange scale with amber/gold. Update .prose class colors to use the new tokens where hardcoded hex values exist.",
+      "intent": "The design system must establish a dark-primary palette with very dark blue-black backgrounds (#0a0a0f to #111118 range), light text, and amber/warm gold (#d4a853 range) as the single surgical accent color. The palette signals craftsmanship and maturity — forged, not vibed. Replace the current primary orange (#b86b3a) with a refined amber/gold scale. Define surface hierarchy (background, card, elevated), text hierarchy (primary, secondary, muted), and accent usage rules in Tailwind v4 @theme tokens. Note: FEAT-002 already defined --font-prose, --font-mono, and --color-primary in @theme. This sprint extends those tokens with surface/text hierarchy and replaces the orange scale with amber/gold. Update .prose class colors to use the new tokens where hardcoded hex values exist.",
       "description": "",
       "priority": "must",
       "category": "foundation",
       "steps": [
-        "Define dark surface colors in @theme: background (#0a0a0f\u2013#111118), card (slightly elevated), elevated (modals/popovers)",
+        "Define dark surface colors in @theme: background (#0a0a0f–#111118), card (slightly elevated), elevated (modals/popovers)",
         "Define text color hierarchy: primary (off-white), secondary (muted light), muted (dim)",
         "Replace primary orange scale with amber/gold accent scale centered on #d4a853",
-        "Define accent usage rules: links, CTAs, active states, code syntax highlights \u2014 sparingly",
+        "Define accent usage rules: links, CTAs, active states, code syntax highlights — sparingly",
         "Define border/divider treatments for dark surfaces (subtle, low-contrast)",
         "Document token decisions in CSS comments"
       ],
@@ -649,7 +649,7 @@
       "passes": true,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Replaced theater AC (grep source CSS for variable names) with behavioral checks on built dist/ output. Tailwind v4 emits @theme tokens as CSS custom properties in the bundle \u2014 checking for the actual hex values proves the tokens were defined and compiled. Note: global.css currently has primary orange #b86b3a \u2014 this sprint replaces it with amber/gold #d4a853 per intent. The verify command will fail until the sprint implements the replacement, making it a real gate.",
+      "groomingNotes": "Replaced theater AC (grep source CSS for variable names) with behavioral checks on built dist/ output. Tailwind v4 emits @theme tokens as CSS custom properties in the bundle — checking for the actual hex values proves the tokens were defined and compiled. Note: global.css currently has primary orange #b86b3a — this sprint replaces it with amber/gold #d4a853 per intent. The verify command will fail until the sprint implements the replacement, making it a real gate.",
       "completedAt": "2026-04-01T10:33:26-07:00"
     },
     {
@@ -681,16 +681,17 @@
       "dependsOn": [
         "FEAT-019"
       ],
-      "status": "todo",
-      "passes": false,
+      "status": "done",
+      "passes": true,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Blocked by FEAT-019 (tokens must be settled before container system uses them). Note: .prose already has max-width: 720px from FEAT-002. This sprint adds the wide container (1280px) for index pages and ensures responsive padding/breakpoints."
+      "groomingNotes": "Blocked by FEAT-019 (tokens must be settled before container system uses them). Note: .prose already has max-width: 720px from FEAT-002. This sprint adds the wide container (1280px) for index pages and ensures responsive padding/breakpoints.",
+      "completedAt": "2026-04-01T10:49:25-07:00"
     },
     {
       "id": "FEAT-021",
       "title": "Footer component",
-      "intent": "Every page must have a consistent footer with copyright, navigation links, RSS feed link, and contact \u2014 completing the page frame alongside the nav header.",
+      "intent": "Every page must have a consistent footer with copyright, navigation links, RSS feed link, and contact — completing the page frame alongside the nav header.",
       "description": "",
       "priority": "must",
       "category": "foundation",
@@ -728,7 +729,7 @@
     {
       "id": "FEAT-022",
       "title": "Client-side full-text search",
-      "intent": "The site must have Pagefind-powered static search across all content tracks \u2014 series, commentary, architecture KB, and products \u2014 with a keyboard-triggered overlay (Cmd/Ctrl+K). Build-time index, zero runtime JS cost until activated.",
+      "intent": "The site must have Pagefind-powered static search across all content tracks — series, commentary, architecture KB, and products — with a keyboard-triggered overlay (Cmd/Ctrl+K). Build-time index, zero runtime JS cost until activated.",
       "description": "",
       "priority": "should",
       "category": "foundation",
@@ -762,7 +763,7 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Downgraded must \u2192 should. Full-text search is a feature enhancement, not skeleton. A personal site can launch and serve readers without it. It depends on 4 prior features (001, 007, 008, 009) being complete \u2014 validate the site works first, then add discovery features."
+      "groomingNotes": "Downgraded must → should. Full-text search is a feature enhancement, not skeleton. A personal site can launch and serve readers without it. It depends on 4 prior features (001, 007, 008, 009) being complete — validate the site works first, then add discovery features."
     },
     {
       "id": "FEAT-023",
@@ -796,12 +797,12 @@
       "passes": false,
       "readyForSprint": true,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Only dep is FEAT-001 (done). @astrojs/sitemap is a standard Astro integration \u2014 install, set site URL in config, done. XS size. AC verify checks for sitemap file in dist/. astro.config.mjs currently missing site URL \u2014 sprint must add it. Mark ready: all deps resolved, steps trivial."
+      "groomingNotes": "Only dep is FEAT-001 (done). @astrojs/sitemap is a standard Astro integration — install, set site URL in config, done. XS size. AC verify checks for sitemap file in dist/. astro.config.mjs currently missing site URL — sprint must add it. Mark ready: all deps resolved, steps trivial."
     },
     {
       "id": "FEAT-024",
       "title": "Custom 404 page",
-      "intent": "Broken links must land on a helpful 404 page that guides visitors to search, popular content, or the home page \u2014 not a dead end.",
+      "intent": "Broken links must land on a helpful 404 page that guides visitors to search, popular content, or the home page — not a dead end.",
       "description": "",
       "priority": "should",
       "category": "pages",
@@ -836,7 +837,7 @@
     {
       "id": "FEAT-025",
       "title": "Companion artifact system",
-      "intent": "Series installments must be able to ship with companion artifacts \u2014 checklists, templates, decision frameworks, comparison matrices \u2014 displayed inline and linked to GitHub, so readers get actionable tools alongside the narrative.",
+      "intent": "Series installments must be able to ship with companion artifacts — checklists, templates, decision frameworks, comparison matrices — displayed inline and linked to GitHub, so readers get actionable tools alongside the narrative.",
       "description": "",
       "priority": "should",
       "category": "foundation",
@@ -867,12 +868,12 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by FEAT-007 (series pages) \u2014 artifacts attach to series installments. Schema extension is straightforward (optional array field in Zod). Component + display is S size. AC relies on visual confirmation for rendering. Not ready: FEAT-007 dep unresolved."
+      "groomingNotes": "Blocked by FEAT-007 (series pages) — artifacts attach to series installments. Schema extension is straightforward (optional array field in Zod). Component + display is S size. AC relies on visual confirmation for rendering. Not ready: FEAT-007 dep unresolved."
     },
     {
       "id": "FEAT-026",
       "title": "Performance budget and Lighthouse validation",
-      "intent": "Every page must score 95+ on all four Lighthouse categories (Performance, Accessibility, Best Practices, SEO). Zero layout shift, sub-100KB page weight for content pages, no render-blocking resources. The site plan says fast load \u2014 this enforces it.",
+      "intent": "Every page must score 95+ on all four Lighthouse categories (Performance, Accessibility, Best Practices, SEO). Zero layout shift, sub-100KB page weight for content pages, no render-blocking resources. The site plan says fast load — this enforces it.",
       "description": "",
       "priority": "should",
       "category": "polish",
@@ -904,19 +905,19 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by home page, dark mode, and design tokens. This is a polish/validation item \u2014 run after the site is visually complete. AC for Lighthouse scores requires a running server or CI tooling. Should priority is correct \u2014 important but not blocking launch. Not ready: foundation and page deps unresolved."
+      "groomingNotes": "Blocked by home page, dark mode, and design tokens. This is a polish/validation item — run after the site is visually complete. AC for Lighthouse scores requires a running server or CI tooling. Should priority is correct — important but not blocking launch. Not ready: foundation and page deps unresolved."
     },
     {
       "id": "FEAT-027",
       "title": "Product ecosystem relationship map",
-      "intent": "The products overview page must include a visual relationship map showing how ClawHQ, AIShore, Easy Markdown, and Clawdius fit together in the agent infrastructure lifecycle \u2014 so visitors immediately grasp the ecosystem, not just a list of unrelated projects.",
+      "intent": "The products overview page must include a visual relationship map showing how ClawHQ, AIShore, Easy Markdown, and Clawdius fit together in the agent infrastructure lifecycle — so visitors immediately grasp the ecosystem, not just a list of unrelated projects.",
       "description": "",
       "priority": "should",
       "category": "pages",
       "steps": [
         "Design a CSS/SVG relationship diagram showing product positioning in the agent lifecycle",
         "Show connections between products (e.g., AIShore uses ClawHQ, Clawdius extends ClawHQ)",
-        "Keep it static \u2014 no JS framework, pure SVG or CSS",
+        "Keep it static — no JS framework, pure SVG or CSS",
         "Ensure the diagram is responsive and readable on mobile",
         "Integrate into the products index page"
       ],
@@ -939,12 +940,12 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by FEAT-010 (product pages). Visual relationship diagram is a nice enhancement but depends on the product pages existing first. Pure CSS/SVG \u2014 no JS, which is correct for this stack. Should priority is right. Not ready: FEAT-010 dep unresolved."
+      "groomingNotes": "Blocked by FEAT-010 (product pages). Visual relationship diagram is a nice enhancement but depends on the product pages existing first. Pure CSS/SVG — no JS, which is correct for this stack. Should priority is right. Not ready: FEAT-010 dep unresolved."
     },
     {
       "id": "FEAT-028",
       "title": "Deployment pipeline",
-      "intent": "The site must have a working deployment pipeline \u2014 push to main triggers build and deploy to a CDN \u2014 so publishing is a git push, not a manual process.",
+      "intent": "The site must have a working deployment pipeline — push to main triggers build and deploy to a CDN — so publishing is a git push, not a manual process.",
       "description": "",
       "priority": "must",
       "category": "infrastructure",
@@ -971,12 +972,12 @@
       "passes": false,
       "readyForSprint": true,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "Fixed scope \u2014 was just astro.config.mjs, corrected to include deployment config files and GitHub workflows. Recommended Cloudflare Pages as default (Astro's primary hosting partner, zero config for static output). AC: platform config file existence is verifiable locally; domain accessibility requires live deploy so left as plain string. Step 1 names Cloudflare Pages explicitly so sprint agent has a concrete default to implement rather than an open-ended choice."
+      "groomingNotes": "Fixed scope — was just astro.config.mjs, corrected to include deployment config files and GitHub workflows. Recommended Cloudflare Pages as default (Astro's primary hosting partner, zero config for static output). AC: platform config file existence is verifiable locally; domain accessibility requires live deploy so left as plain string. Step 1 names Cloudflare Pages explicitly so sprint agent has a concrete default to implement rather than an open-ended choice."
     },
     {
       "id": "FEAT-029",
       "title": "LLMs.txt generation",
-      "intent": "The site must generate a valid llms.txt file (per llmstxt.org spec) at build time so AI models can discover and understand the site's content, structure, and purpose \u2014 this is table stakes for an AI infrastructure site.",
+      "intent": "The site must generate a valid llms.txt file (per llmstxt.org spec) at build time so AI models can discover and understand the site's content, structure, and purpose — this is table stakes for an AI infrastructure site.",
       "description": "",
       "priority": "should",
       "category": "infrastructure",
@@ -1008,7 +1009,7 @@
     {
       "id": "FEAT-030",
       "title": "Site build CI workflow",
-      "intent": "Every push and PR must run npm run build and report status \u2014 catching type errors, broken imports, and schema violations before they reach main.",
+      "intent": "Every push and PR must run npm run build and report status — catching type errors, broken imports, and schema violations before they reach main.",
       "description": "",
       "priority": "must",
       "category": "infrastructure",
@@ -1035,12 +1036,12 @@
       "passes": false,
       "readyForSprint": true,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Priority confirmed at must. Skeleton CI \u2014 without it there is no automated quality gate on main. Pair with FEAT-028 (deployment pipeline): both are infrastructure must-haves before site launch. CI catches type errors and broken imports before they reach production."
+      "groomingNotes": "Priority confirmed at must. Skeleton CI — without it there is no automated quality gate on main. Pair with FEAT-028 (deployment pipeline): both are infrastructure must-haves before site launch. CI catches type errors and broken imports before they reach production."
     },
     {
       "id": "FEAT-031",
       "title": "Print stylesheet",
-      "intent": "Long-form content must produce clean, readable output when printed or saved as PDF \u2014 developers do this constantly with technical articles. Hide nav, footer, and interactive elements. Optimize typography for paper.",
+      "intent": "Long-form content must produce clean, readable output when printed or saved as PDF — developers do this constantly with technical articles. Hide nav, footer, and interactive elements. Optimize typography for paper.",
       "description": "",
       "priority": "should",
       "category": "polish",
@@ -1067,7 +1068,7 @@
       "passes": false,
       "readyForSprint": false,
       "groomedAt": "2026-03-31",
-      "groomingNotes": "Blocked by FEAT-002 (typography). @media print styles \u2014 hide nav/footer/interactive, optimize for A4/Letter. S size. AC is visual (print preview) \u2014 hard to automate. Should priority is correct. Not ready: FEAT-002 dep unresolved."
+      "groomingNotes": "Blocked by FEAT-002 (typography). @media print styles — hide nav/footer/interactive, optimize for A4/Letter. S size. AC is visual (print preview) — hard to automate. Should priority is correct. Not ready: FEAT-002 dep unresolved."
     }
   ]
 }

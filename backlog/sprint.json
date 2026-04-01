@@ -1,28 +1,23 @@
 {
-  "sprintId": "sprint-1775064962",
-  "startedAt": "2026-04-01T10:36:02-07:00",
+  "sprintId": "sprint-1775065600",
+  "startedAt": "2026-04-01T10:46:40-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-003",
-    "title": "Dark mode",
-    "intent": "The site must render dark-first with very dark blue-black backgrounds (#0a0a0f–#111118 range), off-white text, and correct contrast ratios. Light mode is not planned. CookieConsent banner is currently styled for white background — it must be restyled for the dark surface. color-scheme: dark must be set on html so browser chrome (scrollbars, form controls) matches.",
+    "id": "FEAT-020",
+    "title": "Responsive layout and container system",
+    "intent": "The site must have a mobile-first responsive container system with ~720px max prose width for content pages and ~1280px max for index/grid pages. Generous whitespace. No horizontal scroll at any viewport. Content breathes on desktop, reflows cleanly on mobile.",
     "description": "",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Add color-scheme: dark to the html element in Base.astro",
-      "Restyle CookieConsent.astro for dark surface: dark bg, light text, amber accent buttons",
-      "Audit all components for light-mode assumptions (bg-white, text-gray-600, border-gray-200, hover:bg-gray-50) and fix",
-      "Verify contrast ratios meet WCAG AA for body text and headings on dark surfaces"
+      "Define prose container: max-width ~720px, centered, responsive padding",
+      "Define wide container: max-width ~1280px for index pages and product grids",
+      "Set up responsive breakpoints for mobile (320px+), tablet (768px+), desktop (1024px+)",
+      "Apply containers in Base layout or as utility classes",
+      "Ensure generous whitespace between sections (consistent spacing scale)"
     ],
     "acceptanceCriteria": [
-      {
-        "text": "Body renders with dark background and color-scheme: dark on html",
-        "verify": "npm run build && grep -q 'color-scheme' dist/index.html"
-      },
-      {
-        "text": "No bg-white or text-gray-600 classes remain in built HTML",
-        "verify": "npm run build && ! grep -q 'bg-white' dist/index.html"
-      },
+      "Prose container max-width is approximately 720px",
+      "No horizontal scrollbar at 320px viewport width",
       {
         "text": "Build succeeds",
         "verify": "npm run build"
@@ -30,13 +25,12 @@
     ],
     "scope": [
       "src/styles/**",
-      "src/layouts/**",
-      "src/components/**"
+      "src/layouts/**"
     ],
-    "startedAt": "2026-04-01T10:36:02-07:00",
+    "startedAt": "2026-04-01T10:46:40-07:00",
     "status": "passed",
-    "completedAt": "2026-04-01T10:38:41-07:00"
+    "completedAt": "2026-04-01T10:49:25-07:00"
   },
-  "completedAt": "2026-04-01T10:38:41-07:00",
+  "completedAt": "2026-04-01T10:49:25-07:00",
   "attempts": 1
 }
