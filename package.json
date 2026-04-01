@@ -12,11 +12,12 @@
     "yaml": ">=2.8.3"
   },
   "dependencies": {
-    "astro": "^6.1.0",
     "@astrojs/check": "^0.9.0",
+    "@astrojs/rss": "^4.0.18",
     "@tailwindcss/vite": "^4.0.0",
+    "astro": "^6.1.0",
+    "posthog-js": "^1.200.0",
     "tailwindcss": "^4.0.0",
-    "typescript": "^5.7.0",
-    "posthog-js": "^1.200.0"
+    "typescript": "^5.7.0"
   }
 }

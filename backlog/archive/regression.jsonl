@@ -16,3 +16,5 @@
 {"itemId":"FEAT-009","date":"2026-04-01","text":"/architecture route lists entries browsable by concern","verify":"npm run build && test -f dist/architecture/index.html"}
 {"itemId":"FEAT-010","date":"2026-04-01","text":"/products route shows ecosystem overview with all four products","verify":"npm run build && test -f dist/products/index.html"}
 {"itemId":"FEAT-010","date":"2026-04-01","text":"Individual product pages exist and render","verify":"npm run build && ls dist/products/*/index.html | grep -q ."}
+{"itemId":"FEAT-012","date":"2026-04-01","text":"/newsletter route exists with signup form","verify":"npm run build && test -f dist/newsletter/index.html"}
+{"itemId":"FEAT-012","date":"2026-04-01","text":"RSS feed is generated at /rss.xml","verify":"npm run build && test -f dist/rss.xml"}
