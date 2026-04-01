@@ -600,42 +600,6 @@
       "groomingNotes": "v0.5.2 compliance: all deps now done. Converted plain-string AC to behavioral verifies: pagefind directory exists in dist/, search script referenced in built HTML. Added description with concrete implementation approach. Steps updated to be developer-actionable. Unblocked and marked ready."
     },
     {
-      "id": "FEAT-023",
-      "title": "XML sitemap",
-      "intent": "The site must generate a valid XML sitemap at /sitemap.xml covering all pages and content so search engines can discover and index every page.",
-      "description": "Install @astrojs/sitemap, add it to astro.config.mjs integrations, set the site URL. The integration auto-discovers all routes.",
-      "priority": "must",
-      "category": "foundation",
-      "steps": [
-        "Install @astrojs/sitemap as a dependency",
-        "Add the sitemap integration to astro.config.mjs integrations array",
-        "Ensure site URL is set in astro.config.mjs (required for sitemap generation)",
-        "Build and verify sitemap files are generated in dist/"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Sitemap is generated at build time",
-          "verify": "npm run build && (test -f dist/sitemap-index.xml || test -f dist/sitemap-0.xml || test -f dist/sitemap.xml)"
-        },
-        {
-          "text": "Build succeeds cleanly",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "astro.config.mjs",
-        "package.json"
-      ],
-      "dependsOn": [
-        "FEAT-001"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: AC already had good verifies. Added description and updated scope to include package.json (npm install needed). XS size — trivial integration. Ready."
-    },
-    {
       "id": "FEAT-024",
       "title": "Custom 404 page",
       "intent": "Broken links must land on a helpful 404 page that guides visitors to search, popular content, or the home page — not a dead end.",
