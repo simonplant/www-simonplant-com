@@ -198,11 +198,12 @@
         "FEAT-020",
         "FEAT-021"
       ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "All 7 foundation deps now complete. Added required step: sprint MUST create at least one seed architecture entry (status: draft) to prove dynamic routing. AC verify checks dist/architecture/*/index.html post-build. Record template rendering is visual-confirm; slug existence gates the core routing concern. Entry schema must include concern, patternType, status (draft/working/stable) fields per CLAUDE.md."
+      "groomingNotes": "All 7 foundation deps now complete. Added required step: sprint MUST create at least one seed architecture entry (status: draft) to prove dynamic routing. AC verify checks dist/architecture/*/index.html post-build. Record template rendering is visual-confirm; slug existence gates the core routing concern. Entry schema must include concern, patternType, status (draft/working/stable) fields per CLAUDE.md.",
+      "completedAt": "2026-04-01T11:55:48-07:00"
     },
     {
       "id": "FEAT-010",
