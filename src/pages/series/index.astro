@@ -6,7 +6,13 @@ const entries = await getPublishedCollection('series');
 const sorted = entries.sort((a, b) => a.data.number - b.data.number);
 ---
 
-<Base title="Series — Simon Plant" description="Long-form installments on AI agent infrastructure maturation.">
+<Base title="Series — Simon Plant" description="Long-form installments on AI agent infrastructure maturation." jsonLd={{
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Series — Simon Plant',
+  url: 'https://www.simonplant.com/series',
+  description: 'Long-form installments on AI agent infrastructure maturation.',
+}}>
   <main class="section-spacing">
     <div class="container-prose">
       <h1 class="font-serif text-4xl text-gray-50 mb-4">Series</h1>

@@ -13,7 +13,13 @@ const statusColors: Record<string, { bg: string; text: string }> = {
 };
 ---
 
-<Base title="Products — Simon Plant" description="The agent infrastructure ecosystem — ClawHQ, AIShore, Easy Markdown, and Clawdius.">
+<Base title="Products — Simon Plant" description="The agent infrastructure ecosystem — ClawHQ, AIShore, Easy Markdown, and Clawdius." jsonLd={{
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Products — Simon Plant',
+  url: 'https://www.simonplant.com/products',
+  description: 'The agent infrastructure ecosystem — ClawHQ, AIShore, Easy Markdown, and Clawdius.',
+}}>
   <main class="section-spacing">
     <div class="container-wide">
       <div class="max-w-3xl mb-16">

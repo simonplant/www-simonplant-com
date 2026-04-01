@@ -1,8 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Newsletter — Simon Plant',
+  url: 'https://www.simonplant.com/newsletter',
+  description: 'Subscribe to get long-form writing on AI agent infrastructure, operational patterns, and the systems layer that makes agents production-ready.',
+};
 ---
 
-<Base title="Newsletter — Simon Plant" description="Subscribe to get long-form writing on AI agent infrastructure, operational patterns, and the systems layer that makes agents production-ready.">
+<Base title="Newsletter — Simon Plant" description="Subscribe to get long-form writing on AI agent infrastructure, operational patterns, and the systems layer that makes agents production-ready." jsonLd={jsonLd}>
   <main class="section-spacing">
     <div class="container-prose">
       <h1 class="font-serif text-4xl md:text-5xl text-text-primary leading-tight mb-6">

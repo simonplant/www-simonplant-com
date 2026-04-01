@@ -554,58 +554,6 @@
       "groomingNotes": "v0.5.2 compliance: all deps now done. Converted plain-string AC to behavioral verify: grep built series page for 'min read' text. Added description and specific steps. Utility is trivial — S size. Unblocked and marked ready."
     },
     {
-      "id": "FEAT-018",
-      "title": "SEO and Open Graph meta tags",
-      "intent": "Every page must emit correct Open Graph tags, Twitter cards, canonical URLs, and JSON-LD structured data (Article, TechArticle, SoftwareApplication as appropriate) so shares look professional, search indexing is accurate, and Google rich results work.",
-      "description": "Extend Base.astro to accept optional SEO props (description, image, type, article metadata) and render OG/Twitter/JSON-LD in <head>. Every page must pass at minimum title and description. JSON-LD type varies: Article for commentary, TechArticle for architecture, SoftwareApplication for products, WebSite for home.",
-      "priority": "must",
-      "category": "foundation",
-      "steps": [
-        "Extend Base.astro Props interface with optional SEO fields: description, ogImage, ogType, articleDate, articleTags",
-        "Render og:title, og:description, og:type, og:url meta tags in <head>",
-        "Render twitter:card, twitter:title, twitter:description meta tags",
-        "Add canonical URL meta tag using Astro.url",
-        "Create a JSON-LD helper function that generates Article/TechArticle/SoftwareApplication/WebSite schema",
-        "Inject JSON-LD <script type=\"application/ld+json\"> into Base.astro <head>",
-        "Update existing pages to pass description prop to Base layout (pages that don't already)"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Home page renders og:title meta tag",
-          "verify": "npm run build && grep -q 'og:title' dist/index.html"
-        },
-        {
-          "text": "Home page includes JSON-LD structured data",
-          "verify": "npm run build && grep -q 'application/ld+json' dist/index.html"
-        },
-        {
-          "text": "Home page renders canonical URL",
-          "verify": "npm run build && grep -q 'canonical' dist/index.html"
-        },
-        {
-          "text": "Twitter card meta tags present",
-          "verify": "npm run build && grep -q 'twitter:card' dist/index.html"
-        },
-        {
-          "text": "Build succeeds cleanly",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/layouts/**",
-        "src/pages/**"
-      ],
-      "dependsOn": [
-        "FEAT-004",
-        "FEAT-019"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: added behavioral verifies for canonical URL and twitter:card (were missing). All 5 AC now have verifies against dist/ output. Steps updated to be specific and developer-actionable. Added description with JSON-LD type mapping."
-    },
-    {
       "id": "FEAT-022",
       "title": "Client-side full-text search",
       "intent": "The site must have Pagefind-powered static search across all content tracks — series, commentary, architecture KB, and products — with a keyboard-triggered overlay (Cmd/Ctrl+K). Build-time index, zero runtime JS cost until activated.",
