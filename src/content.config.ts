@@ -4,7 +4,7 @@ import { glob } from 'astro/loaders';
 const status = z.enum(['idea', 'draft', 'review', 'published']);
 
 const series = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/series' }),
   schema: z.object({
     title: z.string(),
     number: z.number().int().positive(),
@@ -24,7 +24,7 @@ const series = defineCollection({
 });
 
 const commentary = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/commentary' }),
   schema: z.object({
     title: z.string(),
     publishedDate: z.coerce.date(),
@@ -36,7 +36,7 @@ const commentary = defineCollection({
 });
 
 const architecture = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/architecture' }),
   schema: z.object({
     title: z.string(),
     status,

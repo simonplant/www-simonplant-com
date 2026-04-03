@@ -4,7 +4,7 @@ description: "A supply chain attack on LiteLLM exposed a new class of risk: AI a
 publishedDate: 2026-03-27
 tags: ["security", "supply-chain", "litellm", "ai-agents"]
 tier: signal
-status: review
+status: published
 ---
 
 On March 25, 2026, Callum McMahon at FutureSearch noticed something wrong. He was running a litellm upgrade when the package hash didn't match what he expected. Within minutes, he'd pulled the Claude Code investigation transcript live to Hacker News — documenting in real time how `litellm==1.82.8` had been compromised on PyPI with an injected `.pth` file that executed malware on every Python startup.

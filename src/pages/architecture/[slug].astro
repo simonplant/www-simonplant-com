@@ -80,9 +80,9 @@ const statusColors: Record<string, string> = {
         </div>
         <div class="flex flex-wrap gap-2 mb-4">
           {entry.data.tags.map((tag) => (
-            <span class="text-primary-400 bg-primary-400/10 px-2.5 py-0.5 rounded-full text-xs font-sans">
+            <a href={`/tags/${encodeURIComponent(tag)}`} class="text-primary-400 bg-primary-400/10 px-2.5 py-0.5 rounded-full text-xs font-sans hover:bg-primary-400/20 transition-colors">
               {tag}
-            </span>
+            </a>
           ))}
         </div>
         {entry.data.relatedProjects && entry.data.relatedProjects.length > 0 && (

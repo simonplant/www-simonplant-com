@@ -4,7 +4,7 @@ description: How Clawdius maintains continuity across sessions through structure
 concern: lifecycle
 patternType: design-pattern
 publishedDate: 2026-03-31
-status: review
+status: published
 tags: ["agent-lifecycle", "memory", "persistence", "cron"]
 relatedProjects: [clawhq, clawdius]
 ---

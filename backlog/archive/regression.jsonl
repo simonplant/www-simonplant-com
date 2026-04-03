@@ -36,3 +36,6 @@
 {"itemId":"FEAT-014","date":"2026-04-01","text":"Build succeeds cleanly","verify":"npm run build"}
 {"itemId":"FEAT-024","date":"2026-04-01","text":"404 page exists in built output","verify":"npm run build && test -f dist/404.html"}
 {"itemId":"FEAT-024","date":"2026-04-01","text":"404 page contains navigation links back to key sections","verify":"npm run build && grep -q 'href=' dist/404.html"}
+{"itemId":"FEAT-011","date":"2026-04-03","text":"/tags route lists all tags used across content tracks","verify":"npm run build && test -f dist/tags/index.html"}
+{"itemId":"FEAT-011","date":"2026-04-03","text":"Individual tag pages are generated for each tag","verify":"npm run build && ls dist/tags/*/index.html 2>/dev/null | grep -q ."}
+{"itemId":"FEAT-011","date":"2026-04-03","text":"Tag pages contain links back to content entries","verify":"npm run build && TAG_PAGE=$(ls dist/tags/*/index.html 2>/dev/null | head -1) && test -n \"$TAG_PAGE\" && grep -qi 'href=' \"$TAG_PAGE\""}
