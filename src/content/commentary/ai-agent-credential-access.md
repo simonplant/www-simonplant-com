@@ -4,7 +4,7 @@ description: "The two-vault pattern for AI agent credentials — 1Password servi
 publishedDate: 2026-03-26
 tags: ["security", "credentials", "1password", "ai-agents"]
 tier: architecture
-status: review
+status: published
 ---
 
 You set up an always-on AI agent. Now it needs to check your email, fetch market data, maybe post to Slack. That means credentials.

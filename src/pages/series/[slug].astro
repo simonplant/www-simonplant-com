@@ -55,12 +55,19 @@ const jsonLd = {
           Installment {entry.data.number}
         </p>
         <h1 class="font-serif text-4xl text-gray-50 leading-tight mb-4">{entry.data.title}</h1>
-        <div class="flex flex-wrap gap-3 text-text-muted text-sm font-sans">
+        <div class="flex flex-wrap gap-3 text-text-muted text-sm font-sans mb-4">
           <time datetime={entry.data.publishedDate.toISOString().slice(0, 10)}>
             {entry.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </time>
           <span>&middot;</span>
           <span>{readingTime} min read</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {entry.data.tags.map((tag) => (
+            <a href={`/tags/${encodeURIComponent(tag)}`} class="text-primary-400 bg-primary-400/10 px-2.5 py-0.5 rounded-full text-xs font-sans hover:bg-primary-400/20 transition-colors">
+              {tag}
+            </a>
+          ))}
         </div>
       </header>
 
