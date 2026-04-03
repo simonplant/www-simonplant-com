@@ -297,11 +297,12 @@
         "FEAT-008",
         "FEAT-009"
       ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
       "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: all deps now done (007, 008, 009 completed). Converted plain-string AC to behavioral verifies: tag index exists, individual tag pages generated, tag pages contain href links. Unblocked and marked ready."
+      "groomingNotes": "v0.5.2 compliance: all deps now done (007, 008, 009 completed). Converted plain-string AC to behavioral verifies: tag index exists, individual tag pages generated, tag pages contain href links. Unblocked and marked ready.",
+      "completedAt": "2026-04-03T16:15:20-07:00"
     },
     {
       "id": "FEAT-012",
