@@ -376,50 +376,6 @@
       "groomingNotes": "v0.5.2 compliance: all deps done (002, 003, 004 completed). Added behavioral verify for contact info in rendered HTML. Added description and specific steps. XS size. Unblocked and marked ready."
     },
     {
-      "id": "FEAT-016",
-      "title": "Code blocks with syntax highlighting and copy button",
-      "intent": "All code blocks across the site must have language-aware syntax highlighting with a dark-mode-matched theme and a one-click copy button. For a developer audience reading infrastructure code, this is core readability, not polish.",
-      "description": "Configure Astro's built-in Shiki highlighter and add a vanilla JS copy button to all <pre> blocks. Sprint must include at least one page with a rendered code block so the verify can confirm Shiki output in dist/.",
-      "priority": "must",
-      "category": "foundation",
-      "steps": [
-        "Configure Shiki in astro.config.mjs markdown.shikiConfig — pick a dark theme (e.g., github-dark, night-owl, or dracula) that matches the site's dark surface",
-        "Create a CopyButton component or inline <script> that adds a copy-to-clipboard button to every <pre> element",
-        "Style the copy button: positioned top-right of code block, unobtrusive, shows feedback on click",
-        "Ensure at least one content page with a code fence exists (architecture KB or series entry) so Shiki renders in the build",
-        "Verify code blocks render with Shiki's class=\"astro-code\" in built HTML"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Code blocks render with Shiki syntax highlighting in built HTML",
-          "verify": "npm run build && grep -rq 'astro-code' dist/"
-        },
-        {
-          "text": "Copy button script is present in built output",
-          "verify": "npm run build && grep -rq 'clipboard\\|copy' dist/_astro/*.js 2>/dev/null || grep -rq 'clipboard\\|copy' dist/**/*.html 2>/dev/null"
-        },
-        {
-          "text": "Build succeeds cleanly",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/styles/**",
-        "src/components/**",
-        "astro.config.mjs"
-      ],
-      "dependsOn": [
-        "FEAT-002",
-        "FEAT-003",
-        "FEAT-019"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: converted all plain-string AC to behavioral verifies. Shiki output verified by grepping dist/ for 'astro-code' class. Copy button verified by grepping built JS/HTML for clipboard/copy. Sprint must ensure at least one code block exists in content so Shiki runs. Steps updated to be developer-actionable."
-    },
-    {
       "id": "FEAT-017",
       "title": "Reading time calculation",
       "intent": "Every long-form content page (series, commentary, architecture) must display an estimated reading time calculated from word count — readers decide what to read based on time commitment.",

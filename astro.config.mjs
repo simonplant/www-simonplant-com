@@ -7,6 +7,11 @@ export default defineConfig({
   site: 'https://www.simonplant.com',
   output: 'static',
   integrations: [sitemap()],
+  markdown: {
+    shikiConfig: {
+      theme: 'tokyo-night',
+    },
+  },
   vite: {
     // @ts-ignore - vite version mismatch between astro (v7) and @tailwindcss/vite (v8)
     plugins: [tailwindcss()],

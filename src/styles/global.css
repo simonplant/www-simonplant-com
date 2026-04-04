@@ -243,18 +243,19 @@
   color: var(--color-primary-300, #e6c36a);
 }
 
-/* Code blocks — elevated dark surface */
+/* Code blocks — elevated dark surface with copy button */
 .prose pre {
+  position: relative;
   font-family: var(--font-mono);
   font-size: 0.875rem;
   line-height: 1.6;
   background: var(--color-surface-elevated, #16161e);
+  color: var(--color-text-primary, #e8e6e1);
   border: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.06));
   border-radius: 8px;
   padding: 1.25em 1.5em;
   margin-block: 1.75em;
   overflow-x: auto;
-  color: var(--color-text-primary, #e8e6e1);
 }
 
 .prose pre code {
@@ -264,6 +265,42 @@
   padding: 0;
   border-radius: 0;
   color: inherit;
+}
+
+/* All pre blocks need relative positioning for copy button */
+pre {
+  position: relative;
+}
+
+/* Copy button — top-right of code block, unobtrusive */
+.copy-code-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.06));
+  border-radius: 4px;
+  background: var(--color-surface-card, #111118);
+  color: var(--color-text-muted, #6b6b7b);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+pre:hover > .copy-code-btn {
+  opacity: 1;
+}
+
+.copy-code-btn:hover {
+  color: var(--color-text-secondary, #a0a0b0);
+  border-color: var(--color-border-default, rgba(255, 255, 255, 0.1));
+}
+
+.copy-code-btn[data-copied] {
+  color: var(--color-primary-400, #d4a853);
+  opacity: 1;
 }
 
 /* Horizontal rules */
