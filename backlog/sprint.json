@@ -1,28 +1,36 @@
 {
-  "sprintId": "refined-2026-04-03T18:17:07-07:00",
-  "startedAt": "2026-04-03T18:09:03-07:00",
+  "sprintId": "refined-2026-04-03T18:29:33-07:00",
+  "startedAt": "2026-04-03T18:22:42-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-016",
-    "title": "Code blocks with syntax highlighting and copy button",
-    "intent": "All code blocks across the site must have language-aware syntax highlighting with a dark-mode-matched theme and a one-click copy button. For a developer audience reading infrastructure code, this is core readability, not polish.",
-    "description": "Configure Astro's built-in Shiki highlighter and add a vanilla JS copy button to all <pre> blocks. Sprint must include at least one page with a rendered code block so the verify can confirm Shiki output in dist/.",
+    "id": "FEAT-013",
+    "title": "Start Here page",
+    "intent": "/start-here must orient first-time visitors by interest area with curated entry points into existing content — if you care about security start here, if you want the full thesis start from installment 1. No visitor should feel lost.",
+    "description": "A curated entry point page that groups existing content by reader interest (security, orchestration, full thesis, etc.). Links to specific series installments, commentary posts, and KB entries. Must work even with limited published content — use draft content for structure.",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Configure Shiki in astro.config.mjs markdown.shikiConfig — pick a dark theme (e.g., github-dark, night-owl, or dracula) that matches the site's dark surface",
-      "Create a CopyButton component or inline <script> that adds a copy-to-clipboard button to every <pre> element",
-      "Style the copy button: positioned top-right of code block, unobtrusive, shows feedback on click",
-      "Ensure CopyCode component is imported and rendered in Base.astro so the script is included in every page",
-      "Ensure at least one content page with a code fence exists (architecture KB or series entry) so Shiki renders in the build"
+      "Create src/pages/start-here.astro using Base layout with prose container",
+      "Define 3-5 interest areas as a static array of objects with title, hook, and hardcoded href/label pairs — do NOT use getPublishedCollection or conditional content resolution; links on a Start Here page must always render",
+      "For each area render the section heading, 1-2 sentence hook, and the list of links — links are static hrefs like /series/agent-infra-maturation-01, /commentary/ai-agent-credential-access, /architecture/persistent-agent-model",
+      "Add to site navigation (Nav component) if a nav component exists",
+      "Ensure each hardcoded href points to a route that actually builds (verify against the routes list in the build output)"
     ],
     "acceptanceCriteria": [
       {
-        "text": "Code blocks render with Shiki syntax highlighting in built HTML",
-        "verify": "npm run build && grep -rq 'astro-code' dist/"
+        "text": "/start-here route exists and renders",
+        "verify": "npm run build && test -f dist/start-here/index.html"
       },
       {
-        "text": "Copy button script is present in built output",
-        "verify": "npm run build && grep -rq 'clipboard' dist/"
+        "text": "Page contains links to series content",
+        "verify": "npm run build && grep -q '/series/' dist/start-here/index.html"
+      },
+      {
+        "text": "Page contains links to commentary content",
+        "verify": "npm run build && grep -q '/commentary/' dist/start-here/index.html"
+      },
+      {
+        "text": "Page contains links to architecture content",
+        "verify": "npm run build && grep -q '/architecture/' dist/start-here/index.html"
       },
       {
         "text": "Build succeeds cleanly",
@@ -30,14 +38,13 @@
       }
     ],
     "scope": [
-      "src/styles/**",
-      "src/components/**",
-      "astro.config.mjs"
+      "src/pages/start-here.astro",
+      "src/components/**"
     ],
-    "startedAt": "2026-04-03T18:09:03-07:00",
+    "startedAt": "2026-04-03T18:22:42-07:00",
     "status": "passed",
-    "completedAt": "2026-04-03T18:22:41-07:00"
+    "completedAt": "2026-04-03T18:35:23-07:00"
   },
-  "completedAt": "2026-04-03T18:22:41-07:00",
+  "completedAt": "2026-04-03T18:35:23-07:00",
   "attempts": 2
 }

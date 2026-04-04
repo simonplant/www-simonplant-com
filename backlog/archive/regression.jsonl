@@ -46,3 +46,8 @@
 {"itemId":"FEAT-016","date":"2026-04-03","text":"Code blocks render with Shiki syntax highlighting in built HTML","verify":"npm run build && grep -rq 'astro-code' dist/"}
 {"itemId":"FEAT-016","date":"2026-04-03","text":"Copy button script is present in built output","verify":"npm run build && grep -rq 'clipboard' dist/"}
 {"itemId":"FEAT-016","date":"2026-04-03","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-013","date":"2026-04-03","text":"/start-here route exists and renders","verify":"npm run build && test -f dist/start-here/index.html"}
+{"itemId":"FEAT-013","date":"2026-04-03","text":"Page contains links to series content","verify":"npm run build && grep -q '/series/' dist/start-here/index.html"}
+{"itemId":"FEAT-013","date":"2026-04-03","text":"Page contains links to commentary content","verify":"npm run build && grep -q '/commentary/' dist/start-here/index.html"}
+{"itemId":"FEAT-013","date":"2026-04-03","text":"Page contains links to architecture content","verify":"npm run build && grep -q '/architecture/' dist/start-here/index.html"}
+{"itemId":"FEAT-013","date":"2026-04-03","text":"Build succeeds cleanly","verify":"npm run build"}
