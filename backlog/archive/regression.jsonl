@@ -39,3 +39,7 @@
 {"itemId":"FEAT-011","date":"2026-04-03","text":"/tags route lists all tags used across content tracks","verify":"npm run build && test -f dist/tags/index.html"}
 {"itemId":"FEAT-011","date":"2026-04-03","text":"Individual tag pages are generated for each tag","verify":"npm run build && ls dist/tags/*/index.html 2>/dev/null | grep -q ."}
 {"itemId":"FEAT-011","date":"2026-04-03","text":"Tag pages contain links back to content entries","verify":"npm run build && TAG_PAGE=$(ls dist/tags/*/index.html 2>/dev/null | head -1) && test -n \"$TAG_PAGE\" && grep -qi 'href=' \"$TAG_PAGE\""}
+{"itemId":"FEAT-005","date":"2026-04-03","text":"Home page builds and renders","verify":"npm run build && test -f dist/index.html"}
+{"itemId":"FEAT-005","date":"2026-04-03","text":"Home page links to /series, /products, and /commentary","verify":"npm run build && grep -q '/series' dist/index.html && grep -q '/products' dist/index.html && grep -q '/commentary' dist/index.html"}
+{"itemId":"FEAT-005","date":"2026-04-03","text":"Home page contains a subscribe/newsletter CTA","verify":"npm run build && grep -qiE 'newsletter|subscribe' dist/index.html"}
+{"itemId":"FEAT-005","date":"2026-04-03","text":"No img tags on the home page","verify":"npm run build && ! grep -qi '<img' dist/index.html"}

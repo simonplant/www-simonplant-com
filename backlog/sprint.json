@@ -1,41 +1,47 @@
 {
-  "sprintId": "sprint-1775257557",
-  "startedAt": "2026-04-03T16:05:57-07:00",
+  "sprintId": "refined-2026-04-03T17:45:35-07:00",
+  "startedAt": "2026-04-03T17:40:24-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-011",
-    "title": "Tag system with cross-track linking",
-    "intent": "Tags must work across all three content tracks so a tag like agent-security connects series installments, commentary posts, and KB entries on a single tag page. Visitors must be able to follow a topic across all tracks from one place.",
-    "description": "Build a tag index page and individual tag pages that aggregate content from series, commentary, and architecture collections. Tags are already in frontmatter across all three collections — this feature surfaces them as navigable pages.",
+    "id": "FEAT-005",
+    "title": "Home page",
+    "intent": "The home page must read as an editorial masthead, not a SaaS landing page. Simon's name, a one-line positioning statement, and three clear paths: the flagship series, the products, and the commentary. No hero image, no animation, no bento boxes. Let the writing be the thing. Latest series installment and latest commentary visible. Subscribe CTA present but not dominant.",
+    "description": "Replace the scaffold index.astro with a typography-first editorial homepage. Three content paths must be visually distinct. Query content collections for latest entries. If no published content exists, handle gracefully (empty state or seed draft content).",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Create src/pages/tags/index.astro — query all three content collections, extract unique tags, display with per-tag counts",
-      "Create src/pages/tags/[tag].astro — for a given tag, query all three collections, group results by track (series, commentary, architecture), render with links to each piece",
-      "Add tag links on content detail pages (series/[slug], commentary/[slug], architecture/[slug]) that link to /tags/[tag]",
-      "Ensure tag pages handle the case where a tag only appears in one or two tracks"
+      "Replace scaffold index.astro with editorial masthead layout using Base.astro",
+      "Add positioning statement — one line, who Simon is and what he believes",
+      "Add three clear navigation paths linking to /series, /products, /commentary",
+      "Query series and commentary content collections; display latest of each (handle empty gracefully)",
+      "Add subscribe/newsletter CTA — present but not dominant, linking to /newsletter. The anchor text must include the literal word 'Subscribe' or 'newsletter' so build-time grep verification can confirm it rendered",
+      "Ensure no <img> tags, no background-image CSS, no animation, no gradient, no bento grid"
     ],
     "acceptanceCriteria": [
       {
-        "text": "/tags route lists all tags used across content tracks",
-        "verify": "npm run build && test -f dist/tags/index.html"
+        "text": "Home page builds and renders",
+        "verify": "npm run build && test -f dist/index.html"
       },
       {
-        "text": "Individual tag pages are generated for each tag",
-        "verify": "npm run build && ls dist/tags/*/index.html 2>/dev/null | grep -q ."
+        "text": "Home page links to /series, /products, and /commentary",
+        "verify": "npm run build && grep -q '/series' dist/index.html && grep -q '/products' dist/index.html && grep -q '/commentary' dist/index.html"
       },
       {
-        "text": "Tag pages contain links back to content entries",
-        "verify": "npm run build && TAG_PAGE=$(ls dist/tags/*/index.html 2>/dev/null | head -1) && test -n \"$TAG_PAGE\" && grep -qi 'href=' \"$TAG_PAGE\""
+        "text": "Home page contains a subscribe/newsletter CTA",
+        "verify": "npm run build && grep -qiE 'newsletter|subscribe' dist/index.html"
+      },
+      {
+        "text": "No img tags on the home page",
+        "verify": "npm run build && ! grep -qi '<img' dist/index.html"
       }
     ],
     "scope": [
-      "src/pages/tags/**",
+      "src/pages/index.astro",
       "src/components/**"
     ],
-    "startedAt": "2026-04-03T16:05:57-07:00",
+    "startedAt": "2026-04-03T17:40:24-07:00",
     "status": "passed",
-    "completedAt": "2026-04-03T16:15:20-07:00"
+    "completedAt": "2026-04-03T17:49:59-07:00"
   },
-  "completedAt": "2026-04-03T16:15:20-07:00",
-  "attempts": 1
+  "completedAt": "2026-04-03T17:49:59-07:00",
+  "attempts": 2
 }
