@@ -21,23 +21,42 @@ function isActive(href: string): boolean {
     <a href="/" class="font-serif text-xl text-primary-400 hover:text-primary-300 transition-colors no-underline">
       Simon Plant
     </a>
-    <ul class="flex flex-wrap items-center gap-x-5 gap-y-1 list-none m-0 p-0 text-sm">
-      {links.map(({ href, label }) => (
-        <li class="m-0 p-0">
-          <a
-            href={href}
-            class:list={[
-              'no-underline transition-colors',
-              isActive(href)
-                ? 'text-primary-400 font-semibold'
-                : 'text-text-secondary hover:text-text-primary',
-            ]}
-            aria-current={isActive(href) ? 'page' : undefined}
-          >
-            {label}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-1">
+      <ul class="flex flex-wrap items-center gap-x-5 gap-y-1 list-none m-0 p-0 text-sm">
+        {links.map(({ href, label }) => (
+          <li class="m-0 p-0">
+            <a
+              href={href}
+              class:list={[
+                'no-underline transition-colors',
+                isActive(href)
+                  ? 'text-primary-400 font-semibold'
+                  : 'text-text-secondary hover:text-text-primary',
+              ]}
+              aria-current={isActive(href) ? 'page' : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <button
+        id="search-trigger"
+        type="button"
+        class="flex items-center gap-1.5 text-text-muted hover:text-text-primary transition-colors text-sm cursor-pointer bg-transparent border-0 p-0"
+        aria-label="Search (Cmd+K)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <kbd class="hidden sm:inline text-xs text-text-muted border border-border-subtle rounded px-1.5 py-0.5">&#8984;K</kbd>
+      </button>
+    </div>
   </div>
 </nav>
+
+<script is:inline>
+  document.getElementById('search-trigger').addEventListener('click', function () {
+    if (window.__openSearch) window.__openSearch();
+  });
+</script>

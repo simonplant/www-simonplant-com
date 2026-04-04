@@ -51,3 +51,7 @@
 {"itemId":"FEAT-013","date":"2026-04-03","text":"Page contains links to commentary content","verify":"npm run build && grep -q '/commentary/' dist/start-here/index.html"}
 {"itemId":"FEAT-013","date":"2026-04-03","text":"Page contains links to architecture content","verify":"npm run build && grep -q '/architecture/' dist/start-here/index.html"}
 {"itemId":"FEAT-013","date":"2026-04-03","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-022","date":"2026-04-03","text":"Pagefind index is generated at build time","verify":"npm run build && test -d dist/pagefind"}
+{"itemId":"FEAT-022","date":"2026-04-03","text":"Search overlay element is present in built pages","verify":"npm run build && grep -q 'search-overlay' dist/index.html"}
+{"itemId":"FEAT-022","date":"2026-04-03","text":"Pagefind script is referenced in built pages","verify":"npm run build && grep -q 'pagefind' dist/index.html"}
+{"itemId":"FEAT-022","date":"2026-04-03","text":"Build succeeds cleanly","verify":"npm run build"}
