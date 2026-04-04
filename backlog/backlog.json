@@ -2,58 +2,6 @@
   "description": "Feature backlog",
   "items": [
     {
-      "id": "FEAT-005",
-      "title": "Home page",
-      "intent": "The home page must read as an editorial masthead, not a SaaS landing page. Simon's name, a one-line positioning statement, and three clear paths: the flagship series, the products, and the commentary. No hero image, no animation, no bento boxes. Let the writing be the thing. Latest series installment and latest commentary visible. Subscribe CTA present but not dominant.",
-      "description": "Replace the scaffold index.astro with a typography-first editorial homepage. Three content paths must be visually distinct. Query content collections for latest entries. If no published content exists, handle gracefully (empty state or seed draft content).",
-      "priority": "must",
-      "category": "pages",
-      "steps": [
-        "Replace scaffold index.astro with editorial masthead layout using Base.astro",
-        "Add positioning statement — one line, who Simon is and what he believes",
-        "Add three clear navigation paths linking to /series, /products, /commentary",
-        "Query series and commentary content collections; display latest of each (handle empty gracefully)",
-        "Add subscribe/newsletter CTA — present but not dominant, linking to /newsletter",
-        "Ensure no <img> tags, no background-image CSS, no animation, no gradient, no bento grid"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Home page builds and renders",
-          "verify": "npm run build && test -f dist/index.html"
-        },
-        {
-          "text": "Home page links to /series, /products, and /commentary",
-          "verify": "npm run build && grep -q '/series' dist/index.html && grep -q '/products' dist/index.html && grep -q '/commentary' dist/index.html"
-        },
-        {
-          "text": "Home page contains a subscribe/newsletter CTA",
-          "verify": "npm run build && grep -qi 'newsletter\\|subscribe' dist/index.html"
-        },
-        {
-          "text": "No img tags on the home page",
-          "verify": "npm run build && ! grep -qi '<img' dist/index.html"
-        }
-      ],
-      "scope": [
-        "src/pages/index.astro",
-        "src/components/**"
-      ],
-      "dependsOn": [
-        "FEAT-001",
-        "FEAT-002",
-        "FEAT-003",
-        "FEAT-004",
-        "FEAT-019",
-        "FEAT-020",
-        "FEAT-021"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: converted all plain-string AC to behavioral verifies against dist/ HTML. All 7 deps complete. Verifies check: page exists, three content paths linked, newsletter CTA present, no img tags. Sprint may need seed content or graceful empty state for latest entries."
-    },
-    {
       "id": "FEAT-006",
       "title": "About page",
       "intent": "/about must tell the narrative arc from cloud infrastructure to AI infrastructure, state current projects, declare advisory availability, and include contact details — all on one screen.",
