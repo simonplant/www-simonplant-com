@@ -1,68 +1,37 @@
 ---
 import Base from '../layouts/Base.astro';
-import { getPublishedCollection } from '../content/_helpers';
 
-const seriesEntries = await getPublishedCollection('series');
-const commentaryEntries = await getPublishedCollection('commentary');
-const architectureEntries = await getPublishedCollection('architecture');
-
-// Build lookup maps by slug for conditional rendering
-const seriesMap = new Map(seriesEntries.map((e) => [e.id, e]));
-const commentaryMap = new Map(commentaryEntries.map((e) => [e.id, e]));
-const architectureMap = new Map(architectureEntries.map((e) => [e.id, e]));
-
-// Interest areas with curated content links
 const areas = [
   {
     title: 'Agent Security',
     hook: 'AI agents introduce threat models that traditional software never faced — credential sprawl, supply chain attacks through model proxies, and blast radius problems with tool permissions.',
     links: [
-      { collection: 'commentary', id: 'ai-agent-credential-access', fallbackLabel: 'Credential Access Patterns' },
-      { collection: 'commentary', id: 'ai-agent-supply-chain-attack', fallbackLabel: 'Supply Chain Risks' },
+      { href: '/commentary/ai-agent-credential-access', label: 'Credential Access Patterns' },
+      { href: '/commentary/ai-agent-supply-chain-attack', label: 'Supply Chain Risks' },
     ],
   },
   {
     title: 'The Full Thesis',
     hook: 'Most teams building with AI agents follow the same arc — from quick scripts to production systems. Start from installment one and follow the infrastructure maturation model.',
     links: [
-      { collection: 'series', id: 'agent-infra-maturation-01', fallbackLabel: 'The Agent Infrastructure Maturation Model' },
+      { href: '/series/agent-infra-maturation-01', label: 'The Agent Infrastructure Maturation Model' },
     ],
   },
   {
     title: 'Architecture Patterns',
     hook: 'Structured records of the patterns that emerge when you run AI agents in production — not theory, but decisions made under real constraints.',
     links: [
-      { collection: 'architecture', id: 'persistent-agent-model', fallbackLabel: 'The Persistent Agent Model' },
+      { href: '/architecture/persistent-agent-model', label: 'The Persistent Agent Model' },
     ],
   },
   {
     title: 'Products & Ecosystem',
     hook: 'The tools I build and run — agent orchestration, deployment pipelines, content systems. Real software solving real problems in the agent infrastructure space.',
     links: [
-      { collection: 'page', id: '/products', fallbackLabel: 'Explore the product ecosystem' },
+      { href: '/products', label: 'Explore the product ecosystem' },
     ],
   },
-] as const;
-
-type CollectionName = 'series' | 'commentary' | 'architecture';
-
-const collectionMaps: Record<CollectionName, Map<string, { data: { title: string } }>> = {
-  series: seriesMap,
-  commentary: commentaryMap,
-  architecture: architectureMap,
-};
-
-function resolveLink(link: { collection: string; id: string; fallbackLabel: string }) {
-  if (link.collection === 'page') {
-    return { href: link.id, label: link.fallbackLabel, exists: true };
-  }
-  const map = collectionMaps[link.collection as CollectionName];
-  const entry = map?.get(link.id);
-  if (entry) {
-    return { href: `/${link.collection}/${link.id}`, label: entry.data.title, exists: true };
-  }
-  return { href: null, label: link.fallbackLabel, exists: false };
-}
+];
 ---
 
 <Base
@@ -80,35 +49,24 @@ function resolveLink(link: { collection: string; id: string; fallbackLabel: stri
       </header>
 
       <div class="space-y-12">
-        {areas.map((area) => {
-          const resolved = area.links.map(resolveLink);
-          const hasAnyContent = resolved.some((r) => r.exists);
-
-          return (
-            <section class="border-b border-border-subtle pb-10">
-              <h2 class="font-serif text-2xl text-gray-50 mb-2">{area.title}</h2>
-              <p class="font-prose text-text-secondary mb-4">{area.hook}</p>
-              {hasAnyContent ? (
-                <ul class="list-none m-0 p-0 space-y-2">
-                  {resolved.map((link) =>
-                    link.exists ? (
-                      <li class="m-0 p-0">
-                        <a
-                          href={link.href}
-                          class="font-prose text-primary-400 hover:text-primary-300 transition-colors"
-                        >
-                          {link.label} &rarr;
-                        </a>
-                      </li>
-                    ) : null
-                  )}
-                </ul>
-              ) : (
-                <p class="text-text-muted font-prose text-sm">Content coming soon.</p>
-              )}
-            </section>
-          );
-        })}
+        {areas.map((area) => (
+          <section class="border-b border-border-subtle pb-10">
+            <h2 class="font-serif text-2xl text-gray-50 mb-2">{area.title}</h2>
+            <p class="font-prose text-text-secondary mb-4">{area.hook}</p>
+            <ul class="list-none m-0 p-0 space-y-2">
+              {area.links.map((link) => (
+                <li class="m-0 p-0">
+                  <a
+                    href={link.href}
+                    class="font-prose text-primary-400 hover:text-primary-300 transition-colors"
+                  >
+                    {link.label} &rarr;
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
       </div>
 
       <aside class="mt-16 border-t border-border-default pt-8">
