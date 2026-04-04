@@ -1,5 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getPublishedCollection } from '../content/_helpers';
+
+const seriesEntries = await getPublishedCollection('series');
+const commentaryEntries = await getPublishedCollection('commentary');
+
+const latestSeries = seriesEntries.sort((a, b) => b.data.number - a.data.number)[0] ?? null;
+const latestCommentary = commentaryEntries.sort(
+  (a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime(),
+)[0] ?? null;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -19,7 +28,105 @@ const jsonLd = {
   description="AI infrastructure architect. Building the ops layer for production agent systems."
   jsonLd={jsonLd}
 >
-  <main class="flex min-h-screen items-center justify-center">
-    <h1 class="font-serif text-4xl text-primary">Simon Plant</h1>
+  <main class="section-spacing">
+    <div class="container-prose">
+
+      {/* ── Masthead ── */}
+      <header class="mb-16">
+        <h1 class="font-serif text-5xl text-gray-50 mb-4">Simon Plant</h1>
+        <p class="font-prose text-xl text-text-secondary leading-relaxed">
+          Building the infrastructure layer that turns AI agents from demos into production systems.
+        </p>
+      </header>
+
+      {/* ── Three content paths ── */}
+      <nav class="mb-16 border-t border-b border-border-default py-8" aria-label="Content tracks">
+        <ul class="list-none p-0 m-0 space-y-6">
+          <li>
+            <a href="/series" class="group block">
+              <span class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors">
+                The Series
+              </span>
+              <p class="text-text-secondary font-prose mt-1 mb-0">
+                Long-form installments mapping the arc from scripts to production agent systems.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="/products" class="group block">
+              <span class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors">
+                Products
+              </span>
+              <p class="text-text-secondary font-prose mt-1 mb-0">
+                The tools I build and use — ClawHQ, AIShore, Easy Markdown, Clawdius.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="/commentary" class="group block">
+              <span class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors">
+                Commentary
+              </span>
+              <p class="text-text-secondary font-prose mt-1 mb-0">
+                Short-form takes — opinionated, externally triggered, tagged. What's happening now.
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      {/* ── Latest series installment ── */}
+      <section class="mb-16">
+        <h2 class="font-sans text-sm uppercase tracking-wider text-text-muted mb-6">Latest from the Series</h2>
+        {latestSeries ? (
+          <a href={`/series/${latestSeries.id}`} class="group block">
+            <span class="text-text-muted text-sm font-sans">Installment {latestSeries.data.number}</span>
+            <h3 class="font-serif text-2xl text-gray-50 mt-1 mb-2 group-hover:text-primary-400 transition-colors">
+              {latestSeries.data.title}
+            </h3>
+            <p class="text-text-secondary font-prose leading-relaxed">
+              {latestSeries.data.description}
+            </p>
+          </a>
+        ) : (
+          <p class="text-text-muted font-prose">First installment coming soon.</p>
+        )}
+      </section>
+
+      {/* ── Latest commentary ── */}
+      <section class="mb-16">
+        <h2 class="font-sans text-sm uppercase tracking-wider text-text-muted mb-6">Latest Commentary</h2>
+        {latestCommentary ? (
+          <a href={`/commentary/${latestCommentary.id}`} class="group block">
+            <h3 class="font-serif text-2xl text-gray-50 mb-2 group-hover:text-primary-400 transition-colors">
+              {latestCommentary.data.title}
+            </h3>
+            <p class="text-text-secondary font-prose leading-relaxed mb-2">
+              {latestCommentary.data.description}
+            </p>
+            <span class="text-text-muted text-sm font-sans">
+              {latestCommentary.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </span>
+          </a>
+        ) : (
+          <p class="text-text-muted font-prose">Commentary coming soon.</p>
+        )}
+      </section>
+
+      {/* ── Subscribe CTA ── */}
+      <aside class="border-t border-border-default pt-8">
+        <h2 class="font-serif text-xl text-gray-50 mb-2">Stay in the loop</h2>
+        <p class="text-text-secondary font-prose mb-4">
+          New series installments and commentary, no noise. Unsubscribe anytime.
+        </p>
+        <a
+          href="/newsletter"
+          class="inline-block font-sans text-sm font-medium text-primary-400 border border-primary-600 rounded px-5 py-2 hover:bg-primary-400/10 transition-colors"
+        >
+          Subscribe
+        </a>
+      </aside>
+
+    </div>
   </main>
 </Base>
