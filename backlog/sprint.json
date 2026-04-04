@@ -1,47 +1,43 @@
 {
-  "sprintId": "refined-2026-04-03T17:45:35-07:00",
-  "startedAt": "2026-04-03T17:40:24-07:00",
+  "sprintId": "refined-2026-04-03T18:17:07-07:00",
+  "startedAt": "2026-04-03T18:09:03-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-005",
-    "title": "Home page",
-    "intent": "The home page must read as an editorial masthead, not a SaaS landing page. Simon's name, a one-line positioning statement, and three clear paths: the flagship series, the products, and the commentary. No hero image, no animation, no bento boxes. Let the writing be the thing. Latest series installment and latest commentary visible. Subscribe CTA present but not dominant.",
-    "description": "Replace the scaffold index.astro with a typography-first editorial homepage. Three content paths must be visually distinct. Query content collections for latest entries. If no published content exists, handle gracefully (empty state or seed draft content).",
+    "id": "FEAT-016",
+    "title": "Code blocks with syntax highlighting and copy button",
+    "intent": "All code blocks across the site must have language-aware syntax highlighting with a dark-mode-matched theme and a one-click copy button. For a developer audience reading infrastructure code, this is core readability, not polish.",
+    "description": "Configure Astro's built-in Shiki highlighter and add a vanilla JS copy button to all <pre> blocks. Sprint must include at least one page with a rendered code block so the verify can confirm Shiki output in dist/.",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Replace scaffold index.astro with editorial masthead layout using Base.astro",
-      "Add positioning statement — one line, who Simon is and what he believes",
-      "Add three clear navigation paths linking to /series, /products, /commentary",
-      "Query series and commentary content collections; display latest of each (handle empty gracefully)",
-      "Add subscribe/newsletter CTA — present but not dominant, linking to /newsletter. The anchor text must include the literal word 'Subscribe' or 'newsletter' so build-time grep verification can confirm it rendered",
-      "Ensure no <img> tags, no background-image CSS, no animation, no gradient, no bento grid"
+      "Configure Shiki in astro.config.mjs markdown.shikiConfig — pick a dark theme (e.g., github-dark, night-owl, or dracula) that matches the site's dark surface",
+      "Create a CopyButton component or inline <script> that adds a copy-to-clipboard button to every <pre> element",
+      "Style the copy button: positioned top-right of code block, unobtrusive, shows feedback on click",
+      "Ensure CopyCode component is imported and rendered in Base.astro so the script is included in every page",
+      "Ensure at least one content page with a code fence exists (architecture KB or series entry) so Shiki renders in the build"
     ],
     "acceptanceCriteria": [
       {
-        "text": "Home page builds and renders",
-        "verify": "npm run build && test -f dist/index.html"
+        "text": "Code blocks render with Shiki syntax highlighting in built HTML",
+        "verify": "npm run build && grep -rq 'astro-code' dist/"
       },
       {
-        "text": "Home page links to /series, /products, and /commentary",
-        "verify": "npm run build && grep -q '/series' dist/index.html && grep -q '/products' dist/index.html && grep -q '/commentary' dist/index.html"
+        "text": "Copy button script is present in built output",
+        "verify": "npm run build && grep -rq 'clipboard' dist/"
       },
       {
-        "text": "Home page contains a subscribe/newsletter CTA",
-        "verify": "npm run build && grep -qiE 'newsletter|subscribe' dist/index.html"
-      },
-      {
-        "text": "No img tags on the home page",
-        "verify": "npm run build && ! grep -qi '<img' dist/index.html"
+        "text": "Build succeeds cleanly",
+        "verify": "npm run build"
       }
     ],
     "scope": [
-      "src/pages/index.astro",
-      "src/components/**"
+      "src/styles/**",
+      "src/components/**",
+      "astro.config.mjs"
     ],
-    "startedAt": "2026-04-03T17:40:24-07:00",
+    "startedAt": "2026-04-03T18:09:03-07:00",
     "status": "passed",
-    "completedAt": "2026-04-03T17:49:59-07:00"
+    "completedAt": "2026-04-03T18:22:41-07:00"
   },
-  "completedAt": "2026-04-03T17:49:59-07:00",
+  "completedAt": "2026-04-03T18:22:41-07:00",
   "attempts": 2
 }

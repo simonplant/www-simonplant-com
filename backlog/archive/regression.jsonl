@@ -43,3 +43,6 @@
 {"itemId":"FEAT-005","date":"2026-04-03","text":"Home page links to /series, /products, and /commentary","verify":"npm run build && grep -q '/series' dist/index.html && grep -q '/products' dist/index.html && grep -q '/commentary' dist/index.html"}
 {"itemId":"FEAT-005","date":"2026-04-03","text":"Home page contains a subscribe/newsletter CTA","verify":"npm run build && grep -qiE 'newsletter|subscribe' dist/index.html"}
 {"itemId":"FEAT-005","date":"2026-04-03","text":"No img tags on the home page","verify":"npm run build && ! grep -qi '<img' dist/index.html"}
+{"itemId":"FEAT-016","date":"2026-04-03","text":"Code blocks render with Shiki syntax highlighting in built HTML","verify":"npm run build && grep -rq 'astro-code' dist/"}
+{"itemId":"FEAT-016","date":"2026-04-03","text":"Copy button script is present in built output","verify":"npm run build && grep -rq 'clipboard' dist/"}
+{"itemId":"FEAT-016","date":"2026-04-03","text":"Build succeeds cleanly","verify":"npm run build"}
