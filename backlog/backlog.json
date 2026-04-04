@@ -2,7 +2,6 @@
   "description": "Feature backlog",
   "items": [
     {
-<<<<<<< Updated upstream
       "id": "FEAT-006",
       "title": "About page",
       "intent": "/about must tell the narrative arc from cloud infrastructure to AI infrastructure, state current projects, declare advisory availability, and include contact details — all on one screen.",
@@ -191,42 +190,6 @@
       "scope": [
         "src/pages/products/**",
         "src/content/products/**",
-=======
-      "id": "FEAT-005",
-      "title": "Home page",
-      "intent": "The home page must read as an editorial masthead, not a SaaS landing page. Simon's name, a one-line positioning statement, and three clear paths: the flagship series, the products, and the commentary. No hero image, no animation, no bento boxes. Let the writing be the thing. Latest series installment and latest commentary visible. Subscribe CTA present but not dominant.",
-      "description": "Replace the scaffold index.astro with a typography-first editorial homepage. Three content paths must be visually distinct. Query content collections for latest entries. If no published content exists, handle gracefully (empty state or seed draft content).",
-      "priority": "must",
-      "category": "pages",
-      "steps": [
-        "Replace scaffold index.astro with editorial masthead layout using Base.astro",
-        "Add positioning statement — one line, who Simon is and what he believes",
-        "Add three clear navigation paths linking to /series, /products, /commentary",
-        "Query series and commentary content collections; display latest of each (handle empty gracefully)",
-        "Add subscribe/newsletter CTA — present but not dominant, linking to /newsletter",
-        "Ensure no <img> tags, no background-image CSS, no animation, no gradient, no bento grid"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Home page builds and renders",
-          "verify": "npm run build && test -f dist/index.html"
-        },
-        {
-          "text": "Home page links to /series, /products, and /commentary",
-          "verify": "npm run build && grep -q '/series' dist/index.html && grep -q '/products' dist/index.html && grep -q '/commentary' dist/index.html"
-        },
-        {
-          "text": "Home page contains a subscribe/newsletter CTA",
-          "verify": "npm run build && grep -qi 'newsletter\\|subscribe' dist/index.html"
-        },
-        {
-          "text": "No img tags on the home page",
-          "verify": "npm run build && ! grep -qi '<img' dist/index.html"
-        }
-      ],
-      "scope": [
-        "src/pages/index.astro",
->>>>>>> Stashed changes
         "src/components/**"
       ],
       "dependsOn": [
@@ -238,20 +201,12 @@
         "FEAT-020",
         "FEAT-021"
       ],
-<<<<<<< Updated upstream
       "status": "done",
       "passes": true,
       "readyForSprint": false,
       "groomedAt": "2026-04-01",
       "groomingNotes": "Completed.",
       "completedAt": "2026-04-01T12:05:24-07:00"
-=======
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: converted all plain-string AC to behavioral verifies against dist/ HTML. All 7 deps complete. Verifies check: page exists, three content paths linked, newsletter CTA present, no img tags. Sprint may need seed content or graceful empty state for latest entries."
->>>>>>> Stashed changes
     },
     {
       "id": "FEAT-011",
@@ -296,6 +251,49 @@
       "groomedAt": "2026-04-01",
       "groomingNotes": "v0.5.2 compliance: all deps now done (007, 008, 009 completed). Converted plain-string AC to behavioral verifies: tag index exists, individual tag pages generated, tag pages contain href links. Unblocked and marked ready.",
       "completedAt": "2026-04-03T16:15:20-07:00"
+    },
+    {
+      "id": "FEAT-012",
+      "title": "Newsletter signup and RSS",
+      "intent": "/newsletter must be a compelling landing page that sells the value of subscribing — what readers get, how often, and why it matters. RSS feed must cover all content tracks. This is the primary distribution channel, not an afterthought.",
+      "description": "",
+      "priority": "must",
+      "category": "pages",
+      "steps": [
+        "Create src/pages/newsletter.astro with description and signup form",
+        "Add RSS feed generation using @astrojs/rss",
+        "Include series and commentary in the RSS feed",
+        "Add RSS link to site head and navigation"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "/newsletter route exists with signup form",
+          "verify": "npm run build && test -f dist/newsletter/index.html"
+        },
+        {
+          "text": "RSS feed is generated at /rss.xml",
+          "verify": "npm run build && test -f dist/rss.xml"
+        }
+      ],
+      "scope": [
+        "src/pages/newsletter.astro",
+        "src/pages/rss.xml.ts"
+      ],
+      "dependsOn": [
+        "FEAT-001",
+        "FEAT-002",
+        "FEAT-003",
+        "FEAT-004",
+        "FEAT-019",
+        "FEAT-020",
+        "FEAT-021"
+      ],
+      "status": "done",
+      "passes": true,
+      "readyForSprint": false,
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "Completed.",
+      "completedAt": "2026-04-01T12:11:01-07:00"
     },
     {
       "id": "FEAT-013",
@@ -418,8 +416,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": true,
-      "groomedAt": "2026-04-03",
-      "groomingNotes": "v0.5.3: fixed copy button AC verify — previous verify used bash ** glob (not supported without globstar) and OR-chained commands that could mask build failures. Replaced with single recursive grep of dist/. All deps complete. Ready."
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: converted all plain-string AC to behavioral verifies. Shiki output verified by grepping dist/ for 'astro-code' class. Copy button verified by grepping built JS/HTML for clipboard/copy. Sprint must ensure at least one code block exists in content so Shiki runs. Steps updated to be developer-actionable."
     },
     {
       "id": "FEAT-017",
@@ -710,41 +708,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": true,
-      "groomedAt": "2026-04-03",
-      "groomingNotes": "v0.5.3: fixed both verify commands. AC1: removed bash ** glob, use recursive grep on dist/. AC2: was grepping source file (prohibited) — replaced with behavioral check on built output: print query exists AND display:none rule present. All deps complete. Ready."
-    },
-    {
-      "id": "FEAT-032",
-      "title": "robots.txt",
-      "intent": "Every crawler that visits simonplant.com must find a valid robots.txt that permits indexing and points to the sitemap — without this, search engines must guess at crawl rules and may miss the sitemap entirely.",
-      "description": "Create public/robots.txt (or a static Astro endpoint) that allows all crawlers and references the sitemap generated by FEAT-023. No code logic needed — this is a one-file addition.",
-      "priority": "should",
-      "category": "infrastructure",
-      "steps": [
-        "Create public/robots.txt with: User-agent: *, Allow: /, Sitemap: https://simonplant.com/sitemap-index.xml",
-        "Verify the file is copied to dist/ at build time (Astro copies public/ automatically)"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "robots.txt is present in built output",
-          "verify": "npm run build && test -f dist/robots.txt"
-        },
-        {
-          "text": "robots.txt contains Sitemap directive",
-          "verify": "npm run build && grep -q 'Sitemap:' dist/robots.txt"
-        }
-      ],
-      "scope": [
-        "public/robots.txt"
-      ],
-      "dependsOn": [
-        "FEAT-023"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-03",
-      "groomingNotes": "Gap found in grooming: FEAT-023 generated sitemap.xml but no robots.txt references it. Static file in public/ — zero sprint risk. Deps: FEAT-023 done. AC verifies are behavioral against dist/."
+      "groomedAt": "2026-04-01",
+      "groomingNotes": "v0.5.2 compliance: dep FEAT-002 now done. Converted plain-string AC to behavioral verifies: @media print in built CSS, display:none rule present. Steps updated with specific CSS properties and elements to hide. Unblocked and marked ready."
     }
   ]
 }
