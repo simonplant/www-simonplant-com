@@ -1,36 +1,33 @@
 {
-  "sprintId": "refined-2026-04-03T18:29:33-07:00",
-  "startedAt": "2026-04-03T18:22:42-07:00",
+  "sprintId": "refined-2026-04-03T18:44:42-07:00",
+  "startedAt": "2026-04-03T18:35:24-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-013",
-    "title": "Start Here page",
-    "intent": "/start-here must orient first-time visitors by interest area with curated entry points into existing content — if you care about security start here, if you want the full thesis start from installment 1. No visitor should feel lost.",
-    "description": "A curated entry point page that groups existing content by reader interest (security, orchestration, full thesis, etc.). Links to specific series installments, commentary posts, and KB entries. Must work even with limited published content — use draft content for structure.",
+    "id": "FEAT-022",
+    "title": "Client-side full-text search",
+    "intent": "The site must have Pagefind-powered static search across all content tracks — series, commentary, architecture KB, and products — with a keyboard-triggered overlay (Cmd/Ctrl+K). Build-time index, zero runtime JS cost until activated.",
+    "description": "Install Pagefind, run it as a post-build step to index dist/, create a search overlay component triggered by Cmd/Ctrl+K. Pagefind handles indexing and UI — style the overlay to match the dark theme with amber accents. Add a search icon/trigger to the Nav component.",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Create src/pages/start-here.astro using Base layout with prose container",
-      "Define 3-5 interest areas as a static array of objects with title, hook, and hardcoded href/label pairs — do NOT use getPublishedCollection or conditional content resolution; links on a Start Here page must always render",
-      "For each area render the section heading, 1-2 sentence hook, and the list of links — links are static hrefs like /series/agent-infra-maturation-01, /commentary/ai-agent-credential-access, /architecture/persistent-agent-model",
-      "Add to site navigation (Nav component) if a nav component exists",
-      "Ensure each hardcoded href points to a route that actually builds (verify against the routes list in the build output)"
+      "Install pagefind as a dev dependency: npm install --save-dev pagefind",
+      "Add a post-build script in package.json that runs pagefind --site dist/ after astro build (update the build script to: astro check && astro build && pagefind --site dist/)",
+      "Create src/components/SearchOverlay.astro with: (a) a fixed overlay div with id=\"search-overlay\", (b) a vanilla JS inline script with Cmd/Ctrl+K keyboard listener using e.metaKey||e.ctrlKey, (c) lazy dynamic import of /pagefind/pagefind-ui.js on first activation, (d) dark theme CSS overrides with amber accents matching --color-primary",
+      "Import SearchOverlay in src/layouts/Base.astro and render it inside <body> before </body> — this step is required for the overlay HTML to appear in all built pages",
+      "Add a search trigger button to src/components/Nav.astro that calls window.__openSearch() on click, with a search icon and keyboard shortcut hint (⌘K)",
+      "Verify the build produces dist/pagefind/ and that dist/index.html contains the search-overlay element"
     ],
     "acceptanceCriteria": [
       {
-        "text": "/start-here route exists and renders",
-        "verify": "npm run build && test -f dist/start-here/index.html"
+        "text": "Pagefind index is generated at build time",
+        "verify": "npm run build && test -d dist/pagefind"
       },
       {
-        "text": "Page contains links to series content",
-        "verify": "npm run build && grep -q '/series/' dist/start-here/index.html"
+        "text": "Search overlay element is present in built pages",
+        "verify": "npm run build && grep -q 'search-overlay' dist/index.html"
       },
       {
-        "text": "Page contains links to commentary content",
-        "verify": "npm run build && grep -q '/commentary/' dist/start-here/index.html"
-      },
-      {
-        "text": "Page contains links to architecture content",
-        "verify": "npm run build && grep -q '/architecture/' dist/start-here/index.html"
+        "text": "Pagefind script is referenced in built pages",
+        "verify": "npm run build && grep -q 'pagefind' dist/index.html"
       },
       {
         "text": "Build succeeds cleanly",
@@ -38,13 +35,14 @@
       }
     ],
     "scope": [
-      "src/pages/start-here.astro",
-      "src/components/**"
+      "src/components/**",
+      "src/pages/**",
+      "package.json"
     ],
-    "startedAt": "2026-04-03T18:22:42-07:00",
+    "startedAt": "2026-04-03T18:35:24-07:00",
     "status": "passed",
-    "completedAt": "2026-04-03T18:35:23-07:00"
+    "completedAt": "2026-04-03T18:51:42-07:00"
   },
-  "completedAt": "2026-04-03T18:35:23-07:00",
+  "completedAt": "2026-04-03T18:51:42-07:00",
   "attempts": 2
 }

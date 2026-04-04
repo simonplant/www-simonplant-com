@@ -373,52 +373,6 @@
       "groomingNotes": "v0.5.2 compliance: all deps now done. Converted plain-string AC to behavioral verify: grep built series page for 'min read' text. Added description and specific steps. Utility is trivial — S size. Unblocked and marked ready."
     },
     {
-      "id": "FEAT-022",
-      "title": "Client-side full-text search",
-      "intent": "The site must have Pagefind-powered static search across all content tracks — series, commentary, architecture KB, and products — with a keyboard-triggered overlay (Cmd/Ctrl+K). Build-time index, zero runtime JS cost until activated.",
-      "description": "Install Pagefind, run it as a post-build step to index dist/, create a search overlay component triggered by Cmd/Ctrl+K. Pagefind handles indexing and UI — style the overlay to match the dark theme with amber accents. Add a search icon/trigger to the Nav component.",
-      "priority": "should",
-      "category": "foundation",
-      "steps": [
-        "Install pagefind as a dev dependency",
-        "Add a post-build script that runs pagefind --site dist/ (or configure via astro.config.mjs)",
-        "Create a SearchOverlay.astro component with Cmd/Ctrl+K keyboard listener (vanilla JS)",
-        "Load Pagefind UI lazily on first activation (dynamic import from /pagefind/pagefind.js)",
-        "Style the overlay: dark background, amber accent on results, smooth open/close animation",
-        "Add search trigger button to Nav component"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Pagefind index is generated at build time",
-          "verify": "npm run build && test -d dist/pagefind"
-        },
-        {
-          "text": "Search UI script is included in built pages",
-          "verify": "npm run build && grep -rq 'pagefind\\|Ctrl.*K\\|Meta.*K' dist/index.html"
-        },
-        {
-          "text": "Build succeeds cleanly",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/components/**",
-        "src/pages/**",
-        "package.json"
-      ],
-      "dependsOn": [
-        "FEAT-001",
-        "FEAT-007",
-        "FEAT-008",
-        "FEAT-009"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: all deps now done. Converted plain-string AC to behavioral verifies: pagefind directory exists in dist/, search script referenced in built HTML. Added description with concrete implementation approach. Steps updated to be developer-actionable. Unblocked and marked ready."
-    },
-    {
       "id": "FEAT-025",
       "title": "Companion artifact system",
       "intent": "Series installments must be able to ship with companion artifacts — checklists, templates, decision frameworks, comparison matrices — displayed inline and linked to GitHub, so readers get actionable tools alongside the narrative.",
