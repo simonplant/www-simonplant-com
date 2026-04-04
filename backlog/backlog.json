@@ -296,49 +296,6 @@
       "completedAt": "2026-04-01T12:11:01-07:00"
     },
     {
-      "id": "FEAT-013",
-      "title": "Start Here page",
-      "intent": "/start-here must orient first-time visitors by interest area with curated entry points into existing content — if you care about security start here, if you want the full thesis start from installment 1. No visitor should feel lost.",
-      "description": "A curated entry point page that groups existing content by reader interest (security, orchestration, full thesis, etc.). Links to specific series installments, commentary posts, and KB entries. Must work even with limited published content — use draft content for structure.",
-      "priority": "should",
-      "category": "pages",
-      "steps": [
-        "Create src/pages/start-here.astro using Base layout with prose container",
-        "Define 3-5 interest areas (e.g., security, orchestration, full thesis, product ecosystem)",
-        "For each area, write a 1-2 sentence hook and link to 2-3 specific content entries",
-        "Add to site navigation (Nav component)",
-        "Handle gracefully if linked content doesn't exist yet — use conditional rendering"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "/start-here route exists and renders",
-          "verify": "npm run build && test -f dist/start-here/index.html"
-        },
-        {
-          "text": "Page contains links to content across tracks",
-          "verify": "npm run build && grep -q '/series\\|/commentary\\|/architecture' dist/start-here/index.html"
-        },
-        {
-          "text": "Build succeeds cleanly",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/pages/start-here.astro",
-        "src/components/**"
-      ],
-      "dependsOn": [
-        "FEAT-007",
-        "FEAT-008",
-        "FEAT-009"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: all deps now done (007, 008, 009 completed). Converted to behavioral verifies: page exists, contains cross-track links. Added description and specific steps. Unblocked and marked ready."
-    },
-    {
       "id": "FEAT-015",
       "title": "Talks page",
       "intent": "/talks must exist as a minimal page that can grow as speaking opportunities emerge — not empty, but honest about being early. Visitors interested in booking Simon for a talk must find topics and contact info.",

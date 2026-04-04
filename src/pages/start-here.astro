@@ -1,0 +1,86 @@
+---
+import Base from '../layouts/Base.astro';
+
+const areas = [
+  {
+    title: 'Agent Security',
+    hook: 'AI agents introduce threat models that traditional software never faced — credential sprawl, supply chain attacks through model proxies, and blast radius problems with tool permissions.',
+    links: [
+      { href: '/commentary/ai-agent-credential-access', label: 'Credential Access Patterns' },
+      { href: '/commentary/ai-agent-supply-chain-attack', label: 'Supply Chain Risks' },
+    ],
+  },
+  {
+    title: 'The Full Thesis',
+    hook: 'Most teams building with AI agents follow the same arc — from quick scripts to production systems. Start from installment one and follow the infrastructure maturation model.',
+    links: [
+      { href: '/series/agent-infra-maturation-01', label: 'The Agent Infrastructure Maturation Model' },
+    ],
+  },
+  {
+    title: 'Architecture Patterns',
+    hook: 'Structured records of the patterns that emerge when you run AI agents in production — not theory, but decisions made under real constraints.',
+    links: [
+      { href: '/architecture/persistent-agent-model', label: 'The Persistent Agent Model' },
+    ],
+  },
+  {
+    title: 'Products & Ecosystem',
+    hook: 'The tools I build and run — agent orchestration, deployment pipelines, content systems. Real software solving real problems in the agent infrastructure space.',
+    links: [
+      { href: '/products', label: 'Explore the product ecosystem' },
+    ],
+  },
+];
+---
+
+<Base
+  title="Start Here — Simon Plant"
+  description="Not sure where to begin? Pick the thread that matches your interest — security, architecture, the full thesis, or the product ecosystem."
+>
+  <main class="section-spacing">
+    <div class="container-prose">
+
+      <header class="mb-16">
+        <h1 class="font-serif text-4xl md:text-5xl text-gray-50 mb-4">Start Here</h1>
+        <p class="font-prose text-lg md:text-xl text-text-secondary leading-relaxed">
+          This site documents what it takes to run AI agents in production — the infrastructure, the security, the patterns that emerge under real load. Pick the thread that matches where you are.
+        </p>
+      </header>
+
+      <div class="space-y-12">
+        {areas.map((area) => (
+          <section class="border-b border-border-subtle pb-10">
+            <h2 class="font-serif text-2xl text-gray-50 mb-2">{area.title}</h2>
+            <p class="font-prose text-text-secondary mb-4">{area.hook}</p>
+            <ul class="list-none m-0 p-0 space-y-2">
+              {area.links.map((link) => (
+                <li class="m-0 p-0">
+                  <a
+                    href={link.href}
+                    class="font-prose text-primary-400 hover:text-primary-300 transition-colors"
+                  >
+                    {link.label} &rarr;
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+      <aside class="mt-16 border-t border-border-default pt-8">
+        <p class="font-prose text-text-secondary mb-3">
+          Want to follow along as new installments and patterns ship?
+        </p>
+        <a
+          href="/newsletter"
+          class="inline-block font-sans text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors"
+        >
+          Subscribe to the newsletter &rarr;
+        </a>
+      </aside>
+
+    </div>
+  </main>
+</Base>
