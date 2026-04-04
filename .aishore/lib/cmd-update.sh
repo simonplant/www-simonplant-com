@@ -17,22 +17,36 @@ cmd_update() {
     echo "Current version: $AISHORE_VERSION"
     echo ""
 
-    # Check for curl or wget
-    local fetch_cmd=""
+    # Check for curl or wget, with GitHub auth for private repos
+    local _fetch_base="" _fetch_auth=()
+    local gh_token=""
+    if command -v gh &> /dev/null; then
+        gh_token=$(gh auth token 2>/dev/null) || true
+    fi
     if command -v curl &> /dev/null; then
-        fetch_cmd="curl -fsSL"
+        _fetch_base="curl"
+        [[ -n "$gh_token" ]] && _fetch_auth=(-H "Authorization: Bearer $gh_token")
     elif command -v wget &> /dev/null; then
-        fetch_cmd="wget -qO-"
+        _fetch_base="wget"
+        [[ -n "$gh_token" ]] && _fetch_auth=(--header="Authorization: Bearer $gh_token")
     else
         log_error "curl or wget required for update"
         return 1
     fi
+    # fetch_cmd wraps curl/wget with optional auth
+    fetch_cmd() {
+        if [[ "$_fetch_base" == "curl" ]]; then
+            curl -fsSL "${_fetch_auth[@]}" "$@"
+        else
+            wget -qO- "${_fetch_auth[@]}" "$@"
+        fi
+    }
 
     # Resolve latest release tag
     local api_url="https://api.github.com/repos/simonplant/aishore/releases/latest"
     log_info "Checking for updates..."
     local release_tag=""
-    release_tag=$($fetch_cmd "$api_url" 2>/dev/null | jq -r '.tag_name // empty') || true
+    release_tag=$(fetch_cmd "$api_url" 2>/dev/null | jq -r '.tag_name // empty') || true
 
     if [[ -z "$release_tag" ]]; then
         log_warning "Could not resolve latest release — falling back to main"
@@ -43,7 +57,7 @@ cmd_update() {
 
     # Fetch remote version from VERSION file
     local remote_version
-    remote_version=$($fetch_cmd "$repo_url/.aishore/VERSION" 2>/dev/null | tr -d '[:space:]') || {
+    remote_version=$(fetch_cmd "$repo_url/.aishore/VERSION" 2>/dev/null | tr -d '[:space:]') || {
         log_error "Failed to fetch remote version from $repo_url/.aishore/VERSION"
         return 1
     }
@@ -64,7 +78,7 @@ cmd_update() {
     # Fetch checksums manifest (needed for file discovery and verification)
     log_info "Fetching checksums..."
     local checksums_content=""
-    checksums_content=$($fetch_cmd "$repo_url/.aishore/checksums.sha256" 2>/dev/null) || {
+    checksums_content=$(fetch_cmd "$repo_url/.aishore/checksums.sha256" 2>/dev/null) || {
         log_error "Cannot fetch checksums manifest — check connectivity and try again"
         return 1
     }
@@ -118,7 +132,7 @@ cmd_update() {
     _fetch_and_stage() {
         local remote_path="$1" local_path="$2" label="$3" checksum_key="$4"
         local required="${5:-false}"
-        if ! $fetch_cmd "$repo_url/$remote_path" > "$local_path" 2>/dev/null; then
+        if ! fetch_cmd "$repo_url/$remote_path" > "$local_path" 2>/dev/null; then
             if [[ "$required" == "true" ]]; then
                 log_error "Failed to fetch $label"
                 return 1

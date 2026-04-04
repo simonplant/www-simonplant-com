@@ -3,6 +3,9 @@
 project:
   name: "www.simonplant.com"
 
+setup:
+  command: "ln -sf /home/simon/dev/www-simonplant-com/node_modules node_modules"
+
 validation:
   command: "npm run build"
   timeout: 120
