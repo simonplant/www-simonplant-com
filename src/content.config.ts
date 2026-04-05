@@ -16,7 +16,9 @@ const series = defineCollection({
       .array(
         z.object({
           title: z.string(),
-          url: z.string(),
+          type: z.enum(['checklist', 'template', 'framework', 'matrix']),
+          description: z.string(),
+          githubUrl: z.string().url(),
         }),
       )
       .optional(),

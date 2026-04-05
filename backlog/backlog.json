@@ -373,46 +373,6 @@
       "groomingNotes": "v0.5.2 compliance: all deps now done. Converted plain-string AC to behavioral verify: grep built series page for 'min read' text. Added description and specific steps. Utility is trivial — S size. Unblocked and marked ready."
     },
     {
-      "id": "FEAT-025",
-      "title": "Companion artifact system",
-      "intent": "Series installments must be able to ship with companion artifacts — checklists, templates, decision frameworks, comparison matrices — displayed inline and linked to GitHub, so readers get actionable tools alongside the narrative.",
-      "description": "Extend the series content collection schema with an optional companionArtifacts array field. Create a component to render artifact cards on series detail pages. Each artifact: title, type (checklist/template/framework/matrix), description, githubUrl.",
-      "priority": "should",
-      "category": "foundation",
-      "steps": [
-        "Extend series Zod schema in src/content.config.ts with optional companionArtifacts: z.array(z.object({title, type, description, githubUrl})).optional()",
-        "Create src/components/CompanionArtifact.astro — renders a card with title, type badge, description, and GitHub link",
-        "Integrate CompanionArtifact into src/pages/series/[slug].astro between content body and subscribe CTA",
-        "Add at least one companion artifact to a seed series entry to prove rendering works",
-        "Only render the artifacts section if companionArtifacts is defined and non-empty"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Series schema accepts companionArtifacts field without breaking existing entries",
-          "verify": "npm run build"
-        },
-        {
-          "text": "A series page with artifacts renders artifact content in built HTML",
-          "verify": "npm run build && SERIES_PAGE=$(ls dist/series/*/index.html 2>/dev/null | head -1) && test -n \"$SERIES_PAGE\" && grep -qi 'artifact\\|companion\\|github' \"$SERIES_PAGE\""
-        }
-      ],
-      "scope": [
-        "src/content.config.ts",
-        "src/content/series/**",
-        "src/components/**",
-        "src/pages/series/**"
-      ],
-      "dependsOn": [
-        "FEAT-001",
-        "FEAT-007"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: all deps now done (001, 007 completed). Converted plain-string AC to behavioral verifies: build succeeds with schema change, artifact text appears in built series page HTML. Steps updated with specific file paths and Zod schema example. Sprint must seed an artifact in at least one series entry. Unblocked and marked ready."
-    },
-    {
       "id": "FEAT-026",
       "title": "Performance budget and Lighthouse validation",
       "intent": "Every page must score 95+ on all four Lighthouse categories (Performance, Accessibility, Best Practices, SEO). Zero layout shift, sub-100KB page weight for content pages, no render-blocking resources. The site plan says fast load — this enforces it.",

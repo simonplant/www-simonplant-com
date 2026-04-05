@@ -1,48 +1,40 @@
 {
-  "sprintId": "refined-2026-04-03T18:44:42-07:00",
-  "startedAt": "2026-04-03T18:35:24-07:00",
+  "sprintId": "refined-2026-04-05T10:08:13-07:00",
+  "startedAt": "2026-04-05T10:01:27-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-022",
-    "title": "Client-side full-text search",
-    "intent": "The site must have Pagefind-powered static search across all content tracks — series, commentary, architecture KB, and products — with a keyboard-triggered overlay (Cmd/Ctrl+K). Build-time index, zero runtime JS cost until activated.",
-    "description": "Install Pagefind, run it as a post-build step to index dist/, create a search overlay component triggered by Cmd/Ctrl+K. Pagefind handles indexing and UI — style the overlay to match the dark theme with amber accents. Add a search icon/trigger to the Nav component.",
+    "id": "FEAT-025",
+    "title": "Companion artifact system",
+    "intent": "Series installments must be able to ship with companion artifacts — checklists, templates, decision frameworks, comparison matrices — displayed inline and linked to GitHub, so readers get actionable tools alongside the narrative.",
+    "description": "Extend the series content collection schema with an optional companionArtifacts array field. Create a component to render artifact cards on series detail pages. Each artifact: title, type (checklist/template/framework/matrix), description, githubUrl.",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Install pagefind as a dev dependency: npm install --save-dev pagefind",
-      "Add a post-build script in package.json that runs pagefind --site dist/ after astro build (update the build script to: astro check && astro build && pagefind --site dist/)",
-      "Create src/components/SearchOverlay.astro with: (a) a fixed overlay div with id=\"search-overlay\", (b) a vanilla JS inline script with Cmd/Ctrl+K keyboard listener using e.metaKey||e.ctrlKey, (c) lazy dynamic import of /pagefind/pagefind-ui.js on first activation, (d) dark theme CSS overrides with amber accents matching --color-primary",
-      "Import SearchOverlay in src/layouts/Base.astro and render it inside <body> before </body> — this step is required for the overlay HTML to appear in all built pages",
-      "Add a search trigger button to src/components/Nav.astro that calls window.__openSearch() on click, with a search icon and keyboard shortcut hint (⌘K)",
-      "Verify the build produces dist/pagefind/ and that dist/index.html contains the search-overlay element"
+      "Extend series Zod schema in src/content.config.ts with optional companionArtifacts: z.array(z.object({title: z.string(), type: z.enum(['checklist','template','framework','matrix']), description: z.string(), githubUrl: z.string().url()})).optional()",
+      "Create src/components/CompanionArtifact.astro — renders a card with title, type badge, description, and GitHub icon link",
+      "Integrate CompanionArtifact into src/pages/series/[slug].astro between content body and subscribe CTA; only render the artifacts section if companionArtifacts is defined and non-empty",
+      "Add at least two companion artifacts (one checklist, one framework) to src/content/series/agent-infra-maturation-01.md frontmatter to prove rendering works — this step MUST be completed before any build verification",
+      "Verify the build produces the series page with artifact HTML by running: npm run build && grep -qiE 'companion artifacts|github\\.com' dist/series/agent-infra-maturation-01/index.html"
     ],
     "acceptanceCriteria": [
       {
-        "text": "Pagefind index is generated at build time",
-        "verify": "npm run build && test -d dist/pagefind"
-      },
-      {
-        "text": "Search overlay element is present in built pages",
-        "verify": "npm run build && grep -q 'search-overlay' dist/index.html"
-      },
-      {
-        "text": "Pagefind script is referenced in built pages",
-        "verify": "npm run build && grep -q 'pagefind' dist/index.html"
-      },
-      {
-        "text": "Build succeeds cleanly",
+        "text": "Series schema accepts companionArtifacts field without breaking existing entries",
         "verify": "npm run build"
+      },
+      {
+        "text": "A series page with artifacts renders artifact content in built HTML",
+        "verify": "npm run build && grep -qiE 'companion artifacts|github\\.com' dist/series/agent-infra-maturation-01/index.html"
       }
     ],
     "scope": [
+      "src/content.config.ts",
+      "src/content/series/**",
       "src/components/**",
-      "src/pages/**",
-      "package.json"
+      "src/pages/series/**"
     ],
-    "startedAt": "2026-04-03T18:35:24-07:00",
+    "startedAt": "2026-04-05T10:01:27-07:00",
     "status": "passed",
-    "completedAt": "2026-04-03T18:51:42-07:00"
+    "completedAt": "2026-04-05T10:14:27-07:00"
   },
-  "completedAt": "2026-04-03T18:51:42-07:00",
+  "completedAt": "2026-04-05T10:14:27-07:00",
   "attempts": 2
 }

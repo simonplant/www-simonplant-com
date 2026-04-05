@@ -55,3 +55,5 @@
 {"itemId":"FEAT-022","date":"2026-04-03","text":"Search overlay element is present in built pages","verify":"npm run build && grep -q 'search-overlay' dist/index.html"}
 {"itemId":"FEAT-022","date":"2026-04-03","text":"Pagefind script is referenced in built pages","verify":"npm run build && grep -q 'pagefind' dist/index.html"}
 {"itemId":"FEAT-022","date":"2026-04-03","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-025","date":"2026-04-05","text":"Series schema accepts companionArtifacts field without breaking existing entries","verify":"npm run build"}
+{"itemId":"FEAT-025","date":"2026-04-05","text":"A series page with artifacts renders artifact content in built HTML","verify":"npm run build && grep -qiE 'companion artifacts|github\\.com' dist/series/agent-infra-maturation-01/index.html"}

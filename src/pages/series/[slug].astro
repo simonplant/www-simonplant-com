@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import CompanionArtifact from '../../components/CompanionArtifact.astro';
 import { getPublishedCollection } from '../../content/_helpers';
 import { render } from 'astro:content';
 
@@ -78,15 +79,16 @@ const jsonLd = {
       {entry.data.companionArtifacts && entry.data.companionArtifacts.length > 0 && (
         <aside class="container-prose mt-12">
           <h2 class="font-serif text-xl text-gray-50 mb-4">Companion Artifacts</h2>
-          <ul class="space-y-2">
+          <div class="space-y-3">
             {entry.data.companionArtifacts.map((artifact) => (
-              <li>
-                <a href={artifact.url} class="text-primary-400 hover:text-primary-300 transition-colors underline underline-offset-2">
-                  {artifact.title}
-                </a>
-              </li>
+              <CompanionArtifact
+                title={artifact.title}
+                type={artifact.type}
+                description={artifact.description}
+                githubUrl={artifact.githubUrl}
+              />
             ))}
-          </ul>
+          </div>
         </aside>
       )}
 
