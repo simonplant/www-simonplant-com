@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import EcosystemMap from '../../components/EcosystemMap.astro';
 import { getCollection } from 'astro:content';
 
 const products = await getCollection('products');
@@ -31,39 +32,10 @@ const statusColors: Record<string, { bg: string; text: string }> = {
         </p>
       </div>
 
-      <!-- Relationship Map -->
-      <div class="mb-16 bg-surface-card border border-border-subtle rounded-lg p-8">
+      <!-- Ecosystem Relationship Map -->
+      <div class="mb-16 bg-surface-card border border-border-subtle rounded-lg p-6 md:p-8">
         <h2 class="font-serif text-2xl text-gray-50 mb-6">How They Fit Together</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm font-sans">
-          <div class="space-y-3">
-            <div class="flex items-start gap-3">
-              <span class="text-primary-400 font-mono text-xs mt-1 shrink-0">1.</span>
-              <p class="text-text-secondary">
-                <strong class="text-gray-50">AIShore</strong> grooms the backlog and orchestrates sprints — turning intent into structured work items with acceptance criteria.
-              </p>
-            </div>
-            <div class="flex items-start gap-3">
-              <span class="text-primary-400 font-mono text-xs mt-1 shrink-0">2.</span>
-              <p class="text-text-secondary">
-                <strong class="text-gray-50">ClawHQ</strong> manages agent lifecycles — dispatching, monitoring, and enforcing policy on the agents that do the work.
-              </p>
-            </div>
-          </div>
-          <div class="space-y-3">
-            <div class="flex items-start gap-3">
-              <span class="text-primary-400 font-mono text-xs mt-1 shrink-0">3.</span>
-              <p class="text-text-secondary">
-                <strong class="text-gray-50">Clawdius</strong> is a managed agent — he produces content (series, commentary, KB entries) under strict editorial constraints.
-              </p>
-            </div>
-            <div class="flex items-start gap-3">
-              <span class="text-primary-400 font-mono text-xs mt-1 shrink-0">4.</span>
-              <p class="text-text-secondary">
-                <strong class="text-gray-50">Easy Markdown</strong> validates and renders the content Clawdius produces — schema enforcement, editorial workflow, type-safe frontmatter.
-              </p>
-            </div>
-          </div>
-        </div>
+        <EcosystemMap />
       </div>
 
       <!-- Product Grid -->
