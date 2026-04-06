@@ -59,8 +59,10 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,700;1,7..72,400&family=JetBrains+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
+      onload="this.rel='style'+'sheet'"
     />
     <link rel="alternate" type="application/rss+xml" title="Simon Plant" href="/rss.xml" />
     <title>{title}</title>

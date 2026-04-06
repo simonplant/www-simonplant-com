@@ -57,3 +57,7 @@
 {"itemId":"FEAT-022","date":"2026-04-03","text":"Build succeeds cleanly","verify":"npm run build"}
 {"itemId":"FEAT-025","date":"2026-04-05","text":"Series schema accepts companionArtifacts field without breaking existing entries","verify":"npm run build"}
 {"itemId":"FEAT-025","date":"2026-04-05","text":"A series page with artifacts renders artifact content in built HTML","verify":"npm run build && grep -qiE 'companion artifacts|github\\.com' dist/series/agent-infra-maturation-01/index.html"}
+{"itemId":"FEAT-026","date":"2026-04-06","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-026","date":"2026-04-06","text":"Home page HTML is under 100KB","verify":"npm run build && SIZE=$(stat -c%s dist/index.html 2>/dev/null || stat -f%z dist/index.html) && test \"$SIZE\" -lt 102400"}
+{"itemId":"FEAT-026","date":"2026-04-06","text":"No render-blocking Google Fonts stylesheet tag in built home page (preconnects and preloads are fine; only synchronous rel=stylesheet is blocked)","verify":"npm run build && ! grep -qP '<link[^>]+rel=[\"\\x27]stylesheet[\"\\x27][^>]+href=[\"\\x27]https://fonts\\.googleapis' dist/index.html && ! grep -qP '<link[^>]+href=[\"\\x27]https://fonts\\.googleapis[^>]+rel=[\"\\x27]stylesheet[\"\\x27]' dist/index.html"}
+{"itemId":"FEAT-026","date":"2026-04-06","text":"check:perf npm script exists in package.json","verify":"grep -q 'check:perf' package.json"}

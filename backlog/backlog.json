@@ -373,50 +373,6 @@
       "groomingNotes": "v0.5.2 compliance: all deps now done. Converted plain-string AC to behavioral verify: grep built series page for 'min read' text. Added description and specific steps. Utility is trivial — S size. Unblocked and marked ready."
     },
     {
-      "id": "FEAT-026",
-      "title": "Performance budget and Lighthouse validation",
-      "intent": "Every page must score 95+ on all four Lighthouse categories (Performance, Accessibility, Best Practices, SEO). Zero layout shift, sub-100KB page weight for content pages, no render-blocking resources. The site plan says fast load — this enforces it.",
-      "description": "Run Lighthouse CI on key pages post-build. Fix any issues found. Establish a baseline and optionally add to CI. Requires the home page to exist first.",
-      "priority": "should",
-      "category": "polish",
-      "steps": [
-        "Install lighthouse or @lhci/cli as a dev dependency",
-        "Run Lighthouse on built pages: home, about, series index, commentary index",
-        "Fix any accessibility violations flagged (WCAG AA level)",
-        "Eliminate any render-blocking resources",
-        "Verify content pages are under 100KB total weight (check dist/ file sizes)",
-        "Document Lighthouse scores or add a npm script for manual re-runs"
-      ],
-      "acceptanceCriteria": [
-        {
-          "text": "Home page HTML is under 100KB",
-          "verify": "npm run build && test $(stat -c%s dist/index.html 2>/dev/null || stat -f%z dist/index.html) -lt 102400"
-        },
-        {
-          "text": "No render-blocking resources in home page (no blocking script tags in head)",
-          "verify": "npm run build && ! grep -q '<script.*src=.*>' dist/index.html || grep -q 'defer\\|async\\|type=\"module\"' dist/index.html"
-        },
-        {
-          "text": "Build succeeds cleanly",
-          "verify": "npm run build"
-        }
-      ],
-      "scope": [
-        "src/**",
-        "package.json"
-      ],
-      "dependsOn": [
-        "FEAT-005",
-        "FEAT-003",
-        "FEAT-019"
-      ],
-      "status": "todo",
-      "passes": false,
-      "readyForSprint": false,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: converted plain-string AC to behavioral verifies where possible — file size check, render-blocking script detection. Lighthouse scoring itself requires a running server so the verify commands focus on what's testable at build time. Still blocked by FEAT-005 (home page). Not ready."
-    },
-    {
       "id": "FEAT-027",
       "title": "Product ecosystem relationship map",
       "intent": "The products overview page must include a visual relationship map showing how ClawHQ, AIShore, Easy Markdown, and Clawdius fit together in the agent infrastructure lifecycle — so visitors immediately grasp the ecosystem, not just a list of unrelated projects.",
