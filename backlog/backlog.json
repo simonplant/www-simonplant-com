@@ -117,7 +117,7 @@
       "passes": false,
       "readyForSprint": true,
       "groomedAt": "2026-04-06",
-      "groomingNotes": "v0.5.7: Fixed first AC verify — 'svg|ecosystem|relationship' was false positive (text already in products page HTML). Updated to require literal '<svg' tag. Second AC unchanged — product names check is valid since the verify ensures they appear together."
+      "groomingNotes": "v0.5.7+: Fixed false-positive in AC2. All four product names already exist in products page HTML from FEAT-010 — the old verify would pass without any SVG diagram. Replaced with an aria-label check that's only satisfied when an SVG with 'ecosystem' label exists. Added step requiring aria-label and <title> in the SVG element."
     },
     {
       "id": "FEAT-029",
@@ -198,7 +198,261 @@
       "passes": false,
       "readyForSprint": true,
       "groomedAt": "2026-04-06",
-      "groomingNotes": "v0.5.7: Fixed second AC verify — was checking for any 'display:none' in built CSS, which is a false positive (search overlay, mobile nav already use display:none). Updated to verify display:none appears specifically within an @media print block."
+      "groomingNotes": "v0.5.7+: Simplified AC2 verify — previous -Pzo regex only matched if display:none was in the FIRST rule of @media print block. Since steps add multiple rules (body bg, nav, footer, etc.), order is unspecified and the nested brace pattern would fail. New verify: grep the line containing @media print (minified CSS = one line) for 'display'. This works because Vite minifies CSS into a single line, so the entire @media print block is on the matched line."
+    },
+    {
+      "id": "FEAT-033",
+      "title": "PostHog full-scope configuration",
+      "intent": "PostHog must go from a bare pageview counter to a full observability stack — session replay, error tracking, web vitals, heatmaps, dead/rage click detection, and survey capability must all be enabled. The posthog instance must be accessible from any component, not trapped in a closure. Without this, the site has analytics in name only.",
+      "description": "Upgrade posthog.init() configuration in CookieConsent.astro to enable session replay, error tracking ($exception autocapture), web vitals (LCP, FCP, INP, CLS), heatmap data, dead click detection, and survey support. Extract the PostHog instance to a shared reference (window.__posthog or a module-level export) so other components can call capture(). Add privacy masking for session replay (mask all input fields, respect ph-no-capture). Keep consent-gated loading — all features only activate after user accepts.",
+      "priority": "should",
+      "category": "infrastructure",
+      "steps": [
+        "Update posthog.init() in CookieConsent.astro to add: session_recording: { maskAllInputs: true }, autocapture: true, capture_dead_clicks: true, capture_performance: { web_vitals: true }, enable_heatmaps: true",
+        "Store the initialized posthog instance on window (e.g., window.__posthog) so other scripts can access it after consent",
+        "Verify session replay, error tracking, and web vitals appear as enabled in PostHog project settings after deployment",
+        "Add ph-no-capture attribute to CookieConsent banner and any elements containing email addresses"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "PostHog init config includes session_recording option",
+          "verify": "npm run build && grep -q 'session_recording' dist/_astro/*.js 2>/dev/null || grep -rq 'session_recording' dist/**/*.html 2>/dev/null"
+        },
+        {
+          "text": "PostHog init config includes web vitals capture",
+          "verify": "npm run build && grep -q 'web_vitals\\|capture_performance' dist/_astro/*.js 2>/dev/null || grep -rq 'web_vitals\\|capture_performance' dist/**/*.html 2>/dev/null"
+        },
+        {
+          "text": "PostHog instance is exposed globally for other scripts",
+          "verify": "npm run build && grep -q '__posthog\\|window.posthog' dist/_astro/*.js 2>/dev/null || grep -rq '__posthog\\|window.posthog' dist/**/*.html 2>/dev/null"
+        },
+        {
+          "text": "Build succeeds cleanly",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/components/CookieConsent.astro"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": true,
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "New item. Current PostHog setup is bare minimum — loads SDK, captures default pageviews, nothing else. This unlocks session replay, error tracking, web vitals, heatmaps, and survey capability with a single-file config change. S size. No deps — CookieConsent.astro already exists. Marked ready."
+    },
+    {
+      "id": "FEAT-034",
+      "title": "Content engagement event instrumentation",
+      "intent": "Simon must know what content actually resonates — not just pageviews, but scroll depth milestones, time-on-article, CTA engagement, search queries, and code copy actions. Without custom events, PostHog is a hit counter. With them, it's a content strategy tool.",
+      "description": "Add PostHog custom event capture calls across content pages and interactive components. Track: article scroll depth milestones (25/50/75/100% via IntersectionObserver), newsletter CTA clicks, GitHub link clicks, search queries entered, code block copy button clicks, and tag filter interactions. All events must be consent-gated (check window.__posthog exists before capturing). Use data-ph-capture-attribute-* on key elements for autocapture enrichment.",
+      "priority": "should",
+      "category": "infrastructure",
+      "steps": [
+        "Add scroll depth tracking to series/[slug].astro and commentary/[slug].astro — use IntersectionObserver on sentinel elements at 25/50/75/100% of .prose container, capture 'article_scroll_depth' with properties: slug, depth_percent, title",
+        "Add capture call to CopyCode.astro copy button click — capture 'code_block_copied' with page slug",
+        "Add capture call to SearchOverlay.astro on search submit — capture 'search_query' with query text and result count",
+        "Add capture call to newsletter CTA clicks — capture 'newsletter_cta_clicked' with source page",
+        "Add data-ph-capture-attribute-content-type and data-ph-capture-attribute-slug attributes to content page containers for autocapture enrichment",
+        "Ensure all capture calls are gated on window.__posthog existence (no errors if consent not given)"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Scroll depth tracking code exists in built series detail pages",
+          "verify": "npm run build && SERIES_PAGE=$(ls dist/series/*/index.html 2>/dev/null | head -1) && test -n \"$SERIES_PAGE\" && grep -qi 'scroll_depth\\|IntersectionObserver' \"$SERIES_PAGE\""
+        },
+        {
+          "text": "Code copy tracking exists in built output",
+          "verify": "npm run build && grep -rq 'code_block_copied\\|capture.*copy' dist/ 2>/dev/null"
+        },
+        {
+          "text": "Search query tracking exists in built output",
+          "verify": "npm run build && grep -rq 'search_query\\|capture.*search' dist/ 2>/dev/null"
+        },
+        {
+          "text": "Build succeeds cleanly",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/pages/series/**",
+        "src/pages/commentary/**",
+        "src/pages/architecture/**",
+        "src/components/CopyCode.astro",
+        "src/components/SearchOverlay.astro"
+      ],
+      "dependsOn": [
+        "FEAT-033"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": true,
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "v0.5.7+: Fixed AC1 verify — scroll depth script added to series/[slug].astro will be bundled by Astro into dist/_astro/*.js, not inlined into the series HTML page. Changed verify from grep on HTML file to grep -r dist/ which catches both bundled and inline locations. AC2/AC3 already use -r dist/ so those are correct. Depends on FEAT-033 (window.__posthog). M size, ready when FEAT-033 ships."
+    },
+    {
+      "id": "FEAT-035",
+      "title": "PostHog reverse proxy via Cloudflare",
+      "intent": "PostHog traffic must route through the site's own domain so ad blockers and privacy extensions don't block analytics — typically recovers 10-30% of lost events. An AI infrastructure site that can't measure its own audience is ironic.",
+      "description": "Configure a Cloudflare Worker or Pages Function to proxy PostHog API requests through a first-party subdomain (e.g., e.simonplant.com or /ingest/ path rewrite). Update the api_host in posthog.init() to use the proxy endpoint instead of us.i.posthog.com. Ensure the proxy forwards all required PostHog endpoints (/e/, /decide/, /engage/, static assets).",
+      "priority": "could",
+      "category": "infrastructure",
+      "steps": [
+        "Create a Cloudflare Pages Function or Worker at /ingest/* that proxies requests to us.i.posthog.com, rewriting the path and forwarding headers",
+        "Proxy must handle: POST /ingest/e/ (events), POST /ingest/decide/ (feature flags), GET /ingest/array/* (JS bundle), POST /ingest/engage/ (surveys)",
+        "Update api_host in CookieConsent.astro posthog.init() to use the proxy path (e.g., api_host: '/ingest')",
+        "Test that events still arrive in PostHog dashboard via the proxied path",
+        "Document the proxy setup in a code comment for future reference"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "PostHog api_host points to first-party proxy, not us.i.posthog.com",
+          "verify": "npm run build && ! grep -q 'us.i.posthog.com' dist/_astro/*.js 2>/dev/null && ! grep -rq 'us.i.posthog.com' dist/**/*.html 2>/dev/null"
+        },
+        {
+          "text": "Proxy route or worker file exists",
+          "verify": "test -f functions/ingest/\\[\\[path\\]\\].ts || test -f functions/ingest.ts || test -f workers/posthog-proxy.ts"
+        },
+        {
+          "text": "Build succeeds cleanly",
+          "verify": "npm run build"
+        }
+      ],
+      "scope": [
+        "src/components/CookieConsent.astro",
+        "functions/**"
+      ],
+      "dependsOn": [
+        "FEAT-033"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": true,
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "New item. Depends on FEAT-033 (PostHog config). Cloudflare Pages Functions can act as reverse proxy with zero additional infrastructure. S size — one proxy function + config change. Note: first AC verify may need adjustment if env var still defaults to us.i.posthog.com as fallback. Marked ready (blocked by FEAT-033)."
+    },
+    {
+      "id": "FEAT-036",
+      "title": "PostHog analytics dashboards and conversion goals",
+      "intent": "Simon must have dashboards that answer the three questions that matter: what content is working, where do visitors come from, and what do they do after reading. Conversion goals must define success in measurable terms — newsletter CTA clicks, article completions, contact link clicks — so the content strategy has feedback, not just vibes.",
+      "description": "Create PostHog dashboards and conversion goals via PostHog UI. No code changes required — this is configuration work in the PostHog web app after FEAT-033 and FEAT-034 are deployed.\n\nDashboards to create:\n1. Web Analytics Overview — visitors, sessions, bounce rate, top pages, traffic sources, geographic distribution\n2. Content Performance — pageviews by article, scroll depth completion rates, time on page, top tags, series vs commentary vs architecture engagement\n3. Engagement Funnel — landing page → article read → scroll 50%+ → newsletter CTA click\n\nConversion goals to define:\n- newsletter_cta_clicked (from FEAT-034 custom event)\n- article_scroll_depth at 100% (article completion)\n- Outbound click to GitHub product repos",
+      "priority": "should",
+      "category": "simon/ui",
+      "steps": [
+        "[PostHog UI] Create 'Web Analytics Overview' dashboard with: visitors trend, top pages by views, traffic sources, referrers, device/browser breakdown, geographic map",
+        "[PostHog UI] Create 'Content Performance' dashboard with: pageviews by slug, scroll depth distribution, average time on article pages, top content by completion rate, content type comparison (series vs commentary vs architecture)",
+        "[PostHog UI] Create 'Engagement Funnel' insight: pageview → article_scroll_depth(50%) → article_scroll_depth(100%) → newsletter_cta_clicked",
+        "[PostHog UI] Define conversion goals: newsletter_cta_clicked, article_scroll_depth(100%), outbound GitHub clicks",
+        "[PostHog UI] Set up weekly email digest of key metrics"
+      ],
+      "acceptanceCriteria": [
+        "Web Analytics Overview dashboard exists in PostHog with visitor trends and traffic sources",
+        "Content Performance dashboard exists with per-article engagement metrics",
+        "At least one conversion goal is defined and tracking",
+        "Engagement funnel shows drop-off between read stages"
+      ],
+      "scope": [],
+      "dependsOn": [
+        "FEAT-033",
+        "FEAT-034"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false,
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "New item. simon/ui — PostHog dashboard configuration, no code changes. Blocked by FEAT-033 (features enabled) and FEAT-034 (custom events exist). Cannot be automated — requires manual PostHog UI work. S size in effort, high value."
+    },
+    {
+      "id": "FEAT-037",
+      "title": "PostHog reader feedback surveys",
+      "intent": "Readers who finish an article must have a low-friction way to signal whether it was useful — qualitative feedback is the only way to calibrate content quality beyond scroll metrics. Surveys must be unobtrusive, targeted to engaged readers, and yield actionable signal.",
+      "description": "Configure PostHog popover surveys via PostHog UI. No code changes required — surveys are rendered by the PostHog SDK once enabled in FEAT-033.\n\nSurveys to configure:\n1. Article feedback (triggered after 75%+ scroll on series/commentary pages): 'Was this useful?' rating (1-5) + optional freeform 'What would make this better?'\n2. Site feedback (shown to returning visitors after 3+ sessions): 'What topic should Simon write about next?' freeform\n\nTargeting: URL contains /series/ or /commentary/, minimum scroll depth, wait period between surveys (30 days).",
+      "priority": "should",
+      "category": "simon/ui",
+      "steps": [
+        "[PostHog UI] Create 'Article Feedback' survey: rating question (1-5 emoji) + conditional freeform follow-up for ratings <= 3",
+        "[PostHog UI] Set targeting: URL matches /series/* or /commentary/*, show after article_scroll_depth(75%) event, desktop and mobile",
+        "[PostHog UI] Set wait period: don't show to users who completed any survey in last 30 days",
+        "[PostHog UI] Create 'Topic Suggestion' survey: single freeform question, target returning visitors (3+ sessions)",
+        "[PostHog UI] Style surveys to match site design: dark background, amber accent, clean typography"
+      ],
+      "acceptanceCriteria": [
+        "Article Feedback survey is live and triggers on content pages after scroll engagement",
+        "Survey respects 30-day cooldown between showings",
+        "Topic Suggestion survey targets returning visitors only",
+        "Survey styling is consistent with site dark theme"
+      ],
+      "scope": [],
+      "dependsOn": [
+        "FEAT-033"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false,
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "New item. simon/ui — PostHog survey configuration, no code changes. Blocked by FEAT-033 (survey capability enabled in SDK). Popover surveys are rendered by posthog-js — zero component changes needed. Targeting by URL and events. XS effort, high qualitative value."
+    },
+    {
+      "id": "FEAT-038",
+      "title": "PostHog session replay and heatmap review workflow",
+      "intent": "Session replays and heatmaps are useless if nobody watches them. Simon must establish a weekly review cadence — watch 5-10 replays of engaged readers, review scroll heatmaps on top content pages, and identify UX friction points. The first review must produce at least one actionable finding.",
+      "description": "Set up session replay filters and heatmap views in PostHog UI. No code changes required — session replay and heatmap data collection is enabled by FEAT-033.\n\nSetup tasks:\n1. Create saved session replay filters: 'Engaged readers' (sessions with article_scroll_depth 75%+), 'Frustrated users' (sessions with rage clicks or dead clicks), 'Search users' (sessions with search_query event)\n2. Review scroll heatmaps on top 5 content pages — note where readers drop off\n3. Review click heatmaps on home page and products page — identify missed click targets\n4. Document findings and create bug/improvement items from observations",
+      "priority": "could",
+      "category": "simon/ui",
+      "steps": [
+        "[PostHog UI] Create saved replay filter: 'Engaged readers' — sessions containing article_scroll_depth event with depth >= 75",
+        "[PostHog UI] Create saved replay filter: 'Frustrated users' — sessions with rage_click or dead_click events",
+        "[PostHog UI] Create saved replay filter: 'Search users' — sessions containing search_query event",
+        "[PostHog UI] Review scroll heatmaps on top 5 pages by traffic, note drop-off points",
+        "[PostHog UI] Review click heatmaps on home page and products index, identify dead click zones",
+        "[PostHog UI] Document at least one actionable finding as a new backlog item or bug"
+      ],
+      "acceptanceCriteria": [
+        "Three saved session replay filters exist in PostHog (engaged, frustrated, search)",
+        "Scroll heatmaps reviewed for top 5 content pages",
+        "At least one actionable finding documented as a backlog item or bug"
+      ],
+      "scope": [],
+      "dependsOn": [
+        "FEAT-033",
+        "FEAT-034"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false,
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "New item. simon/ui — PostHog replay and heatmap setup + first review cycle. Blocked by FEAT-033 + FEAT-034 (needs replay data and custom events). This is the 'close the loop' item — data collection without review is waste. S effort."
+    },
+    {
+      "id": "FEAT-039",
+      "title": "PostHog no-code A/B experiments",
+      "intent": "The site's newsletter CTA, home page hero copy, and content page layout assumptions must be tested, not guessed. PostHog no-code experiments let Simon test visual changes without code deploys — run at least one experiment to validate the workflow and establish a testing habit.",
+      "description": "Set up and run at least one no-code A/B experiment via PostHog UI toolbar. No code changes required — PostHog's no-code experiments modify DOM elements client-side based on feature flag assignment.\n\nCandidate experiments (pick one to start):\n1. Newsletter CTA copy: 'Subscribe' vs 'Get the next installment' vs 'Join 100+ builders'\n2. Home page hero tagline: test current copy vs a more specific variant\n3. Series landing page: test showing reading time vs not (if FEAT-017 ships first)\n\nSuccess metric: newsletter_cta_clicked conversion rate (or relevant engagement metric).",
+      "priority": "could",
+      "category": "simon/ui",
+      "steps": [
+        "[PostHog UI] Choose first experiment — newsletter CTA copy is recommended (clear conversion metric, high traffic element)",
+        "[PostHog UI] Use PostHog toolbar to define control and 1-2 variants with modified text/styling",
+        "[PostHog UI] Set primary metric: newsletter_cta_clicked conversion rate",
+        "[PostHog UI] Set traffic allocation: 50/50 or 33/33/33 split",
+        "[PostHog UI] Run experiment for minimum 2 weeks or until statistical significance",
+        "[PostHog UI] Review results, implement winning variant permanently (this step may require a code PR)"
+      ],
+      "acceptanceCriteria": [
+        "At least one A/B experiment has been created and launched in PostHog",
+        "Experiment has a defined primary metric tied to a real conversion goal",
+        "Experiment runs for minimum 2 weeks before concluding"
+      ],
+      "scope": [],
+      "dependsOn": [
+        "FEAT-033",
+        "FEAT-034"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false,
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "New item. simon/ui — PostHog no-code experiment. Blocked by FEAT-033 + FEAT-034 (needs SDK features enabled and custom events for metrics). First experiment establishes the testing workflow. XS effort to set up, requires patience to run. Could priority — valuable but not urgent."
     },
     {
       "id": "FEAT-032",
