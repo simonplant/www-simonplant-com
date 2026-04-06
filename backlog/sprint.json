@@ -1,40 +1,45 @@
 {
-  "sprintId": "refined-2026-04-05T10:08:13-07:00",
-  "startedAt": "2026-04-05T10:01:27-07:00",
+  "sprintId": "refined-2026-04-06T11:01:10-07:00",
+  "startedAt": "2026-04-06T10:55:07-07:00",
   "status": "completed",
   "item": {
-    "id": "FEAT-025",
-    "title": "Companion artifact system",
-    "intent": "Series installments must be able to ship with companion artifacts — checklists, templates, decision frameworks, comparison matrices — displayed inline and linked to GitHub, so readers get actionable tools alongside the narrative.",
-    "description": "Extend the series content collection schema with an optional companionArtifacts array field. Create a component to render artifact cards on series detail pages. Each artifact: title, type (checklist/template/framework/matrix), description, githubUrl.",
+    "id": "FEAT-026",
+    "title": "Performance budget and Lighthouse validation",
+    "intent": "Every page must score 95+ on all four Lighthouse categories (Performance, Accessibility, Best Practices, SEO). Zero layout shift, sub-100KB page weight for content pages, no render-blocking resources. The site plan says fast load — this enforces it.",
+    "description": "Run Lighthouse CI on key pages post-build. Fix any issues found. Establish a baseline and optionally add to CI. Requires the home page to exist first.",
     "sourceBacklog": "backlog.json",
     "steps": [
-      "Extend series Zod schema in src/content.config.ts with optional companionArtifacts: z.array(z.object({title: z.string(), type: z.enum(['checklist','template','framework','matrix']), description: z.string(), githubUrl: z.string().url()})).optional()",
-      "Create src/components/CompanionArtifact.astro — renders a card with title, type badge, description, and GitHub icon link",
-      "Integrate CompanionArtifact into src/pages/series/[slug].astro between content body and subscribe CTA; only render the artifacts section if companionArtifacts is defined and non-empty",
-      "Add at least two companion artifacts (one checklist, one framework) to src/content/series/agent-infra-maturation-01.md frontmatter to prove rendering works — this step MUST be completed before any build verification",
-      "Verify the build produces the series page with artifact HTML by running: npm run build && grep -qiE 'companion artifacts|github\\.com' dist/series/agent-infra-maturation-01/index.html"
+      "Make Google Fonts non-render-blocking in src/layouts/Base.astro: replace the <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/...\"> with a <link rel=\"preload\" as=\"style\" ...> plus an onload handler to swap it to rel=\"stylesheet\", with a <noscript> fallback. Keep the existing preconnect hints.",
+      "Verify dist/index.html exists and is under 100KB by running npm run build and checking file size with stat.",
+      "Verify no synchronous (render-blocking) font stylesheet remains in the built HTML by confirming there is no <link rel=\"stylesheet\" ... href containing fonts.googleapis in dist/index.html.",
+      "Add an npm script named \"check:perf\" to package.json that runs: npm run build && stat -c%s dist/index.html | awk '{exit ($1 >= 102400)}' — gives a repeatable way to validate page weight."
     ],
     "acceptanceCriteria": [
       {
-        "text": "Series schema accepts companionArtifacts field without breaking existing entries",
+        "text": "Build succeeds cleanly",
         "verify": "npm run build"
       },
       {
-        "text": "A series page with artifacts renders artifact content in built HTML",
-        "verify": "npm run build && grep -qiE 'companion artifacts|github\\.com' dist/series/agent-infra-maturation-01/index.html"
+        "text": "Home page HTML is under 100KB",
+        "verify": "npm run build && SIZE=$(stat -c%s dist/index.html 2>/dev/null || stat -f%z dist/index.html) && test \"$SIZE\" -lt 102400"
+      },
+      {
+        "text": "No render-blocking Google Fonts stylesheet tag in built home page (preconnects and preloads are fine; only synchronous rel=stylesheet is blocked)",
+        "verify": "npm run build && ! grep -qP '<link[^>]+rel=[\"\\x27]stylesheet[\"\\x27][^>]+href=[\"\\x27]https://fonts\\.googleapis' dist/index.html && ! grep -qP '<link[^>]+href=[\"\\x27]https://fonts\\.googleapis[^>]+rel=[\"\\x27]stylesheet[\"\\x27]' dist/index.html"
+      },
+      {
+        "text": "check:perf npm script exists in package.json",
+        "verify": "grep -q 'check:perf' package.json"
       }
     ],
     "scope": [
-      "src/content.config.ts",
-      "src/content/series/**",
-      "src/components/**",
-      "src/pages/series/**"
+      "src/**",
+      "package.json"
     ],
-    "startedAt": "2026-04-05T10:01:27-07:00",
+    "startedAt": "2026-04-06T10:55:07-07:00",
     "status": "passed",
-    "completedAt": "2026-04-05T10:14:27-07:00"
+    "completedAt": "2026-04-06T11:07:49-07:00"
   },
-  "completedAt": "2026-04-05T10:14:27-07:00",
+  "completedAt": "2026-04-06T11:07:49-07:00",
   "attempts": 2
 }
