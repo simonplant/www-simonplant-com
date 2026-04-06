@@ -4,9 +4,9 @@
     {
       "id": "FEAT-015",
       "title": "Talks page",
-      "intent": "/talks must exist as a minimal page that can grow as speaking opportunities emerge — not empty, but honest about being early. Visitors interested in booking Simon for a talk must find topics and contact info.",
-      "description": "Lightweight placeholder page for speaking engagements. Include topics Simon can speak on, a brief statement about availability, and contact info. Not a dead page — it should communicate intent even before there are past talks to list.",
-      "priority": "could",
+      "intent": "/talks should only ship when Simon has at least one confirmed or past talk to list. A page with zero talks violates the site's principle that every piece must be grounded in real work — the about page already covers contact and advisory availability.",
+      "description": "Create a talks page listing speaking engagements with topics, dates, and venues. Only build this when there's actual content to ground it. Until then, the about page's advisory section serves the same purpose.",
+      "priority": "future",
       "category": "pages",
       "steps": [
         "Create src/pages/talks.astro using Base layout with prose container",
@@ -34,9 +34,9 @@
       ],
       "status": "todo",
       "passes": false,
-      "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: all deps done (002, 003, 004 completed). Added behavioral verify for contact info in rendered HTML. Added description and specific steps. XS size. Unblocked and marked ready."
+      "readyForSprint": false,
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "v0.5.7: Demoted to future. About page already covers contact/advisory availability. A talks page with zero talks is aspirational filler — violates 'grounded in real work' principle. Revisit when Simon has actual talks to list."
     },
     {
       "id": "FEAT-017",
@@ -94,8 +94,8 @@
       ],
       "acceptanceCriteria": [
         {
-          "text": "Products page contains SVG or diagram markup",
-          "verify": "npm run build && grep -qi 'svg\\|ecosystem\\|relationship' dist/products/index.html"
+          "text": "Products page contains an inline SVG diagram element",
+          "verify": "npm run build && grep -qi '<svg' dist/products/index.html"
         },
         {
           "text": "All four product names appear in the diagram",
@@ -116,8 +116,8 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": true,
-      "groomedAt": "2026-04-01",
-      "groomingNotes": "v0.5.2 compliance: dep FEAT-010 now done. Converted plain-string AC to behavioral verifies: SVG/diagram markup present, all four product names in rendered HTML. Steps updated to be specific. Unblocked and marked ready."
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "v0.5.7: Fixed first AC verify — 'svg|ecosystem|relationship' was false positive (text already in products page HTML). Updated to require literal '<svg' tag. Second AC unchanged — product names check is valid since the verify ensures they appear together."
     },
     {
       "id": "FEAT-029",
@@ -180,8 +180,8 @@
           "verify": "npm run build && grep -rq '@media print' dist/_astro/*.css 2>/dev/null || grep -rq '@media print' dist/**/*.html 2>/dev/null"
         },
         {
-          "text": "Print styles hide nav element",
-          "verify": "npm run build && grep -rq 'display:none\\|display: none' dist/_astro/*.css 2>/dev/null"
+          "text": "Print styles hide nav element within @media print block",
+          "verify": "npm run build && grep -Pzo '@media print[^}]*\\{[^}]*display:\\s*none' dist/_astro/*.css 2>/dev/null | grep -q 'display'"
         },
         {
           "text": "Build succeeds cleanly",
@@ -197,8 +197,44 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": true,
-      "groomedAt": "2026-04-05",
-      "groomingNotes": "v0.5.2 compliance: dep FEAT-002 now done. Steps updated with specific CSS properties and elements to hide. Fixed second AC verify — was grepping source file (src/styles/global.css), now greps built CSS (dist/_astro/*.css) to test actual behavior. Unblocked and marked ready."
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "v0.5.7: Fixed second AC verify — was checking for any 'display:none' in built CSS, which is a false positive (search overlay, mobile nav already use display:none). Updated to verify display:none appears specifically within an @media print block."
+    },
+    {
+      "id": "FEAT-032",
+      "title": "robots.txt",
+      "intent": "The site must serve a valid robots.txt at /robots.txt that allows all crawlers and references the XML sitemap — search engines and AI scrapers need this to correctly index the site.",
+      "description": "Create a static robots.txt file in public/ that allows all crawlers (User-agent: *) and includes the Sitemap directive pointing to the site's sitemap.xml. Required basic SEO infrastructure missing from the site.",
+      "priority": "should",
+      "category": "infrastructure",
+      "steps": [
+        "Create public/robots.txt with 'User-agent: *' and 'Allow: /' directives",
+        "Add 'Sitemap: https://www.simonplant.com/sitemap-index.xml' directive to the file",
+        "Verify the file appears at dist/robots.txt after build"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "robots.txt exists in built output",
+          "verify": "npm run build && test -f dist/robots.txt"
+        },
+        {
+          "text": "robots.txt references the sitemap",
+          "verify": "npm run build && grep -q 'Sitemap' dist/robots.txt"
+        },
+        {
+          "text": "robots.txt allows all crawlers",
+          "verify": "npm run build && grep -q 'User-agent: \\*' dist/robots.txt"
+        }
+      ],
+      "scope": [
+        "public/robots.txt"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": true,
+      "groomedAt": "2026-04-06",
+      "groomingNotes": "New item. Static file in public/robots.txt — trivial implementation. XS size. Scope: public/robots.txt only. No dependencies. Unblocked and marked ready."
     }
   ]
 }

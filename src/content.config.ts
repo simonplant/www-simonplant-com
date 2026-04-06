@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
 const status = z.enum(['idea', 'draft', 'review', 'published']);
@@ -18,7 +19,7 @@ const series = defineCollection({
           title: z.string(),
           type: z.enum(['checklist', 'template', 'framework', 'matrix']),
           description: z.string(),
-          githubUrl: z.string().url(),
+          githubUrl: z.url(),
         }),
       )
       .optional(),
@@ -60,7 +61,7 @@ const products = defineCollection({
     description: z.string(),
     status: z.enum(['active', 'beta', 'planned', 'stable']),
     role: z.string(),
-    github: z.string().url().optional(),
+    github: z.url().optional(),
     tags: z.array(z.string()),
     order: z.number().int(),
     relatedProducts: z.array(z.string()).optional(),
