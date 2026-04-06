@@ -117,32 +117,37 @@ The `content-validation` workflow enforces:
 - Batch limit: max 3 new content pieces per PR
 - Frontmatter validation: required fields (title, description, status, tags) and valid status values
 
-## Sprint Orchestration (aishore v0.5)
+<!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
+<!-- Customizations here will be lost. Add project-specific instructions above this section. -->
+## Sprint Orchestration (aishore)
 
-Intent-based development with evals. Backlog lives in `backlog/`, tool lives in `.aishore/`.
+This project uses aishore for autonomous sprint execution. Backlog lives in `backlog/`, tool lives in `.aishore/`.
+
+**Agent rules (mandatory):**
+- **Intent is the north star.** Every item has a commander's intent field. When steps or AC are ambiguous, follow intent.
+- **Prove it runs.** Wire code to real entry points. If the build command exists, run it. If a verify command exists, execute it. Working code that's reachable beats tested code that's isolated.
+- **No mocks or stubs** in production code unless the item explicitly requests them.
+- **Stay in scope.** Implement only the assigned item. Don't fix unrelated code, add unrequested features, or refactor surrounding code.
+- **Commit before signaling.** Always commit with a meaningful message before writing result.json.
 
 ```bash
-.aishore/aishore run [N|ID]    # Run sprints (branch, implement, validate, merge per item)
-.aishore/aishore groom         # Groom bugs and features
-.aishore/aishore scaffold      # Detect missing scaffolding, add skeleton items
-.aishore/aishore review        # Architecture review
-.aishore/aishore status        # Backlog overview
+.aishore/aishore run [N|ID|scope]    # Run sprints (scope: done, p0, p1, p2)
+.aishore/aishore groom              # Groom backlog items
+.aishore/aishore scaffold           # Detect fragment risk
+.aishore/aishore review             # Architecture review
+.aishore/aishore status             # Backlog overview
 ```
 
-Each sprint creates a worktree, runs a developer agent, validates with AC verify commands, then runs a validator agent. Regressions from prior sprints are checked before each new sprint starts.
+### AC Verify Rules (project-specific)
 
-### Quality Philosophy
+Verify commands are **behavioral smoke tests** — they prove the code runs, not that strings exist in source files.
 
-We prioritize well-written, working code that runs without bugs and a mature implementation of functionality in scope. Not TDD theater, not agile ceremony. Code that builds, renders correctly, and does what it says.
-
-### AC Verify Rules
-
-Verify commands are **behavioral smoke tests** — they prove the code runs, not that strings exist in source files. Source greps break in worktrees when developers restructure files and never prove anything works.
-
-- **Pages:** `npm run build && test -f dist/<route>/index.html`
-- **HTML content:** `npm run build && grep -qi '<element' dist/index.html`
-- **CSS tokens:** `npm run build && grep -q '<value>' dist/_astro/*.css`
-- **CI files:** `test -f <path> && grep -q '<key content>' <path>`
-- **Never:** `grep -q 'Foo' src/layouts/Bar.astro` or `test -f src/pages/X.astro`
+| Pattern | Verify command |
+|---------|---------------|
+| Page exists | `npm run build && test -f dist/<route>/index.html` |
+| HTML content | `npm run build && grep -qi '<element' dist/index.html` |
+| CSS tokens | `npm run build && grep -q '<value>' dist/_astro/*.css` |
+| CI files | `test -f <path> && grep -q '<key content>' <path>` |
+| **Never** | `grep -q 'Foo' src/layouts/Bar.astro` or `test -f src/pages/X.astro` |
 
 Regressions compound — each sprint's verify commands are saved and re-run before future sprints.

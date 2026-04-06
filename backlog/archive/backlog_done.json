@@ -370,6 +370,50 @@
     "completedAt": "2026-04-01T12:05:24-07:00"
   },
   {
+    "id": "FEAT-011",
+    "title": "Tag system with cross-track linking",
+    "intent": "Tags must work across all three content tracks so a tag like agent-security connects series installments, commentary posts, and KB entries on a single tag page. Visitors must be able to follow a topic across all tracks from one place.",
+    "description": "Build a tag index page and individual tag pages that aggregate content from series, commentary, and architecture collections. Tags are already in frontmatter across all three collections — this feature surfaces them as navigable pages.",
+    "priority": "should",
+    "category": "foundation",
+    "steps": [
+      "Create src/pages/tags/index.astro — query all three content collections, extract unique tags, display with per-tag counts",
+      "Create src/pages/tags/[tag].astro — for a given tag, query all three collections, group results by track (series, commentary, architecture), render with links to each piece",
+      "Add tag links on content detail pages (series/[slug], commentary/[slug], architecture/[slug]) that link to /tags/[tag]",
+      "Ensure tag pages handle the case where a tag only appears in one or two tracks"
+    ],
+    "acceptanceCriteria": [
+      {
+        "text": "/tags route lists all tags used across content tracks",
+        "verify": "npm run build && test -f dist/tags/index.html"
+      },
+      {
+        "text": "Individual tag pages are generated for each tag",
+        "verify": "npm run build && ls dist/tags/*/index.html 2>/dev/null | grep -q ."
+      },
+      {
+        "text": "Tag pages contain links back to content entries",
+        "verify": "npm run build && TAG_PAGE=$(ls dist/tags/*/index.html 2>/dev/null | head -1) && test -n \"$TAG_PAGE\" && grep -qi 'href=' \"$TAG_PAGE\""
+      }
+    ],
+    "scope": [
+      "src/pages/tags/**",
+      "src/components/**"
+    ],
+    "dependsOn": [
+      "FEAT-001",
+      "FEAT-007",
+      "FEAT-008",
+      "FEAT-009"
+    ],
+    "status": "done",
+    "passes": true,
+    "readyForSprint": false,
+    "groomedAt": "2026-04-01",
+    "groomingNotes": "v0.5.2 compliance: all deps now done (007, 008, 009 completed). Converted plain-string AC to behavioral verifies: tag index exists, individual tag pages generated, tag pages contain href links. Unblocked and marked ready.",
+    "completedAt": "2026-04-03T16:15:20-07:00"
+  },
+  {
     "id": "FEAT-012",
     "title": "Newsletter signup and RSS",
     "intent": "/newsletter must be a compelling landing page that sells the value of subscribing — what readers get, how often, and why it matters. RSS feed must cover all content tracks. This is the primary distribution channel, not an afterthought.",

@@ -17,48 +17,94 @@ cmd_update() {
     echo "Current version: $AISHORE_VERSION"
     echo ""
 
-    # Check for curl or wget, with GitHub auth for private repos
-    local _fetch_base="" _fetch_auth=()
-    local gh_token=""
-    if command -v gh &> /dev/null; then
-        gh_token=$(gh auth token 2>/dev/null) || true
-    fi
+    # Check for curl or wget
+    local _update_use_curl=false
     if command -v curl &> /dev/null; then
-        _fetch_base="curl"
-        [[ -n "$gh_token" ]] && _fetch_auth=(-H "Authorization: Bearer $gh_token")
-    elif command -v wget &> /dev/null; then
-        _fetch_base="wget"
-        [[ -n "$gh_token" ]] && _fetch_auth=(--header="Authorization: Bearer $gh_token")
-    else
+        _update_use_curl=true
+    elif ! command -v wget &> /dev/null; then
         log_error "curl or wget required for update"
         return 1
     fi
-    # fetch_cmd wraps curl/wget with optional auth
-    fetch_cmd() {
-        if [[ "$_fetch_base" == "curl" ]]; then
-            curl -fsSL "${_fetch_auth[@]}" "$@"
+
+    # Detect GitHub auth token for authenticated access
+    local _update_gh_token=""
+    if command -v gh &> /dev/null; then
+        _update_gh_token=$(gh auth token 2>/dev/null) || true
+    fi
+    if [[ -z "$_update_gh_token" && -n "${GITHUB_TOKEN:-}" ]]; then
+        _update_gh_token="$GITHUB_TOKEN"
+    fi
+    [[ -n "$_update_gh_token" ]] && log_info "Using authenticated GitHub access"
+
+    local _update_repo="simonplant/aishore"
+
+    # Low-level fetch — handles auth header injection for any URL
+    _update_fetch() {
+        if [[ "$_update_use_curl" == "true" ]]; then
+            if [[ -n "$_update_gh_token" ]]; then
+                curl -fsSL -H "Authorization: token $_update_gh_token" "$@"
+            else
+                curl -fsSL "$@"
+            fi
         else
-            wget -qO- "${_fetch_auth[@]}" "$@"
+            if [[ -n "$_update_gh_token" ]]; then
+                wget --header="Authorization: token $_update_gh_token" -qO- "$@"
+            else
+                wget -qO- "$@"
+            fi
         fi
     }
 
+    # Fetch a repo file to stdout — tries raw.githubusercontent.com, falls back to Contents API
+    # Usage: _update_fetch_file <relative_path>
+    _update_fetch_file() {
+        local file_path="$1"
+        local raw_url="https://raw.githubusercontent.com/$_update_repo/$release_tag/$file_path"
+
+        # Route 1: raw.githubusercontent.com (fast, no rate limit)
+        local content
+        if content=$(_update_fetch "$raw_url" 2>/dev/null); then
+            printf '%s' "$content"
+            return 0
+        fi
+
+        # Route 2: GitHub Contents API (always fresh, base64-encoded)
+        local api_url="https://api.github.com/repos/$_update_repo/contents/$file_path?ref=$release_tag"
+        local json
+        if json=$(_update_fetch "$api_url" 2>/dev/null); then
+            printf '%s' "$json" | jq -r '.content' | base64 -d
+            return 0
+        fi
+
+        return 1
+    }
+
+    # Fetch a repo file and save to disk
+    _update_fetch_file_to() {
+        local file_path="$1" dest="$2"
+        local content
+        if content=$(_update_fetch_file "$file_path"); then
+            printf '%s' "$content" > "$dest"
+            return 0
+        fi
+        return 1
+    }
+
     # Resolve latest release tag
-    local api_url="https://api.github.com/repos/simonplant/aishore/releases/latest"
+    local api_url="https://api.github.com/repos/$_update_repo/releases/latest"
     log_info "Checking for updates..."
     local release_tag=""
-    release_tag=$(fetch_cmd "$api_url" 2>/dev/null | jq -r '.tag_name // empty') || true
+    release_tag=$(_update_fetch "$api_url" 2>/dev/null | jq -r '.tag_name // empty') || true
 
     if [[ -z "$release_tag" ]]; then
         log_warning "Could not resolve latest release — falling back to main"
         release_tag="main"
     fi
 
-    local repo_url="https://raw.githubusercontent.com/simonplant/aishore/$release_tag"
-
     # Fetch remote version from VERSION file
     local remote_version
-    remote_version=$(fetch_cmd "$repo_url/.aishore/VERSION" 2>/dev/null | tr -d '[:space:]') || {
-        log_error "Failed to fetch remote version from $repo_url/.aishore/VERSION"
+    remote_version=$(_update_fetch_file ".aishore/VERSION" | tr -d '[:space:]') || {
+        log_error "Failed to fetch remote version"
         return 1
     }
 
@@ -78,7 +124,7 @@ cmd_update() {
     # Fetch checksums manifest (needed for file discovery and verification)
     log_info "Fetching checksums..."
     local checksums_content=""
-    checksums_content=$(fetch_cmd "$repo_url/.aishore/checksums.sha256" 2>/dev/null) || {
+    checksums_content=$(_update_fetch_file ".aishore/checksums.sha256") || {
         log_error "Cannot fetch checksums manifest — check connectivity and try again"
         return 1
     }
@@ -132,7 +178,7 @@ cmd_update() {
     _fetch_and_stage() {
         local remote_path="$1" local_path="$2" label="$3" checksum_key="$4"
         local required="${5:-false}"
-        if ! fetch_cmd "$repo_url/$remote_path" > "$local_path" 2>/dev/null; then
+        if ! _update_fetch_file_to "$remote_path" "$local_path"; then
             if [[ "$required" == "true" ]]; then
                 log_error "Failed to fetch $label"
                 return 1
@@ -195,6 +241,7 @@ cmd_update() {
     printf "\r%40s\r" ""  # clear progress line
 
     # ── Phase 2: Install (only if all verified) ──
+    _unlock_tool_files
     if [[ "$all_verified" != "true" ]]; then
         log_error "Verification failed — no files were modified"
         return 1
@@ -217,11 +264,40 @@ cmd_update() {
     done
     chmod +x "$AISHORE_ROOT/aishore"
 
+    # ── Phase 3: Refresh CLAUDE.md aishore section ──
+    local claude_md
+    claude_md=$(find_claude_md)
+    local section_template="$AISHORE_ROOT/templates/claude-section.md"
+    if [[ -n "$claude_md" && -f "$section_template" ]]; then
+        if grep -q "## Sprint Orchestration (aishore)" "$claude_md" 2>/dev/null; then
+            local new_section
+            new_section=$(cat "$section_template")
+            local tmp_claude
+            tmp_claude="$(ensure_tmpdir)/claude_md_refresh.md"
+            # Replace everything from "## Sprint Orchestration (aishore)" to next "## " or EOF
+            awk -v new="$new_section" '
+                /^## Sprint Orchestration \(aishore\)/ { found=1; print new; next }
+                found && /^## / { found=0 }
+                !found { print }
+            ' "$claude_md" > "$tmp_claude"
+            if [[ -s "$tmp_claude" ]]; then
+                mv "$tmp_claude" "$claude_md"
+                log_success "Refreshed aishore section in CLAUDE.md"
+            else
+                rm -f "$tmp_claude"
+                log_warning "CLAUDE.md refresh failed — file unchanged"
+            fi
+        else
+            log_info "CLAUDE.md found but no aishore section — skipping refresh"
+        fi
+    fi
+
     echo ""
     log_success "Updated to $remote_version ($file_count files)"
 }
 
 cmd_checksums() {
+    _unlock_tool_files
     cd "$PROJECT_ROOT" || { log_error "Cannot cd to $PROJECT_ROOT"; return 1; }
 
     local checksum_file="$AISHORE_ROOT/checksums.sha256"
