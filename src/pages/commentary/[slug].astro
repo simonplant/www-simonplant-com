@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getPublishedCollection } from '../../content/_helpers';
+import { getReadingTime } from '../../utils/readingTime';
 import { render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -20,8 +21,8 @@ export async function getStaticPaths() {
 const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 
-const wordCount = entry.body ? entry.body.split(/\s+/).length : 0;
-const readingTime = Math.max(1, Math.round(wordCount / 230));
+const wordCount = entry.body ? entry.body.split(/\s+/).filter(Boolean).length : 0;
+const readingTime = getReadingTime(entry.body);
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 const jsonLd = {
@@ -57,7 +58,7 @@ const jsonLd = {
             {entry.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </time>
           <span>&middot;</span>
-          <span>{readingTime} min read</span>
+          <span>{readingTime}</span>
         </div>
         <div class="flex flex-wrap gap-2">
           {entry.data.tags.map((tag) => (
