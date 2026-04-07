@@ -119,6 +119,12 @@ The `content-validation` workflow enforces:
 
 <!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
 <!-- Customizations here will be lost. Add project-specific instructions above this section. -->
+
+<!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
+<!-- Customizations here will be lost. Add project-specific instructions above this section. -->
+
+<!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
+<!-- Customizations here will be lost. Add project-specific instructions above this section. -->
 ## Sprint Orchestration (aishore)
 
 This project uses aishore for autonomous sprint execution. Backlog lives in `backlog/`, tool lives in `.aishore/`.
@@ -137,17 +143,3 @@ This project uses aishore for autonomous sprint execution. Backlog lives in `bac
 .aishore/aishore review             # Architecture review
 .aishore/aishore status             # Backlog overview
 ```
-
-### AC Verify Rules (project-specific)
-
-Verify commands are **behavioral smoke tests** — they prove the code runs, not that strings exist in source files.
-
-| Pattern | Verify command |
-|---------|---------------|
-| Page exists | `npm run build && test -f dist/<route>/index.html` |
-| HTML content | `npm run build && grep -qi '<element' dist/index.html` |
-| CSS tokens | `npm run build && grep -q '<value>' dist/_astro/*.css` |
-| CI files | `test -f <path> && grep -q '<key content>' <path>` |
-| **Never** | `grep -q 'Foo' src/layouts/Bar.astro` or `test -f src/pages/X.astro` |
-
-Regressions compound — each sprint's verify commands are saved and re-run before future sprints.

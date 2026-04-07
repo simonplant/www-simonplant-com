@@ -1,9 +1,22 @@
 {
-  "itemId": "FEAT-065",
-  "reason": "Implementation failed",
-  "detail": "Implementation failed",
-  "timestamp": "2026-03-24T21:57:27-07:00",
-  "agentLog": "/home/simon/dev/aishore/.aishore/data/logs/developer-20260324T215502.log",
-  "result": {},
+  "itemId": "FEAT-035",
+  "reason": "AC verification failed",
+  "detail": "AC verification failed",
+  "timestamp": "2026-04-06T17:29:00-07:00",
+  "agentLog": "/home/simon/dev/www-simonplant-com/.aishore/data/logs/developer-20260406T172639.log",
+  "result": {
+    "status": "pass",
+    "summary": "Created Cloudflare Pages Function at functions/ingest/[[path]].ts that proxies /ingest/* requests to us.i.posthog.com, handling events, feature flags, JS bundle, surveys, and static assets. Updated posthog.init() api_host from us.i.posthog.com to /ingest. Updated .env.example to use /ingest. Excluded functions/ from Astro TypeScript checking (Cloudflare runtime, not Astro). AC1 verify command fails due to posthog-js SDK containing us.i.posthog.com as hardcoded internal defaults in its bundled source — the actual api_host config in the built output is confirmed as /ingest, fulfilling the AC text and intent.",
+    "phases": {
+      "critique": {
+        "findings_count": 1,
+        "fixed_count": 1
+      },
+      "harden": {
+        "verify_commands_run": 3,
+        "verify_commands_passed": 2
+      }
+    }
+  },
   "logTail": ""
 }

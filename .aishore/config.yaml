@@ -1,0 +1,2 @@
+setup:
+  command: "npm install"

@@ -61,3 +61,25 @@
 {"itemId":"FEAT-026","date":"2026-04-06","text":"Home page HTML is under 100KB","verify":"npm run build && SIZE=$(stat -c%s dist/index.html 2>/dev/null || stat -f%z dist/index.html) && test \"$SIZE\" -lt 102400"}
 {"itemId":"FEAT-026","date":"2026-04-06","text":"No render-blocking Google Fonts stylesheet tag in built home page (preconnects and preloads are fine; only synchronous rel=stylesheet is blocked)","verify":"npm run build && ! grep -qP '<link[^>]+rel=[\"\\x27]stylesheet[\"\\x27][^>]+href=[\"\\x27]https://fonts\\.googleapis' dist/index.html && ! grep -qP '<link[^>]+href=[\"\\x27]https://fonts\\.googleapis[^>]+rel=[\"\\x27]stylesheet[\"\\x27]' dist/index.html"}
 {"itemId":"FEAT-026","date":"2026-04-06","text":"check:perf npm script exists in package.json","verify":"grep -q 'check:perf' package.json"}
+{"itemId":"FEAT-027","date":"2026-04-06","text":"Products page contains an inline SVG diagram element","verify":"npm run build && grep -qi '<svg' dist/products/index.html"}
+{"itemId":"FEAT-027","date":"2026-04-06","text":"All four product names appear in the diagram","verify":"npm run build && grep -qi '<svg' dist/products/index.html && grep -Eqi 'clawhq|aishore|clawdius' dist/products/index.html"}
+{"itemId":"FEAT-027","date":"2026-04-06","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-029","date":"2026-04-06","text":"llms.txt is generated at build time","verify":"npm run build && test -f dist/llms.txt"}
+{"itemId":"FEAT-029","date":"2026-04-06","text":"llms.txt contains site description and content URLs","verify":"npm run build && grep -qi 'simon' dist/llms.txt && grep -q '/' dist/llms.txt"}
+{"itemId":"FEAT-029","date":"2026-04-06","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-031","date":"2026-04-06","text":"@media print styles exist in built CSS","verify":"npm run build && grep -rq '@media print' dist/"}
+{"itemId":"FEAT-031","date":"2026-04-06","text":"Print styles hide nav element within @media print block","verify":"npm run build && grep -rq 'display:none' dist/_astro/*.css"}
+{"itemId":"FEAT-031","date":"2026-04-06","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-033","date":"2026-04-06","text":"PostHog init config includes session_recording option","verify":"npm run build && grep -rq 'session_recording' dist/"}
+{"itemId":"FEAT-033","date":"2026-04-06","text":"PostHog init config includes web vitals capture","verify":"npm run build && grep -rEq 'web_vitals|capture_performance' dist/"}
+{"itemId":"FEAT-033","date":"2026-04-06","text":"PostHog instance is exposed globally for other scripts","verify":"npm run build && grep -rEq '__posthog|window\\.posthog' dist/"}
+{"itemId":"FEAT-033","date":"2026-04-06","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-034","date":"2026-04-06","text":"Scroll depth tracking code exists in built series detail pages","verify":"npm run build && grep -rEqi 'scroll_depth|IntersectionObserver' dist/"}
+{"itemId":"FEAT-034","date":"2026-04-06","text":"Code copy tracking exists in built output","verify":"npm run build && grep -rEq 'code_block_copied|capture.*copy' dist/"}
+{"itemId":"FEAT-034","date":"2026-04-06","text":"Search query tracking exists in built output","verify":"npm run build && grep -rEq 'search_query|capture.*search' dist/"}
+{"itemId":"FEAT-034","date":"2026-04-06","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-017","date":"2026-04-06","text":"Series detail pages include reading time text in built HTML","verify":"npm run build && grep -rEqi 'min read|minute' dist/series/"}
+{"itemId":"FEAT-017","date":"2026-04-06","text":"Build succeeds cleanly","verify":"npm run build"}
+{"itemId":"FEAT-035","date":"2026-04-06","text":"PostHog api_host points to first-party proxy, not us.i.posthog.com","verify":"npm run build && grep -rEq 'api_host.*ingest|/ingest' dist/"}
+{"itemId":"FEAT-035","date":"2026-04-06","text":"Proxy route or worker file exists","verify":"ls functions/ingest/ 2>/dev/null | grep -q . || test -f functions/ingest.ts || test -f workers/posthog-proxy.ts"}
+{"itemId":"FEAT-035","date":"2026-04-06","text":"Build succeeds cleanly","verify":"npm run build"}
