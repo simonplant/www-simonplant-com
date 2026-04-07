@@ -7,6 +7,7 @@
 
 <div
   id="cookie-banner"
+  ph-no-capture
   class="fixed bottom-0 left-0 right-0 z-50 hidden border-t border-border-default bg-surface-card p-4 shadow-lg"
 >
   <div class="mx-auto flex max-w-3xl flex-col items-center gap-3 sm:flex-row sm:justify-between">
@@ -46,8 +47,16 @@
       posthog.init(import.meta.env.PUBLIC_POSTHOG_KEY ?? '', {
         api_host: import.meta.env.PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com',
         persistence: 'localStorage+cookie',
+        autocapture: true,
+        capture_dead_clicks: true,
+        capture_performance: { web_vitals: true },
+        enable_heatmaps: true,
+        session_recording: {
+          maskAllInputs: true,
+        },
         loaded: (ph) => {
           if (import.meta.env.DEV) ph.opt_out_capturing();
+          (window as any).__posthog = ph;
         },
       });
     });
