@@ -45,7 +45,7 @@
   function loadPostHog() {
     import('posthog-js').then(({ default: posthog }) => {
       posthog.init(import.meta.env.PUBLIC_POSTHOG_KEY ?? '', {
-        api_host: import.meta.env.PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com',
+        api_host: '/ingest',
         persistence: 'localStorage+cookie',
         autocapture: true,
         capture_dead_clicks: true,
