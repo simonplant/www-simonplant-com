@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getPublishedCollection } from '../../content/_helpers';
+import { getReadingTime } from '../../utils/readingTime';
 import { render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -20,8 +21,8 @@ export async function getStaticPaths() {
 const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 
-const wordCount = entry.body ? entry.body.split(/\s+/).length : 0;
-const readingTime = Math.max(1, Math.round(wordCount / 230));
+const wordCount = entry.body ? entry.body.split(/\s+/).filter(Boolean).length : 0;
+const readingTime = getReadingTime(entry.body);
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 const jsonLd = {
@@ -68,7 +69,7 @@ const statusColors: Record<string, string> = {
           <span class="bg-surface-elevated px-2.5 py-0.5 rounded">{entry.data.concern}</span>
           <span class="bg-surface-elevated px-2.5 py-0.5 rounded">{entry.data.patternType}</span>
           <span>&middot;</span>
-          <span>{readingTime} min read</span>
+          <span>{readingTime}</span>
           {entry.data.publishedDate && (
             <>
               <span>&middot;</span>
