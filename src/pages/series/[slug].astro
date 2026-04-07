@@ -47,7 +47,7 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
   <main class="section-spacing">
-    <article>
+    <article data-ph-capture-attribute-content-type="series" data-ph-capture-attribute-slug={entry.id}>
       <header class="container-prose mb-8">
         <a href="/series" class="text-text-muted text-sm font-sans hover:text-primary-400 transition-colors inline-flex items-center gap-1 mb-6">
           &larr; All installments
@@ -121,11 +121,72 @@ const jsonLd = {
           <p class="text-text-secondary font-prose mb-4">
             Get notified when new installments ship. No spam, no fluff — just the next chapter.
           </p>
-          <a href="mailto:simon@simonplant.com?subject=Subscribe%20to%20Series" class="inline-block bg-primary-600 hover:bg-primary-500 text-white font-sans text-sm font-medium px-6 py-2.5 rounded-lg transition-colors">
+          <a href="mailto:simon@simonplant.com?subject=Subscribe%20to%20Series" class="inline-block bg-primary-600 hover:bg-primary-500 text-white font-sans text-sm font-medium px-6 py-2.5 rounded-lg transition-colors" data-newsletter-cta>
             Subscribe
           </a>
         </div>
       </aside>
     </article>
   </main>
+
+  <script is:inline>
+    (function () {
+      var prose = document.querySelector('.prose');
+      if (!prose) return;
+
+      var slug = document.querySelector('[data-ph-capture-attribute-slug]')?.getAttribute('data-ph-capture-attribute-slug') || '';
+      var title = document.title.replace(' — Simon Plant', '');
+      var fired = {};
+
+      [25, 50, 75, 100].forEach(function (pct) {
+        var sentinel = document.createElement('div');
+        sentinel.style.height = '1px';
+        sentinel.style.pointerEvents = 'none';
+        sentinel.setAttribute('aria-hidden', 'true');
+        sentinel.dataset.scrollDepth = String(pct);
+
+        var children = Array.from(prose.children);
+        var idx = Math.min(Math.floor((pct / 100) * children.length), children.length - 1);
+        if (pct === 100) {
+          prose.appendChild(sentinel);
+        } else {
+          prose.insertBefore(sentinel, children[idx]);
+        }
+      });
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var depth = entry.target.dataset.scrollDepth;
+          if (fired[depth]) return;
+          fired[depth] = true;
+          if (window.__posthog) {
+            window.__posthog.capture('article_scroll_depth', {
+              slug: slug,
+              depth_percent: Number(depth),
+              title: title,
+              content_type: 'series'
+            });
+          }
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0 });
+
+      document.querySelectorAll('[data-scroll-depth]').forEach(function (el) {
+        observer.observe(el);
+      });
+
+      // Newsletter CTA tracking
+      var cta = document.querySelector('[data-newsletter-cta]');
+      if (cta) {
+        cta.addEventListener('click', function () {
+          if (window.__posthog) {
+            window.__posthog.capture('newsletter_cta_clicked', {
+              source_page: window.location.pathname
+            });
+          }
+        });
+      }
+    })();
+  </script>
 </Base>

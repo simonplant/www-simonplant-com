@@ -134,6 +134,27 @@
           showImages: false,
           autofocus: true,
         });
+
+        // Track search queries (debounced)
+        var searchTimer = null;
+        var lastQuery = '';
+        container.addEventListener('input', function (e) {
+          if (!e.target.classList.contains('pagefind-ui__search-input')) return;
+          clearTimeout(searchTimer);
+          searchTimer = setTimeout(function () {
+            var query = e.target.value.trim();
+            if (query && query !== lastQuery && query.length >= 2) {
+              lastQuery = query;
+              if (window.__posthog) {
+                var resultCount = container.querySelectorAll('.pagefind-ui__result').length;
+                window.__posthog.capture('search_query', {
+                  query: query,
+                  result_count: resultCount
+                });
+              }
+            }
+          }, 1000);
+        });
       } catch (e) {
         container.innerHTML = '<p style="color:#6b6b7b;font-size:0.875rem;padding:0.5rem;">Search index not available. Run a production build to generate it.</p>';
       }
