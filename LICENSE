@@ -1,0 +1,25 @@
+Copyright (c) 2026 Simon Plant. All rights reserved.
+
+This repository contains the source code and written content for
+www.simonplant.com — a personal website and editorial platform.
+
+WRITTEN CONTENT
+---------------
+All prose, articles, series installments, commentary, and architecture
+knowledge-base entries in this repository (including but not limited to
+files under `src/content/`) are the original work of Simon Plant and are
+protected by copyright. No license is granted to reproduce, redistribute,
+translate, or create derivative works from this content without prior
+written permission.
+
+SOURCE CODE
+-----------
+The source code in this repository is made public for transparency and
+reference. No license is granted to reuse, redistribute, or sublicense
+the code in other projects without prior written permission.
+
+Short excerpts may be quoted for review, commentary, or educational
+purposes under fair use, with attribution to Simon Plant and a link to
+https://www.simonplant.com.
+
+For licensing inquiries, contact: simon@simonplant.com
