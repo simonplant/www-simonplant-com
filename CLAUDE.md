@@ -34,7 +34,7 @@ npm run preview   # Preview production build locally
 
 ## Design System
 
-- **Body surface:** `#0a0a0f` dark background, `gray-200` text, Inter sans-serif UI font
+- **Body surface:** `--color-surface-bg` (#0a0a0f) dark background via `bg-surface-bg`, `gray-200` text, Inter sans-serif UI font
 - **Prose typography:** Literata serif at 17px, line-height 1.75, max-width 720px (`.prose` class)
 - **Headings:** DM Serif Display (h1–h4), weight 400, tight line-height
 - **Code:** JetBrains Mono — inline code on raised surface, code blocks on `#16161e` elevated dark surface
@@ -62,6 +62,36 @@ npm run preview   # Preview production build locally
 - PostHog auto-disables capturing in dev mode
 - All new pages must use `Base.astro` layout and pass a `title` prop
 - Long-form content pages should wrap body content in a `<div class="prose">` container
+
+## Git Workflow
+
+**Pull requests are the default. Direct pushes to `main` are emergency-only.**
+
+`main` has a branch protection rule requiring changes to go through a pull request. The repo owner (`simonplant`) has bypass permission, but bypassing is a red flag to notice — not a shortcut to reach for. The `content-validation` workflow and other CI gates are designed around the PR context; direct pushes skip that signal.
+
+**Standard flow for any change (including the owner's own work):**
+
+```sh
+git checkout -b <type>/<short-description>   # e.g. fix/reading-time-edge-case
+# ... make changes, commit ...
+git push -u origin <branch>
+gh pr create --title "..." --body "..."
+# wait for CI green, then:
+gh pr merge --squash --delete-branch
+```
+
+- **Branch naming:** `feat/`, `fix/`, `chore/`, `docs/`, `content/` (Clawdius owns `content/`)
+- **Merge strategy:** squash-merge to keep `main` linear; delete the branch on merge
+- **Never force-push `main`.** Never bypass CI with `--no-verify`.
+
+**When direct-to-main is acceptable (rare):**
+- CI itself is broken and blocking a fix to CI
+- A secret was committed and needs immediate removal from history
+- Production is down and the rollback path requires it
+
+In those cases, say so explicitly in the commit message so the bypass is documented.
+
+**Agents (including Clawdius and any aishore sprint agent) must never push to `main` directly** — PR-only, no exceptions, no bypass permission.
 
 ## Content Pipeline
 
