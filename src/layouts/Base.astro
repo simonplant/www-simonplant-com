@@ -53,7 +53,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
     {ogImage && <meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />}
 
     <!-- JSON-LD -->
-    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />}
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -67,7 +67,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
     <link rel="alternate" type="application/rss+xml" title="Simon Plant" href="/rss.xml" />
     <title>{title}</title>
   </head>
-  <body class="font-sans antialiased text-gray-200 bg-[#0a0a0f] overflow-x-hidden min-h-screen flex flex-col">
+  <body class="font-sans antialiased text-gray-200 bg-surface-bg overflow-x-hidden min-h-screen flex flex-col">
     <Nav />
     <div class="flex-1">
       <slot />
