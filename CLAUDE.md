@@ -34,7 +34,7 @@ npm run preview   # Preview production build locally
 
 ## Design System
 
-- **Body surface:** `#0a0a0f` dark background, `gray-200` text, Inter sans-serif UI font
+- **Body surface:** `--color-surface-bg` (#0a0a0f) dark background via `bg-surface-bg`, `gray-200` text, Inter sans-serif UI font
 - **Prose typography:** Literata serif at 17px, line-height 1.75, max-width 720px (`.prose` class)
 - **Headings:** DM Serif Display (h1–h4), weight 400, tight line-height
 - **Code:** JetBrains Mono — inline code on raised surface, code blocks on `#16161e` elevated dark surface
@@ -62,6 +62,19 @@ npm run preview   # Preview production build locally
 - PostHog auto-disables capturing in dev mode
 - All new pages must use `Base.astro` layout and pass a `title` prop
 - Long-form content pages should wrap body content in a `<div class="prose">` container
+
+## Git Workflow
+
+**Owner commits directly to `main`. Agents use PRs.**
+
+This is a solo personal website. PRs are only valuable when committer ≠ reviewer; self-review is theater. The owner (`simonplant`) pushes directly to `main`; CI runs on every push and fails loudly if the build breaks — that's the real guardrail, not the PR ritual.
+
+**Agents (Clawdius, aishore sprint agents, and any Claude Code session acting on the owner's behalf when the owner is not the one typing) must still use PRs** for anything outside a narrow "the owner told me to commit this directly right now" scope. Agent PRs are the mechanism that makes the `content-validation` workflow (scope limits, publishing gate, batch caps) actually load-bearing. Clawdius-specific constraints are in the Content Agent Rules section below.
+
+**Hard rules for everyone:**
+- Never force-push `main`
+- Never commit secrets (use `.env`, which is gitignored)
+- Never bypass pre-commit hooks with `--no-verify`
 
 ## Content Pipeline
 
