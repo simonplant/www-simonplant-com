@@ -43,7 +43,7 @@
       "title": "PostHog analytics dashboards and conversion goals",
       "intent": "Simon must have dashboards that answer the three questions that matter: what content is working, where do visitors come from, and what do they do after reading. Conversion goals must define success in measurable terms — newsletter CTA clicks, article completions, contact link clicks — so the content strategy has feedback, not just vibes.",
       "description": "Create PostHog dashboards and conversion goals via PostHog UI. No code changes required — this is configuration work in the PostHog web app after FEAT-033 and FEAT-034 are deployed.\n\nDashboards to create:\n1. Web Analytics Overview — visitors, sessions, bounce rate, top pages, traffic sources, geographic distribution\n2. Content Performance — pageviews by article, scroll depth completion rates, time on page, top tags, series vs commentary vs architecture engagement\n3. Engagement Funnel — landing page → article read → scroll 50%+ → newsletter CTA click\n\nConversion goals to define:\n- newsletter_cta_clicked (from FEAT-034 custom event)\n- article_scroll_depth at 100% (article completion)\n- Outbound click to GitHub product repos",
-      "priority": "should",
+      "priority": "future",
       "category": "simon/ui",
       "steps": [
         "[PostHog UI] Create 'Web Analytics Overview' dashboard with: visitors trend, top pages by views, traffic sources, referrers, device/browser breakdown, geographic map",
@@ -66,15 +66,15 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": "2026-04-06",
-      "groomingNotes": "New item. simon/ui — PostHog dashboard configuration, no code changes. Blocked by FEAT-033 (features enabled) and FEAT-034 (custom events exist). Cannot be automated — requires manual PostHog UI work. S size in effort, high value."
+      "groomedAt": "2026-04-11",
+      "groomingNotes": "v0.5.7: Demoted to future. Analytics dashboards measure engagement on a site with no published content yet. These become valuable after the first series installments are live and generating traffic. Revisit after FEAT-040 ships."
     },
     {
       "id": "FEAT-037",
       "title": "PostHog reader feedback surveys",
       "intent": "Readers who finish an article must have a low-friction way to signal whether it was useful — qualitative feedback is the only way to calibrate content quality beyond scroll metrics. Surveys must be unobtrusive, targeted to engaged readers, and yield actionable signal.",
       "description": "Configure PostHog popover surveys via PostHog UI. No code changes required — surveys are rendered by the PostHog SDK once enabled in FEAT-033.\n\nSurveys to configure:\n1. Article feedback (triggered after 75%+ scroll on series/commentary pages): 'Was this useful?' rating (1-5) + optional freeform 'What would make this better?'\n2. Site feedback (shown to returning visitors after 3+ sessions): 'What topic should Simon write about next?' freeform\n\nTargeting: URL contains /series/ or /commentary/, minimum scroll depth, wait period between surveys (30 days).",
-      "priority": "should",
+      "priority": "future",
       "category": "simon/ui",
       "steps": [
         "[PostHog UI] Create 'Article Feedback' survey: rating question (1-5 emoji) + conditional freeform follow-up for ratings <= 3",
@@ -96,15 +96,15 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": "2026-04-06",
-      "groomingNotes": "New item. simon/ui — PostHog survey configuration, no code changes. Blocked by FEAT-033 (survey capability enabled in SDK). Popover surveys are rendered by posthog-js — zero component changes needed. Targeting by URL and events. XS effort, high qualitative value."
+      "groomedAt": "2026-04-11",
+      "groomingNotes": "v0.5.7: Demoted to future. Reader feedback surveys require published content and actual readers to survey. Premature before the site has live articles generating engagement. Revisit after first series installments are published."
     },
     {
       "id": "FEAT-038",
       "title": "PostHog session replay and heatmap review workflow",
       "intent": "Session replays and heatmaps are useless if nobody watches them. Simon must establish a weekly review cadence — watch 5-10 replays of engaged readers, review scroll heatmaps on top content pages, and identify UX friction points. The first review must produce at least one actionable finding.",
       "description": "Set up session replay filters and heatmap views in PostHog UI. No code changes required — session replay and heatmap data collection is enabled by FEAT-033.\n\nSetup tasks:\n1. Create saved session replay filters: 'Engaged readers' (sessions with article_scroll_depth 75%+), 'Frustrated users' (sessions with rage clicks or dead clicks), 'Search users' (sessions with search_query event)\n2. Review scroll heatmaps on top 5 content pages — note where readers drop off\n3. Review click heatmaps on home page and products page — identify missed click targets\n4. Document findings and create bug/improvement items from observations",
-      "priority": "could",
+      "priority": "future",
       "category": "simon/ui",
       "steps": [
         "[PostHog UI] Create saved replay filter: 'Engaged readers' — sessions containing article_scroll_depth event with depth >= 75",
@@ -127,15 +127,15 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": "2026-04-06",
-      "groomingNotes": "New item. simon/ui — PostHog replay and heatmap setup + first review cycle. Blocked by FEAT-033 + FEAT-034 (needs replay data and custom events). This is the 'close the loop' item — data collection without review is waste. S effort."
+      "groomedAt": "2026-04-11",
+      "groomingNotes": "v0.5.7: Demoted to future. Session replays and heatmaps require real traffic to analyze. No published content means no meaningful engagement data to review. Revisit after content is live and generating sessions."
     },
     {
       "id": "FEAT-039",
       "title": "PostHog no-code A/B experiments",
       "intent": "The site's newsletter CTA, home page hero copy, and content page layout assumptions must be tested, not guessed. PostHog no-code experiments let Simon test visual changes without code deploys — run at least one experiment to validate the workflow and establish a testing habit.",
       "description": "Set up and run at least one no-code A/B experiment via PostHog UI toolbar. No code changes required — PostHog's no-code experiments modify DOM elements client-side based on feature flag assignment.\n\nCandidate experiments (pick one to start):\n1. Newsletter CTA copy: 'Subscribe' vs 'Get the next installment' vs 'Join 100+ builders'\n2. Home page hero tagline: test current copy vs a more specific variant\n3. Series landing page: test showing reading time vs not (if FEAT-017 ships first)\n\nSuccess metric: newsletter_cta_clicked conversion rate (or relevant engagement metric).",
-      "priority": "could",
+      "priority": "future",
       "category": "simon/ui",
       "steps": [
         "[PostHog UI] Choose first experiment — newsletter CTA copy is recommended (clear conversion metric, high traffic element)",
@@ -158,8 +158,147 @@
       "status": "todo",
       "passes": false,
       "readyForSprint": false,
-      "groomedAt": "2026-04-06",
-      "groomingNotes": "New item. simon/ui — PostHog no-code experiment. Blocked by FEAT-033 + FEAT-034 (needs SDK features enabled and custom events for metrics). First experiment establishes the testing workflow. XS effort to set up, requires patience to run. Could priority — valuable but not urgent."
+      "groomedAt": "2026-04-11",
+      "groomingNotes": "v0.5.7: Demoted to future. A/B experiments require traffic volume for statistical significance. No published content means no meaningful traffic to split-test against. Revisit after content is live and generating consistent visitors."
+    },
+    {
+      "id": "FEAT-040",
+      "title": "Write and publish series installment #1 \"I've Seen This Movie Before\"",
+      "intent": "The first series installment must establish Simon's unique credibility — he built and operated in the cloud management era and is now applying those patterns to agent infrastructure. The reader must finish understanding that agent ops is an inevitable layer, not optional. Every claim must be grounded in real experience (RightScale, AWS, ClawHQ).",
+      "description": "Write the thesis installment of the ops layer series. Must ground the cloud-to-agent parallel in real operational experience, not abstract analogies.",
+      "priority": "must",
+      "category": "content",
+      "steps": [
+        "Write draft in src/content/series/ops-layer-01.md using real RightScale/AWS/ClawHQ experience",
+        "Ground every claim in verifiable facts — real companies, real patterns, real timeline",
+        "Target 1,500-2,500 words",
+        "Set status to review when draft is complete",
+        "Simon reviews and sets status to published"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Series installment 01 exists with status review or published",
+          "verify": "grep -q 'status:.*\\(review\\|published\\)' src/content/series/ops-layer-01.md"
+        },
+        {
+          "text": "Word count is 1500-2500",
+          "verify": "wc -w < src/content/series/ops-layer-01.md | awk '{exit ($1 < 1500 || $1 > 3000)}'"
+        }
+      ],
+      "scope": [
+        "src/content/series/ops-layer-01.md"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false,
+      "groomedAt": "2026-04-11",
+      "groomingNotes": "New item. First content piece — establishes credibility and series thesis. Must priority. Stub already exists in src/content/series/ops-layer-01.md."
+    },
+    {
+      "id": "FEAT-041",
+      "title": "Write and publish series installment #4 \"The Security Model Is Missing\"",
+      "intent": "The security piece must present hard evidence — real CVEs, real default configs, real audit findings — that the agent ecosystem is sleepwalking into a security disaster. It must provide a practical hardening checklist any operator can apply immediately. This is the second gateway piece designed for broad distribution.",
+      "description": "Write the security installment with real CVEs, default config problems, and an actionable hardening checklist. Second gateway piece for broad distribution.",
+      "priority": "must",
+      "category": "content",
+      "steps": [
+        "Write draft in src/content/series/ops-layer-04.md",
+        "Verify CVE-2026-25253 and any other cited CVEs are real",
+        "Include specific OpenClaw default config problems from ClawHQ audit work",
+        "Provide actionable hardening checklist",
+        "Target 2,000-3,000 words",
+        "Set status to review when complete"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Series installment 04 exists with status review or published",
+          "verify": "grep -q 'status:.*\\(review\\|published\\)' src/content/series/ops-layer-04.md"
+        },
+        {
+          "text": "Contains at least one real CVE reference",
+          "verify": "grep -qiE 'CVE-[0-9]{4}-[0-9]+' src/content/series/ops-layer-04.md"
+        }
+      ],
+      "scope": [
+        "src/content/series/ops-layer-04.md"
+      ],
+      "dependsOn": [
+        "FEAT-040"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false,
+      "groomedAt": "2026-04-11",
+      "groomingNotes": "New item. Security gateway piece — must cite real CVEs and provide actionable checklist. Must priority. Depends on FEAT-040 (thesis must ship first). Stub exists."
+    },
+    {
+      "id": "FEAT-042",
+      "title": "Write and publish series installment #5 \"Capability-First, Not Persona-First\"",
+      "intent": "This piece must tell the honest story of building an elaborate persona system and discovering it was wrong. The intellectual honesty — killing your own idea with evidence — builds trust and distinguishes the site from 'AI is transforming' content. Must be grounded in real ClawHQ/Clawdius operational experience.",
+      "description": "Write the persona-vs-capability installment grounded in real ClawHQ/Clawdius experience. Intellectual honesty piece — killing your own idea with evidence.",
+      "priority": "should",
+      "category": "content",
+      "steps": [
+        "Write draft in src/content/series/ops-layer-05.md",
+        "Tell the real story of building the persona schema",
+        "Show what actually drove useful agent behavior (capabilities, not personality)",
+        "Target 1,500-2,500 words",
+        "Set status to review when complete"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "Series installment 05 exists with status review or published",
+          "verify": "grep -q 'status:.*\\(review\\|published\\)' src/content/series/ops-layer-05.md"
+        }
+      ],
+      "scope": [
+        "src/content/series/ops-layer-05.md"
+      ],
+      "dependsOn": [
+        "FEAT-040"
+      ],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": false,
+      "groomedAt": "2026-04-11",
+      "groomingNotes": "New item. Intellectual honesty piece — builds trust by showing willingness to kill own ideas. Should priority. Depends on FEAT-040. Stub exists."
+    },
+    {
+      "id": "FEAT-043",
+      "title": "Clean up orphaned fictional infrastructure",
+      "intent": "The site must not contain references to fictional products, fabricated ecosystem descriptions, or stale documentation from the prior agent's content run. Every file should reflect reality.",
+      "description": "Remove orphaned components, fictional product references, and stale documentation from prior content runs.",
+      "priority": "should",
+      "category": "cleanup",
+      "steps": [
+        "Delete src/components/EcosystemMap.astro (orphaned, no longer imported)",
+        "Audit and clean docs/ARCHITECTURE.md — remove fictional product references",
+        "Audit and clean docs/CONTENT_AGENT_SPEC.md — remove fictional references",
+        "Audit src/data/changelog.json — remove entries celebrating fictional features",
+        "Check for any other references to fabricated products (ClawWall, ClawHavoc, OpenClaw power users, etc.)"
+      ],
+      "acceptanceCriteria": [
+        {
+          "text": "EcosystemMap component deleted",
+          "verify": "test ! -f src/components/EcosystemMap.astro"
+        },
+        {
+          "text": "No references to ClawWall or ClawHavoc in src/",
+          "verify": "! grep -rq 'ClawWall\\|ClawHavoc' src/"
+        }
+      ],
+      "scope": [
+        "src/components/",
+        "docs/",
+        "src/data/"
+      ],
+      "dependsOn": [],
+      "status": "todo",
+      "passes": false,
+      "readyForSprint": true,
+      "groomedAt": "2026-04-11",
+      "groomingNotes": "New item. Cleanup of fictional artifacts from prior agent content runs. Should priority. Ready for sprint — no dependencies."
     }
   ]
 }
