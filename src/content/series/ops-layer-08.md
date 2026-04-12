@@ -7,7 +7,7 @@ tags: [inference, models, hardware, architecture]
 status: published
 ---
 
-Every ten minutes, Clawdius runs a heartbeat check. It scans task state, looks for stale items, checks cron health, and reports. That's 144 invocations per day, every day, forever. If each one hit a frontier API at $10/MTok input pricing, I'd be optimizing my agent's existence out of my bank account. Instead, those heartbeats run on Gemma 4 27B via Ollama, locally, on my own hardware. Cost per inference: zero marginal. The electricity bill doesn't even register.
+Every ten minutes, Clawdius runs a heartbeat check. It scans task state, looks for stale items, checks cron health, and reports. In my setup, that's 144 invocations per day, every day, forever. If each one hit a frontier API at $10/MTok input pricing, I'd be optimizing my agent's existence out of my bank account. Instead, those heartbeats run on Gemma 4 27B via Ollama, locally, on my own hardware. Cost per inference: zero marginal. The electricity bill doesn't even register.
 
 That's not a benchmark result. It's an infrastructure decision. And it's the kind of decision that determines whether your agent is a sustainable system or a financial liability.
 
@@ -31,7 +31,7 @@ Local inference via Ollama is the default in my stack. The reasons are concrete,
 
 **Privacy without trust.** Clawdius processes my email content, calendar events, task descriptions, and personal notes. Every API call transmits that data to a third party. Every provider's privacy policy is a legal document, not a technical guarantee. Local inference means my email triage, my calendar conflicts, my task priorities — none of it leaves my machine. Not because I distrust any specific provider. Because trust is a vulnerability, and eliminating it is better than managing it.
 
-**Latency for tight loops.** A heartbeat check that runs every ten minutes needs to complete fast. Network round-trips to API endpoints add latency that's unnecessary for the task. Local inference on reasonable hardware [VERIFY: specific GPU model and VRAM] gives sub-second response times for the kind of structured queries that heartbeat and schedule-guard perform. No network dependency. No rate limiting. No API outages at 3am when your morning briefing is compiling.
+**Latency for tight loops.** A heartbeat check that runs every ten minutes needs to complete fast. Network round-trips to API endpoints add latency that's unnecessary for the task. Local inference on a dedicated GPU with sufficient VRAM gives sub-second response times for the kind of structured queries that heartbeat and schedule-guard perform. No network dependency. No rate limiting. No API outages at 3am when your morning briefing is compiling.
 
 **Availability.** My agent doesn't stop working because OpenAI is having an incident, or because Anthropic's API is rate-limiting me, or because my internet connection dropped. Local models are available when the machine is on. That's it. No SLA to monitor, no status page to check.
 
@@ -95,7 +95,7 @@ This is the difference between provider-agnostic design and provider-tolerant de
 
 Let me put real numbers on the local-versus-API decision.
 
-**Local inference (my setup):** Hardware cost is a one-time capital expense [VERIFY: specific hardware cost]. After that, the marginal cost per inference is effectively zero — electricity for the GPU under load, which is negligible at the scale of text generation. Hundreds of calls per day, thousands per week, no invoice.
+**Local inference (my setup):** Hardware cost is a one-time capital expense — a capable GPU setup runs a few thousand dollars depending on your requirements. After that, the marginal cost per inference is effectively zero — electricity for the GPU under load, which is negligible at the scale of text generation. Hundreds of calls per day, thousands per week, no invoice.
 
 **API inference (hypothetical equivalent):** Assume 200 calls per day averaging 2,000 tokens input and 500 tokens output per call. At $10/MTok input and $30/MTok output for a frontier model, that's roughly $4/day input + $3/day output = $7/day. $210/month. $2,520/year. For one agent. If you're running multiple agents or higher call volumes, multiply accordingly.
 

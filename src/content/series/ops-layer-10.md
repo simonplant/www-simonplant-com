@@ -69,7 +69,7 @@ Worse, more tools mean more opportunities for the model to choose the wrong one.
 
 Third-party APIs change. They deprecate endpoints, modify response formats, introduce new rate limits, change authentication flows. Every integration is a dependency, and every dependency is a failure point.
 
-When Yahoo Finance changed their API response format in March 2026, my `quote` tool started returning malformed data. The agent didn't crash — it parsed what it could and delivered garbled stock quotes with missing fields. It took two days to notice because the agent confidently reported "AAPL is currently trading at $null."
+When a financial data API changed its response format, my `quote` tool started returning malformed data. The agent didn't crash — it parsed what it could and delivered garbled stock quotes with missing fields. It took two days to notice because the agent confidently reported "AAPL is currently trading at $null."
 
 Multiply this by 15 integrations and you're playing whack-a-mole with third-party API changes. Every week something breaks, and the breakage is always subtle.
 
@@ -77,7 +77,7 @@ Multiply this by 15 integrations and you're playing whack-a-mole with third-part
 
 Every tool is an attack surface. Every external API call is a potential data exfiltration path. Every integration that accepts external data (email, web search, RSS feeds) is a prompt injection vector.
 
-This is why the `sanitize` tool exists and is marked "always available" in ClawHQ. It's not optional infrastructure — it's a security invariant. Every piece of external content that enters the agent's context passes through ClawWall's prompt injection firewall before the agent processes it. Eleven detection categories, weighted scoring, threshold of 0.6, automatic quarantine for content that scores above the threshold.
+This is why the `sanitize` tool exists and is marked "always available" in ClawHQ. It's not optional infrastructure — it's a security invariant. Every piece of external content that enters the agent's context passes through ClawWall's prompt injection firewall before the agent processes it. ClawWall, our prompt injection firewall, uses eleven detection categories with weighted scoring, a threshold of 0.6, and automatic quarantine for content that scores above the threshold.
 
 But the firewall only works if all external content flows through it. Every new integration that ingests external data is another path that needs to be routed through sanitization. Miss one, and you have an unprotected injection vector.
 
@@ -111,7 +111,7 @@ Every tool belongs to exactly one mission profile (covered in [installment #9](/
 
 ### Usage Metrics
 
-ClawHQ tracks tool usage: invocation count, success rate, average latency, token cost per invocation. This data feeds the audit process. A tool that's invoked 500 times per month with a 98% success rate is clearly valuable. A tool that's invoked 3 times per month with a 60% success rate is a removal candidate.
+ClawHQ tracks tool usage: invocation count, success rate, average latency, token cost per invocation. This data feeds the audit process. In my deployment, a tool that's invoked 500 times per month with a 98% success rate is clearly valuable. A tool that's invoked 3 times per month with a 60% success rate is a removal candidate.
 
 ### Minimum Viable Toolset
 

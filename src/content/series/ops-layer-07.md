@@ -9,7 +9,7 @@ status: published
 
 Every database you've ever operated has retention policies. Every log pipeline has rotation. Every cache has eviction. But agent memory? Agent memory is a append-only text file that grows until something breaks, and when it breaks, it breaks silently.
 
-I learned this the hard way with Clawdius. Three days of active use — email triage, calendar management, research tasks, content drafts — and the memory directory had grown to 360KB. That's 120KB per day of raw operational state: tool results, conversation fragments, decision rationale, extracted facts, daily logs. None of it pruned. None of it prioritized. All of it competing for space in a context window that doesn't care about your feelings.
+I learned this the hard way with Clawdius. Three days of active use — email triage, calendar management, research tasks, content drafts — and the memory directory had grown by hundreds of kilobytes. That's a significant amount per day of raw operational state: tool results, conversation fragments, decision rationale, extracted facts, daily logs. None of it pruned. None of it prioritized. All of it competing for space in a context window that doesn't care about your feelings.
 
 The problem isn't that memory grows. The problem is what happens when it hits the ceiling.
 
@@ -19,7 +19,7 @@ The problem isn't that memory grows. The problem is what happens when it hits th
 
 OpenClaw's memory system stores everything in files. Daily logs capture what the agent did. MEMORY.md captures what the agent knows. Both are loaded at conversation start through the bootstrap system, which has two hard limits: `bootstrapMaxChars` at 20,000 characters per file, and `bootstrapTotalMaxChars` at 150,000 characters aggregate across all bootstrapped files.
 
-Those limits sound generous until you do the arithmetic. At 120KB per day, you blow past the per-file limit in under a week of active logging. The aggregate limit gives you more runway, but memory isn't the only thing competing for bootstrap space — identity files, project context, skill definitions, and configuration all draw from the same 150K budget.
+Those limits sound generous until you do the arithmetic. At that growth rate, you blow past the per-file limit in under a week of active logging. The aggregate limit gives you more runway, but memory isn't the only thing competing for bootstrap space — identity files, project context, skill definitions, and configuration all draw from the same 150K budget.
 
 Here's what happens when a file exceeds `bootstrapMaxChars`: it gets silently truncated. No error. No warning. No indication to the agent or the user that content was dropped. The agent simply starts a new conversation without the context that was supposed to be there. Yesterday's decisions, last week's research findings, the user preferences it extracted from three conversations ago — all still on disk, all invisible to the agent.
 
@@ -31,7 +31,7 @@ This is the operational equivalent of a database that silently drops rows when a
 
 Memory at rest is one problem. Memory in flight is worse.
 
-Every message in a conversation adds to the context window. Tool results are particularly expensive — a single file read or search result can consume thousands of tokens. Without intervention, a 35-message conversation can balloon to 208K tokens. At that point, the model either refuses to respond or starts producing degraded output. I've seen both. The degraded output is worse because you don't always notice it.
+Every message in a conversation adds to the context window. Tool results are particularly expensive — a single file read or search result can consume thousands of tokens. Without intervention, a 35-message conversation can balloon to over 200K tokens. At that point, the model either refuses to respond or starts producing degraded output. I've seen both. The degraded output is worse because you don't always notice it.
 
 OpenClaw has a mitigation for this: context pruning, configured as `mode: "cache-ttl"` in the model settings. It trims old tool results as the conversation grows, keeping recent context fresh while evicting stale results. Reasonable approach. One problem: it's off by default for non-Anthropic model profiles. If you're running Claude through a custom provider configuration — which most serious users are — you have to know to enable it. Most don't.
 
@@ -61,7 +61,7 @@ These four failure modes interact. A bloated file gets truncated, which removes 
 
 ## What Tiered Memory Actually Looks Like
 
-ClawHQ's answer to this is a three-tier memory lifecycle, implemented in `src/evolve/memory/lifecycle.ts`. It's the architecture I wish OpenClaw shipped by default.
+ClawHQ's answer to this is a three-tier memory lifecycle, implemented in my own codebase at `src/evolve/memory/lifecycle.ts`. It's the architecture I wish OpenClaw shipped by default.
 
 **Hot memory** covers anything from the last seven days, capped at 50KB. This is the tier that loads into every conversation at full fidelity. Daily logs, recent decisions, extracted facts, active project context — all of it available without search. The seven-day window and size cap mean the agent always starts with recent, relevant context without blowing the bootstrap budget.
 
@@ -79,7 +79,7 @@ That last point matters. OpenClaw's recommended mitigation for memory growth is 
 
 One design decision in ClawHQ that I'm particularly firm about: context pruning is enabled by default in every generated configuration. Not opt-in. Not documented-but-disabled. On.
 
-The upstream default — pruning disabled for non-Anthropic profiles — is a reasonable engineering choice if you're building a general-purpose tool and you don't want to surprise users by dropping context. But it's the wrong default for an agent that runs daily, handles real tasks, and accumulates real state. Without pruning, every long conversation is a ticking bomb. Thirty-five messages in, you're at 208K tokens, and the session either dies or degrades. Users blame the model. The model is fine. The context management is absent.
+The upstream default — pruning disabled for non-Anthropic profiles — is a reasonable engineering choice if you're building a general-purpose tool and you don't want to surprise users by dropping context. But it's the wrong default for an agent that runs daily, handles real tasks, and accumulates real state. Without pruning, every long conversation is a ticking bomb. Thirty-five messages in, you're past 200K tokens, and the session either dies or degrades. Users blame the model. The model is fine. The context management is absent.
 
 Enabling pruning by default means accepting a trade-off: old tool results will be evicted, and the agent might need to re-fetch information it already retrieved earlier in the conversation. That's a minor efficiency cost. Silent session death is a catastrophic usability cost. The trade-off is obvious.
 

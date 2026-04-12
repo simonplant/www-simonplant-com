@@ -31,13 +31,13 @@ You are approximately 10% done.
 
 ## Stage 2: Configuration
 
-Here's where the complexity explodes. A working OpenClaw agent requires approximately 13,500 tokens of configuration spread across 11+ files: runtime config, Docker Compose, Dockerfile, environment variables, credentials, identity files (SOUL.md, AGENTS.md, IDENTITY.md, HEARTBEAT.md, TOOLS.md), cron job definitions, skill configs, and egress rules.
+Here's where the complexity explodes. A working OpenClaw agent requires thousands of tokens of configuration spread across 11+ files: runtime config, Docker Compose, Dockerfile, environment variables, credentials, identity files (SOUL.md, AGENTS.md, IDENTITY.md, HEARTBEAT.md, TOOLS.md), cron job definitions, skill configs, and egress rules.
 
 Roughly 40% of that configuration is universal — the same for every agent regardless of use case. Docker networking, resource limits, logging format, health check intervals. The other 60% is deeply personalized — your identity, your integrations, your communication style, your tool access policies, your cron schedules.
 
 The existing tooling — `openclaw configure` and the built-in Control UI — can set individual values. They can tell you whether a specific setting is valid. What they can't do is composition. They can't turn "I want an agent that manages my email and calendar" into a coherent configuration that wires up IMAP credentials, CalDAV sessions, the right cron schedules, appropriate tool permissions, and a matching identity file — all simultaneously, all consistently.
 
-And then there are the landmines. I've documented 14 silent configuration landmines — settings that cause security or operational failures without producing any error message. The agent starts fine. The health check passes. But your egress filtering isn't applied, or your memory is unbounded, or your credential rotation window is too long, or your context pruning is off and you're burning tokens at a rate that will empty your API budget in a week.
+And then there are the landmines. I've documented numerous dangerous default configurations — settings that cause security or operational failures without producing any error message. The agent starts fine. The health check passes. But your egress filtering isn't applied, or your memory is unbounded, or your credential rotation window is too long, or your context pruning is off and you're burning tokens at a rate that will empty your API budget in a week.
 
 **Tooling status:** Basic. You can configure individual settings through the CLI or UI, but there's no composition, no landmine prevention, no use-case-level templates that produce a coherent config across all 11+ files.
 
@@ -47,7 +47,7 @@ And then there are the landmines. I've documented 14 silent configuration landmi
 
 Security in OpenClaw is opt-in. The default configuration ships with no capability restrictions (`cap_drop`), no read-only filesystem, no egress filtering, no rate limiting on tool execution. There's a 30-item hardening checklist buried in the upstream docs. It's comprehensive and well-written. Almost nobody follows it.
 
-The result: 42,000+ OpenClaw instances found publicly exposed on the internet running default configurations. Nine CVEs in the first two months. The ClawHavoc campaign demonstrated that community skills could inject hidden instructions using base64-encoded strings and zero-width Unicode characters, targeting identity files. Microsoft, Cisco, and Nvidia all published security guidance specifically because the defaults are that bad.
+The result: 42,000+ OpenClaw instances found publicly exposed on the internet running default configurations. Fifteen CVEs in the first two months. The ClawHavoc campaign demonstrated that community skills could inject hidden instructions using base64-encoded strings and zero-width Unicode characters, targeting identity files. Microsoft, Cisco, and Nvidia all published security guidance specifically because the defaults are that bad.
 
 This is the "default security groups are wide open" problem from early AWS, except worse — because an agent with default config doesn't just accept inbound connections. It actively reaches out to services on your behalf, with your credentials, making decisions autonomously. An insecure VM sits there. An insecure agent acts.
 
@@ -71,7 +71,7 @@ This is where every unmanaged deployment dies. Not with a crash — with a slow 
 
 **Credential management.** IMAP tokens expire. CalDAV sessions time out. API keys get rotated by upstream providers. When a credential expires, the agent doesn't stop. It keeps running. It keeps trying. It keeps failing — silently. From the outside, it looks like the agent has stopped doing its job. It's actually doing its job fine; it just can't reach the services it needs. I've seen operators spend hours debugging agent behavior when the real problem was a stale OAuth token that expired 72 hours ago.
 
-**Memory management.** An active agent generates roughly 120KB of memory per day. In three days, that's 360KB. The `bootstrapMaxChars` setting caps how much memory gets loaded into context — 20,000 characters per file, 150,000 characters aggregate. When memory exceeds those limits, it gets silently truncated. The agent doesn't crash. It doesn't warn you. It just starts forgetting things. Decisions it made last week. Context about ongoing projects. Preferences you trained into it over days of interaction. Gone, because the memory file grew past an invisible line.
+**Memory management.** An active agent can generate hundreds of kilobytes of memory in just a few days. The `bootstrapMaxChars` setting caps how much memory gets loaded into context — 20,000 characters per file, 150,000 characters aggregate. When memory exceeds those limits, it gets silently truncated. The agent doesn't crash. It doesn't warn you. It just starts forgetting things. Decisions it made last week. Context about ongoing projects. Preferences you trained into it over days of interaction. Gone, because the memory file grew past an invisible line.
 
 **Identity drift.** An agent's identity is defined across multiple files — SOUL.md, IDENTITY.md, openclaw.json, and others. Over time, these files accumulate contradictions. The SOUL.md says the agent should be concise; the IDENTITY.md has grown verbose examples. The personality bloats with edge cases that made sense when they were added but collectively create incoherence. Scope creep sets in — the agent was an email manager, then someone added calendar handling, then task tracking, and now the identity is trying to be everything and succeeding at nothing. I call this identity drift, and it happens to every agent that runs for more than a few weeks without active governance.
 
@@ -101,7 +101,7 @@ Configuration corruption happens. Failed updates happen. Disk failures happen. A
 
 `clawhq backup create` produces encrypted snapshots that capture the full agent state — config, identity, memory, skills, credentials (encrypted separately). Recovery from a corrupted config or a botched update is a single command.
 
-Without this, recovery means reconstructing 13,500 tokens of configuration from memory. Most people don't have that memory. Their agent does — or did, before the memory file got corrupted.
+Without this, recovery means reconstructing thousands of tokens of configuration from memory. Most people don't have that memory. Their agent does — or did, before the memory file got corrupted.
 
 **Tooling status:** Minimal in the ecosystem. No native backup in OpenClaw. ClawHQ provides it, but if you're not using managed tooling, you're either running your own backup scripts or you're living dangerously.
 
@@ -121,7 +121,7 @@ The upstream tooling covers "is the config valid" and "is the gateway running." 
 
 ## Stage 9: Skill Management
 
-Skills are the extension mechanism — plugins that give your agent new capabilities. ClawHub, the community marketplace, has hundreds of them. The ClawHavoc research found that 20-36% of community skills contained malicious payloads.
+Skills are the extension mechanism — plugins that give your agent new capabilities. ClawHub, the community marketplace, has hundreds of them. Koi Security found ClawHavoc indicators in 18.7% of surveyed skills, with Snyk detecting prompt injection patterns in up to 36%.
 
 That number should stop you cold.
 
@@ -178,4 +178,4 @@ This is the map. Now let's walk the territory.
 
 ---
 
-*Next: [The 14 Silent Landmines](/series/ops-layer-03) — the configuration settings that cause security and operational failures without any error message, and how to defuse them before they detonate.*
+*Next: [The Silent Landmines](/series/ops-layer-03) — the configuration settings that cause security and operational failures without any error message, and how to defuse them before they detonate.*

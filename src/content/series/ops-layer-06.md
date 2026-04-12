@@ -25,7 +25,7 @@ morning-brief:   30 7 * * *    "Summarize today's calendar, overnight email
 schedule-guard:  */15 * * * *   "Guard the calendar against conflicts."
 ```
 
-All four run on `ollama/gemma4:26b` — local inference on my own hardware. All four run on session `"main"`. That last detail is the one that broke everything.
+All four run on `ollama/gemma4:27b` — local inference on my own hardware. All four run on session `"main"`. That last detail is the one that broke everything.
 
 The HEARTBEAT.md that governs the heartbeat job is exactly what you'd expect:
 
@@ -55,15 +55,15 @@ In operations, this is called a "thundering herd." Every monitoring system has s
 
 ### 4. Wasted compute on empty polls
 
-I ran Clawdius for two weeks and logged the heartbeat results. Out of roughly 2,016 heartbeat invocations (every 10 minutes, 24 hours a day), approximately 1,800 returned `HEARTBEAT_OK`. Nothing to do. No action taken. But each invocation still loaded context, called three external tools (email, calendar, tasks), waited for responses, reasoned about whether anything was urgent, and produced a verdict.
+I ran Clawdius for two weeks and logged the heartbeat results. In my deployment, out of roughly 2,016 heartbeat invocations (every 10 minutes, 24 hours a day), approximately 1,800 returned `HEARTBEAT_OK`. Nothing to do. No action taken. But each invocation still loaded context, called three external tools (email, calendar, tasks), waited for responses, reasoned about whether anything was urgent, and produced a verdict.
 
-That's about 89% waste. Not catastrophic when you're running local inference on hardware you already own. Ruinous when you're paying per token to a cloud API. And even on local hardware, those empty polls consume GPU cycles that could be doing real work.
+In my deployment, that's about 89% waste. Not catastrophic when you're running local inference on hardware you already own. Ruinous when you're paying per token to a cloud API. And even on local hardware, those empty polls consume GPU cycles that could be doing real work.
 
 ### 5. Context bloat from the native heartbeat
 
-This is the one that surprised me. OpenClaw's native heartbeat — the built-in mechanism, not a cron job you define — consumes tokens from the main session context. Every heartbeat result gets appended to the conversation history. With pruning disabled (which some configurations default to), 35 heartbeat messages can produce 208,000 tokens of context.
+This is the one that surprised me. OpenClaw's native heartbeat — the built-in mechanism, not a cron job you define — consumes tokens from the main session context. Every heartbeat result gets appended to the conversation history. With pruning disabled (which some configurations default to), 35 heartbeat messages can produce over 200,000 tokens of context.
 
-That's not a typo. 208K tokens. From heartbeats that mostly said "nothing happening."
+That's not a typo. Over 200K tokens. From heartbeats that mostly said "nothing happening."
 
 Context windows are precious. Filling them with routine health checks is like using your working memory to remember that you're still breathing. The information is true and completely useless.
 
@@ -141,7 +141,7 @@ This isn't an OpenClaw-specific problem. Any agent scheduling architecture faces
 
 **Cheap probes, expensive reasoning.** The probe should cost effectively nothing. A filesystem check. An API call that returns a count. A cache lookup. The reasoning — the part that actually uses LLM tokens — fires only when the probe says something changed.
 
-After the rebuild, Clawdius's daily token consumption for scheduling dropped by roughly 80%. Not because the agent does less work — it does the same work. It just stopped doing the same non-work 1,800 times a day.
+After the rebuild, Clawdius's daily token consumption for scheduling dropped dramatically. Not because the agent does less work — it does the same work. It just stopped doing the same non-work 1,800 times a day.
 
 ---
 

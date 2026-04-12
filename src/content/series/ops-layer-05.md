@@ -25,7 +25,7 @@ The schema was clean. The implementation was solid. The product thesis was wrong
 
 I didn't ship the archetype selector because I didn't trust my own design instinct strongly enough to override data. And the data was clear.
 
-User research showed that 95% of users want the same professional default. Not 95% as a rough estimate — that was the actual finding. People don't want their AI agent to have a personality. They want it to be competent, clear, and quiet. The rare exceptions — someone who wants a warmer tone for family coordination, someone who wants extreme terseness for a trading workflow — are real but narrow. They don't justify a product surface. They justify a settings panel.
+User research showed that the vast majority of users gravitate toward the same professional default. People don't want their AI agent to have a personality. They want it to be competent, clear, and quiet. The rare exceptions — someone who wants a warmer tone for family coordination, someone who wants extreme terseness for a trading workflow — are real but narrow. They don't justify a product surface. They justify a settings panel.
 
 The seven archetypes turned out to be interesting design heuristics. They helped me think about what "good defaults" meant by examining the best traits from each persona. But as a user-facing feature? A selection menu where you pick your agent's personality type? Nobody asked for that. Not in interviews, not in community discussions, not in any feedback channel I had access to.
 
@@ -89,11 +89,11 @@ The personality makes Clawdius tolerable. The capabilities make Clawdius useful.
 
 ## The Community Confirms It
 
-The OpenClaw community has produced 177 SOUL.md templates across three repositories. All of them are personality files. All 177. None of them include tool configuration, cron schedules, security posture, credential management, or egress policy.
+The OpenClaw community has produced over 160 SOUL.md templates across three repositories. All of them are personality files. Every single one. None of them include tool configuration, cron schedules, security posture, credential management, or egress policy.
 
 I wrote this line in the design doc and it still bothers me: "A personality without an operational stack is a character sheet for a game nobody set up."
 
-The community is doing the same thing I did — focusing on the personality layer because it's fun and accessible and you can see the results immediately. You write a SOUL.md, the agent talks differently, you feel like you accomplished something. Meanwhile, the agent's cron jobs are misconfigured, its credentials have silently expired, its memory is bloating past 360KB, and its skill definitions are copy-pasted from ClawHub without review.
+The community is doing the same thing I did — focusing on the personality layer because it's fun and accessible and you can see the results immediately. You write a SOUL.md, the agent talks differently, you feel like you accomplished something. Meanwhile, the agent's cron jobs are misconfigured, its credentials have silently expired, its memory is bloating unchecked, and its skill definitions are copy-pasted from ClawHub without review.
 
 Personality is the attractive nuisance of agent configuration. It's the part that feels like product work but doesn't drive retention. Nobody churns because their agent's tone was slightly too formal. People churn because their agent stopped checking their email three days ago and they didn't notice.
 

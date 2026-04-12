@@ -19,10 +19,10 @@ Fourteen installments later, I've laid out what the management layer looks like:
 
 OpenClaw is the foundation everything else is built on. The numbers, as of April 2026:
 
-- 250,000+ GitHub stars
-- Monthly active users grew from 2 million to 3.2 million between January and April 2026
+- 350,000+ GitHub stars
+- Reportedly surpassing 3 million monthly active users by early 2026
 - Creator Peter Steinberger joined OpenAI in February 2026; project moved to foundation governance
-- Nine CVEs disclosed in the first two months of widespread adoption
+- Fifteen CVEs published as of April 2026, with over 130 security advisories tracked
 - 42,000+ instances found publicly exposed with default configurations
 
 The foundation governance transition is significant. When a project moves from creator-led to foundation-governed, development velocity typically drops while stability and security improve. Features ship slower. Breaking changes get more scrutiny. The governance model favors consensus over speed.
@@ -33,7 +33,7 @@ For the management layer, this matters because it tells you what the framework w
 
 ## Segment 1: Hosting Providers
 
-Ten or more companies now sell managed OpenClaw hosting at $22-45 per month. The list includes Blink, xCloud, AWS Lightsail, DigitalOcean, Hostinger, and several smaller operators.
+Ten or more companies now sell managed OpenClaw hosting at prices ranging from under $5 to $45+ per month depending on the tier. The list includes xCloud, AWS Lightsail, DigitalOcean, Hostinger, and several smaller operators.
 
 The value proposition: deployment convenience. You sign up, provide your API keys, and get a running agent in minutes. No Docker knowledge required. No server administration. No infrastructure management.
 
@@ -41,9 +41,9 @@ What they solve: deployment friction. Getting OpenClaw running on a VPS with the
 
 What they don't solve: everything else.
 
-Hosting providers deploy default-config agents. The 14 silent configuration landmines I documented in [installment #3](/series/ops-layer-03)? Still there. The security hardening measures from [installment #12](/series/ops-layer-12)? Not applied. Mission profiles, tool governance, observability, lifecycle management — none of it. You get a running agent on a VPS, and the ops are your problem.
+Hosting providers deploy default-config agents. The numerous dangerous default configurations I documented in [installment #3](/series/ops-layer-03)? Still there. The security hardening measures from [installment #12](/series/ops-layer-12)? Not applied. Mission profiles, tool governance, observability, lifecycle management — none of it. You get a running agent on a VPS, and the ops are your problem.
 
-This isn't a criticism — it's a description of the value layer they occupy. Hosting providers solve deployment. They don't solve operations. There's a $22/month ceiling on what you can charge for "we run Docker for you," and that ceiling doesn't leave room for building management layer tooling.
+This isn't a criticism — it's a description of the value layer they occupy. Hosting providers solve deployment. They don't solve operations. There's a low ceiling on what you can charge for "we run Docker for you," and that ceiling doesn't leave room for building management layer tooling.
 
 The cloud parallel: this is 2009-era cloud hosting. Lots of providers offering VPS with pre-installed software. Convenient. Undifferentiated. Eventually commoditized to zero margin.
 
@@ -53,13 +53,13 @@ The cloud parallel: this is 2009-era cloud hosting. Lots of providers offering V
 
 The OpenClaw community is prolific and creative. The standout projects:
 
-**aaronjmars/soul.md** — 310 GitHub stars. A curated collection of SOUL.md templates for different agent personalities. Well-written, thoughtfully designed, and almost entirely focused on the personality layer — voice, tone, behavioral constraints. No operational configuration.
+**aaronjmars/soul.md** — a curated collection of SOUL.md templates for different agent personalities. Well-written, thoughtfully designed, and almost entirely focused on the personality layer — voice, tone, behavioral constraints. No operational configuration.
 
 **OpenAgents.mom** — a community hub for agent builders. Resources, tutorials, shared configurations. Good for getting started. Not a management tool.
 
-**manifest.json sandboxing proposal** (OpenClaw issue #28298) — a community proposal to standardize skill sandboxing through a manifest file that declares permissions. Interesting direction, not yet implemented in the framework.
+**manifest.json sandboxing proposal** — a community proposal to standardize skill sandboxing through a manifest file that declares permissions. Interesting direction, not yet implemented in the framework.
 
-**177 SOUL.md templates** across three repositories. I audited a sample of 40. Every one defined personality traits, communication style, and behavioral guidelines. None of them included tool configuration, cron schedules, security posture, credential management, or egress policy.
+**Over 160 SOUL.md templates** across community repositories. I audited a sample of 40. Every one defined personality traits, communication style, and behavioral guidelines. None of them included tool configuration, cron schedules, security posture, credential management, or egress policy.
 
 This is the community pattern: personality without operations. A SOUL.md template that says "you are a helpful research assistant who communicates in clear, concise paragraphs" is a character sheet. It defines who the agent is but not what it can do, how it's secured, what tools it has access to, or how it operates over time.
 
@@ -83,7 +83,7 @@ Let me be specific about what "here" means:
 
 **Security by default** — hardened posture as the starting point, not an opt-in checklist. Every deployment ships secure. You can relax controls for development, but production deployments are hardened by construction.
 
-**Observability** — decision logging, tool execution tracing, cost accounting, error classification. Independent of the framework's own logging (which, as CVE-2026-25245 demonstrated, can break without notice).
+**Observability** — decision logging, tool execution tracing, cost accounting, error classification. Independent of the framework's own logging (which, as the audit logging gap demonstrated, can break without notice).
 
 ClawHQ is 67,000 lines of TypeScript, 78 CLI commands, 7 working blueprints (pre-built configurations for common use cases). It's a real system, not a prototype.
 
@@ -109,7 +109,7 @@ If OpenClaw remains the dominant agent framework indefinitely, management toolin
 
 The cloud parallel: Terraform won because it was cloud-agnostic. CloudFormation lost market share because it only worked with AWS. The multi-platform management tool has a structural advantage over the single-platform one.
 
-ClawHQ is currently OpenClaw-only. That's a deliberate choice — the platform has 3.2 million MAU and no serious open-source competitor at comparable scale. But the architecture is designed with portability in mind. The management primitives (lifecycle, configuration, observability, security) are generic. The integration layer (how you talk to the agent framework) is a plugin.
+ClawHQ is currently OpenClaw-only. That's a deliberate choice — the platform has over 3 million MAU and no serious open-source competitor at comparable scale. But the architecture is designed with portability in mind. The management primitives (lifecycle, configuration, observability, security) are generic. The integration layer (how you talk to the agent framework) is a plugin.
 
 ---
 
@@ -129,7 +129,7 @@ Not everything ClawHQ does will matter in two years. Some capabilities are durab
 
 ### Bridge Value
 
-**Individual landmine fixes.** The 14 silent configuration landmines will eventually be fixed in the framework. Each specific fix has a shelf life — once the framework addresses the issue, the management layer's workaround becomes unnecessary.
+**Individual landmine fixes.** The numerous dangerous default configurations will eventually be fixed in the framework. Each specific fix has a shelf life — once the framework addresses the issue, the management layer's workaround becomes unnecessary.
 
 **Basic hardening guides.** The security hardening measures from [installment #12](/series/ops-layer-12) will eventually become framework defaults. `cap_drop: ALL` and `no-new-privileges` should ship as defaults, not as opt-in hardening. When they do, ClawHQ's enforcement of these settings becomes redundant.
 
@@ -145,7 +145,7 @@ We're in the fragmentation phase. Dozens of tools each solve one piece of the pr
 
 This is exactly where cloud was in 2010. RightScale, Scalr, Eucalyptus, CloudStack, enStratus — each solving a piece, none solving the whole. It took five years for the market to consolidate. Terraform shipped in 2014. Kubernetes hit 1.0 in 2015. The modern cloud management stack — the one that actually works for production — didn't exist until 2016-2017.
 
-I expect agent management to consolidate faster because the infrastructure is more mature (we have cloud, containers, CI/CD, and observability tooling that didn't exist in 2010) and because the adoption curve is steeper (OpenClaw went from zero to 3.2M MAU in under two years; AWS took five years to reach comparable adoption).
+I expect agent management to consolidate faster because the infrastructure is more mature (we have cloud, containers, CI/CD, and observability tooling that didn't exist in 2010) and because the adoption curve is steeper (OpenClaw went from zero to over 3M MAU in under two years; AWS took five years to reach comparable adoption).
 
 My prediction: by late 2027, the management layer market will have consolidated from its current fragmented state into 2-3 serious platforms. OpenClaw will have absorbed some management functionality natively. One or two independent management tools will have established meaningful market share. The hosting providers will have either integrated management tooling or been commoditized out of relevance.
 

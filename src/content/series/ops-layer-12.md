@@ -9,7 +9,7 @@ status: published
 
 In February 2026, Snyk Labs bypassed the OpenClaw sandbox. Twice.
 
-The first bypass exploited a combination of container capabilities that shouldn't have been available. The second exploited a configuration that was technically documented but practically invisible — one of those settings that nobody changes because nobody knows it exists. Both were patched, both were disclosed responsibly, and both reinforced a lesson I learned at AWS: the default security posture of any platform is almost never the right one for production.
+The first bypass exploited the Tools/Invoke endpoint to circumvent sandbox tool policies. The second exploited a TOCTOU race condition in sandbox path validation — a timing window between checking a path and using it that allowed escape. Both were patched, both were disclosed responsibly, and both reinforced a lesson I learned at AWS: the default security posture of any platform is almost never the right one for production.
 
 OpenClaw ships with a permissive default configuration. That's a reasonable design choice for a project that wants broad adoption — security friction kills onboarding. But if you're running an agent that reads your email, manages your calendar, and has access to your filesystem, permissive defaults aren't acceptable. You need to harden the sandbox deliberately, understanding what each control does and why it matters.
 
@@ -47,7 +47,7 @@ security_opt:
 
 `no-new-privileges` prevents the process from gaining capabilities through setuid/setgid binaries or filesystem capabilities. Even if an attacker drops a setuid binary into the container, executing it won't escalate privileges.
 
-Together, these two settings mitigate CVE-2026-25204, which exploited retained capabilities to escalate from container to host. With `cap_drop: ALL` and `no-new-privileges`, the attack vector doesn't exist.
+Together, these two settings mitigate CVE-2026-24763 (CVSS 8.8) — command injection in Docker sandbox execution via unsafe PATH environment variable handling. With `cap_drop: ALL` and `no-new-privileges`, the attack vector doesn't exist.
 
 ### Read-Only Root Filesystem
 
@@ -81,7 +81,7 @@ chattr +i identity_files    # Immutable attribute (prevents even root from modif
 
 Plus Docker `:ro` mounts so the container itself can't write to the host path where identity files live.
 
-This directly mitigates CVE-2026-25189, where the ClawHavoc campaign injected hidden instructions into identity files using base64-encoded strings and zero-width Unicode characters. If the files are immutable, they can't be modified — not by the agent, not by a compromised tool, not by injected code.
+This directly mitigates CVE-2026-35632 (CVSS 6.9) — symlink traversal in agents.create/update where fs.appendFile on IDENTITY.md without symlink containment allows arbitrary file writes. The ClawHavoc campaign exploited this to inject hidden instructions into identity files using base64-encoded strings and zero-width Unicode characters. If the files are immutable, they can't be modified — not by the agent, not by a compromised tool, not by injected code.
 
 ### Configuration Protection
 
@@ -92,7 +92,7 @@ volumes:
 
 All configuration files are mounted read-only into the container. The agent can read its own configuration but can't modify it. Configuration changes happen outside the container, through ClawHQ's management CLI, and require a container restart to take effect.
 
-This mitigates CVE-2026-25232, where misconfigured write permissions allowed an attacker to modify the agent's runtime configuration from within the container, disabling security controls.
+This mitigates CVE-2026-32914 (CVSS 8.7) — insufficient access control in /config and /debug command handlers that allows non-owners to modify privileged configuration.
 
 ### Network Isolation
 
@@ -107,7 +107,7 @@ networks:
 
 Inter-container communication (ICC) is disabled on the Docker bridge network. Containers on the same host can't communicate with each other directly. This prevents lateral movement — if one container is compromised, it can't reach other containers on the same network.
 
-This mitigates CVE-2026-25218, where a compromised OpenClaw instance on a shared host could reach other containers through the default Docker bridge.
+This is a Docker best practice for any multi-container deployment — a compromised instance on a shared host should not be able to reach other containers through the default Docker bridge.
 
 ### Egress Firewall
 
@@ -190,7 +190,7 @@ The goal is to stop the bleeding while you investigate. You can't debug a compro
 
 The specific hardening measures matter, but they're implementations of a deeper philosophy. My operational security stance for agents:
 
-**No community skills you haven't audited.** ClawHub has thousands of community skills. Between 20% and 36% of them have been found to contain malicious payloads. I don't install community skills. If I need a capability, I build the tool or I audit the code line by line before deployment.
+**No community skills you haven't audited.** ClawHub has thousands of community skills. Koi Security found ClawHavoc indicators in 18.7% of surveyed skills, while Snyk detected prompt injection patterns in up to 36% — though confirmed malicious payloads account for roughly 13-19%. I don't install community skills. If I need a capability, I build the tool or I audit the code line by line before deployment.
 
 **No default-open network policies.** The default egress policy is deny-all. Every permitted destination is an explicit decision. This is the opposite of the typical Docker deployment where all outbound traffic is allowed.
 
@@ -200,7 +200,7 @@ The specific hardening measures matter, but they're implementations of a deeper 
 
 This philosophy comes from the same place as my cloud security experience: assume breach, minimize blast radius, and make recovery fast. The question isn't whether your agent will be compromised — it's whether you'll notice, how much damage was done, and how quickly you can recover.
 
-Harden your sandbox. Trust nothing by default. And test your security controls — because as CVE-2026-25245 taught me, a security measure you haven't verified is a security measure you don't have.
+Harden your sandbox. Trust nothing by default. And test your security controls — because as OpenClaw's audit logging gaps taught me, a security measure you haven't verified is a security measure you don't have.
 
 ---
 

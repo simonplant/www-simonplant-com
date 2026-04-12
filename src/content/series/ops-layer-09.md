@@ -97,7 +97,7 @@ Most operators don't need all ten profiles. ClawHQ ships with recommended stacks
 
 **Developer** — LifeOps + Dev. Morning brief includes open PRs, failing CI runs, and unresolved Sentry issues alongside your calendar and task list.
 
-**Solo Founder** — LifeOps + Dev + Marketing + Sales. The agent manages your development workflow, tracks your pipeline, handles content distribution, and keeps your task list current. This is the most popular stack in ClawHQ's user base.
+**Solo Founder** — LifeOps + Dev + Marketing + Sales. The agent manages your development workflow, tracks your pipeline, handles content distribution, and keeps your task list current. This is the default starting point and the most common configuration I've seen.
 
 **Investor** — LifeOps + Markets + Research. Portfolio monitoring, SEC filing analysis, market research synthesis, delivered in morning and evening briefs.
 

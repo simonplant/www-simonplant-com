@@ -9,11 +9,11 @@ status: published
 
 In January 2026, OpenClaw shipped a feature called `ENABLE_AUDIT_STDOUT`. The name is self-explanatory: turn it on, and your agent's audit trail gets written to standard output where you can pipe it to whatever log aggregator you want. Straightforward. Useful. Exactly the kind of observability primitive that operators need.
 
-It was broken from v0.8.6 through v0.8.8. Three releases. Roughly six weeks.
+It was broken across multiple releases before being fixed — a logging feature that looked enabled in config but silently failed to capture events.
 
 During that window, operators who had enabled audit logging believed their agents were being monitored. The config flag was set. The documentation said it worked. But the actual stdout pipeline was silently disconnected — no audit events were being generated. Not malformed events, not partial events. Zero events.
 
-This is CVE-2026-25245. It's not a dramatic exploit. Nobody got hacked because of it. But it's the most operationally dangerous class of bug: a monitoring system that reports healthy while it's completely dead. Your agent is running, your dashboard shows green, and your audit trail is empty. You don't know what your agent did for six weeks, and you can't reconstruct it.
+OpenClaw's audit logging has had documented gaps (see issues #55801 and #13131) — features that look enabled in config but silently fail to capture events. It's not a dramatic exploit. Nobody got hacked because of it. But it's the most operationally dangerous class of bug: a monitoring system that reports healthy while it's completely dead. Your agent is running, your dashboard shows green, and your audit trail is empty. You don't know what your agent did, and you can't reconstruct it.
 
 I found out about this the same way I find out about most OpenClaw issues — by auditing the upstream changelog against my deployment. ClawHQ's response was to build an independent audit trail that doesn't depend on upstream's implementation. If the framework's logging breaks, my logging keeps working.
 
@@ -99,7 +99,7 @@ ClawHQ auto-classifies errors using the decision log and tool execution trace. I
 
 ## The Independent Audit Trail
 
-After CVE-2026-25245, I built ClawHQ's audit trail as a completely independent system. It doesn't depend on OpenClaw's `ENABLE_AUDIT_STDOUT`. It doesn't hook into upstream's logging pipeline. It runs in `src/secure/audit/` and captures events at the ClawHQ layer — above the framework, below the user interface.
+After discovering those audit logging gaps, I built ClawHQ's audit trail as a completely independent system. It doesn't depend on OpenClaw's `ENABLE_AUDIT_STDOUT`. It doesn't hook into upstream's logging pipeline. It runs in ClawHQ's `src/secure/audit/` and captures events at the ClawHQ layer — above the framework, below the user interface.
 
 The audit trail is HMAC-chained. Each entry includes a hash of the previous entry, making the log tamper-evident. You can't delete or modify an entry without breaking the chain. This isn't paranoia — it's a basic integrity guarantee that lets you trust your logs during an incident investigation.
 

@@ -31,15 +31,15 @@ I'm telling you this because I'm watching the exact same movie play out with AI 
 
 ## The Agent Gap
 
-OpenClaw is the most popular open-source AI agent framework in the world. 250,000+ GitHub stars. Two million monthly active users. The creator, Peter Steinberger, joined OpenAI in February 2026 and the project moved to a foundation. It runs in a Docker container on your hardware, connects to your services, and gives you a persistent AI agent that can read your email, manage your calendar, execute tasks, do research, and act on your behalf — autonomously, on a schedule, without you opening a browser.
+OpenClaw is the most popular open-source AI agent framework in the world. 350,000+ GitHub stars. Over three million monthly active users. The creator, Peter Steinberger, joined OpenAI in February 2026 and the project moved to a foundation. It runs in a Docker container on your hardware, connects to your services, and gives you a persistent AI agent that can read your email, manage your calendar, execute tasks, do research, and act on your behalf — autonomously, on a schedule, without you opening a browser.
 
 The raw platform is extraordinary.
 
 And operating it is a disaster.
 
-A working OpenClaw agent requires approximately 13,500 tokens of configuration spread across 11+ files. Runtime config, Docker Compose, Dockerfile, environment variables, credentials, identity files (SOUL.md, AGENTS.md, IDENTITY.md, HEARTBEAT.md, TOOLS.md), cron job definitions, skill configs, and egress rules. There are 14 silent configuration landmines — settings that cause security or operational failures without any error message. Memory bloats to 360KB within three days of active use without management. Credentials expire silently, and the agent keeps running while integrations quietly stop working.
+A working OpenClaw agent requires thousands of tokens of configuration spread across 11+ files. Runtime config, Docker Compose, Dockerfile, environment variables, credentials, identity files (SOUL.md, AGENTS.md, IDENTITY.md, HEARTBEAT.md, TOOLS.md), cron job definitions, skill configs, and egress rules. There are numerous dangerous default configurations — settings that cause security or operational failures without any error message. Memory bloats to hundreds of kilobytes within days of active use without management. Credentials expire silently, and the agent keeps running while integrations quietly stop working.
 
-In its first two months: nine CVEs disclosed, 42,000+ instances found publicly exposed on the internet with default configurations, and 20-36% of community skills on ClawHub — the marketplace — found to contain malicious payloads. The ClawHavoc campaign injected hidden instructions using base64-encoded strings and zero-width Unicode characters, targeting the identity files that define who your agent is. Microsoft, Cisco, and Nvidia have all published security guidance specifically for OpenClaw deployments.
+In its first two months: fifteen CVEs disclosed, 42,000+ instances found publicly exposed on the internet with default configurations, and Koi Security finding ClawHavoc indicators in 18.7% of surveyed skills on ClawHub — the marketplace — with Snyk detecting prompt injection patterns in up to 36%. The ClawHavoc campaign injected hidden instructions using base64-encoded strings and zero-width Unicode characters, targeting the identity files that define who your agent is. Microsoft, Cisco, and Nvidia have all published security guidance specifically for OpenClaw deployments.
 
 Getting OpenClaw running is a weekend project. Keeping it running is an SRE job.
 
@@ -57,7 +57,7 @@ Mainframes got operations management decades after the first deployments. Client
 
 AI agents are in the gap right now.
 
-The community has 177 SOUL.md templates — personality files that define how the agent talks. None of them include tool configuration, cron schedules, security posture, credential management, or egress policy. A personality without an operational stack is a character sheet for a game nobody set up.
+The community has over 160 SOUL.md templates — personality files that define how the agent talks. None of them include tool configuration, cron schedules, security posture, credential management, or egress policy. A personality without an operational stack is a character sheet for a game nobody set up.
 
 The existing tooling — `openclaw onboard`, `openclaw configure`, the built-in Control UI — covers individual settings but can't do use-case-level composition. They can't turn "I want an email manager" into a coherent configuration across all 8 auto-loaded workspace files, runtime config, cron schedules, and tool policy simultaneously.
 
@@ -99,7 +99,7 @@ The question is whether the management layer consolidates into the platforms the
 
 I think the same thing happens here. OpenClaw will build better built-in tooling — they already are. `openclaw onboard` and `openclaw configure` will improve. But framework-level tooling serves the general case. It can't have opinions about specific use cases. It can't ship opinionated, production-tested configurations because that requires choosing one approach over another, and frameworks serve everyone.
 
-The management layer is the opinionated layer. It's where "here's what a good email agent looks like" lives. It's where "these 14 settings will silently break your deployment" gets prevented by construction rather than documented in a checklist. It's where lifecycle management — day 2 through day 365 — becomes someone's primary concern instead of nobody's.
+The management layer is the opinionated layer. It's where "here's what a good email agent looks like" lives. It's where "these settings will silently break your deployment" gets prevented by construction rather than documented in a checklist. It's where lifecycle management — day 2 through day 365 — becomes someone's primary concern instead of nobody's.
 
 I built the cloud version of this at RightScale and AWS. I'm building the agent version now.
 

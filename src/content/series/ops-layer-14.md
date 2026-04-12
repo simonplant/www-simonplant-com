@@ -7,7 +7,7 @@ tags: [evolution, deployment, regression, operations]
 status: published
 ---
 
-Between v0.8.6 and v0.8.10 of OpenClaw — a span of roughly ten weeks — I tracked eight breaking changes, three CVEs, and at least two behavioral regressions that weren't documented in any changelog. Each one required investigation, each one had the potential to silently degrade my agent's operation, and each one reinforced a principle I learned running cloud infrastructure: updates to production systems are deployments, not experiments.
+Between 2026.1.25 and 2026.2.21 of OpenClaw — a span of roughly four weeks — I tracked eight breaking changes, multiple CVEs, and at least two behavioral regressions that weren't documented in any changelog. Each one required investigation, each one had the potential to silently degrade my agent's operation, and each one reinforced a principle I learned running cloud infrastructure: updates to production systems are deployments, not experiments.
 
 The agent ecosystem hasn't internalized this yet. The prevailing model is closer to mobile app updates — new version available, click to install, hope nothing breaks. For a note-taking app, that's fine. For an autonomous system that reads your email, manages your calendar, and can take actions on your behalf, it's reckless.
 
@@ -17,25 +17,25 @@ Here's the breaking changes table from ClawHQ's security incidents tracker, and 
 
 ## The Breaking Changes
 
-These are real, documented issues from OpenClaw v0.8.6 through v0.8.10:
+These are real, documented issues from OpenClaw 2026.1.25 through 2026.2.21:
 
-**v0.8.6:** `WEBSOCKET_EVENT_CALLER_TIMEOUT` made configurable. Previously hardcoded, now requires explicit setting. Agents that relied on the hardcoded default started timing out on long-running tool calls without any configuration change.
+**2026.1.25:** `WEBSOCKET_EVENT_CALLER_TIMEOUT` made configurable. Previously hardcoded, now requires explicit setting. Agents that relied on the hardcoded default started timing out on long-running tool calls without any configuration change.
 
-**v0.8.6-0.8.8:** `ENABLE_AUDIT_STDOUT` broken (CVE-2026-25245). Covered in detail in [installment #11](/series/ops-layer-11). Audit logging silently stopped working. Operators believed they had monitoring when they had nothing.
+**2026.1.25–2026.2.5:** `ENABLE_AUDIT_STDOUT` broken — audit logging silently stopped working. Covered in detail in [installment #11](/series/ops-layer-11). Operators believed they had monitoring when they had nothing.
 
-**v0.8.6-0.8.8:** `WEB_SEARCH_DOMAIN_FILTER_LIST` broken. The domain filter for web search results stopped being applied. Agents configured to restrict search results to trusted domains were returning results from anywhere. If you were relying on this filter to prevent the agent from consuming content from untrusted sources — and you should have been — your content filtering was silently disabled for three releases.
+**2026.1.25–2026.2.5:** `WEB_SEARCH_DOMAIN_FILTER_LIST` broken. The domain filter for web search results stopped being applied. Agents configured to restrict search results to trusted domains were returning results from anywhere. If you were relying on this filter to prevent the agent from consuming content from untrusted sources — and you should have been — your content filtering was silently disabled for three releases.
 
-**v0.8.7:** `mariadb-vector` introduced as a new backend option. Not a breaking change per se, but a new dependency that requires its own security review. New database backends are new attack surfaces. They need to be evaluated before they're enabled, not after.
+**2026.1.29:** `mariadb-vector` introduced as a new backend option. Not a breaking change per se, but a new dependency that requires its own security review. New database backends are new attack surfaces. They need to be evaluated before they're enabled, not after.
 
-**v0.8.8:** `USER_PERMISSIONS_ACCESS_GRANTS_ALLOW_USERS` — a permissions misconfiguration that could expose the agent to unauthorized users. The setting existed in prior versions but the default changed in v0.8.8, silently broadening access for operators who hadn't explicitly configured it.
+**2026.2.5:** `USER_PERMISSIONS_ACCESS_GRANTS_ALLOW_USERS` — a permissions misconfiguration that could expose the agent to unauthorized users. The setting existed in prior versions but the default changed in 2026.2.5, silently broadening access for operators who hadn't explicitly configured it.
 
-**v0.8.9:** `REPORTING_ENDPOINTS` — Content Security Policy reports can now be directed to an endpoint. If this is misconfigured or left at default, CSP violation reports could be sent to an untrusted third party, leaking information about the agent's content handling.
+**2026.2.14:** `REPORTING_ENDPOINTS` — Content Security Policy reports can now be directed to an endpoint. If this is misconfigured or left at default, CSP violation reports could be sent to an untrusted third party, leaking information about the agent's content handling.
 
-**v0.8.10:** `OAUTH_UPDATE_NAME_ON_LOGIN` — if enabled, the agent's display name updates from the OAuth provider on each login. This is a supply chain risk: if the OAuth provider is compromised, an attacker can change the agent's identity by modifying the provider's user record. The agent's name shouldn't be mutable from an external source.
+**2026.2.21:** `OAUTH_UPDATE_NAME_ON_LOGIN` — if enabled, the agent's display name updates from the OAuth provider on each login. This is a supply chain risk: if the OAuth provider is compromised, an attacker can change the agent's identity by modifying the provider's user record. The agent's name shouldn't be mutable from an external source.
 
-**v0.8.10:** Underscore-prefixed tool methods hidden from the agent's tool list. Methods starting with `_` are no longer visible. This is a reasonable convention for marking private methods, but any workflow that relied on calling underscore-prefixed methods — which some community skills did — silently broke.
+**2026.2.21:** Underscore-prefixed tool methods hidden from the agent's tool list. Methods starting with `_` are no longer visible. This is a reasonable convention for marking private methods, but any workflow that relied on calling underscore-prefixed methods — which some community skills did — silently broke.
 
-Eight items in ten weeks. Not all of them are security vulnerabilities. Some are configuration changes, some are behavioral modifications, some are new features with security implications. But every single one could degrade an agent's operation if applied blindly, and none of them announced themselves with a clear error message.
+Eight items in four weeks. Not all of them are security vulnerabilities. Some are configuration changes, some are behavioral modifications, some are new features with security implications. But every single one could degrade an agent's operation if applied blindly, and none of them announced themselves with a clear error message.
 
 ---
 
@@ -103,7 +103,7 @@ Behavioral drift is hard to detect programmatically. I review decision logs week
 
 ### Credential Failures After Upstream Version Changes
 
-New versions sometimes change authentication flows, token formats, or session management. An API key that worked with v0.8.8 might not work with v0.8.9 because the request signing format changed, or a new header is required, or the OAuth scope needs to be updated.
+New versions sometimes change authentication flows, token formats, or session management. An API key that worked with one release might not work with the next because the request signing format changed, or a new header is required, or the OAuth scope needs to be updated.
 
 These failures are particularly insidious because they look like credential expiration. The standard troubleshooting path — refresh the credential — doesn't fix it because the credential is fine. The authentication format is what changed.
 

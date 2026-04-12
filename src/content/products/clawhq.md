@@ -12,7 +12,7 @@ relatedProducts: [clawdius, aishore]
 
 ## The problem
 
-OpenClaw is the fastest-growing open-source AI agent project, but it is nearly impossible to operate correctly. ~13,500 tokens of config across 11+ files, silent landmines, memory bloat, most deployments abandoned within a month. Hosting providers now sell managed OpenClaw on a VPS with default configs — they solve convenience. Nobody solves sovereignty.
+OpenClaw is the fastest-growing open-source AI agent project, but it is nearly impossible to operate correctly. thousands of tokens of config across 11+ files, dangerous defaults, memory bloat, most deployments abandoned within a month. Hosting providers now sell managed OpenClaw on a VPS with default configs — they solve convenience. Nobody solves sovereignty.
 
 ## What it does
 

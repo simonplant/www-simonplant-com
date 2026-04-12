@@ -21,7 +21,7 @@ When people discuss AI agents, they talk about models, prompts, and capabilities
 
 OpenClaw has roughly 200+ configurable fields spread across 19 categories. That's not a typo. Two hundred settings that affect runtime behavior, security posture, tool access, scheduling, identity presentation, memory management, and integration routing.
 
-A working agent requires approximately 13,500 tokens of configuration distributed across 11+ files:
+A working agent requires thousands of tokens of configuration distributed across 11+ files:
 
 - **openclaw.json** — runtime configuration (model selection, temperature, context window, tool policy)
 - **docker-compose.yml** — container orchestration (networking, volumes, restart policy, resource limits)
@@ -53,9 +53,9 @@ This is exactly how we managed cloud infrastructure in 2009. And it produced exa
 
 **No diffs means no diagnosis.** When your agent starts behaving differently — responding in a different tone, missing scheduled tasks, failing to access an integration — you have no way to correlate the behavioral change with a configuration change. You can't ask "what changed?" because nothing tracks changes.
 
-**No spec means no replication.** Want to spin up a second agent with the same configuration? You can try to manually replicate 13,500 tokens of settings across 11 files. Good luck getting it right. Want to share your working configuration with someone else? You'd need to sanitize secrets from multiple files, document the implicit dependencies, and hope nothing was environment-specific.
+**No spec means no replication.** Want to spin up a second agent with the same configuration? You can try to manually replicate thousands of tokens of settings across 11 files. Good luck getting it right. Want to share your working configuration with someone else? You'd need to sanitize secrets from multiple files, document the implicit dependencies, and hope nothing was environment-specific.
 
-**No validation means silent failure.** OpenClaw has 14 configuration settings that I call silent landmines. These are settings that, when misconfigured, cause security or operational failures without producing any error message. Your agent keeps running. It just stops doing something, or starts doing something it shouldn't, or exposes something that should be locked down. You don't know until you notice — or until someone else notices for you.
+**No validation means silent failure.** OpenClaw has numerous configuration settings that I call silent landmines. These are settings that, when misconfigured, cause security or operational failures without producing any error message. Your agent keeps running. It just stops doing something, or starts doing something it shouldn't, or exposes something that should be locked down. You don't know until you notice — or until someone else notices for you.
 
 ### The Identity Desync Problem
 
@@ -119,11 +119,11 @@ security:
 
 Seventeen lines of YAML. That's it.
 
-The blueprint compiler resolves this into the full 13,500-token configuration: all 8 workspace files, runtime config, cron schedule, tool policy, and security posture. Every file is generated from a single source of truth. Every file is internally consistent with every other file.
+The blueprint compiler resolves this into the full multi-thousand-token configuration: all 8 workspace files, runtime config, cron schedule, tool policy, and security posture. Every file is generated from a single source of truth. Every file is internally consistent with every other file.
 
 The `profile: life-ops` declaration selects a mission profile — a pre-composed set of skills, cron schedules, tool configurations, and behavioral parameters designed for personal life management. The `personality: digital-assistant` selects a behavioral template that gets compiled into SOUL.md. The `providers` block maps abstract capabilities (email, calendar, tasks) to concrete integrations (Gmail, iCloud Calendar, Todoist) — and the compiler knows which tools, credentials, and permissions each provider requires.
 
-The `security.posture: hardened` declaration applies the full hardening checklist by construction. Not "here are 30 things you should configure" — they're configured. The 14 silent landmines? Prevented. Not documented, not warned about — impossible to produce in the compiled output.
+The `security.posture: hardened` declaration applies the full hardening checklist by construction. Not "here are 30 things you should configure" — they're configured. The silent landmines? Prevented. Not documented, not warned about — impossible to produce in the compiled output.
 
 `security.egress: allowlist-only` means the agent can only make outbound network requests to explicitly permitted domains. The compiler generates the egress rules from the provider selections — Gmail needs access to Google APIs, Todoist needs access to Todoist APIs, and nothing else is permitted.
 
@@ -168,7 +168,7 @@ But the principle extends beyond ClawHQ and beyond OpenClaw. Any system with a l
 5. Secrets are separated from configuration
 6. The system prevents known failure modes by construction, not documentation
 
-The alternative is 13,500 tokens of hand-edited files with no audit trail, no validation, and 14 silent landmines waiting for you to step on them. We learned this lesson with cloud infrastructure. We learned it with container orchestration. We learned it with CI/CD pipelines.
+The alternative is thousands of tokens of hand-edited configuration with no audit trail, no validation, and numerous silent landmines waiting for you to step on them. We learned this lesson with cloud infrastructure. We learned it with container orchestration. We learned it with CI/CD pipelines.
 
 The agent ecosystem is going to learn it too. The only question is how many incidents happen first.
 
