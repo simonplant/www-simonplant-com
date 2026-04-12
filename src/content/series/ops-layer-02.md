@@ -4,7 +4,7 @@ number: 2
 publishedDate: 2026-04-12
 description: "The full agent lifecycle from deployment to retirement. Which stages have tooling, which are completely unserved."
 tags: [lifecycle, agent-ops, architecture]
-status: review
+status: published
 ---
 
 The first installment of this series made the structural argument: AI agents are in the same operational gap that cloud infrastructure occupied in 2010. Powerful substrate, mass adoption, no management layer. If you've deployed an OpenClaw agent, you already know this intuitively — it worked on Saturday, and by Tuesday something was wrong that you couldn't explain.

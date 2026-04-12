@@ -4,7 +4,7 @@ number: 1
 publishedDate: 2026-04-12
 description: "Cloud management went through the same lifecycle gap that AI agents face now. The ops layer is inevitable — here's why."
 tags: [thesis, cloud-history, agent-infrastructure]
-status: review
+status: published
 ---
 
 In 2010, I joined RightScale as Senior Director of Professional Services. RightScale was a cloud management platform — one of the first. The pitch was simple: AWS gives you raw compute, but who manages it? Who provisions, configures, monitors, scales, secures, and retires all those instances you're spinning up?

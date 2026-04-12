@@ -4,7 +4,7 @@ number: 5
 publishedDate: 2026-04-12
 description: "Built a 17-dimension persona schema. It was wrong. Capability layer drives behavior; persona is a thin modifier."
 tags: [persona, capabilities, architecture, lessons-learned]
-status: review
+status: published
 ---
 
 I spent six weeks building the wrong thing. Not wrong as in buggy — wrong as in solving a problem that doesn't exist at the scale I assumed it did.

@@ -4,7 +4,7 @@ number: 4
 publishedDate: 2026-04-12
 description: "Zero-trust for agents. Real CVEs, default-disabled auth, plaintext credentials — and a hardening checklist."
 tags: [security, zero-trust, openclaw, hardening]
-status: review
+status: published
 ---
 
 I've held a CISSP since 2003. I co-founded a security consultancy — Orthus — in London in 2000, before "infosec" was a job title most HR departments recognized. I've done threat modeling, penetration testing, incident response, and compliance architecture across three decades of enterprise technology. When I look at the agent ecosystem's security posture, what I see is not a gap. It's an absence.

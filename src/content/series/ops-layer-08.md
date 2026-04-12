@@ -4,7 +4,7 @@ number: 8
 publishedDate: 2026-04-12
 description: "Not a benchmark comparison. A real decision tree: local vs API, fallback chains, cost/privacy/latency trade-offs."
 tags: [inference, models, hardware, architecture]
-status: review
+status: published
 ---
 
 Every ten minutes, Clawdius runs a heartbeat check. It scans task state, looks for stale items, checks cron health, and reports. That's 144 invocations per day, every day, forever. If each one hit a frontier API at $10/MTok input pricing, I'd be optimizing my agent's existence out of my bank account. Instead, those heartbeats run on Gemma 4 27B via Ollama, locally, on my own hardware. Cost per inference: zero marginal. The electricity bill doesn't even register.

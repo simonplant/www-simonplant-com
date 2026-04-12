@@ -4,7 +4,7 @@ number: 15
 publishedDate: 2026-04-12
 description: "Landscape of agent management tooling. Fragmentation phase parallels with cloud infrastructure history."
 tags: [market, landscape, competition, cloud-history]
-status: review
+status: published
 ---
 
 This is a snapshot. I'm writing it in April 2026, and the landscape I'm describing will look different by July. That's fine. The point isn't a definitive map — it's a framework for understanding where we are in the maturity curve, where the gaps are, and what comes next. If you're reading this six months after publication, check the specifics but trust the structure.

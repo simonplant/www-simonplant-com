@@ -4,7 +4,7 @@ number: 13
 publishedDate: 2026-04-12
 description: "Separation of concerns: human tools, agent workspace files, and a thin sync layer between them."
 tags: [interface, design, todoist, architecture]
-status: review
+status: published
 ---
 
 The hardest design problem in agent operations isn't security or observability or tool management. It's the interface between the human and the agent. Not the UI — the conceptual interface. Where does the human's world end and the agent's world begin? What does the human see? What does the agent manage privately? How do they stay in sync without stepping on each other?

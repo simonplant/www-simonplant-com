@@ -4,7 +4,7 @@ number: 14
 publishedDate: 2026-04-12
 description: "Config versioning, canary deployments, regression indicators. Agent updates as deployments, not experiments."
 tags: [evolution, deployment, regression, operations]
-status: review
+status: published
 ---
 
 Between v0.8.6 and v0.8.10 of OpenClaw — a span of roughly ten weeks — I tracked eight breaking changes, three CVEs, and at least two behavioral regressions that weren't documented in any changelog. Each one required investigation, each one had the potential to silently degrade my agent's operation, and each one reinforced a principle I learned running cloud infrastructure: updates to production systems are deployments, not experiments.

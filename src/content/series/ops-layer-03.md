@@ -4,7 +4,7 @@ number: 3
 publishedDate: 2026-04-12
 description: "~200 configurable fields, no versioning, no diffs. The case for config-as-code discipline for agents."
 tags: [configuration, infrastructure-as-code, openclaw]
-status: review
+status: published
 ---
 
 In 2013, a Terraform plan file was just a novelty. Most infrastructure teams were still clicking through the AWS console, keeping tribal knowledge in their heads, and SSHing into boxes to debug why a deploy had drifted from what they thought they'd configured. The idea that you'd describe your entire infrastructure in declarative text files, version them in git, review changes as diffs, and apply them through a pipeline — that was a discipline most organizations hadn't adopted yet.

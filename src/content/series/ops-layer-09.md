@@ -4,7 +4,7 @@ number: 9
 publishedDate: 2026-04-12
 description: "Ten a-la-carte profiles with tool ownership boundaries. Predictable, debuggable agent behavior."
 tags: [mission-profiles, permissions, architecture, security]
-status: review
+status: published
 ---
 
 The single most common failure mode I see in agent deployments isn't a security breach or a model hallucination. It's scope confusion. The agent has access to email, calendar, a task manager, web search, a stock quote API, and a home automation system — and nobody defined which tools belong to which workflows.
