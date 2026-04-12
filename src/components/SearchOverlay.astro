@@ -125,10 +125,16 @@
         link.href = '/pagefind/pagefind-ui.css';
         document.head.appendChild(link);
 
-        var mod = await import('/pagefind/pagefind-ui.js');
+        await new Promise(function (resolve, reject) {
+          var script = document.createElement('script');
+          script.src = '/pagefind/pagefind-ui.js';
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
 
         container.innerHTML = '';
-        new mod.PagefindUI({
+        new window.PagefindUI({
           element: container,
           showSubResults: true,
           showImages: false,
