@@ -1,0 +1,66 @@
+name: Fix Pages custom domain (manual)
+
+# One-shot recovery workflow for when Cloudflare Pages custom-domain
+# activation gets stuck in a flapping state. Deletes the existing
+# www.simonplant.com binding on the Pages project (if any), re-adds it
+# clean, and polls until the status is 'active' or we time out.
+#
+# Trigger manually from the Actions tab: "Run workflow".
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reset and re-bind www.simonplant.com
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PROJECT: www-simonplant-com
+          DOMAIN: www.simonplant.com
+        run: |
+          set -eo pipefail
+          API="https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/pages/projects/$PROJECT/domains"
+          AUTH="Authorization: Bearer $CF_TOKEN"
+          CT="Content-Type: application/json"
+
+          echo "::group::Current custom domains on project"
+          curl -sS -H "$AUTH" "$API" | jq '.result'
+          echo "::endgroup::"
+
+          echo "::group::Delete existing binding (if any)"
+          # Ignore 404 — "not found" is fine, that's the state we want
+          HTTP=$(curl -sS -o /tmp/del.json -w '%{http_code}' -X DELETE -H "$AUTH" "$API/$DOMAIN")
+          echo "HTTP $HTTP"
+          cat /tmp/del.json | jq . 2>/dev/null || cat /tmp/del.json
+          echo "::endgroup::"
+
+          # Give Cloudflare a beat to clear state
+          sleep 5
+
+          echo "::group::Add clean binding"
+          curl -sS -X POST -H "$AUTH" -H "$CT" "$API" \
+            -d "{\"name\":\"$DOMAIN\"}" | jq '.result, .errors, .messages'
+          echo "::endgroup::"
+
+          echo "::group::Poll until active (max ~90s)"
+          for i in 1 2 3 4 5 6 7 8 9; do
+            sleep 10
+            STATUS=$(curl -sS -H "$AUTH" "$API/$DOMAIN" | jq -r '.result.status // "unknown"')
+            CERT_STATUS=$(curl -sS -H "$AUTH" "$API/$DOMAIN" | jq -r '.result.certificate_authority // "n/a"')
+            VALIDATION=$(curl -sS -H "$AUTH" "$API/$DOMAIN" | jq -r '.result.validation_data.status // "n/a"')
+            echo "attempt $i: status=$STATUS cert=$CERT_STATUS validation=$VALIDATION"
+            if [ "$STATUS" = "active" ]; then
+              echo "✅ ACTIVE"
+              break
+            fi
+          done
+          echo "::endgroup::"
+
+          echo "::group::HTTP verification"
+          curl -sSI "https://$DOMAIN" | head -5 || true
+          echo ""
+          echo "Expected: HTTP/2 200. If 522, run again — sometimes takes two passes to clear state."
+          echo "::endgroup::"
