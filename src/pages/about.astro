@@ -6,7 +6,7 @@ const jsonLd = {
   '@type': 'WebSite',
   name: 'About — Simon Plant',
   url: 'https://www.simonplant.com/about',
-  description: 'AI infrastructure architect. From cloud to AI — building the ops layer for production agent systems.',
+  description: 'Fractional CTO with 30+ years in enterprise technology — from early AWS and enterprise cloud to AI agents in production.',
   author: {
     '@type': 'Person',
     name: 'Simon Plant',
@@ -14,35 +14,74 @@ const jsonLd = {
 };
 ---
 
-<Base title="About — Simon Plant" description="AI infrastructure architect. From cloud to AI — building the ops layer for production agent systems." jsonLd={jsonLd}>
+<Base title="About — Simon Plant" description="Fractional CTO with 30+ years in enterprise technology — from early AWS and enterprise cloud to AI agents in production." jsonLd={jsonLd}>
   <main class="section-spacing">
     <div class="prose">
       <h1>About</h1>
 
       <p>
-        I spent a decade building cloud infrastructure — the orchestration, provisioning, and operations tooling that turned raw compute into something teams could actually ship on. RightScale, AWS, OpenStack-era platforms. The work was always the same: take a powerful but chaotic substrate and build the management layer that makes it usable at scale.
+        I've spent thirty years building the management layer around whatever infrastructure is new and chaotic. Web hosting in 1994. Enterprise cloud in 2008. DevOps in 2014. AI agents now. The pattern is always the same: a powerful new substrate shows up, everyone builds demos, and then someone has to make it actually work in production. That's usually been me.
+      </p>
+
+      <h2>The short version</h2>
+
+      <p>
+        I'm a Fractional CTO based in Los Angeles. I work with 2–3 companies at a time on AI strategy, enterprise architecture, and the technology decisions that determine whether you scale or stall. I also build open-source tools for running AI agents in production. CISSP. Originally from the UK.
+      </p>
+
+      <h2>The long version</h2>
+
+      <p>
+        I started at IBM in 1994 building one of the UK's first commercial web hosting platforms. Moved to Capgemini and spent seven years as a Chief Enterprise Architect — first on major UK retail accounts (Tesco, Marks &amp; Spencer), then on General Motors' $2 billion IT in-sourcing program in Detroit, where I managed a team of 50 enterprise architects. In 2008 I introduced AWS to GM and trained over 100 of their architects on cloud. That led to building Capgemini's cloud practice from scratch and making them the first Systems Integrator to partner with AWS — a milestone their CEO acknowledged publicly.
       </p>
 
       <p>
-        AI agents are going through that same arc right now. The models are powerful, but the infrastructure around them — lifecycle management, configuration governance, security hardening, observability, identity — is where cloud was in 2010. Lots of demos, very few production-grade operations stories. I'm building that layer.
+        RightScale recruited me to run their professional services. We became AWS's largest consulting partner, which caught Amazon's attention — they recruited me to build their Western US Professional Services organization from scratch. I built a team of 80+, served clients including Adobe, Apple, Boeing, and Intuit, and delivered AWS's first million-dollar consulting engagement.
       </p>
 
-      <h2>What I'm Building</h2>
+      <p>
+        In 2014 I co-founded DualSpark, a DevOps consultancy. We scaled to 35 engineers in nine months, ran transformations for Nike, Experian, FICO, 23andMe, and VSCO, and exited to Datapipe in fourteen months.
+      </p>
+
+      <p>
+        After that: founded Mode2 as an AWS Advanced partner building serverless and cloud-native systems, led technology enablement at Slalom in LA working with Riot Games, UCLA, USC, Amazon Studios, and PennyMac, ran a $100M professional services organization at Rackspace with 540 engineers across the Americas, and served as CTO at Redapt across AWS, Generative AI, and security platforms.
+      </p>
+
+      <p>
+        Now I'm back at Mode2 running a Fractional CTO practice. The throughline across all of it: I build the operational discipline around whatever the new infrastructure is, then help companies adopt it without the expensive mistakes.
+      </p>
+
+      <h2>What I do for clients</h2>
 
       <ul>
-        <li><strong>ClawHQ</strong> — agent lifecycle management platform. Provisioning, configuration, security, and operational governance for production agent deployments.</li>
-        <li><strong>AIShore</strong> — intent-based development orchestration. Sprint tooling that runs developer agents with eval-driven validation, not vibes.</li>
-        <li><strong>Clawdius</strong> — an AI content agent operating under editorial constraints. Drafts from structured inputs, publishes nothing without human approval. A worked example of governed agent operations.</li>
+        <li><strong>AI reality checks.</strong> Cutting through the hype to find where AI actually moves the needle — and protecting data privacy and IP while you do it.</li>
+        <li><strong>Architecture strategy.</strong> Spotting the "small" decisions that become "large" technical debt. I've watched this movie enough times to recognize the pattern early.</li>
+        <li><strong>Executive advisory.</strong> Build-vs-buy, vendor selection, team structure — the decisions where thirty years of context on what works and what doesn't is worth more than another meeting.</li>
       </ul>
 
-      <h2>Advisory &amp; Collaboration</h2>
+      <p>
+        I can code-review a Python data application in the morning and present AI strategy to your Board in the afternoon. That's the bridge I build.
+      </p>
+
+      <h2>What I'm building</h2>
+
+      <p>When I'm not working with clients, I build open-source tools for people running AI agents in production:</p>
+
+      <ul>
+        <li><a href="/products/clawhq"><strong>ClawHQ</strong></a> — deploy and personalize sovereign AI agents on your own hardware.</li>
+        <li><a href="/products/aishore"><strong>AIShore</strong></a> — autonomous sprint orchestration for Claude Code.</li>
+        <li><a href="/products/markdown"><strong>Markdown</strong></a> — the best free markdown editor on every platform.</li>
+        <li><a href="/products/clawdius"><strong>Clawdius</strong></a> — my personal OpenClaw instance, deployed via ClawHQ.</li>
+      </ul>
+
+      <h2>Get in touch</h2>
 
       <p>
-        I'm available for advisory work with teams navigating AI agent infrastructure — architecture reviews, operational readiness assessments, and agent security posture. If you're deploying agents in production and the ops layer is the bottleneck, that's the conversation I want to have.
+        If you're working through a technology decision where the cost of getting it wrong is high — AI adoption, architecture strategy, build-vs-buy, team structure — that's the conversation I want to have.
       </p>
 
       <p>
-        Reach me at <a href="mailto:simon@simonplant.com">simon@simonplant.com</a>.
+        <a href="mailto:website@simonplant.com">website@simonplant.com</a>
       </p>
 
       <hr />
@@ -50,11 +89,7 @@ const jsonLd = {
       <h2>Colophon</h2>
 
       <p>
-        This site is built with <a href="https://astro.build">Astro</a> and <a href="https://tailwindcss.com">Tailwind CSS</a>. No JavaScript frameworks — every page is static HTML and CSS. Typography is Literata for prose, DM Serif Display for headings, JetBrains Mono for code. Dark mode only. Hosted as a static site with zero server-side rendering.
-      </p>
-
-      <p>
-        Content is produced with an agent-assisted editorial pipeline — AI drafts from structured inputs, I review and publish. The tooling that powers this workflow is part of the work itself.
+        This site is built with <a href="https://astro.build">Astro</a> and <a href="https://tailwindcss.com">Tailwind CSS</a>. No JavaScript frameworks — every page is static HTML and CSS. Typography is Literata for prose, DM Serif Display for headings, JetBrains Mono for code. Dark mode only.
       </p>
     </div>
   </main>

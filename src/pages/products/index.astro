@@ -1,6 +1,5 @@
 ---
 import Base from '../../layouts/Base.astro';
-import EcosystemMap from '../../components/EcosystemMap.astro';
 import { getCollection } from 'astro:content';
 
 const products = await getCollection('products');
@@ -14,28 +13,20 @@ const statusColors: Record<string, { bg: string; text: string }> = {
 };
 ---
 
-<Base title="Products — Simon Plant" description="The agent infrastructure ecosystem — ClawHQ, AIShore, Easy Markdown, and Clawdius." jsonLd={{
+<Base title="Products — Simon Plant" description="Four projects — ClawHQ, AIShore, Markdown, and Clawdius." jsonLd={{
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Products — Simon Plant',
   url: 'https://www.simonplant.com/products',
-  description: 'The agent infrastructure ecosystem — ClawHQ, AIShore, Easy Markdown, and Clawdius.',
+  description: 'Four projects — ClawHQ, AIShore, Markdown, and Clawdius.',
 }}>
   <main class="section-spacing">
     <div class="container-wide">
       <div class="max-w-3xl mb-16">
-        <h1 class="font-serif text-4xl text-gray-50 mb-4">Product Ecosystem</h1>
+        <h1 class="font-serif text-4xl text-gray-50 mb-4">Projects</h1>
         <p class="text-text-secondary text-lg font-prose leading-relaxed">
-          Four tools that form a complete agent infrastructure lifecycle — from sprint planning
-          to code delivery, content production, and content validation. Each solves one problem well.
-          Together, they demonstrate what production-grade AI agent systems look like.
+          Four projects I build and maintain.
         </p>
-      </div>
-
-      <!-- Ecosystem Relationship Map -->
-      <div class="mb-16 bg-surface-card border border-border-subtle rounded-lg p-6 md:p-8">
-        <h2 class="font-serif text-2xl text-gray-50 mb-6">How They Fit Together</h2>
-        <EcosystemMap />
       </div>
 
       <!-- Product Grid -->

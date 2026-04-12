@@ -8,18 +8,18 @@ const sorted = entries.sort((a, b) => b.data.publishedDate.getTime() - a.data.pu
 const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
 ---
 
-<Base title="Commentary — Simon Plant" description="Short-form takes on AI infrastructure, agent systems, and the tooling that supports them." jsonLd={{
+<Base title="Commentary — Simon Plant" description="Short-form takes on the operational reality of AI agents — infrastructure patterns, security decisions, and lessons from running agents in production." jsonLd={{
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Commentary — Simon Plant',
   url: 'https://www.simonplant.com/commentary',
-  description: 'Short-form takes on AI infrastructure, agent systems, and the tooling that supports them.',
+  description: 'Short-form takes on the operational reality of AI agents — infrastructure patterns, security decisions, and lessons from running agents in production.',
 }}>
   <main class="section-spacing">
     <div class="container-prose">
       <h1 class="font-serif text-4xl text-gray-50 mb-4">Commentary</h1>
       <p class="text-text-secondary text-lg mb-8 font-prose">
-        Short-form takes — opinionated, externally triggered, tagged. What's happening now and why it matters.
+        Short-form takes on the operational reality of AI agents — infrastructure patterns, security decisions, and lessons from running them in production.
       </p>
 
       {allTags.length > 0 && (

@@ -16,7 +16,7 @@ const jsonLd = {
   '@type': 'WebSite',
   name: 'Simon Plant',
   url: 'https://www.simonplant.com',
-  description: 'Simon Plant — AI infrastructure architect. Building the ops layer for production agent systems.',
+  description: 'Fractional CTO. Thirty years building the management layer around new infrastructure — from early AWS to AI agents in production.',
   author: {
     '@type': 'Person',
     name: 'Simon Plant',
@@ -26,7 +26,7 @@ const jsonLd = {
 
 <Base
   title="Simon Plant"
-  description="AI infrastructure architect. Building the ops layer for production agent systems."
+  description="Fractional CTO. Thirty years building the management layer around new infrastructure — from early AWS to AI agents in production."
   jsonLd={jsonLd}
 >
   <main class="section-spacing">
@@ -36,23 +36,23 @@ const jsonLd = {
       <header class="mb-16">
         <h1 class="font-serif text-5xl md:text-6xl text-gray-50 mb-4">Simon Plant</h1>
         <p class="font-prose text-xl md:text-2xl text-text-secondary leading-relaxed">
-          Building the infrastructure layer that turns AI agents from demos into production systems.
+          Fractional CTO. Thirty years building the management layer around new infrastructure — from early AWS to AI agents in production.
         </p>
       </header>
 
       <!-- Three paths -->
       <nav class="mb-16 space-y-6" aria-label="Content paths">
-        <a href="/series" class="group block border-b border-border-subtle pb-6">
-          <h2 class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors mb-1">The Series</h2>
-          <p class="text-text-secondary font-prose">The full arc — from scripts to production agent systems. Long-form installments mapping each stage of infrastructure maturation.</p>
-        </a>
         <a href="/products" class="group block border-b border-border-subtle pb-6">
-          <h2 class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors mb-1">Products</h2>
-          <p class="text-text-secondary font-prose">The tools I build and run — agent orchestration, deployment, content pipelines. Real software solving real problems.</p>
+          <h2 class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors mb-1">Projects</h2>
+          <p class="text-text-secondary font-prose">Open-source tools I build and maintain — ClawHQ, AIShore, Markdown, and Clawdius. Agent infrastructure, sprint orchestration, cross-platform editing.</p>
         </a>
         <a href="/commentary" class="group block border-b border-border-subtle pb-6">
-          <h2 class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors mb-1">Commentary</h2>
-          <p class="text-text-secondary font-prose">Short-form takes on what's happening in AI infrastructure — supply chain attacks, agent security, deployment patterns, and the decisions that shape production systems.</p>
+          <h2 class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors mb-1">Writing</h2>
+          <p class="text-text-secondary font-prose">What it actually takes to run AI agents in production — the infrastructure patterns, security decisions, and operational lessons from someone who did the same for cloud a decade ago.</p>
+        </a>
+        <a href="/about" class="group block border-b border-border-subtle pb-6">
+          <h2 class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors mb-1">About &amp; Consulting</h2>
+          <p class="text-text-secondary font-prose">Thirty years across IBM, Capgemini, AWS, Rackspace, and my own consultancies. Currently taking on 2–3 Fractional CTO clients at a time.</p>
         </a>
       </nav>
 
@@ -92,21 +92,21 @@ const jsonLd = {
         )}
 
         {!latestSeries && !latestCommentary && (
-          <p class="text-text-muted font-prose">New writing is on the way. Check back soon.</p>
+          <p class="text-text-muted font-prose">New writing is on the way.</p>
         )}
 
       </section>
 
-      <!-- Subscribe CTA -->
+      <!-- Contact CTA -->
       <aside class="border-t border-border-default pt-8">
         <p class="font-prose text-text-secondary mb-3">
-          Follow along as I document what it takes to run AI agents in production.
+          Working through a hard technology decision? That's the conversation I want to have.
         </p>
         <a
-          href="/newsletter"
+          href="mailto:website@simonplant.com"
           class="inline-block font-sans text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors"
         >
-          Subscribe to the newsletter &rarr;
+          website@simonplant.com &rarr;
         </a>
       </aside>
 

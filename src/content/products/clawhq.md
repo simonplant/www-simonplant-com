@@ -1,41 +1,35 @@
 ---
 title: ClawHQ
-tagline: Agent orchestration platform
-description: The central control plane for managing, deploying, and monitoring AI agent fleets. ClawHQ coordinates agent lifecycles, enforces policies, and provides observability across the entire agent infrastructure.
-status: active
-role: Orchestration & Control Plane
+tagline: Privacy-first personal AI agent platform
+description: Deploy, configure, and personalize sovereign OpenClaw agents on your own hardware. Pick a blueprint, customize it, ClawHQ does the rest. Your agent, your data, your rules.
+status: beta
+role: Agent Platform
 github: https://github.com/simonplant/clawhq
-tags: [orchestration, agent-management, control-plane, observability]
+tags: [openclaw, ai-agents, self-hosted, blueprints, sovereignty]
 order: 1
-relatedProducts: [aishore, clawdius]
+relatedProducts: [clawdius, aishore]
 ---
 
-## Problem
+## The problem
 
-Running AI agents in production requires more than a prompt and an API key. You need lifecycle management, policy enforcement, resource allocation, and observability — the same operational concerns that drove the evolution from shell scripts to container orchestrators in traditional infrastructure.
+OpenClaw is the fastest-growing open-source AI agent project, but it is nearly impossible to operate correctly. ~13,500 tokens of config across 11+ files, silent landmines, memory bloat, most deployments abandoned within a month. Hosting providers now sell managed OpenClaw on a VPS with default configs — they solve convenience. Nobody solves sovereignty.
 
-## Architecture
+## What it does
 
-ClawHQ sits at the center of the agent infrastructure stack. It provides:
+ClawHQ compiles **blueprints** — complete operational designs — into hardened, running OpenClaw agents. A blueprint configures identity, tools, skills, cron, integrations, security, autonomy, memory, and egress for a specific job. Pick one, customize it, deploy it. You get a Signal, Telegram, or Discord UI. Your data stays on your machine.
 
-- **Agent registry** — catalog of available agent types, their capabilities, and configuration
-- **Lifecycle management** — spawn, monitor, pause, resume, and terminate agent instances
-- **Policy engine** — enforce scope restrictions, rate limits, and approval workflows
-- **Observability** — structured logging, token usage tracking, and performance metrics
+Everything in OpenClaw is a file or an API call. ClawHQ controls all of it programmatically.
 
-## Current Status
+## What's working
 
-Active development. Core orchestration loop is functional. Policy engine handles basic scope restrictions and approval gates.
+Blueprint engine with 7 internal blueprints, config generation with 14-landmine prevention, full deploy pipeline with container hardening, diagnostics + auto-fix (`clawhq doctor` runs 30 checks), sandboxed skill vetting, encrypted backup/restore, credential health probes, memory lifecycle, cloud provisioning across 4 providers, trust modes, audit trail.
 
-## Quickstart
+## What's next
 
-```bash
-git clone https://github.com/simonplant/clawhq
-cd clawhq
-npm install
-npm run dev
-```
+Agent runtime integration, web dashboard, distro installer.
 
-## How It Fits
+## Status
 
-ClawHQ is the orchestrator — it tells agents what to do and ensures they stay within bounds. AIShore generates the sprint backlogs that ClawHQ executes. Clawdius is one of the agents that ClawHQ manages. Easy Markdown provides the content rendering layer for agent-produced output.
+Pre-launch. Apache 2.0.
+
+[Repository →](https://github.com/simonplant/clawhq)

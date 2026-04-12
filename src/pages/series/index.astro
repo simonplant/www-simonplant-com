@@ -6,18 +6,18 @@ const entries = await getPublishedCollection('series');
 const sorted = entries.sort((a, b) => a.data.number - b.data.number);
 ---
 
-<Base title="Series — Simon Plant" description="Long-form installments on AI agent infrastructure maturation." jsonLd={{
+<Base title="Series — Simon Plant" description="Long-form writing on what it takes to run AI agents in production — the same infrastructure problems I solved for cloud, happening again." jsonLd={{
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Series — Simon Plant',
   url: 'https://www.simonplant.com/series',
-  description: 'Long-form installments on AI agent infrastructure maturation.',
+  description: 'Long-form writing on what it takes to run AI agents in production — the same infrastructure problems I solved for cloud, happening again.',
 }}>
   <main class="section-spacing">
     <div class="container-prose">
       <h1 class="font-serif text-4xl text-gray-50 mb-4">Series</h1>
       <p class="text-text-secondary text-lg mb-12 font-prose">
-        The full arc — from scripts to production agent systems. Each installment maps a stage of the infrastructure maturation model.
+        Long-form writing on what it takes to run AI agents in production — the same infrastructure problems I solved for cloud, happening again.
       </p>
 
       {sorted.length === 0 ? (

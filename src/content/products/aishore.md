@@ -1,42 +1,39 @@
 ---
 title: AIShore
-tagline: Intent-based sprint orchestration
-description: A developer tool that turns backlog items into validated, working code through intent-driven sprints. AIShore manages the full cycle — grooming, branching, implementation, acceptance testing, and merge — with AI agents doing the work and evals ensuring quality.
+tagline: Autonomous sprint orchestration for Claude Code
+description: Drop-in sprint orchestration for Claude Code. Write a backlog with commander's intent; AI implements, validates, and merges — item by item, branch by branch.
 status: active
-role: Sprint Orchestration & Delivery
+role: Sprint Orchestration
 github: https://github.com/simonplant/aishore
-tags: [sprint-orchestration, intent-driven, developer-tooling, evals]
+tags: [sprint-orchestration, claude-code, intent-driven, developer-tools]
 order: 2
-relatedProducts: [clawhq, clawdius]
+relatedProducts: [clawhq, markdown]
 ---
 
-## Problem
+## What it is
 
-Traditional sprint planning produces tickets that developers interpret loosely. AI coding agents make this worse — they need precise intent, clear acceptance criteria, and automated validation. Without structure, AI-generated code drifts from intent and accumulates regressions across sprints.
+AIShore drains a backlog of work through Claude Code, one item at a time. Each item has three things:
 
-## Architecture
+1. **Commander's intent** — a directive, not a description. "Ops must know instantly if the service is alive or dead," not "add health check endpoint." Intent is the north star when the spec is ambiguous and the bar the validator checks against.
+2. **Steps and acceptance criteria** — specific enough that an AI developer can implement without guessing.
+3. **Executable eval commands** — `--ac-verify` shell commands that prove the AC is actually met. Not grep theater against source files — actual smoke tests against running code.
 
-AIShore operates as a CLI tool that orchestrates development sprints:
+## How it works
 
-- **Backlog management** — structured items with intent, steps, acceptance criteria, and scope constraints
-- **Worktree isolation** — each sprint item runs in a clean git worktree
-- **Agent dispatch** — sends developer agents to implement items with full context
-- **Validation pipeline** — runs AC verify commands, regression checks, and independent validator agents
-- **Merge automation** — only merges code that passes all checks
-
-## Current Status
-
-Active development (v0.5). Powering the development of this site — every feature page you see was implemented through an AIShore sprint.
-
-## Quickstart
-
-```bash
-# Within a project that has a backlog/ directory
-.aishore/aishore run        # Run next sprint item
-.aishore/aishore status     # View backlog overview
-.aishore/aishore groom      # Groom and prioritize items
+```
+Pick → Branch → Preflight → Develop → Validate → Merge/Archive
+                                │          │
+                                └─ retry ──┘
 ```
 
-## How It Fits
+Isolated git worktree per sprint. Preflight runs the full regression suite on an unmodified baseline. Validate runs the AC verify commands, then an independent Validator agent probes against intent. Merge, push, archive.
 
-AIShore is the delivery engine. It consumes backlog items and produces validated code. ClawHQ provides the orchestration layer above it. Clawdius uses AIShore's sprint framework to deliver content. The site you're reading was built sprint-by-sprint through AIShore.
+## Evals compound
+
+Every passing sprint's verify commands are saved. Before every future sprint, the full suite runs as pre-flight. Sprint 51 cannot silently break what sprint 12 proved — and the suite grows automatically from well-written AC, with no manual test maintenance.
+
+## Status
+
+Active. Public. Apache 2.0. Used to build Markdown and this site.
+
+[Repository →](https://github.com/simonplant/aishore)
