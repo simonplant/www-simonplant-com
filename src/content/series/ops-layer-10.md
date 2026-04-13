@@ -4,7 +4,7 @@ number: 10
 publishedDate: 2026-04-12
 description: "Accumulating integrations without governance. Audit, ownership, and minimum viable toolset."
 tags: [tools, governance, operations, sprawl]
-status: published
+status: draft
 ---
 
 Every agent operator hits the same inflection point. The agent works. Email triage is running, calendar sync is solid, web search is useful. And then you think: what if I added stock quotes? And a Twitter reader? And a Substack aggregator? And a second email provider for faster JMAP performance?

@@ -4,7 +4,7 @@ number: 1
 publishedDate: 2026-04-12
 description: "Cloud management went through the same lifecycle gap that AI agents face now. The ops layer is inevitable — here's why."
 tags: [thesis, cloud-history, agent-infrastructure]
-status: published
+status: draft
 ---
 
 By 2010, AWS had been live for four years. The cloud was real. Companies were migrating workloads, developers were deploying applications, infrastructure teams were learning to think in APIs instead of rack units. The raw platform was powerful and getting more powerful every quarter.

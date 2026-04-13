@@ -4,7 +4,7 @@ number: 7
 publishedDate: 2026-04-12
 description: "Unbounded state growth degrades everything. Retention policies, tiered storage, and git-backed snapshots."
 tags: [memory, retention, architecture, operations]
-status: published
+status: draft
 ---
 
 Every database you've ever operated has retention policies. Every log pipeline has rotation. Every cache has eviction. But agent memory? Agent memory is a append-only text file that grows until something breaks, and when it breaks, it breaks silently.

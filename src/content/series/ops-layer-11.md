@@ -4,7 +4,7 @@ number: 11
 publishedDate: 2026-04-12
 description: "Decision logging, tool tracing, cost accounting, error classification. Actionable, not comprehensive."
 tags: [observability, logging, operations, debugging]
-status: published
+status: draft
 ---
 
 In January 2026, OpenClaw shipped a feature called `ENABLE_AUDIT_STDOUT`. The name is self-explanatory: turn it on, and your agent's audit trail gets written to standard output where you can pipe it to whatever log aggregator you want. Straightforward. Useful. Exactly the kind of observability primitive that operators need.

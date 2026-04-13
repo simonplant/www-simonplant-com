@@ -4,7 +4,7 @@ number: 12
 publishedDate: 2026-04-12
 description: "Docker isolation, microVMs, and zero-trust operational philosophy for agent sandboxing."
 tags: [security, sandboxing, docker, hardening]
-status: published
+status: draft
 ---
 
 In February 2026, Snyk Labs bypassed the OpenClaw sandbox. Twice.

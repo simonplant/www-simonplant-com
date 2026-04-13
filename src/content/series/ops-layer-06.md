@@ -4,7 +4,7 @@ number: 6
 publishedDate: 2026-04-12
 description: "Naive cron polling creates cascading problems. Event-driven heartbeats with Todoist as source of truth."
 tags: [scheduling, cron, architecture, heartbeat]
-status: published
+status: draft
 ---
 
 Clawdius — my personal OpenClaw agent — runs four cron jobs. Here they are, verbatim from the production config:

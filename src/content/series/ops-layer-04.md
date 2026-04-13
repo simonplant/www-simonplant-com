@@ -4,7 +4,7 @@ number: 4
 publishedDate: 2026-04-12
 description: "Zero-trust for agents. Real CVEs, default-disabled auth, plaintext credentials — and a hardening checklist."
 tags: [security, zero-trust, openclaw, hardening]
-status: published
+status: draft
 ---
 
 When I look at the agent ecosystem's security posture, what I see is not a gap. It's an absence.
