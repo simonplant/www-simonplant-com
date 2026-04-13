@@ -7,25 +7,17 @@ tags: [thesis, cloud-history, agent-infrastructure]
 status: published
 ---
 
-In 2010, I joined RightScale as Senior Director of Professional Services. RightScale was a cloud management platform — one of the first. The pitch was simple: AWS gives you raw compute, but who manages it? Who provisions, configures, monitors, scales, secures, and retires all those instances you're spinning up?
-
-Nobody, was the answer. And everybody was spinning them up.
-
-AWS had launched EC2 four years earlier. The cloud was real. Companies were migrating workloads, developers were deploying applications, infrastructure teams were learning to think in APIs instead of rack units. The raw platform was powerful and getting more powerful every quarter.
+By 2010, AWS had been live for four years. The cloud was real. Companies were migrating workloads, developers were deploying applications, infrastructure teams were learning to think in APIs instead of rack units. The raw platform was powerful and getting more powerful every quarter.
 
 But operating it was a disaster.
 
 Configuration was manual. Monitoring was bolted on. Security was an afterthought — most instances ran with default credentials and open security groups. There was no standard model for lifecycle management. Every team cobbled together their own scripts, their own deployment pipelines, their own monitoring stack. When something broke at 2am, you SSH'd into the box and figured it out.
 
-RightScale, Scalr, and a handful of others emerged to fill this gap. We built the management layer — the provisioning, configuration, monitoring, cost governance, and operational tooling that the raw platform didn't provide. Under my leadership, RightScale became AWS's largest consulting partner. We ran the most complex engineering projects in the ecosystem. The work caught AWS's attention enough that they recruited me to build their Western US Professional Services organization from scratch.
-
-I built that team to 80+ people. We served Adobe, Apple, Boeing, Intuit. I delivered AWS's first million-dollar consulting engagement. And the pattern I saw over and over was the same: the raw platform was extraordinary, but the gap between "we use cloud" and "we operate cloud" was where everything broke.
+RightScale, Scalr, and a handful of others emerged to fill this gap. They built the management layer — the provisioning, configuration, monitoring, cost governance, and operational tooling that the raw platform didn't provide. I spent four years in that world — first building it at RightScale, then building AWS's Western US Professional Services practice, then running cloud transformations at DualSpark. The pattern was always the same: the raw platform was extraordinary, but the gap between "we use cloud" and "we operate cloud" was where everything broke.
 
 That gap eventually closed. AWS built more management tooling. Terraform emerged. Kubernetes standardized container orchestration. The ecosystem matured. But for years — the better part of a decade — the management layer was the difference between a demo and a production system.
 
-I left AWS in 2014 to co-found DualSpark, a DevOps consultancy. We scaled to 35 engineers in nine months, ran transformations for Nike, Experian, FICO, 23andMe, and VSCO, and exited to Datapipe in fourteen months. The work was still the same pattern: take a powerful substrate, build the operational discipline around it, help companies adopt it without the expensive mistakes.
-
-I'm telling you this because I'm watching the exact same movie play out with AI agents right now. And I'm at the same point in the plot.
+I'm watching the exact same movie play out with AI agents right now. And I'm at the same point in the plot.
 
 ---
 
@@ -71,7 +63,7 @@ What's missing is the same thing that was missing for cloud in 2010:
 
 **Operational observability.** Most agent deployments have zero observability beyond "did it crash." No decision logging, no tool execution tracing, no cost accounting, no error classification.
 
-This is the gap I spent the last year building into. ClawHQ is the management layer for OpenClaw — the same kind of tool that RightScale was for AWS, except this time I'm building it instead of operating someone else's.
+This is the gap ClawHQ is built for — the management layer for OpenClaw. Same kind of tool that RightScale was for AWS, applied to a new substrate.
 
 ---
 
@@ -101,9 +93,7 @@ I think the same thing happens here. OpenClaw will build better built-in tooling
 
 The management layer is the opinionated layer. It's where "here's what a good email agent looks like" lives. It's where "these settings will silently break your deployment" gets prevented by construction rather than documented in a checklist. It's where lifecycle management — day 2 through day 365 — becomes someone's primary concern instead of nobody's.
 
-I built the cloud version of this at RightScale and AWS. I'm building the agent version now.
-
-This series documents what I'm learning along the way — the architecture decisions, the security model, the operational patterns, the things that work and the things that don't. Not theory. Not demos. The actual operational reality of running AI agents in production.
+This series documents what I'm learning building the agent version of this — the architecture decisions, the security model, the operational patterns, the things that work and the things that don't. Not theory. Not demos. The actual operational reality of running AI agents in production.
 
 The management layer is inevitable. The only question is who builds it and whether it gets built well.
 

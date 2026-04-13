@@ -7,7 +7,7 @@ tags: [security, zero-trust, openclaw, hardening]
 status: published
 ---
 
-I've held a CISSP since 2003. I co-founded a security consultancy — Orthus — in London in 2000, before "infosec" was a job title most HR departments recognized. I've done threat modeling, penetration testing, incident response, and compliance architecture across three decades of enterprise technology. When I look at the agent ecosystem's security posture, what I see is not a gap. It's an absence.
+When I look at the agent ecosystem's security posture, what I see is not a gap. It's an absence.
 
 There is no security model. There are security *features* — individual settings you can toggle, individual flags you can set. But a security model is a coherent architecture: a threat model, a trust boundary definition, a defense-in-depth strategy, and operational controls that enforce all three. OpenClaw ships none of this. What it ships is a collection of opt-in hardening knobs scattered across a dozen configuration files, all defaulting to the permissive setting.
 
@@ -254,13 +254,13 @@ Individual hardening is necessary but not sufficient. The deeper issue is archit
 
 OpenClaw is not uniquely bad. It's representative. Every agent framework I've evaluated has the same pattern: powerful capabilities, permissive defaults, security as an afterthought. The frameworks compete on features — which tools can your agent use, how many models does it support, how good is the memory system. Nobody competes on security posture. Nobody's marketing says "our agent framework drops all Linux capabilities by default." That's not a feature that drives GitHub stars.
 
-But it's the feature that determines whether agents move from demos to production. Every enterprise I've worked with — from my RightScale days through AWS through DualSpark — eventually hit the same wall: the security team says no. And the security team says no because the default configuration is indefensible. Not in the "we could argue about risk tolerance" sense. In the "this binds to 0.0.0.0 with a default token and you want to put it on our network" sense.
+But it's the feature that determines whether agents move from demos to production. Every enterprise eventually hits the same wall: the security team says no. And the security team says no because the default configuration is indefensible. Not in the "we could argue about risk tolerance" sense. In the "this binds to 0.0.0.0 with a default token and you want to put it on our network" sense.
 
 The fix isn't more CVEs and more patches. The fix is a security model — a coherent, opinionated, defense-in-depth architecture that ships as the default, not as a checklist you apply after deployment. Secure by default. Hardened by default. Auditable by default. Restrictive by default.
 
 That's what I'm building into ClawHQ. Not because I enjoy writing iptables rules (I don't), but because this is the layer that's missing, and without it, agents remain toys.
 
-I held that CISSP for twenty-three years. I've seen what happens when infrastructure ships insecure and gets adopted faster than it gets hardened. The internet itself went through this. Cloud went through this. We know how this story ends if nobody builds the security layer: breaches, regulation, and a lot of preventable damage in between.
+This is what happens when infrastructure ships insecure and gets adopted faster than it gets hardened. The internet went through this. Cloud went through this. We know how this story ends if nobody builds the security layer: breaches, regulation, and a lot of preventable damage in between.
 
 The evidence is already here. 42,000 exposed instances. An active supply chain campaign. Fifteen CVEs in the first two months. The question isn't whether the security reckoning is coming. It's whether the ecosystem builds the security model before or after the first major breach.
 
