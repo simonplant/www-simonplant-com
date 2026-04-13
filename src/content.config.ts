@@ -4,28 +4,6 @@ import { glob } from 'astro/loaders';
 
 const status = z.enum(['idea', 'draft', 'review', 'published']);
 
-const series = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/series' }),
-  schema: z.object({
-    title: z.string(),
-    number: z.number().int().positive(),
-    publishedDate: z.coerce.date(),
-    description: z.string(),
-    tags: z.array(z.string()),
-    status,
-    companionArtifacts: z
-      .array(
-        z.object({
-          title: z.string(),
-          type: z.enum(['checklist', 'template', 'framework', 'matrix']),
-          description: z.string(),
-          githubUrl: z.url(),
-        }),
-      )
-      .optional(),
-  }),
-});
-
 const commentary = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/commentary' }),
   schema: z.object({
@@ -43,12 +21,8 @@ const architecture = defineCollection({
   schema: z.object({
     title: z.string(),
     status,
-    concern: z.string(),
-    patternType: z.string(),
     tags: z.array(z.string()),
-    relatedProjects: z.array(z.string()).optional(),
     description: z.string(),
-    updated: z.coerce.date().optional(),
     publishedDate: z.coerce.date().optional(),
   }),
 });
@@ -68,4 +42,4 @@ const products = defineCollection({
   }),
 });
 
-export const collections = { series, commentary, architecture, products };
+export const collections = { commentary, architecture, products };

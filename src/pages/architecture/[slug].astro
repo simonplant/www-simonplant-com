@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getPublishedCollection } from '../../content/_helpers';
-import { getReadingTime } from '../../utils/readingTime';
 import { render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -21,9 +20,6 @@ export async function getStaticPaths() {
 const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 
-const wordCount = entry.body ? entry.body.split(/\s+/).filter(Boolean).length : 0;
-const readingTime = getReadingTime(entry.body);
-
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -31,72 +27,31 @@ const jsonLd = {
   headline: entry.data.title,
   description: entry.data.description,
   url: canonicalUrl,
-  ...(entry.data.publishedDate && { datePublished: entry.data.publishedDate.toISOString() }),
   author: { '@type': 'Person', name: 'Simon Plant' },
   keywords: entry.data.tags,
-  wordCount,
-};
-
-const statusColors: Record<string, string> = {
-  idea: 'text-text-muted border-border-subtle',
-  draft: 'text-yellow-400 border-yellow-400/40',
-  review: 'text-blue-400 border-blue-400/40',
-  published: 'text-emerald-400 border-emerald-400/40',
 };
 ---
 
 <Base
   title={`${entry.data.title} — Simon Plant`}
   description={entry.data.description}
-  ogType="article"
-  articleDate={entry.data.publishedDate?.toISOString()}
-  articleTags={entry.data.tags}
   jsonLd={jsonLd}
 >
   <main class="section-spacing">
     <article data-ph-capture-attribute-content-type="architecture" data-ph-capture-attribute-slug={entry.id}>
       <header class="container-prose mb-8">
         <a href="/architecture" class="text-text-muted text-sm font-sans hover:text-primary-400 transition-colors inline-flex items-center gap-1 mb-6">
-          &larr; Architecture KB
+          &larr; All architecture
         </a>
-        <div class="flex items-start gap-3 mb-4">
-          <h1 class="font-serif text-4xl text-gray-50 leading-tight">{entry.data.title}</h1>
-          <span class={`shrink-0 mt-2 text-xs font-sans px-2.5 py-0.5 rounded-full border ${statusColors[entry.data.status] ?? statusColors.draft}`}>
-            {entry.data.status}
-          </span>
-        </div>
-        <div class="flex flex-wrap gap-3 text-text-muted text-sm font-sans mb-4">
-          <span class="bg-surface-elevated px-2.5 py-0.5 rounded">{entry.data.concern}</span>
-          <span class="bg-surface-elevated px-2.5 py-0.5 rounded">{entry.data.patternType}</span>
-          <span>&middot;</span>
-          <span>{readingTime}</span>
-          {entry.data.publishedDate && (
-            <>
-              <span>&middot;</span>
-              <time datetime={entry.data.publishedDate.toISOString().slice(0, 10)}>
-                {entry.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-              </time>
-            </>
-          )}
-        </div>
-        <div class="flex flex-wrap gap-2 mb-4">
+        <h1 class="font-serif text-4xl text-gray-50 leading-tight mb-4">{entry.data.title}</h1>
+        <p class="text-text-secondary font-prose leading-relaxed mb-4">{entry.data.description}</p>
+        <div class="flex flex-wrap gap-2">
           {entry.data.tags.map((tag) => (
-            <a href={`/tags/${encodeURIComponent(tag)}`} class="text-primary-400 bg-primary-400/10 px-2.5 py-0.5 rounded-full text-xs font-sans hover:bg-primary-400/20 transition-colors">
+            <span class="text-primary-400 bg-primary-400/10 px-2.5 py-0.5 rounded-full text-xs font-sans">
               {tag}
-            </a>
+            </span>
           ))}
         </div>
-        {entry.data.relatedProjects && entry.data.relatedProjects.length > 0 && (
-          <div class="text-text-muted text-sm font-sans">
-            <span>Related projects: </span>
-            {entry.data.relatedProjects.map((project, i) => (
-              <>
-                {i > 0 && <span>, </span>}
-                <span class="text-text-secondary">{project}</span>
-              </>
-            ))}
-          </div>
-        )}
       </header>
 
       <div class="prose">
@@ -104,7 +59,7 @@ const statusColors: Record<string, string> = {
       </div>
 
       {(prev || next) && (
-        <nav class="container-prose mt-16 pt-8 border-t border-border-default" aria-label="Architecture KB navigation">
+        <nav class="container-prose mt-16 pt-8 border-t border-border-default" aria-label="Architecture navigation">
           <div class="flex justify-between gap-4">
             {prev ? (
               <a href={`/architecture/${prev.id}`} class="group flex-1 min-w-0">
@@ -127,53 +82,4 @@ const statusColors: Record<string, string> = {
       )}
     </article>
   </main>
-
-  <script is:inline>
-    (function () {
-      var prose = document.querySelector('.prose');
-      if (!prose) return;
-
-      var slug = document.querySelector('[data-ph-capture-attribute-slug]')?.getAttribute('data-ph-capture-attribute-slug') || '';
-      var title = document.title.replace(' — Simon Plant', '');
-      var fired = {};
-
-      [25, 50, 75, 100].forEach(function (pct) {
-        var sentinel = document.createElement('div');
-        sentinel.style.height = '1px';
-        sentinel.style.pointerEvents = 'none';
-        sentinel.setAttribute('aria-hidden', 'true');
-        sentinel.dataset.scrollDepth = String(pct);
-
-        var children = Array.from(prose.children);
-        var idx = Math.min(Math.floor((pct / 100) * children.length), children.length - 1);
-        if (pct === 100) {
-          prose.appendChild(sentinel);
-        } else {
-          prose.insertBefore(sentinel, children[idx]);
-        }
-      });
-
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var depth = entry.target.dataset.scrollDepth;
-          if (fired[depth]) return;
-          fired[depth] = true;
-          if (window.__posthog) {
-            window.__posthog.capture('article_scroll_depth', {
-              slug: slug,
-              depth_percent: Number(depth),
-              title: title,
-              content_type: 'architecture'
-            });
-          }
-          observer.unobserve(entry.target);
-        });
-      }, { threshold: 0 });
-
-      document.querySelectorAll('[data-scroll-depth]').forEach(function (el) {
-        observer.observe(el);
-      });
-    })();
-  </script>
 </Base>

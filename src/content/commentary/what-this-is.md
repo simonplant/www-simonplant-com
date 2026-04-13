@@ -31,6 +31,6 @@ I've been in infrastructure long enough to recognize when I'm watching the same 
 
 Build logs, not thought leadership. Real decisions with real tradeoffs. When something breaks, what happened and what fixed it.
 
-Here's an example: [Don't Blame Your Layers](/commentary/dont-blame-your-layers). An upstream OpenClaw update broke my agent's Telegram integration. I almost ripped out my entire security stack to diagnose it. The update pipeline saved me. That's the kind of thing I write about — specific, grounded, useful to someone building the same thing.
+Here's an example: [Don't Blame Your Layers](/blog/dont-blame-your-layers). An upstream OpenClaw update broke my agent's Telegram integration. I almost ripped out my entire security stack to diagnose it. The update pipeline saved me. That's the kind of thing I write about — specific, grounded, useful to someone building the same thing.
 
 I don't have a posting schedule. I write when I hit something worth documenting.

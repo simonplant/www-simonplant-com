@@ -51,8 +51,8 @@ const colors = statusColors[product.data.status] ?? statusColors.active;
   <main class="section-spacing">
     <article>
       <header class="container-prose mb-8">
-        <a href="/products" class="text-text-muted text-sm font-sans hover:text-primary-400 transition-colors inline-flex items-center gap-1 mb-6">
-          &larr; All products
+        <a href="/projects" class="text-text-muted text-sm font-sans hover:text-primary-400 transition-colors inline-flex items-center gap-1 mb-6">
+          &larr; All projects
         </a>
         <div class="flex items-start gap-3 mb-2">
           <h1 class="font-serif text-4xl text-gray-50 leading-tight">{product.data.title}</h1>
@@ -98,7 +98,7 @@ const colors = statusColors[product.data.status] ?? statusColors.active;
           <h2 class="font-serif text-xl text-gray-50 mb-4">Related Products</h2>
           <div class="flex flex-wrap gap-3">
             {product.data.relatedProducts.map((slug) => (
-              <a href={`/products/${slug}`} class="text-primary-400 hover:text-primary-300 transition-colors underline underline-offset-2 text-sm font-sans">
+              <a href={`/projects/${slug}`} class="text-primary-400 hover:text-primary-300 transition-colors underline underline-offset-2 text-sm font-sans">
                 {titleMap[slug] ?? slug}
               </a>
             ))}
@@ -110,7 +110,7 @@ const colors = statusColors[product.data.status] ?? statusColors.active;
         <nav class="container-prose mt-16 pt-8 border-t border-border-default" aria-label="Product navigation">
           <div class="flex justify-between gap-4">
             {prev ? (
-              <a href={`/products/${prev.id}`} class="group flex-1 min-w-0">
+              <a href={`/projects/${prev.id}`} class="group flex-1 min-w-0">
                 <span class="text-text-muted text-sm font-sans block mb-1">&larr; Previous</span>
                 <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
                   {prev.data.title}
@@ -118,7 +118,7 @@ const colors = statusColors[product.data.status] ?? statusColors.active;
               </a>
             ) : <div />}
             {next ? (
-              <a href={`/products/${next.id}`} class="group flex-1 min-w-0 text-right">
+              <a href={`/projects/${next.id}`} class="group flex-1 min-w-0 text-right">
                 <span class="text-text-muted text-sm font-sans block mb-1">Next &rarr;</span>
                 <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
                   {next.data.title}

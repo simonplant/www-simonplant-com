@@ -47,10 +47,10 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
   <main class="section-spacing">
-    <article data-ph-capture-attribute-content-type="commentary" data-ph-capture-attribute-slug={entry.id}>
+    <article data-ph-capture-attribute-content-type="writing" data-ph-capture-attribute-slug={entry.id}>
       <header class="container-prose mb-8">
-        <a href="/commentary" class="text-text-muted text-sm font-sans hover:text-primary-400 transition-colors inline-flex items-center gap-1 mb-6">
-          &larr; All commentary
+        <a href="/blog" class="text-text-muted text-sm font-sans hover:text-primary-400 transition-colors inline-flex items-center gap-1 mb-6">
+          &larr; All posts
         </a>
         <h1 class="font-serif text-4xl text-gray-50 leading-tight mb-4">{entry.data.title}</h1>
         <div class="flex flex-wrap gap-3 text-text-muted text-sm font-sans mb-4">
@@ -62,9 +62,9 @@ const jsonLd = {
         </div>
         <div class="flex flex-wrap gap-2">
           {entry.data.tags.map((tag) => (
-            <a href={`/tags/${encodeURIComponent(tag)}`} class="text-primary-400 bg-primary-400/10 px-2.5 py-0.5 rounded-full text-xs font-sans hover:bg-primary-400/20 transition-colors">
+            <span class="text-primary-400 bg-primary-400/10 px-2.5 py-0.5 rounded-full text-xs font-sans">
               {tag}
-            </a>
+            </span>
           ))}
         </div>
       </header>
@@ -74,10 +74,10 @@ const jsonLd = {
       </div>
 
       {(prev || next) && (
-        <nav class="container-prose mt-16 pt-8 border-t border-border-default" aria-label="Commentary navigation">
+        <nav class="container-prose mt-16 pt-8 border-t border-border-default" aria-label="Post navigation">
           <div class="flex justify-between gap-4">
             {prev ? (
-              <a href={`/commentary/${prev.id}`} class="group flex-1 min-w-0">
+              <a href={`/blog/${prev.id}`} class="group flex-1 min-w-0">
                 <span class="text-text-muted text-sm font-sans block mb-1">&larr; Newer</span>
                 <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
                   {prev.data.title}
@@ -85,7 +85,7 @@ const jsonLd = {
               </a>
             ) : <div />}
             {next ? (
-              <a href={`/commentary/${next.id}`} class="group flex-1 min-w-0 text-right">
+              <a href={`/blog/${next.id}`} class="group flex-1 min-w-0 text-right">
                 <span class="text-text-muted text-sm font-sans block mb-1">Older &rarr;</span>
                 <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
                   {next.data.title}
@@ -134,7 +134,7 @@ const jsonLd = {
               slug: slug,
               depth_percent: Number(depth),
               title: title,
-              content_type: 'commentary'
+              content_type: 'blog'
             });
           }
           observer.unobserve(entry.target);

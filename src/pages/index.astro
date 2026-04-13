@@ -2,14 +2,10 @@
 import Base from '../layouts/Base.astro';
 import { getPublishedCollection } from '../content/_helpers';
 
-const seriesEntries = await getPublishedCollection('series');
-const commentaryEntries = await getPublishedCollection('commentary');
-
-const latestSeries = seriesEntries
-  .sort((a, b) => b.data.number - a.data.number)[0] ?? null;
-
-const latestCommentary = commentaryEntries
-  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())[0] ?? null;
+const entries = await getPublishedCollection('commentary');
+const latestPosts = entries
+  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
+  .slice(0, 3);
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -40,61 +36,38 @@ const jsonLd = {
         </p>
       </header>
 
-      <!-- Three paths -->
-      <nav class="mb-16 space-y-6" aria-label="Content paths">
-        <a href="/products" class="group block border-b border-border-subtle pb-6">
-          <h2 class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors mb-1">Projects</h2>
-          <p class="text-text-secondary font-prose">Open-source tools I build and maintain — ClawHQ, AIShore, Markdown, and Clawdius. Agent infrastructure, sprint orchestration, cross-platform editing.</p>
-        </a>
-        <a href="/commentary" class="group block border-b border-border-subtle pb-6">
-          <h2 class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors mb-1">Writing</h2>
-          <p class="text-text-secondary font-prose">What it actually takes to run AI agents in production — the infrastructure patterns, security decisions, and operational lessons from someone who did the same for cloud a decade ago.</p>
-        </a>
-        <a href="/about" class="group block border-b border-border-subtle pb-6">
-          <h2 class="font-serif text-2xl text-gray-50 group-hover:text-primary-400 transition-colors mb-1">About &amp; Consulting</h2>
-          <p class="text-text-secondary font-prose">Thirty years across IBM, Capgemini, AWS, Rackspace, and my own consultancies. Currently taking on 2–3 Fractional CTO clients at a time.</p>
-        </a>
-      </nav>
-
-      <!-- Latest content -->
-      <section class="mb-16 space-y-10">
-
-        {latestSeries && (
-          <div>
-            <h3 class="font-sans text-sm uppercase tracking-wider text-text-muted mb-3">Latest from the series</h3>
-            <a href={`/series/${latestSeries.id}`} class="group block">
-              <span class="text-text-muted text-sm font-sans">Installment {latestSeries.data.number}</span>
-              <h4 class="font-serif text-xl text-gray-50 group-hover:text-primary-400 transition-colors mt-1 mb-2">
-                {latestSeries.data.title}
-              </h4>
-              <p class="text-text-secondary font-prose text-base leading-relaxed">
-                {latestSeries.data.description}
-              </p>
+      <!-- Latest writing -->
+      <section class="mb-16">
+        {latestPosts.length > 0 ? (
+          <div class="space-y-8">
+            {latestPosts.map((entry) => {
+              const wordCount = entry.body ? entry.body.split(/\s+/).length : 0;
+              const readingTime = Math.max(1, Math.round(wordCount / 230));
+              return (
+                <a href={`/blog/${entry.id}`} class="group block border-b border-border-subtle pb-8 last:border-b-0">
+                  <h2 class="font-serif text-2xl text-gray-50 mb-2 group-hover:text-primary-400 transition-colors">
+                    {entry.data.title}
+                  </h2>
+                  <p class="text-text-secondary font-prose leading-relaxed mb-2">
+                    {entry.data.description}
+                  </p>
+                  <div class="flex flex-wrap items-center gap-2 text-sm font-sans">
+                    <time class="text-text-muted" datetime={entry.data.publishedDate.toISOString().slice(0, 10)}>
+                      {entry.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    </time>
+                    <span class="text-text-muted">&middot;</span>
+                    <span class="text-text-muted">{readingTime} min read</span>
+                  </div>
+                </a>
+              );
+            })}
+            <a href="/writing" class="inline-block font-sans text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors">
+              All posts &rarr;
             </a>
           </div>
-        )}
-
-        {latestCommentary && (
-          <div>
-            <h3 class="font-sans text-sm uppercase tracking-wider text-text-muted mb-3">Latest commentary</h3>
-            <a href={`/commentary/${latestCommentary.id}`} class="group block">
-              <h4 class="font-serif text-xl text-gray-50 group-hover:text-primary-400 transition-colors mb-2">
-                {latestCommentary.data.title}
-              </h4>
-              <p class="text-text-secondary font-prose text-base leading-relaxed mb-1">
-                {latestCommentary.data.description}
-              </p>
-              <span class="text-text-muted text-sm font-sans">
-                {latestCommentary.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-              </span>
-            </a>
-          </div>
-        )}
-
-        {!latestSeries && !latestCommentary && (
+        ) : (
           <p class="text-text-muted font-prose">New writing is on the way.</p>
         )}
-
       </section>
 
       <!-- Contact CTA -->

@@ -13,7 +13,7 @@ They're not wrong about where this is headed. They're wrong about where it is no
 
 Terraform shipped in 2014. It worked because the operational substrate was already mature. AWS had CloudWatch, IAM, CloudTrail, Auto Scaling. Datadog and New Relic existed. Chef and Puppet existed. You could *see* what was running before you declared what *should* be running. That's the prerequisite Terraform took for granted.
 
-Agent infrastructure doesn't have it. Most operators can't tell whether their agent's credentials have expired. Configuration is scattered across eleven-plus files with no diffing, no versioning, no validation. Monitoring means "did it crash." When something goes wrong you SSH into the container and grep the logs. I've been documenting this for [fifteen installments](/series/ops-layer-01) because I spent four years at RightScale and AWS watching the cloud version of every one of these problems.
+Agent infrastructure doesn't have it. Most operators can't tell whether their agent's credentials have expired. Configuration is scattered across eleven-plus files with no diffing, no versioning, no validation. Monitoring means "did it crash." When something goes wrong you SSH into the container and grep the logs. I spent four years at RightScale and AWS watching the cloud version of every one of these problems.
 
 This isn't 2014. This is 2003.
 

@@ -8,18 +8,18 @@ const sorted = entries.sort((a, b) => b.data.publishedDate.getTime() - a.data.pu
 const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
 ---
 
-<Base title="Commentary — Simon Plant" description="Short-form takes on the operational reality of AI agents — infrastructure patterns, security decisions, and lessons from running agents in production." jsonLd={{
+<Base title="Blog — Simon Plant" description="What it actually takes to run AI agents in production — infrastructure patterns, security decisions, and lessons from someone who did the same for cloud a decade ago." jsonLd={{
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Commentary — Simon Plant',
-  url: 'https://www.simonplant.com/commentary',
-  description: 'Short-form takes on the operational reality of AI agents — infrastructure patterns, security decisions, and lessons from running agents in production.',
+  name: 'Blog — Simon Plant',
+  url: 'https://www.simonplant.com/blog',
+  description: 'What it actually takes to run AI agents in production — infrastructure patterns, security decisions, and lessons from someone who did the same for cloud a decade ago.',
 }}>
   <main class="section-spacing">
     <div class="container-prose">
-      <h1 class="font-serif text-4xl text-gray-50 mb-4">Commentary</h1>
+      <h1 class="font-serif text-4xl text-gray-50 mb-4">Blog</h1>
       <p class="text-text-secondary text-lg mb-8 font-prose">
-        Short-form takes on the operational reality of AI agents — infrastructure patterns, security decisions, and lessons from running them in production.
+        What it actually takes to run AI agents in production — infrastructure patterns, security decisions, and lessons from someone who did the same for cloud a decade ago.
       </p>
 
       {allTags.length > 0 && (
@@ -42,15 +42,15 @@ const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
       )}
 
       {sorted.length === 0 ? (
-        <p class="text-text-muted">No commentary published yet. Check back soon.</p>
+        <p class="text-text-muted">Nothing published yet. Check back soon.</p>
       ) : (
-        <ol class="space-y-8 list-none p-0" id="commentary-list">
+        <ol class="space-y-8 list-none p-0" id="blog-list">
           {sorted.map((entry) => {
             const wordCount = entry.body ? entry.body.split(/\s+/).length : 0;
             const readingTime = Math.max(1, Math.round(wordCount / 230));
             return (
-              <li class="commentary-item border-b border-border-subtle pb-8 last:border-b-0" data-tags={entry.data.tags.join(',')}>
-                <a href={`/commentary/${entry.id}`} class="group block">
+              <li class="blog-item border-b border-border-subtle pb-8 last:border-b-0" data-tags={entry.data.tags.join(',')}>
+                <a href={`/blog/${entry.id}`} class="group block">
                   <h2 class="font-serif text-2xl text-gray-50 mb-2 group-hover:text-primary-400 transition-colors">
                     {entry.data.title}
                   </h2>
@@ -90,7 +90,7 @@ const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
 <script>
   document.addEventListener('astro:page-load', () => {
     const buttons = document.querySelectorAll<HTMLButtonElement>('.tag-filter');
-    const items = document.querySelectorAll<HTMLLIElement>('.commentary-item');
+    const items = document.querySelectorAll<HTMLLIElement>('.blog-item');
 
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {

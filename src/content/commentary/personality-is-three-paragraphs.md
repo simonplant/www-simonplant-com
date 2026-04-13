@@ -27,4 +27,4 @@ Clawdius — my personal OpenClaw instance — manages email, calendar, research
 
 The 17-dimension schema taught me something useful — which dimensions actually matter (warmth, directness, verbosity) and which are noise for operational agents. I don't regret building it. But the ratio tells the story: three paragraphs of personality configuration, thousands of lines of operational configuration. That's not a design failure. That's the correct proportion.
 
-The [full account](/series/ops-layer-05) has the details. The short version: the operational stack is the product. Personality is a settings page.
+The operational stack is the product. Personality is a settings page.
