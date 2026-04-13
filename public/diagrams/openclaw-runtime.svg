@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="'JetBrains Mono', 'SF Mono', Consolas, monospace" font-size="12">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#d4a853"/>
+    </marker>
+    <marker id="arrow-white" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#888"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#c44"/>
+    </marker>
+  </defs>
+
+  <style>
+    .title { font-size: 16px; font-weight: bold; fill: #e8e4d9; }
+    .subtitle { font-size: 11px; fill: #888; }
+    .box-label { font-size: 11px; fill: #e8e4d9; font-weight: bold; }
+    .box-detail { font-size: 10px; fill: #999; }
+    .box-sm { font-size: 9px; fill: #777; }
+    .section-label { font-size: 10px; fill: #d4a853; font-weight: bold; letter-spacing: 1px; }
+    .annotation { font-size: 10px; fill: #777; font-style: italic; }
+    .flow-label { font-size: 9px; fill: #d4a853; }
+    .warn-label { font-size: 9px; fill: #c44; }
+  </style>
+
+  <!-- Background -->
+  <rect width="900" height="520" fill="#0a0a0f" rx="8"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" class="title">Agent Runtime Loop + Memory System</text>
+  <text x="450" y="48" text-anchor="middle" class="subtitle">Pi agent execution cycle and two-layer memory architecture</text>
+
+  <!-- ===== AGENT LOOP (top half) ===== -->
+  <text x="450" y="78" text-anchor="middle" class="section-label">PI AGENT RUNTIME  ·  src/agents/  ·  ~400 FILES</text>
+
+  <!-- Step 1: Message arrives -->
+  <rect x="30" y="96" width="140" height="56" rx="5" fill="#1a1a2e" stroke="#555" stroke-width="1"/>
+  <text x="100" y="116" text-anchor="middle" class="box-label">Message In</text>
+  <text x="100" y="132" text-anchor="middle" class="box-detail">from any channel</text>
+  <text x="100" y="144" text-anchor="middle" class="box-sm">auto-reply router</text>
+
+  <!-- Arrow -->
+  <line x1="170" y1="124" x2="200" y2="124" stroke="#d4a853" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: Prompt Assembly -->
+  <rect x="206" y="96" width="160" height="56" rx="5" fill="#1c1c10" stroke="#d4a853" stroke-width="1"/>
+  <text x="286" y="116" text-anchor="middle" class="box-label">Prompt Assembly</text>
+  <text x="286" y="132" text-anchor="middle" class="box-detail">system-prompt.ts</text>
+  <text x="286" y="144" text-anchor="middle" class="box-sm">8 workspace files + config</text>
+
+  <!-- Arrow -->
+  <line x1="366" y1="124" x2="396" y2="124" stroke="#d4a853" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: Model API -->
+  <rect x="402" y="96" width="160" height="56" rx="5" fill="#1c1c10" stroke="#d4a853" stroke-width="1"/>
+  <text x="482" y="116" text-anchor="middle" class="box-label">Model API Call</text>
+  <text x="482" y="132" text-anchor="middle" class="box-detail">auth profiles + failover</text>
+  <text x="482" y="144" text-anchor="middle" class="box-sm">Anthropic · OpenAI · Google · +</text>
+
+  <!-- Arrow -->
+  <line x1="562" y1="124" x2="592" y2="124" stroke="#d4a853" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- Step 4: Tool Dispatch -->
+  <rect x="598" y="96" width="140" height="56" rx="5" fill="#1c1c10" stroke="#d4a853" stroke-width="1"/>
+  <text x="668" y="116" text-anchor="middle" class="box-label">Tool Dispatch</text>
+  <text x="668" y="132" text-anchor="middle" class="box-detail">47+ built-in tools</text>
+  <text x="668" y="144" text-anchor="middle" class="box-sm">in-process or sandbox</text>
+
+  <!-- Arrow -->
+  <line x1="738" y1="124" x2="768" y2="124" stroke="#d4a853" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- Step 5: Stream response -->
+  <rect x="774" y="96" width="100" height="56" rx="5" fill="#1a1a2e" stroke="#555" stroke-width="1"/>
+  <text x="824" y="116" text-anchor="middle" class="box-label">Stream</text>
+  <text x="824" y="132" text-anchor="middle" class="box-detail">response</text>
+  <text x="824" y="144" text-anchor="middle" class="box-sm">→ channel</text>
+
+  <!-- Loop-back arrow from tool dispatch to model -->
+  <path d="M668,152 L668,172 L482,172 L482,152" fill="none" stroke="#d4a853" stroke-width="1" marker-end="url(#arrow)" stroke-dasharray="4,3"/>
+  <text x="575" y="168" text-anchor="middle" class="flow-label">tool result → next turn</text>
+
+  <!-- Provider boxes below model -->
+  <rect x="402" y="190" width="46" height="22" rx="3" fill="#121218" stroke="#333" stroke-width="0.8"/>
+  <text x="425" y="205" text-anchor="middle" class="box-sm">Claude</text>
+  <rect x="454" y="190" width="46" height="22" rx="3" fill="#121218" stroke="#333" stroke-width="0.8"/>
+  <text x="477" y="205" text-anchor="middle" class="box-sm">GPT</text>
+  <rect x="506" y="190" width="50" height="22" rx="3" fill="#121218" stroke="#333" stroke-width="0.8"/>
+  <text x="531" y="205" text-anchor="middle" class="box-sm">Gemini</text>
+
+  <!-- Sandbox detail -->
+  <rect x="598" y="190" width="140" height="42" rx="3" fill="#1a0a0a" stroke="#633" stroke-width="0.8"/>
+  <text x="668" y="206" text-anchor="middle" class="warn-label">Sandbox modes:</text>
+  <text x="668" y="220" text-anchor="middle" class="box-sm">off (main) · non-main · all</text>
+  <text x="668" y="228" text-anchor="middle" class="box-sm">Docker exec per session</text>
+
+  <!-- ===== MEMORY SYSTEM (bottom half) ===== -->
+  <text x="450" y="268" text-anchor="middle" class="section-label">MEMORY SYSTEM  ·  TWO LAYERS + SEMANTIC SEARCH</text>
+
+  <!-- Layer 1: Daily logs -->
+  <rect x="30" y="284" width="260" height="100" rx="5" fill="#1a1a2e" stroke="#555" stroke-width="1"/>
+  <text x="160" y="304" text-anchor="middle" class="box-label">Layer 1: Daily Logs</text>
+  <text x="160" y="320" text-anchor="middle" class="box-detail">memory/YYYY-MM-DD.md</text>
+  <text x="160" y="338" text-anchor="middle" class="box-sm">Append-only session notes</text>
+  <text x="160" y="352" text-anchor="middle" class="box-sm">Auto-loaded: today + yesterday</text>
+  <text x="160" y="366" text-anchor="middle" class="box-sm">Older logs searchable via memory_search</text>
+  <text x="160" y="378" text-anchor="middle" class="annotation">~120 KB/day during active use</text>
+
+  <!-- Layer 2: Curated memory -->
+  <rect x="320" y="284" width="260" height="100" rx="5" fill="#1c1c10" stroke="#d4a853" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="450" y="304" text-anchor="middle" class="box-label">Layer 2: MEMORY.md</text>
+  <text x="450" y="320" text-anchor="middle" class="box-detail">Curated long-term knowledge</text>
+  <text x="450" y="338" text-anchor="middle" class="box-sm">Main/private sessions only</text>
+  <text x="450" y="352" text-anchor="middle" class="box-sm">Facts, preferences, lessons, project summaries</text>
+  <text x="450" y="366" text-anchor="middle" class="box-sm">Persists across months</text>
+  <text x="450" y="378" text-anchor="middle" class="annotation">Keep it short — not everything needs every session</text>
+
+  <!-- Memory search engine -->
+  <rect x="610" y="284" width="260" height="100" rx="5" fill="#121218" stroke="#333" stroke-width="1"/>
+  <text x="740" y="304" text-anchor="middle" class="box-label">Memory Search</text>
+  <text x="740" y="320" text-anchor="middle" class="box-detail">Hybrid: 70% vector / 30% BM25</text>
+  <text x="740" y="340" text-anchor="middle" class="box-sm">SQLite + sqlite-vec</text>
+  <text x="740" y="354" text-anchor="middle" class="box-sm">~400 token chunks, 80 token overlap</text>
+  <text x="740" y="368" text-anchor="middle" class="box-sm">Providers: Voyage · OpenAI · Gemini · local</text>
+  <text x="740" y="382" text-anchor="middle" class="box-sm">File watcher with 1.5s debounce</text>
+
+  <!-- Arrows between layers -->
+  <line x1="290" y1="334" x2="320" y2="334" stroke="#888" stroke-width="0.8" marker-end="url(#arrow-white)"/>
+  <text x="305" y="328" text-anchor="middle" class="flow-label" transform="rotate(-90,305,328)">curate</text>
+
+  <line x1="290" y1="354" x2="610" y2="334" stroke="#888" stroke-width="0.8" marker-end="url(#arrow-white)"/>
+  <line x1="580" y1="350" x2="610" y2="350" stroke="#888" stroke-width="0.8" marker-end="url(#arrow-white)"/>
+
+  <!-- Memory lifecycle tiers -->
+  <text x="450" y="418" text-anchor="middle" class="section-label">MEMORY LIFECYCLE TIERS</text>
+
+  <!-- Hot -->
+  <rect x="60" y="432" width="220" height="60" rx="5" fill="#1c1c10" stroke="#d4a853" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="170" y="450" text-anchor="middle" class="box-label" fill="#d4a853">HOT</text>
+  <text x="170" y="465" text-anchor="middle" class="box-detail">In context every session</text>
+  <text x="170" y="479" text-anchor="middle" class="box-sm">&#8804;7 days  ·  &#8804;50 KB  ·  full fidelity</text>
+
+  <!-- Arrow -->
+  <line x1="280" y1="462" x2="320" y2="462" stroke="#d4a853" stroke-width="1" marker-end="url(#arrow)"/>
+  <text x="300" y="455" text-anchor="middle" class="flow-label">7d</text>
+
+  <!-- Warm -->
+  <rect x="326" y="432" width="220" height="60" rx="5" fill="#1a1a2e" stroke="#555" stroke-width="1"/>
+  <text x="436" y="450" text-anchor="middle" class="box-label">WARM</text>
+  <text x="436" y="465" text-anchor="middle" class="box-detail">Summarized + indexed</text>
+  <text x="436" y="479" text-anchor="middle" class="box-sm">7-90 days  ·  searchable on demand</text>
+
+  <!-- Arrow -->
+  <line x1="546" y1="462" x2="586" y2="462" stroke="#888" stroke-width="1" marker-end="url(#arrow-white)"/>
+  <text x="566" y="455" text-anchor="middle" class="flow-label">90d</text>
+
+  <!-- Cold -->
+  <rect x="592" y="432" width="220" height="60" rx="5" fill="#121218" stroke="#333" stroke-width="1"/>
+  <text x="702" y="450" text-anchor="middle" class="box-label" fill="#777">COLD</text>
+  <text x="702" y="465" text-anchor="middle" class="box-detail">Compressed + archived</text>
+  <text x="702" y="479" text-anchor="middle" class="box-sm">90+ days  ·  PII masked  ·  retrievable</text>
+
+  <!-- Footer -->
+  <text x="450" y="512" text-anchor="middle" class="annotation">Each tier transition is LLM-powered summarization — context-aware compression, not truncation.</text>
+</svg>

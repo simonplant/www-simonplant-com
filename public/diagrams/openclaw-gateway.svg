@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="'JetBrains Mono', 'SF Mono', Consolas, monospace" font-size="12">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#d4a853"/>
+    </marker>
+    <marker id="arrow-muted" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#555"/>
+    </marker>
+  </defs>
+
+  <style>
+    .title { font-size: 16px; font-weight: bold; fill: #e8e4d9; }
+    .subtitle { font-size: 11px; fill: #888; }
+    .box-label { font-size: 11px; fill: #e8e4d9; font-weight: bold; }
+    .box-detail { font-size: 10px; fill: #999; }
+    .section-label { font-size: 10px; fill: #d4a853; font-weight: bold; letter-spacing: 1px; }
+    .annotation { font-size: 10px; fill: #777; font-style: italic; }
+  </style>
+
+  <!-- Background -->
+  <rect width="900" height="680" fill="#0a0a0f" rx="8"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" class="title">OpenClaw Gateway Architecture</text>
+  <text x="450" y="48" text-anchor="middle" class="subtitle">Single process, single port, filesystem-backed state</text>
+
+  <!-- Messaging Channels (top) -->
+  <text x="450" y="76" text-anchor="middle" class="section-label">MESSAGING CHANNELS</text>
+
+  <rect x="30" y="86" width="82" height="30" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="71" y="105" text-anchor="middle" class="box-detail" fill="#ccc">Telegram</text>
+
+  <rect x="122" y="86" width="82" height="30" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="163" y="105" text-anchor="middle" class="box-detail" fill="#ccc">WhatsApp</text>
+
+  <rect x="214" y="86" width="82" height="30" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="255" y="105" text-anchor="middle" class="box-detail" fill="#ccc">Discord</text>
+
+  <rect x="306" y="86" width="82" height="30" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="347" y="105" text-anchor="middle" class="box-detail" fill="#ccc">Slack</text>
+
+  <rect x="398" y="86" width="82" height="30" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="439" y="105" text-anchor="middle" class="box-detail" fill="#ccc">Signal</text>
+
+  <rect x="490" y="86" width="82" height="30" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="531" y="105" text-anchor="middle" class="box-detail" fill="#ccc">iMessage</text>
+
+  <rect x="582" y="86" width="82" height="30" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="623" y="105" text-anchor="middle" class="box-detail" fill="#ccc">Teams</text>
+
+  <rect x="674" y="86" width="82" height="30" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="715" y="105" text-anchor="middle" class="box-detail" fill="#ccc">Matrix</text>
+
+  <rect x="766" y="86" width="82" height="30" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="807" y="105" text-anchor="middle" class="box-detail" fill="#ccc">+17 more</text>
+
+  <!-- Channel arrows down -->
+  <line x1="450" y1="116" x2="450" y2="140" stroke="#555" stroke-width="1" marker-end="url(#arrow-muted)"/>
+
+  <!-- Gateway box -->
+  <rect x="60" y="144" width="780" height="340" rx="6" fill="#0f0f1a" stroke="#d4a853" stroke-width="1.5"/>
+  <text x="450" y="166" text-anchor="middle" class="section-label">GATEWAY PROCESS  ·  src/gateway/server.impl.ts  ·  :18789</text>
+
+  <!-- Row 1: Input processing -->
+  <rect x="90" y="182" width="160" height="52" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="170" y="201" text-anchor="middle" class="box-label">Channel Adapters</text>
+  <text x="170" y="215" text-anchor="middle" class="box-detail">25+ built-in + plugins</text>
+  <text x="170" y="227" text-anchor="middle" class="box-detail">src/channels/</text>
+
+  <rect x="270" y="182" width="160" height="52" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="350" y="201" text-anchor="middle" class="box-label">Auto-Reply Router</text>
+  <text x="350" y="215" text-anchor="middle" class="box-detail">access control</text>
+  <text x="350" y="227" text-anchor="middle" class="box-detail">session resolve → dispatch</text>
+
+  <rect x="450" y="182" width="160" height="52" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="530" y="201" text-anchor="middle" class="box-label">Session Manager</text>
+  <text x="530" y="215" text-anchor="middle" class="box-detail">main / group / subagent</text>
+  <text x="530" y="227" text-anchor="middle" class="box-detail">transcripts (.jsonl)</text>
+
+  <rect x="630" y="182" width="160" height="52" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="710" y="201" text-anchor="middle" class="box-label">Config Loader</text>
+  <text x="710" y="215" text-anchor="middle" class="box-detail">TypeBox schema</text>
+  <text x="710" y="227" text-anchor="middle" class="box-detail">hot-reload on change</text>
+
+  <!-- Arrows row 1 -->
+  <line x1="250" y1="208" x2="270" y2="208" stroke="#d4a853" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="430" y1="208" x2="450" y2="208" stroke="#d4a853" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <!-- Row 2: Agent runtime -->
+  <rect x="160" y="256" width="340" height="64" rx="4" fill="#1c1c10" stroke="#d4a853" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="330" y="276" text-anchor="middle" class="box-label">Pi Agent Runtime  ·  PiEmbeddedRunner</text>
+  <text x="330" y="290" text-anchor="middle" class="box-detail">prompt-builder → model API → tool dispatch → streaming</text>
+  <text x="330" y="304" text-anchor="middle" class="box-detail">src/agents/ (~400 files)  ·  sandbox.ts for Docker exec</text>
+
+  <rect x="520" y="256" width="140" height="64" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="590" y="276" text-anchor="middle" class="box-label">Memory Engine</text>
+  <text x="590" y="290" text-anchor="middle" class="box-detail">SQLite + sqlite-vec</text>
+  <text x="590" y="304" text-anchor="middle" class="box-detail">70/30 vector/BM25</text>
+
+  <rect x="678" y="256" width="140" height="64" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="748" y="276" text-anchor="middle" class="box-label">Plugin Registry</text>
+  <text x="748" y="290" text-anchor="middle" class="box-detail">manifest-driven</text>
+  <text x="748" y="304" text-anchor="middle" class="box-detail">~110 bundled extensions</text>
+
+  <!-- Arrow from router to runtime -->
+  <line x1="350" y1="234" x2="330" y2="256" stroke="#d4a853" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <!-- Row 3: Services -->
+  <rect x="90" y="340" width="120" height="48" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="150" y="359" text-anchor="middle" class="box-label">Cron Scheduler</text>
+  <text x="150" y="373" text-anchor="middle" class="box-detail">cron/jobs.json</text>
+
+  <rect x="224" y="340" width="120" height="48" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="284" y="359" text-anchor="middle" class="box-label">Hook System</text>
+  <text x="284" y="373" text-anchor="middle" class="box-detail">lifecycle events</text>
+
+  <rect x="358" y="340" width="120" height="48" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="418" y="359" text-anchor="middle" class="box-label">Skills Registry</text>
+  <text x="418" y="373" text-anchor="middle" class="box-detail">SKILL.md per skill</text>
+
+  <rect x="492" y="340" width="120" height="48" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="552" y="359" text-anchor="middle" class="box-label">Browser Control</text>
+  <text x="552" y="373" text-anchor="middle" class="box-detail">CDP / Chromium</text>
+
+  <rect x="626" y="340" width="120" height="48" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="686" y="359" text-anchor="middle" class="box-label">Canvas Host</text>
+  <text x="686" y="373" text-anchor="middle" class="box-detail">A2UI / Lit app</text>
+
+  <rect x="760" y="340" width="70" height="48" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="795" y="359" text-anchor="middle" class="box-label">TTS</text>
+  <text x="795" y="373" text-anchor="middle" class="box-detail">voice</text>
+
+  <!-- Row 4: WebSocket hub -->
+  <rect x="90" y="410" width="740" height="40" rx="4" fill="#1a1a2e" stroke="#555" stroke-width="1"/>
+  <text x="450" y="434" text-anchor="middle" class="box-label">WebSocket Hub  ·  ws://127.0.0.1:18789  ·  JSON frames  ·  shared-secret auth  ·  device pairing</text>
+
+  <!-- Arrows down from gateway -->
+  <line x1="200" y1="484" x2="200" y2="510" stroke="#555" stroke-width="1" marker-end="url(#arrow-muted)"/>
+  <line x1="450" y1="484" x2="450" y2="510" stroke="#555" stroke-width="1" marker-end="url(#arrow-muted)"/>
+  <line x1="700" y1="484" x2="700" y2="510" stroke="#555" stroke-width="1" marker-end="url(#arrow-muted)"/>
+
+  <!-- Clients -->
+  <text x="450" y="504" text-anchor="middle" class="section-label">CLIENTS</text>
+
+  <rect x="120" y="514" width="160" height="40" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="200" y="538" text-anchor="middle" class="box-detail" fill="#ccc">CLI  ·  openclaw ...</text>
+
+  <rect x="370" y="514" width="160" height="40" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="450" y="538" text-anchor="middle" class="box-detail" fill="#ccc">Control UI  ·  browser</text>
+
+  <rect x="620" y="514" width="160" height="40" rx="4" fill="#1a1a2e" stroke="#333" stroke-width="1"/>
+  <text x="700" y="538" text-anchor="middle" class="box-detail" fill="#ccc">macOS / iOS / Android</text>
+
+  <!-- Filesystem (right side) -->
+  <text x="450" y="586" text-anchor="middle" class="section-label">FILESYSTEM  ·  ~/.openclaw/</text>
+
+  <rect x="40" y="596" width="130" height="48" rx="4" fill="#121218" stroke="#333" stroke-width="1"/>
+  <text x="105" y="614" text-anchor="middle" class="box-label">openclaw.json</text>
+  <text x="105" y="628" text-anchor="middle" class="box-detail">~200 config fields</text>
+
+  <rect x="185" y="596" width="130" height="48" rx="4" fill="#121218" stroke="#d4a853" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="250" y="614" text-anchor="middle" class="box-label">workspace/</text>
+  <text x="250" y="628" text-anchor="middle" class="box-detail">8 auto-loaded files</text>
+
+  <rect x="330" y="596" width="130" height="48" rx="4" fill="#121218" stroke="#333" stroke-width="1"/>
+  <text x="395" y="614" text-anchor="middle" class="box-label">credentials/</text>
+  <text x="395" y="628" text-anchor="middle" class="box-detail">channel auth state</text>
+
+  <rect x="475" y="596" width="130" height="48" rx="4" fill="#121218" stroke="#333" stroke-width="1"/>
+  <text x="540" y="614" text-anchor="middle" class="box-label">sessions/</text>
+  <text x="540" y="628" text-anchor="middle" class="box-detail">transcripts (.jsonl)</text>
+
+  <rect x="620" y="596" width="100" height="48" rx="4" fill="#121218" stroke="#333" stroke-width="1"/>
+  <text x="670" y="614" text-anchor="middle" class="box-label">cron/</text>
+  <text x="670" y="628" text-anchor="middle" class="box-detail">jobs + run logs</text>
+
+  <rect x="735" y="596" width="120" height="48" rx="4" fill="#121218" stroke="#333" stroke-width="1"/>
+  <text x="795" y="614" text-anchor="middle" class="box-label">.env</text>
+  <text x="795" y="628" text-anchor="middle" class="box-detail">API keys, tokens</text>
+
+  <!-- Annotation -->
+  <text x="450" y="668" text-anchor="middle" class="annotation">No database except SQLite for memory search. All state is files. Backup = copy the directory.</text>
+</svg>
