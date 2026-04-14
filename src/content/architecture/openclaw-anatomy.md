@@ -1,6 +1,6 @@
 ---
 title: "OpenClaw Architecture: Anatomy of a Personal AI Agent"
-status: draft
+status: published
 tags: [openclaw, architecture, agent-infrastructure, reference]
 description: "How OpenClaw is built — the Gateway process, the workspace file system, the 8 auto-loaded files, the config surface, and the system prompt assembly that turns markdown into a running agent."
 publishedDate: 2026-04-13
