@@ -3,7 +3,7 @@ title: "Seven Bugs, Zero Model Problems"
 publishedDate: 2026-04-15
 tags: [agent-ops, debugging, local-inference, deployment, day-2-operations]
 description: "After a ClawHQ rebuild, Clawdius was completely unresponsive. Seven distinct bugs. Every one was a platform failure — config drift, firewall chain reactions, GPU defaults that didn't match real workloads. The model was fine the whole time."
-status: review
+status: published
 tier: signal
 ---
 
