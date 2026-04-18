@@ -13,6 +13,7 @@ const commentary = defineCollection({
     description: z.string(),
     status,
     tier: z.enum(['signal', 'architecture', 'deep-dive']),
+    pinned: z.boolean().optional(),
   }),
 });
 

@@ -3,9 +3,12 @@ import Base from '../../layouts/Base.astro';
 import { getPublishedCollection } from '../../content/_helpers';
 
 const entries = await getPublishedCollection('commentary');
-const sorted = entries.sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+const byDateDesc = (a: typeof entries[number], b: typeof entries[number]) =>
+  b.data.publishedDate.getTime() - a.data.publishedDate.getTime();
+const pinned = entries.filter((e) => e.data.pinned).sort(byDateDesc);
+const sorted = entries.filter((e) => !e.data.pinned).sort(byDateDesc);
 
-const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
+const allTags = [...new Set(entries.flatMap((e) => e.data.tags))].sort();
 ---
 
 <Base title="Blog — Simon Plant" description="What it actually takes to run AI agents in production — infrastructure patterns, security decisions, and lessons from someone who did the same for cloud a decade ago." jsonLd={{
@@ -21,6 +24,27 @@ const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
       <p class="text-text-secondary text-lg mb-8 font-prose">
         What it actually takes to run AI agents in production — infrastructure patterns, security decisions, and lessons from someone who did the same for cloud a decade ago.
       </p>
+
+      {pinned.length > 0 && (
+        <aside class="mb-10" aria-label="Start here">
+          {pinned.map((entry) => (
+            <a
+              href={`/blog/${entry.id}`}
+              class="group block rounded-lg border border-border-subtle bg-surface-card px-5 py-4 hover:border-primary-600 transition-colors"
+            >
+              <div class="flex items-baseline gap-2 mb-1">
+                <span class="text-xs font-sans uppercase tracking-wider text-primary-400">New here? Start here</span>
+              </div>
+              <h2 class="font-serif text-xl text-gray-50 mb-1 group-hover:text-primary-400 transition-colors">
+                {entry.data.title}
+              </h2>
+              <p class="text-text-secondary font-prose text-sm leading-relaxed">
+                {entry.data.description}
+              </p>
+            </a>
+          ))}
+        </aside>
+      )}
 
       {allTags.length > 0 && (
         <nav class="mb-12 flex flex-wrap gap-2" aria-label="Filter by tag">
