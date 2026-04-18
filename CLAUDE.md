@@ -72,6 +72,7 @@ This is a solo personal website. PRs are only valuable when committer ≠ review
 **Agents (Clawdius, aishore sprint agents, and any Claude Code session acting on the owner's behalf when the owner is not the one typing) must still use PRs** for anything outside a narrow "the owner told me to commit this directly right now" scope. Agent PRs are the mechanism that makes the `content-validation` workflow (scope limits, publishing gate, batch caps) actually load-bearing. Clawdius-specific constraints are in the Content Agent Rules section below.
 
 **Hard rules for everyone:**
+
 - Never force-push `main`
 - Never commit secrets (use `.env`, which is gitignored)
 - Never bypass pre-commit hooks with `--no-verify`
@@ -86,12 +87,12 @@ Content lives in `src/content/` with collections defined in `src/content.config.
 
 ### Editorial Workflow
 
-| Status | Meaning | Builds in prod? | Who can set |
-|--------|---------|-----------------|-------------|
-| `idea` | Placeholder | No | Anyone |
-| `draft` | Being written | No | Anyone |
-| `review` | Ready for Simon's editorial pass | No | Anyone |
-| `published` | Live on site | Yes | Simon only |
+| Status      | Meaning                          | Builds in prod? | Who can set |
+| ----------- | -------------------------------- | --------------- | ----------- |
+| `idea`      | Placeholder                      | No              | Anyone      |
+| `draft`     | Being written                    | No              | Anyone      |
+| `review`    | Ready for Simon's editorial pass | No              | Anyone      |
+| `published` | Live on site                     | Yes             | Simon only  |
 
 Use `getPublishedEntries()` from `src/content/_helpers.ts` to filter content at build time.
 
@@ -100,12 +101,14 @@ Use `getPublishedEntries()` from `src/content/_helpers.ts` to filter content at 
 Clawdius is the primary content producer. He operates under strict constraints:
 
 **CAN do:**
+
 - Create/edit files in `src/content/commentary/`, `src/content/series/`, `src/content/architecture/`
 - Set status to: `idea`, `draft`, `review`
 - Create branches named `content/<description>`
 - Open PRs with max 3 content pieces
 
 **CANNOT do:**
+
 - Push to main
 - Touch any file outside `src/content/`
 - Set `status: published`
@@ -113,6 +116,7 @@ Clawdius is the primary content producer. He operates under strict constraints:
 - Merge his own PRs
 
 **Content quality bar:**
+
 - Write as Simon — direct, opinionated, historically grounded, systems-oriented
 - Every piece must be grounded in real work, real decisions, real code
 - No generic "AI is transforming..." filler
@@ -125,33 +129,42 @@ Clawdius is the primary content producer. He operates under strict constraints:
 ### CI Enforcement
 
 The `content-validation` workflow enforces:
+
 - Scope restriction: content PRs can only touch `src/content/`
 - Publishing gate: only `simonplant` can set `status: published`
 - Batch limit: max 3 new content pieces per PR
 - Frontmatter validation: required fields (title, description, status, tags) and valid status values
 
 <!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
+
 <!-- Customizations here will be lost. Add project-specific instructions above this section. -->
 
 <!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
+
 <!-- Customizations here will be lost. Add project-specific instructions above this section. -->
 
 <!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
+
 <!-- Customizations here will be lost. Add project-specific instructions above this section. -->
 
 <!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
+
 <!-- Customizations here will be lost. Add project-specific instructions above this section. -->
 
 <!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
+
 <!-- Customizations here will be lost. Add project-specific instructions above this section. -->
 
 <!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
+
 <!-- Customizations here will be lost. Add project-specific instructions above this section. -->
+
 ## Sprint Orchestration (aishore)
 
 This project uses aishore for autonomous sprint execution. Backlog lives in `backlog/`, tool lives in `.aishore/`.
 
 **Agent rules (mandatory):**
+
 - **Core before features.** The working core — the primary end-to-end path — must pass before feature work proceeds. Check the item's `track` field: `core` items build the foundation; `feature` items decorate it.
 - **Intent is the north star.** Every item has a commander's intent field. When steps or AC are ambiguous, follow intent.
 - **Prove it runs.** Wire code to real entry points. If the build command exists, run it. If a verify command exists, execute it. Working code that's reachable beats tested code that's isolated.
