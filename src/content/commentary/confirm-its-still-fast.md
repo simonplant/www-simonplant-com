@@ -85,6 +85,8 @@ I didn't notice the DNS shadow. The agent worked. The logs were quiet. I shipped
 
 The harness exists because I am not a reliable detector of my own regressions. Neither are the logs. Neither is the feeling that it seems a bit slower today. Save a baseline before your next config change. Compare after. Keep the harness. The numbers are the only part of the stack that will tell you the truth when the rest of it is quietly lying by omission.
 
-My Ollama-bench testing suite is available on Github: [GitHub - simonplant/ollama-bench: Regression harness for local Ollama models — catches throughput drops from config changes · GitHub](https://github.com/simonplant/ollama-bench). Feedback and PRs welcome!
+My Ollama-bench testing suite is available on Github: [GitHub - simonplant/ollama-bench](https://github.com/simonplant/ollama-bench)
+
+Feedback and PRs welcome!
 
 Best, Simon.
