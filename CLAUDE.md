@@ -65,17 +65,16 @@ npm run preview   # Preview production build locally
 
 ## Git Workflow
 
-**Owner commits directly to `main`. Agents use PRs.**
+**Everyone commits directly to `main`. The publishing gate is the real guardrail.**
 
-This is a solo personal website. PRs are only valuable when committer ≠ reviewer; self-review is theater. The owner (`simonplant`) pushes directly to `main`; CI runs on every push and fails loudly if the build breaks — that's the real guardrail, not the PR ritual.
-
-**Agents (Clawdius, aishore sprint agents, and any Claude Code session acting on the owner's behalf when the owner is not the one typing) must still use PRs** for anything outside a narrow "the owner told me to commit this directly right now" scope. Agent PRs are the mechanism that makes the `content-validation` workflow (scope limits, publishing gate, batch caps) actually load-bearing. Clawdius-specific constraints are in the Content Agent Rules section below.
+This is a solo personal website. The load-bearing control is the `status: published` frontmatter field — only `simonplant` can set it, and the `content-validation` CI workflow enforces that. Nothing reaches production until that flag flips, so PR ceremony doesn't add safety. Agents (Clawdius, aishore sprint agents, any Claude Code session) can commit and push directly to `main` just like the owner. PRs remain available when they're genuinely useful (large structural changes, visual review), but they're not required for routine content work.
 
 **Hard rules for everyone:**
 
 - Never force-push `main`
 - Never commit secrets (use `.env`, which is gitignored)
 - Never bypass pre-commit hooks with `--no-verify`
+- Never set `status: published` unless you are `simonplant` — this is the approval gate
 
 ## Content Pipeline
 
@@ -104,16 +103,13 @@ Clawdius is the primary content producer. He operates under strict constraints:
 
 - Create/edit files in `src/content/commentary/`, `src/content/series/`, `src/content/architecture/`
 - Set status to: `idea`, `draft`, `review`
-- Create branches named `content/<description>`
-- Open PRs with max 3 content pieces
+- Commit and push directly to `main`
+- Open PRs when useful (optional — for visual review of large drafts, not required)
 
 **CANNOT do:**
 
-- Push to main
 - Touch any file outside `src/content/`
-- Set `status: published`
-- Open a PR while another content PR is unreviewed
-- Merge his own PRs
+- Set `status: published` — only `simonplant` can promote to production
 
 **Content quality bar:**
 
