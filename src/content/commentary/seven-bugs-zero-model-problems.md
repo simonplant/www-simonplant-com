@@ -46,3 +46,5 @@ Every bug is now a code fix or a doctor check. `deploy.ts` syncs golden to engin
 The next `clawhq up` handles all seven automatically. That's the actual output of a triage session: not just fixes, but checks that prevent the next operator from losing the same hour I did.
 
 None of these were model problems. Gemma 4 26B runs fine once the platform stops sabotaging it.
+
+Three days later I found a bigger version of the same class — [a drifted systemd override that had been exposing an unauthenticated LLM endpoint to the public internet for an unknown period](/commentary/the-fix-was-the-speedup). The platform kept being the problem.
