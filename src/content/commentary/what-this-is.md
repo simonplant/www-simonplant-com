@@ -5,6 +5,7 @@ tags: [meta, introduction]
 description: "What I'm building, why I'm writing about it, and what to expect here."
 status: published
 tier: signal
+pinned: true
 ---
 
 I'm Simon Plant. I've spent thirty years in infrastructure — IBM, Capgemini, RightScale, AWS, a startup I co-founded and exited, Rackspace, Redapt, and now my own fractional CTO practice. Most of that time was spent on the same problem: making powerful platforms operatable.
