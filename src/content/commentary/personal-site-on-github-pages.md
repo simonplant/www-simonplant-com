@@ -3,7 +3,7 @@ title: "Publish Your Personal Website on GitHub Pages, for Free, Using Claude Co
 publishedDate: 2026-05-16
 tags: [tutorial, claude-code, github-pages, static-site, getting-started]
 description: "A step-by-step walkthrough from a fresh Mac to a live website at yourusername.github.io. One page of plain-English spec; Claude Code handles the build, the repo, the deploy, and the optional custom domain. About 45 minutes including the one-time install."
-status: draft
+status: published
 tier: signal
 ---
 
