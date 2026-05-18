@@ -21,6 +21,20 @@ It's hosted on **GitHub Pages**, which is GitHub's free static-site hosting. The
 
 You can later point a custom domain at it (your-name.com) — covered at the end of this post.
 
+## The plan
+
+Five steps:
+
+1. **Install the tools** on your Mac — one-time, ~20 minutes
+2. **Write a one-page spec** describing the site you want — ~5 minutes
+3. **Have Claude Code build it** from the spec — ~10 minutes
+4. **Deploy to GitHub Pages** — push to a repo, flip Pages on, get a live URL — ~10 minutes
+5. **Update it whenever you want** — two commands
+
+Plus an optional sixth: point a custom domain at it.
+
+Steps 1 and 4 are the load-bearing ones. The middle three are easy if the spec is honest about what you want.
+
 ## What you need
 
 - A Mac running macOS 13 or newer
