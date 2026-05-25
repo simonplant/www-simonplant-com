@@ -112,6 +112,8 @@ const allTags = [...new Set(entries.flatMap((e) => e.data.tags))].sort();
 </style>
 
 <script>
+  import { safeCapture } from '../../lib/analytics';
+
   document.addEventListener('astro:page-load', () => {
     const buttons = document.querySelectorAll<HTMLButtonElement>('.tag-filter');
     const items = document.querySelectorAll<HTMLLIElement>('.blog-item');
@@ -127,6 +129,8 @@ const allTags = [...new Set(entries.flatMap((e) => e.data.tags))].sort();
           const itemTags = (item.dataset.tags ?? '').split(',');
           item.style.display = tag === '' || itemTags.includes(tag) ? '' : 'none';
         });
+
+        safeCapture('blog_tag_filter', { tag: tag || 'all' });
       });
     });
   });

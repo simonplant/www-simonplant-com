@@ -30,3 +30,4 @@ pnpm-debug.log*
 .aishore/data/status/
 .aishore/data/code-analysis.md
 .aishore/data/code-audit.md
+.env.local

@@ -39,3 +39,11 @@ const navLinks = [
     </p>
   </div>
 </footer>
+
+<script is:inline>
+  document.querySelector('footer a[href^="mailto:"]')?.addEventListener('click', function () {
+    if (window.phCapture) {
+      window.phCapture('contact_click', { location: window.location.pathname });
+    }
+  });
+</script>

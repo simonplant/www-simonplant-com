@@ -131,3 +131,13 @@ const colors = statusColors[product.data.status] ?? statusColors.active;
     </article>
   </main>
 </Base>
+
+<script is:inline define:vars={{ githubUrl: product.data.github ?? null, projectTitle: product.data.title }}>
+  if (githubUrl) {
+    document.querySelector('a[href="' + githubUrl + '"]')?.addEventListener('click', function () {
+      if (window.phCapture) {
+        window.phCapture('project_github_click', { project: projectTitle, github_url: githubUrl });
+      }
+    });
+  }
+</script>
