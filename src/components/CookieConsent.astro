@@ -47,10 +47,17 @@
   function loadPostHog() {
     import('posthog-js').then(({ default: posthog }) => {
       posthog.init(import.meta.env.PUBLIC_POSTHOG_KEY ?? '', {
+        defaults: '2026-01-30',
         api_host: '/ingest',
+        // ui_host must point at PostHog's real domain (not the proxy) so the
+        // toolbar and in-app links resolve correctly when api_host is proxied.
+        ui_host: 'https://us.posthog.com',
         persistence: 'localStorage+cookie',
         person_profiles: 'identified_only',
         autocapture: true,
+        // Static MPA: navigations are full page loads, so capture on load
+        // rather than the 'history_change' default newer `defaults` would set.
+        capture_pageview: true,
         capture_pageleave: true,
         capture_dead_clicks: true,
         capture_performance: { web_vitals: true },
@@ -58,6 +65,20 @@
         respect_dnt: true,
         session_recording: {
           maskAllInputs: true,
+        },
+        // Strip query strings from captured URLs so stray params never leak as
+        // PII. UTM params are already parsed into their own properties upstream.
+        before_send: (event) => {
+          if (event?.properties) {
+            for (const key of ['$current_url', '$referrer', '$pathname'] as const) {
+              const value = event.properties[key];
+              if (typeof value === 'string') {
+                const q = value.indexOf('?');
+                if (q !== -1) event.properties[key] = value.slice(0, q);
+              }
+            }
+          }
+          return event;
         },
         loaded: (ph) => {
           if (import.meta.env.DEV) ph.opt_out_capturing();

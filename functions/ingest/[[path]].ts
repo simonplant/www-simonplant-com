@@ -25,7 +25,12 @@ export const onRequest = async (context: CFContext): Promise<Response> => {
 
   const headers = new Headers(context.request.headers);
   headers.set('Host', new URL(POSTHOG_HOST).host);
-  // Remove Cloudflare-specific headers that PostHog doesn't need
+  // Forward the real client IP so PostHog geo-locates visitors correctly.
+  // Without this, every event appears to originate from a Cloudflare
+  // datacenter and all location analytics are useless.
+  const clientIp = context.request.headers.get('cf-connecting-ip');
+  if (clientIp) headers.set('X-Forwarded-For', clientIp);
+  // Remove Cloudflare-specific headers that PostHog doesn't need.
   headers.delete('cf-connecting-ip');
   headers.delete('cf-ray');
   headers.delete('cf-visitor');
