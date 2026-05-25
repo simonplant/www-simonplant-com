@@ -1,10 +1,10 @@
 /**
  * Typed analytics helpers around PostHog.
  *
- * PostHog is loaded lazily and only after consent (see CookieConsent.astro),
- * so every call site must be null-safe. `safeCapture` is the single choke point
- * for that. `window.phCapture` mirrors it for `is:inline` scripts that can't
- * import this module (e.g. ScrollDepth.astro).
+ * PostHog is loaded lazily (see Analytics.astro), so every call site must be
+ * null-safe. `safeCapture` is the single choke point for that. `window.phCapture`
+ * mirrors it for `is:inline` scripts that can't import this module (e.g.
+ * ScrollDepth.astro).
  */
 import type { PostHogInterface } from 'posthog-js';
 

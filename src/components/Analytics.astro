@@ -1,0 +1,50 @@
+---
+/**
+ * PostHog analytics loader — FULL CAPTURE, no consent gate.
+ *
+ * Initializes on every page load and captures as much as PostHog offers:
+ * autocapture, pageviews/leaves, rageclicks, dead clicks, JS exceptions,
+ * heatmaps, web vitals + network timing, and unmasked session replay with
+ * network payload capture. Capturing is disabled only in dev. Lazy-imported
+ * so it never blocks first paint.
+ *
+ * Note: password inputs are still masked by rrweb's default; everything else
+ * (including other input values and full URLs with query strings) is recorded.
+ */
+---
+
+<script>
+  import { initSiteTracking } from '../lib/analytics';
+
+  import('posthog-js').then(({ default: posthog }) => {
+    posthog.init(import.meta.env.PUBLIC_POSTHOG_KEY ?? '', {
+      defaults: '2026-01-30',
+      api_host: '/ingest',
+      // ui_host must point at PostHog's real domain (not the proxy) so the
+      // toolbar and in-app links resolve correctly when api_host is proxied.
+      ui_host: 'https://us.posthog.com',
+      persistence: 'localStorage+cookie',
+      // Profile every visitor, not just identified ones.
+      person_profiles: 'always',
+      autocapture: true,
+      // Static MPA: navigations are full page loads, so capture on load.
+      capture_pageview: true,
+      capture_pageleave: true,
+      capture_dead_clicks: true,
+      rageclick: true,
+      capture_exceptions: true,
+      enable_heatmaps: true,
+      capture_performance: { web_vitals: true, network_timing: true },
+      session_recording: {
+        maskAllInputs: false,
+        recordCrossOriginIframes: true,
+        recordHeaders: true,
+        recordBody: true,
+      },
+      loaded: (ph) => {
+        if (import.meta.env.DEV) ph.opt_out_capturing();
+        initSiteTracking(ph);
+      },
+    });
+  });
+</script>

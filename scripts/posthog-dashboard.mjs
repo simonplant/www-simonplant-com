@@ -104,6 +104,8 @@ const REPLAY_SETTINGS = {
   session_recording_opt_in: true,
   session_recording_sample_rate: '1.00',
   session_recording_minimum_duration_milliseconds: null,
+  // Full spy mode: capture request/response headers and bodies in replays.
+  session_recording_network_payload_capture_config: { recordHeaders: true, recordBody: true },
 };
 
 // --- provisioning -----------------------------------------------------------
@@ -169,23 +171,27 @@ async function main() {
 
 async function ensureReplaySettings(projectId) {
   const project = await api(`/api/projects/${projectId}/`);
+  const npc = project.session_recording_network_payload_capture_config;
   const upToDate =
     project.session_recording_opt_in === true &&
     project.session_recording_sample_rate != null &&
     Number(project.session_recording_sample_rate) === 1 &&
-    project.session_recording_minimum_duration_milliseconds === null;
+    project.session_recording_minimum_duration_milliseconds === null &&
+    npc?.recordHeaders === true &&
+    npc?.recordBody === true;
 
+  const label = '100% sampling, no minimum duration, network payloads on';
   if (upToDate) {
-    console.log('\n✓ session replay already at 100% sampling, no minimum duration');
+    console.log(`\n✓ session replay already at ${label}`);
     return;
   }
   if (DRY) {
-    console.log('\n~ would set session replay → 100% sampling, no minimum duration');
+    console.log(`\n~ would set session replay → ${label}`);
     return;
   }
   try {
     await api(`/api/projects/${projectId}/`, { method: 'PATCH', body: JSON.stringify(REPLAY_SETTINGS) });
-    console.log('\n~ set session replay → 100% sampling, no minimum duration');
+    console.log(`\n~ set session replay → ${label}`);
   } catch (err) {
     if (/-> 403/.test(err.message)) {
       console.log('\n! skipped session-replay settings: key lacks project:write scope.');
