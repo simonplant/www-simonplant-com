@@ -6,6 +6,7 @@
  * them rather than creating duplicates. Builds insights from both PostHog's
  * standard events ($pageview, $web_vitals) and the site's custom events
  * (outbound_click, article_scroll_depth, read_complete, code_block_copied).
+ * Also pins session-replay sampling to 100% (see REPLAY_SETTINGS).
  *
  * Usage:
  *   POSTHOG_PERSONAL_API_KEY=phx_xxx node scripts/posthog-dashboard.mjs
@@ -14,6 +15,7 @@
  * Env:
  *   POSTHOG_PERSONAL_API_KEY  (required) personal API key, scopes:
  *                             dashboard:write, insight:write, project:read
+ *                             (+ project:write to pin session-replay sampling)
  *   POSTHOG_API_HOST          default https://us.posthog.com (EU: https://eu.posthog.com)
  *   POSTHOG_PROJECT_ID        optional; auto-detected if the key sees one project
  *   DRY_RUN=1                 print the plan, make no changes
@@ -94,6 +96,16 @@ const INSIGHTS = [
   },
 ];
 
+// --- session replay settings -------------------------------------------------
+// Deliberately 100% sampling with no minimum duration: traffic is near-zero and
+// the goal right now is to learn from every session. Dial sample_rate down
+// (e.g. '0.50') and raise the minimum once volume grows.
+const REPLAY_SETTINGS = {
+  session_recording_opt_in: true,
+  session_recording_sample_rate: '1.00',
+  session_recording_minimum_duration_milliseconds: null,
+};
+
 // --- provisioning -----------------------------------------------------------
 
 async function resolveProjectId() {
@@ -148,8 +160,40 @@ async function main() {
     }
   }
 
+  await ensureReplaySettings(projectId);
+
   if (!DRY) {
     console.log(`\nDone. View it: ${API_HOST}/dashboard/${dashboard.id}`);
+  }
+}
+
+async function ensureReplaySettings(projectId) {
+  const project = await api(`/api/projects/${projectId}/`);
+  const upToDate =
+    project.session_recording_opt_in === true &&
+    project.session_recording_sample_rate != null &&
+    Number(project.session_recording_sample_rate) === 1 &&
+    project.session_recording_minimum_duration_milliseconds === null;
+
+  if (upToDate) {
+    console.log('\n✓ session replay already at 100% sampling, no minimum duration');
+    return;
+  }
+  if (DRY) {
+    console.log('\n~ would set session replay → 100% sampling, no minimum duration');
+    return;
+  }
+  try {
+    await api(`/api/projects/${projectId}/`, { method: 'PATCH', body: JSON.stringify(REPLAY_SETTINGS) });
+    console.log('\n~ set session replay → 100% sampling, no minimum duration');
+  } catch (err) {
+    if (/-> 403/.test(err.message)) {
+      console.log('\n! skipped session-replay settings: key lacks project:write scope.');
+      console.log('  Add project:write at https://us.posthog.com/settings/user-api-keys, or set it');
+      console.log('  manually under Project Settings → Session Replay (sampling 100%).');
+    } else {
+      throw err;
+    }
   }
 }
 
