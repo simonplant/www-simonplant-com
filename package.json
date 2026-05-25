@@ -10,7 +10,8 @@
     "build": "astro check && astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
-    "check:perf": "npm run build && stat -c%s dist/index.html | awk '{exit ($1 >= 102400)}'"
+    "check:perf": "npm run build && stat -c%s dist/index.html | awk '{exit ($1 >= 102400)}'",
+    "posthog:dashboard": "node --env-file-if-exists=.env.local scripts/posthog-dashboard.mjs"
   },
   "overrides": {
     "yaml": ">=2.8.3",
