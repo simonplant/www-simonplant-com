@@ -7,7 +7,7 @@
 | Framework | **Astro 6** | Static output (`output: 'static'`), no SSR |
 | Styling | **Tailwind CSS v4** | Via `@tailwindcss/vite` plugin, CSS-based config (`@theme`), no `tailwind.config.js` |
 | Language | **TypeScript** | Strict mode (extends `astro/tsconfigs/strict`) |
-| Analytics | **PostHog** | Consent-gated, GDPR-compliant, lazy-loaded via dynamic `import()` |
+| Analytics | **PostHog** | Full capture (no consent gate), lazy-loaded via dynamic `import()` through a first-party `/ingest` proxy |
 | Fonts | **DM Serif Display** (serif headings), **Geist Sans** (body) | Google Fonts, preconnected |
 | JS Frameworks | **None** | Pure Astro components + vanilla `<script>` tags only |
 
@@ -15,7 +15,7 @@
 
 - **Astro** — content-heavy site with zero client JS by default. Islands architecture available if interactive components are ever needed, but the design principle is no JS required to read.
 - **Tailwind v4** — CSS-native configuration via `@theme` blocks. No build-time config file. Collocates design tokens with the stylesheet.
-- **No frameworks** — every framework byte is a tax on a site whose job is to serve text. Vanilla `<script>` for the rare interactive element (cookie consent, copy buttons, search).
+- **No frameworks** — every framework byte is a tax on a site whose job is to serve text. Vanilla `<script>` for the rare interactive element (analytics loader, copy buttons, search).
 - **Static output** — content changes at publish time, not request time. Deploy anywhere (CDN, S3, Netlify, Vercel). Maximum cache-ability.
 
 ## Project Structure
@@ -25,7 +25,7 @@
 │   ├── content/           # Content collections (series, commentary, architecture, products)
 │   └── content.config.ts  # Collection schemas (Zod-validated, Astro 6 root-level)
 │   ├── components/        # Reusable Astro components
-│   │   └── CookieConsent.astro
+│   │   └── Analytics.astro
 │   ├── layouts/
 │   │   └── Base.astro     # Root HTML layout (all pages)
 │   ├── pages/             # File-based routing
@@ -111,9 +111,10 @@ All design decisions (colors, fonts, spacing, surfaces) are defined as Tailwind 
 - Prose/long-form content uses a dedicated prose styling system (not `@tailwindcss/typography` unless it supports v4)
 
 ### Analytics
-- PostHog loads only after explicit user consent (GDPR)
+- PostHog loads on every page load — full capture (autocapture, session replay, heatmaps, exceptions), no consent gate
 - Auto-disables capturing in dev mode
-- Environment variables: `PUBLIC_POSTHOG_KEY`, `PUBLIC_POSTHOG_HOST`
+- Routed through a first-party `/ingest` Cloudflare Pages Function proxy (forwards client IP for geo)
+- Environment variables: `PUBLIC_POSTHOG_KEY` (client), `POSTHOG_HOST` (server-only proxy target)
 
 ### Performance
 - Target: Lighthouse 95+ on all four categories

@@ -11,7 +11,7 @@ Personal website for Simon Plant — www.simonplant.com.
 - **Astro 6** — static output (`output: 'static'`), no SSR
 - **Tailwind CSS v4** — via `@tailwindcss/vite` plugin (CSS-based config, not JS)
 - **TypeScript** — strict mode (extends `astro/tsconfigs/strict`)
-- **PostHog analytics** — consent-gated, GDPR-compliant (loads only after user accepts)
+- **PostHog analytics** — full capture, no consent gate (loads on every page load; capturing disabled only in dev)
 - **Zero JS frameworks** — pure Astro components + vanilla `<script>` tags only
 
 ## Commands
@@ -24,7 +24,7 @@ npm run preview   # Preview production build locally
 
 ## Architecture
 
-- `src/layouts/Base.astro` — root HTML layout; accepts `title` and optional `description` props; loads Google Fonts (DM Serif Display, Literata, JetBrains Mono), imports global CSS, renders `CookieConsent`
+- `src/layouts/Base.astro` — root HTML layout; accepts `title` and optional `description` props; loads Google Fonts (DM Serif Display, Literata, JetBrains Mono), imports global CSS, renders `Analytics`
 - `src/pages/` — file-based routing (each `.astro` file = one route)
 - `src/components/` — reusable Astro components
 - `src/styles/global.css` — Tailwind v4 `@theme` tokens and `.prose` typography system
@@ -57,7 +57,7 @@ npm run preview   # Preview production build locally
 ## Key Conventions
 
 - Tailwind v4 uses `@theme` blocks in CSS for customization — there is no `tailwind.config.js`
-- PostHog is lazy-loaded via dynamic `import()` in `CookieConsent.astro` — it never loads without consent
+- PostHog is lazy-loaded via dynamic `import()` in `Analytics.astro` on every page load (full capture; no consent gate — capturing disabled only in dev)
 - Environment variables: `PUBLIC_POSTHOG_KEY` (client, bundled) and `POSTHOG_HOST` (server-only `/ingest` proxy target, optional) — see `.env.example`
 - PostHog auto-disables capturing in dev mode
 - All new pages must use `Base.astro` layout and pass a `title` prop

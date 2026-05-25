@@ -7,7 +7,7 @@ Personal website for Simon Plant — editorial platform for long-form series, co
 - [Astro](https://astro.build) 6 — static site generation, zero JS frameworks
 - [Tailwind CSS](https://tailwindcss.com) v4 — CSS-based config via `@theme`
 - TypeScript — strict mode
-- PostHog analytics — consent-gated, GDPR-compliant
+- PostHog analytics — full capture, no consent gate (loads on every page load)
 
 ## Development
 

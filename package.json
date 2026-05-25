@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "check:perf": "npm run build && stat -c%s dist/index.html | awk '{exit ($1 >= 102400)}'",
-    "posthog:dashboard": "node --env-file-if-exists=.env.local scripts/posthog-dashboard.mjs"
+    "posthog:dashboard": "node --env-file-if-exists=.env.local scripts/posthog-dashboard.mjs",
+    "utm": "node scripts/utm.mjs"
   },
   "overrides": {
     "yaml": ">=2.8.3",
