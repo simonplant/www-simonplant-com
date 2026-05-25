@@ -58,7 +58,7 @@ npm run preview   # Preview production build locally
 
 - Tailwind v4 uses `@theme` blocks in CSS for customization — there is no `tailwind.config.js`
 - PostHog is lazy-loaded via dynamic `import()` in `CookieConsent.astro` — it never loads without consent
-- Environment variables: `PUBLIC_POSTHOG_KEY` and `PUBLIC_POSTHOG_HOST` (see `.env.example`)
+- Environment variables: `PUBLIC_POSTHOG_KEY` (client, bundled) and `POSTHOG_HOST` (server-only `/ingest` proxy target, optional) — see `.env.example`
 - PostHog auto-disables capturing in dev mode
 - All new pages must use `Base.astro` layout and pass a `title` prop
 - Long-form content pages should wrap body content in a `<div class="prose">` container

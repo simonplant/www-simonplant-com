@@ -1,0 +1,76 @@
+---
+/**
+ * Article scroll-depth + read-completion tracking.
+ *
+ * Inserts sentinels at 25/50/75/100% through the `.prose` body and fires
+ * `article_scroll_depth` as each is reached, plus `read_complete` (with dwell
+ * time) at 100%. Relies on window.phCapture, set once PostHog loads.
+ */
+interface Props {
+  /** Labels the events, e.g. "blog" or "architecture". */
+  contentType: string;
+}
+const { contentType } = Astro.props;
+---
+
+<script is:inline define:vars={{ contentType }}>
+  (function () {
+    var prose = document.querySelector('.prose');
+    if (!prose) return;
+
+    var slug =
+      document.querySelector('[data-ph-capture-attribute-slug]')?.getAttribute('data-ph-capture-attribute-slug') || '';
+    var title = document.title.replace(' — Simon Plant', '');
+    var start = Date.now();
+    var fired = {};
+
+    [25, 50, 75, 100].forEach(function (pct) {
+      var sentinel = document.createElement('div');
+      sentinel.style.height = '1px';
+      sentinel.style.pointerEvents = 'none';
+      sentinel.setAttribute('aria-hidden', 'true');
+      sentinel.dataset.scrollDepth = String(pct);
+
+      var children = Array.from(prose.children);
+      var idx = Math.min(Math.floor((pct / 100) * children.length), children.length - 1);
+      if (pct === 100) {
+        prose.appendChild(sentinel);
+      } else {
+        prose.insertBefore(sentinel, children[idx]);
+      }
+    });
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var depth = entry.target.dataset.scrollDepth;
+          if (fired[depth]) return;
+          fired[depth] = true;
+          if (window.phCapture) {
+            window.phCapture('article_scroll_depth', {
+              slug: slug,
+              depth_percent: Number(depth),
+              title: title,
+              content_type: contentType,
+            });
+            if (Number(depth) === 100) {
+              window.phCapture('read_complete', {
+                slug: slug,
+                title: title,
+                content_type: contentType,
+                dwell_seconds: Math.round((Date.now() - start) / 1000),
+              });
+            }
+          }
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0 },
+    );
+
+    document.querySelectorAll('[data-scroll-depth]').forEach(function (el) {
+      observer.observe(el);
+    });
+  })();
+</script>

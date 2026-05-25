@@ -8,13 +8,15 @@
  *          /ingest/array/* (JS bundle), /ingest/engage/ (surveys).
  */
 
-const POSTHOG_HOST = 'https://us.i.posthog.com';
+const DEFAULT_POSTHOG_HOST = 'https://us.i.posthog.com';
 
 interface CFContext {
   request: Request;
+  env?: { POSTHOG_HOST?: string };
 }
 
 export const onRequest = async (context: CFContext): Promise<Response> => {
+  const POSTHOG_HOST = context.env?.POSTHOG_HOST || DEFAULT_POSTHOG_HOST;
   const url = new URL(context.request.url);
 
   // Strip the /ingest prefix to get the original PostHog path

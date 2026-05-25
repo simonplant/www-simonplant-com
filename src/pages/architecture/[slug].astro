@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import ScrollDepth from '../../components/ScrollDepth.astro';
 import { getPublishedCollection } from '../../content/_helpers';
 import { render } from 'astro:content';
 
@@ -82,4 +83,6 @@ const jsonLd = {
       )}
     </article>
   </main>
+
+  <ScrollDepth contentType="architecture" />
 </Base>

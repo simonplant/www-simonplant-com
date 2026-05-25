@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import ScrollDepth from '../../components/ScrollDepth.astro';
 import { getPublishedCollection } from '../../content/_helpers';
 import { getReadingTime } from '../../utils/readingTime';
 import { render } from 'astro:content';
@@ -98,52 +99,5 @@ const jsonLd = {
     </article>
   </main>
 
-  <script is:inline>
-    (function () {
-      var prose = document.querySelector('.prose');
-      if (!prose) return;
-
-      var slug = document.querySelector('[data-ph-capture-attribute-slug]')?.getAttribute('data-ph-capture-attribute-slug') || '';
-      var title = document.title.replace(' — Simon Plant', '');
-      var fired = {};
-
-      [25, 50, 75, 100].forEach(function (pct) {
-        var sentinel = document.createElement('div');
-        sentinel.style.height = '1px';
-        sentinel.style.pointerEvents = 'none';
-        sentinel.setAttribute('aria-hidden', 'true');
-        sentinel.dataset.scrollDepth = String(pct);
-
-        var children = Array.from(prose.children);
-        var idx = Math.min(Math.floor((pct / 100) * children.length), children.length - 1);
-        if (pct === 100) {
-          prose.appendChild(sentinel);
-        } else {
-          prose.insertBefore(sentinel, children[idx]);
-        }
-      });
-
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var depth = entry.target.dataset.scrollDepth;
-          if (fired[depth]) return;
-          fired[depth] = true;
-          if (window.__posthog) {
-            window.__posthog.capture('article_scroll_depth', {
-              slug: slug,
-              depth_percent: Number(depth),
-              title: title,
-              content_type: 'blog'
-            });
-          }
-          observer.unobserve(entry.target);
-        });
-      }, { threshold: 0 });
-
-      document.querySelectorAll('[data-scroll-depth]').forEach(function (el) {
-        observer.observe(el);
-      });
-    })();
-  </script>
+  <ScrollDepth contentType="blog" />
 </Base>
