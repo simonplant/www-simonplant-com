@@ -1,58 +1,42 @@
-# Analytics workflow
+# Analytics
 
-Full-capture PostHog (no consent gate). Ingestion is proxied through
-`/ingest` (a Cloudflare Pages Function that forwards the client IP for geo).
-Client config lives in `src/components/Analytics.astro`; the typed capture
-helper is `src/lib/analytics.ts`.
+PostHog, full capture, no consent gate. Ingestion is proxied through `/ingest`
+(`functions/ingest/[[path]].ts`), which forwards the client IP for geolocation.
 
-## Dashboard
+- Client config: `src/components/Analytics.astro`
+- Capture helper: `src/lib/analytics.ts` (`safeCapture`, `window.phCapture`)
+- Provisioning: `scripts/posthog-dashboard.mjs`
 
-The **Web Analytics** dashboard is provisioned as code — re-run to create or
-update it (idempotent):
+## Commands
 
-```sh
-npm run posthog:dashboard
-```
+| Command | Purpose | Required key scope |
+|---------|---------|--------------------|
+| `npm run posthog:dashboard` | Create/update the Web Analytics dashboard (idempotent) | `insight:write`, `dashboard:write`, `project:write` |
+| `npm run annotate -- "<text>"` | Add a timeline annotation | `annotation:write` |
+| `npm run utm -- <url> <source> [campaign]` | Generate a UTM-tagged link | none |
 
-Tiles: pageviews / unique visitors / sessions, top pages, top referrers,
-traffic by UTM source, outbound clicks, scroll-depth distribution, reads
-completed (by content type **and** by article), code copies, Core Web Vitals,
-the pageview→read funnel, **user paths**, and **tag filters used**.
+Personal API key and config live in `.env.local` (gitignored).
 
-## Annotate the timeline
+## Dashboard tiles
 
-Drop a marker so traffic spikes have context (requires `annotation:write` on
-the personal API key):
+Pageviews · unique visitors · sessions · top pages · top referrers · traffic by
+UTM source · outbound clicks · scroll-depth distribution · reads completed (by
+content type and by article) · code copies · Core Web Vitals (p75) · pageview→read
+funnel · user paths · tag filters used.
 
-```sh
-npm run annotate -- "Published: The cPanel Moment"
-npm run annotate -- "Posted clawhq to HN"
-```
+## Custom events
 
-Annotations appear on every insight's time axis — turning a mystery bump into
-an explained one. Run it whenever you publish or promote.
+`article_scroll_depth`, `read_complete`, `outbound_click`, `code_block_copied`,
+`blog_tag_filter`, `architecture_tag_filter`, `contact_click`,
+`project_github_click`.
 
-## Promotion links
+## Session replay
 
-Always UTM-tag shared links with canonical sources (see `docs/PROMOTION.md`):
+100% sampling, no minimum duration, network payloads on. Password inputs masked
+(rrweb default); other inputs and full URLs captured. Filter recordings by event
+(`read_complete`, `outbound_click`, `blog_tag_filter`) in the PostHog UI.
 
-```sh
-npm run utm -- https://www.simonplant.com/projects/clawhq hn clawhq-launch
-```
+## Notes
 
-## Watching replays (no setup — just how to look)
-
-At low traffic, watch the *right* sessions instead of all of them. In PostHog →
-Session replay, filter recordings by event:
-
-- `read_complete` → people who actually finished an article
-- `outbound_click` → people who left to somewhere (and where)
-- `blog_tag_filter` → people exploring by topic
-
-That's where the signal is. Aggregate tiles tell you *what*; replays tell you
-*why*.
-
-## Not enabled
-
-- **Scheduled email digests** — a paid PostHog feature; unavailable on the free
-  tier. Check the dashboard manually, or upgrade if you want Monday emails.
+- Scheduled email digests require a paid PostHog plan; unavailable on the free tier.
+- Capturing is disabled in dev (`import.meta.env.DEV`).
