@@ -65,6 +65,16 @@ const funnel = (series, source = {}) => ({
   source: { kind: 'FunnelsQuery', series, dateRange: { date_from: '-30d' }, ...source },
 });
 
+const paths = (source = {}) => ({
+  kind: 'InsightVizNode',
+  source: {
+    kind: 'PathsQuery',
+    pathsFilter: { includeEventTypes: ['$pageview'], stepLimit: 5 },
+    dateRange: { date_from: '-30d' },
+    ...source,
+  },
+});
+
 const breakdown = (property, type = 'event') => ({ breakdownFilter: { breakdown: property, breakdown_type: type } });
 const table = { trendsFilter: { display: 'ActionsTable' } };
 const bar = { trendsFilter: { display: 'ActionsBar' } };
@@ -94,6 +104,12 @@ const INSIGHTS = [
     name: 'Funnel: pageview → read complete',
     query: funnel([ev('$pageview', 'total'), ev('read_complete', 'total')]),
   },
+  // The actual routes visitors take between pages, and where they drop off.
+  { name: 'User paths', query: paths() },
+  // Which specific articles get read to the end (vs just opened).
+  { name: 'Reads completed by article', query: trend([ev('read_complete')], { ...breakdown('title'), ...table }) },
+  // Which tags people explore via the blog filter (the now-working tag filter).
+  { name: 'Tag filters used', query: trend([ev('blog_tag_filter')], { ...breakdown('tag'), ...table }) },
 ];
 
 // --- session replay settings -------------------------------------------------
@@ -163,9 +179,53 @@ async function main() {
   }
 
   await ensureReplaySettings(projectId);
+  await ensureEmailDigest(projectId, dashboard.id);
 
   if (!DRY) {
     console.log(`\nDone. View it: ${API_HOST}/dashboard/${dashboard.id}`);
+  }
+}
+
+async function ensureEmailDigest(projectId, dashboardId) {
+  const email = process.env.POSTHOG_DIGEST_EMAIL;
+  if (!email) {
+    console.log('\n· skipped weekly email digest (set POSTHOG_DIGEST_EMAIL to enable)');
+    return;
+  }
+  if (DRY) {
+    console.log(`\n~ would create weekly email digest → ${email}`);
+    return;
+  }
+  try {
+    const existing = await api(`/api/projects/${projectId}/subscriptions/?dashboard=${dashboardId}`);
+    if (existing.results?.some((s) => s.target_value === email && !s.deleted)) {
+      console.log(`\n✓ weekly email digest already set → ${email}`);
+      return;
+    }
+    await api(`/api/projects/${projectId}/subscriptions/`, {
+      method: 'POST',
+      body: JSON.stringify({
+        target_type: 'email',
+        target_value: email,
+        frequency: 'weekly',
+        interval: 1,
+        byweekday: ['monday'],
+        start_date: new Date().toISOString(),
+        dashboard: dashboardId,
+        title: 'Weekly Web Analytics digest',
+      }),
+    });
+    console.log(`\n~ created weekly email digest → ${email} (Mondays)`);
+  } catch (err) {
+    if (/-> 402/.test(err.message)) {
+      console.log('\n· skipped email digest: scheduled subscriptions are a paid PostHog feature (free tier).');
+    } else if (/-> 403/.test(err.message)) {
+      console.log('\n! skipped email digest: key lacks subscription:write scope.');
+    } else if (/-> 404/.test(err.message)) {
+      console.log('\n! skipped email digest: subscriptions not available on this route/plan.');
+    } else {
+      throw err;
+    }
   }
 }
 
