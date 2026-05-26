@@ -344,10 +344,9 @@ pre:hover > .copy-code-btn {
    optimize typography for A4/Letter, prevent code overflow. */
 
 @media print {
-  /* Hide navigation, footer, cookie banner, copy buttons, search overlay */
+  /* Hide navigation, footer, copy buttons, search overlay */
   nav,
   footer,
-  .cookie-consent,
   .copy-code-btn,
   [data-search-overlay],
   [data-pagefind-ui] {

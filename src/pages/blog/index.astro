@@ -114,24 +114,25 @@ const allTags = [...new Set(entries.flatMap((e) => e.data.tags))].sort();
 <script>
   import { safeCapture } from '../../lib/analytics';
 
-  document.addEventListener('astro:page-load', () => {
-    const buttons = document.querySelectorAll<HTMLButtonElement>('.tag-filter');
-    const items = document.querySelectorAll<HTMLLIElement>('.blog-item');
+  // Processed Astro scripts are deferred modules, so the DOM is ready here.
+  // (Do not wrap in 'astro:page-load' — that only fires with <ClientRouter>,
+  // which this static MPA doesn't use, leaving the filter dead.)
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.tag-filter');
+  const items = document.querySelectorAll<HTMLLIElement>('.blog-item');
 
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const tag = btn.dataset.tag ?? '';
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tag ?? '';
 
-        buttons.forEach((b) => b.classList.remove('tag-active'));
-        btn.classList.add('tag-active');
+      buttons.forEach((b) => b.classList.remove('tag-active'));
+      btn.classList.add('tag-active');
 
-        items.forEach((item) => {
-          const itemTags = (item.dataset.tags ?? '').split(',');
-          item.style.display = tag === '' || itemTags.includes(tag) ? '' : 'none';
-        });
-
-        safeCapture('blog_tag_filter', { tag: tag || 'all' });
+      items.forEach((item) => {
+        const itemTags = (item.dataset.tags ?? '').split(',');
+        item.style.display = tag === '' || itemTags.includes(tag) ? '' : 'none';
       });
+
+      safeCapture('blog_tag_filter', { tag: tag || 'all' });
     });
   });
 </script>
