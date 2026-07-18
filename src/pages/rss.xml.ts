@@ -3,21 +3,40 @@ import type { APIContext } from 'astro';
 import { getPublishedCollection } from '../content/_helpers';
 
 export async function GET(context: APIContext) {
-  const allPosts = await getPublishedCollection('commentary');
+  const [commentary, architecture, security] = await Promise.all([
+    getPublishedCollection('commentary'),
+    getPublishedCollection('architecture'),
+    getPublishedCollection('security'),
+  ]);
 
-  const items = allPosts
-    .map((entry) => ({
+  const items = [
+    ...commentary.map((entry) => ({
       title: entry.data.title,
       description: entry.data.description,
       pubDate: entry.data.publishedDate,
       link: `/blog/${entry.id}/`,
-    }))
-    .sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
+      categories: ['Blog', ...entry.data.tags],
+    })),
+    ...architecture.map((entry) => ({
+      title: entry.data.title,
+      description: entry.data.description,
+      pubDate: entry.data.publishedDate ?? new Date(0),
+      link: `/architecture/${entry.id}/`,
+      categories: ['Architecture', ...entry.data.tags],
+    })),
+    ...security.map((entry) => ({
+      title: entry.data.title,
+      description: entry.data.description,
+      pubDate: entry.data.publishedDate ?? new Date(0),
+      link: `/security/${entry.id}/`,
+      categories: ['Security', ...entry.data.tags],
+    })),
+  ].sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
 
   return rss({
     title: 'Simon Plant',
     description:
-      'What it actually takes to run AI agents in production — infrastructure patterns, security decisions, and operational lessons.',
+      'AI architecture patterns, security techniques, and operational lessons from designing and running AI systems in production.',
     site: context.site?.toString() ?? 'https://www.simonplant.com',
     items,
   });
