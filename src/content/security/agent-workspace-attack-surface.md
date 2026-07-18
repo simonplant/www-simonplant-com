@@ -1,7 +1,7 @@
 ---
 title: "The Agent Workspace Is an Attack Surface"
 description: "An agent's identity, rules, and memory live in files the agent itself can often write. That makes the workspace a persistence mechanism for attackers — and hardening it is cheap."
-status: review
+status: published
 tags: [ai-agents, prompt-injection, openclaw]
 kind: hardening
 stance: defense

@@ -1,7 +1,7 @@
 ---
 title: "The Agent Tool Supply Chain"
 description: "Every MCP server, plugin, and community skill you connect to an agent runs inside its trust boundary and often speaks in the same instruction channel the model obeys. Treat agent extensions as a supply chain, because that's what they are."
-status: review
+status: published
 tags: [ai-agents, supply-chain, mcp]
 kind: hardening
 stance: defense

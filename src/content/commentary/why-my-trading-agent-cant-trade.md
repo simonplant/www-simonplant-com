@@ -3,7 +3,7 @@ title: "Why My Trading Agent Can't Trade"
 publishedDate: 2026-07-18
 tags: [ai-agents, trading, agent-design, sovereignty]
 description: "I built an AI agent that watches the market all day, briefs me, and proposes trades against a locked plan. It has never placed an order — and it structurally cannot. Here's why that constraint is the whole point."
-status: review
+status: published
 tier: signal
 ---
 
