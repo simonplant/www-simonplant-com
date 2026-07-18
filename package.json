@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && pagefind --site dist",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "check:perf": "npm run build && stat -c%s dist/index.html | awk '{exit ($1 >= 102400)}'",
@@ -24,19 +24,18 @@
     "fast-uri": ">=3.1.2",
     "fast-xml-builder": ">=1.1.7",
     "fast-xml-parser": ">=5.7.0",
-    "vite": "^7.3.3"
+    "vite": ">=8.0.13"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.0",
-    "@astrojs/rss": "^4.0.18",
-    "@astrojs/sitemap": "^3.7.2",
-    "@tailwindcss/vite": "^4.3.0",
-    "astro": "^6.1.10",
-    "posthog-js": "^1.200.0",
-    "tailwindcss": "^4.0.0"
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.1.1",
+    "posthog-js": "^1.404.1",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "pagefind": "^1.4.0",
     "typescript": "^6.0.3"
   }
 }
