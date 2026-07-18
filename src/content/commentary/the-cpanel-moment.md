@@ -1,9 +1,9 @@
 ---
 title: "The cPanel Moment"
-publishedDate: 2026-04-13
+publishedDate: 2026-07-18
 tags: [thesis, cloud-history, agent-infrastructure, mental-model]
 description: "AI agent infrastructure isn't in its Terraform era. It's in its cPanel era — the management layer hasn't separated from the runtime yet. Cloud veterans keep pattern-matching to the wrong phase."
-status: draft
+status: review
 tier: signal
 ---
 
@@ -23,7 +23,7 @@ Before cPanel, running a web server meant editing Apache configs by hand, restar
 
 That separation is the phase transition that recurs. RightScale did it for cloud. Kubernetes did it for containers. Each time, the separation happened *before* the declarative tooling arrived — because declaring desired state requires being able to observe current state.
 
-Agents haven't had that separation yet. The evidence is everywhere: operators editing config files that should be dashboards. Scheduled work held together with cron and webhook glue. Security as a 30-item opt-in checklist that the framework ships without. The community has produced 160-plus personality templates and zero operational configuration templates. All of this maps directly to pre-cPanel web hosting, pre-RightScale cloud, pre-Kubernetes containers. I know because I was there for the middle two.
+Agents haven't had that separation yet. The evidence is everywhere: operators editing config files that should be dashboards. Scheduled work held together with cron and webhook glue. Security as a 30-item opt-in checklist that the framework ships without. The community has produced 160-plus personality templates and zero operational configuration templates. [VERIFY: template counts] All of this maps directly to pre-cPanel web hosting, pre-RightScale cloud, pre-Kubernetes containers. I know because I was there for the middle two.
 
 ## Why the phase diagnosis matters
 
@@ -31,6 +31,6 @@ If you think you're in the Terraform era, you build declarative config, state ma
 
 If you recognize you're in the cPanel era, you build operational visibility. Can operators see what's running? Can they change configuration without breaking things? Can they tell whether the system is healthy? The declarative layer comes after operators can see what they're declaring.
 
-The timeline is compressed — OpenClaw hit three million monthly users in under two years, a pace AWS took five to reach. The phases will overlap. But compressed doesn't mean skippable. I've watched three infrastructure substrates go through this sequence. You don't get to skip the management layer and jump to infrastructure-as-code. The people who try end up building state management for a system whose operators can't tell you what state it's currently in.
+The timeline is compressed — OpenClaw hit three million monthly users in under two years, a pace AWS took five to reach. [VERIFY: user-count and AWS-timeline comparison] The phases will overlap. But compressed doesn't mean skippable. I've watched three infrastructure substrates go through this sequence. You don't get to skip the management layer and jump to infrastructure-as-code. The people who try end up building state management for a system whose operators can't tell you what state it's currently in.
 
 We're in the cPanel moment. The management abstraction is about to separate from the runtime. Build accordingly.
