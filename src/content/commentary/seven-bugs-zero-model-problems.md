@@ -7,7 +7,7 @@ status: published
 tier: signal
 ---
 
-Clawdius went dead again. Not the upstream deadlock from [last week](/commentary/dont-blame-your-layers) — this time, after a full ClawHQ rebuild, the agent was completely unresponsive. Telegram commands went into the void. No errors, no crashes I could see. Just silence.
+Clawdius went dead again. Not the upstream deadlock from [last week](/blog/dont-blame-your-layers) — this time, after a full ClawHQ rebuild, the agent was completely unresponsive. Telegram commands went into the void. No errors, no crashes I could see. Just silence.
 
 My first assumption: the model. Maybe Gemma 4 26B couldn't handle the workload. Maybe the quantization was wrong. Maybe local inference just wasn't ready for a real agent.
 
@@ -47,4 +47,4 @@ The next `clawhq up` handles all seven automatically. That's the actual output o
 
 None of these were model problems. Gemma 4 26B runs fine once the platform stops sabotaging it.
 
-Three days later I found a bigger version of the same class — [a drifted systemd override that had been exposing an unauthenticated LLM endpoint to the public internet for an unknown period](/commentary/the-fix-was-the-speedup). The platform kept being the problem.
+Three days later I found a bigger version of the same class — [a drifted systemd override that had been exposing an unauthenticated LLM endpoint to the public internet for an unknown period](/blog/the-fix-was-the-speedup). The platform kept being the problem.

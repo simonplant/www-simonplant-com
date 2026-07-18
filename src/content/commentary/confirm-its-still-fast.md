@@ -19,7 +19,7 @@ I caught it because I'd started saving baselines. That's the entire point of thi
 
 The fix is to remove one line. Once Ollama moved into a container on `engine_clawhq_net`, the compose file should have let Docker's internal DNS resolve `ollama` directly to the sibling's IP. The leftover `extra_hosts` forced traffic back through the host gateway even though nothing on the host was listening anymore. The source fix lives in `src/build/docker/compose.ts` at commit `0aae280` — the generated compose now omits the scaffold when Ollama is a sibling container and only emits it when it genuinely needs host-gateway resolution.
 
-Attributing the blast radius of the bug cleanly is hard in hindsight, because the same week I caught it I also bumped Ollama from 0.20.0 to 0.21.0, which has [its own flash-attention effect on gemma4](/commentary/the-fix-was-the-speedup). Two variables moved at once. The honest claim isn't "the DNS shadow halved my throughput." The honest claim is that I couldn't have told you how much it cost me, because I hadn't saved the number before the migration started.
+Attributing the blast radius of the bug cleanly is hard in hindsight, because the same week I caught it I also bumped Ollama from 0.20.0 to 0.21.0, which has [its own flash-attention effect on gemma4](/blog/the-fix-was-the-speedup). Two variables moved at once. The honest claim isn't "the DNS shadow halved my throughput." The honest claim is that I couldn't have told you how much it cost me, because I hadn't saved the number before the migration started.
 
 That's the shape of every silent performance regression. By the time you go looking, you've lost the baseline.
 

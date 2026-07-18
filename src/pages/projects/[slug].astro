@@ -1,6 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PrevNext from '../../components/PrevNext.astro';
 import { getCollection, render } from 'astro:content';
+import { getStatusColors } from '../../utils/productStatus';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -33,14 +35,7 @@ const jsonLd = {
   ...(product.data.github && { codeRepository: product.data.github }),
 };
 
-const statusColors: Record<string, { bg: string; text: string }> = {
-  active: { bg: 'bg-green-900/40', text: 'text-green-400' },
-  beta: { bg: 'bg-yellow-900/40', text: 'text-yellow-400' },
-  planned: { bg: 'bg-blue-900/40', text: 'text-blue-400' },
-  stable: { bg: 'bg-emerald-900/40', text: 'text-emerald-400' },
-};
-
-const colors = statusColors[product.data.status] ?? statusColors.active;
+const colors = getStatusColors(product.data.status);
 ---
 
 <Base
@@ -69,7 +64,7 @@ const colors = statusColors[product.data.status] ?? statusColors.active;
           {product.data.github && (
             <>
               <span>&middot;</span>
-              <a href={product.data.github} class="text-primary-400 hover:text-primary-300 transition-colors">
+              <a href={product.data.github} data-github-link class="text-primary-400 hover:text-primary-300 transition-colors">
                 GitHub
               </a>
             </>
@@ -106,35 +101,18 @@ const colors = statusColors[product.data.status] ?? statusColors.active;
         </aside>
       )}
 
-      {(prev || next) && (
-        <nav class="container-prose mt-16 pt-8 border-t border-border-default" aria-label="Product navigation">
-          <div class="flex justify-between gap-4">
-            {prev ? (
-              <a href={`/projects/${prev.id}`} class="group flex-1 min-w-0">
-                <span class="text-text-muted text-sm font-sans block mb-1">&larr; Previous</span>
-                <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
-                  {prev.data.title}
-                </span>
-              </a>
-            ) : <div />}
-            {next ? (
-              <a href={`/projects/${next.id}`} class="group flex-1 min-w-0 text-right">
-                <span class="text-text-muted text-sm font-sans block mb-1">Next &rarr;</span>
-                <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
-                  {next.data.title}
-                </span>
-              </a>
-            ) : <div />}
-          </div>
-        </nav>
-      )}
+      <PrevNext
+        ariaLabel="Product navigation"
+        prev={prev ? { href: `/projects/${prev.id}`, title: prev.data.title } : null}
+        next={next ? { href: `/projects/${next.id}`, title: next.data.title } : null}
+      />
     </article>
   </main>
 </Base>
 
 <script is:inline define:vars={{ githubUrl: product.data.github ?? null, projectTitle: product.data.title }}>
   if (githubUrl) {
-    document.querySelector('a[href="' + githubUrl + '"]')?.addEventListener('click', function () {
+    document.querySelector('[data-github-link]')?.addEventListener('click', function () {
       if (window.phCapture) {
         window.phCapture('project_github_click', { project: projectTitle, github_url: githubUrl });
       }

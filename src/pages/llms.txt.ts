@@ -1,16 +1,13 @@
 import type { APIContext } from 'astro';
 import { getCollection } from 'astro:content';
+import { getPublishedCollection } from '../content/_helpers';
 
 export async function GET(context: APIContext) {
   const site = context.site?.toString().replace(/\/$/, '') ?? 'https://www.simonplant.com';
 
   const [commentary, architecture, products] = await Promise.all([
-    getCollection('commentary', ({ data }) =>
-      import.meta.env.PROD ? data.status === 'published' : true,
-    ),
-    getCollection('architecture', ({ data }) =>
-      import.meta.env.PROD ? data.status === 'published' : true,
-    ),
+    getPublishedCollection('commentary'),
+    getPublishedCollection('architecture'),
     getCollection('products'),
   ]);
 

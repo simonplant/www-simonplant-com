@@ -1,19 +1,23 @@
 ---
 import Base from '../../layouts/Base.astro';
+import TagFilter from '../../components/TagFilter.astro';
 import { getPublishedCollection } from '../../content/_helpers';
 
 const entries = await getPublishedCollection('architecture');
 const sorted = entries.sort((a, b) => a.data.title.localeCompare(b.data.title));
 
 const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
+
+const description =
+  'AI architecture patterns, decisions, and reference material — from someone building the management layer for AI agents in production.';
 ---
 
-<Base title="Architecture — Simon Plant" description="AI architecture patterns, decisions, and reference material — from someone building the management layer for AI agents in production." jsonLd={{
+<Base title="Architecture — Simon Plant" description={description} jsonLd={{
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Architecture — Simon Plant',
-  url: 'https://www.simonplant.com/architecture',
-  description: 'AI architecture patterns, decisions, and reference material — from someone building the management layer for AI agents in production.',
+  url: new URL('/architecture', Astro.site).href,
+  description,
 }}>
   <main class="section-spacing">
     <div class="container-prose">
@@ -22,24 +26,7 @@ const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
         Patterns, decisions, and reference material from building AI agent infrastructure in production.
       </p>
 
-      {allTags.length > 0 && (
-        <nav class="mb-12 flex flex-wrap gap-2" aria-label="Filter by tag">
-          <button
-            data-tag=""
-            class="tag-filter tag-active px-3 py-1 rounded-full text-sm font-sans border border-border-subtle transition-colors"
-          >
-            All
-          </button>
-          {allTags.map((tag) => (
-            <button
-              data-tag={tag}
-              class="tag-filter px-3 py-1 rounded-full text-sm font-sans border border-border-subtle text-text-muted hover:text-primary-400 hover:border-primary-600 transition-colors"
-            >
-              {tag}
-            </button>
-          ))}
-        </nav>
-      )}
+      <TagFilter tags={allTags} itemSelector=".arch-item" eventName="architecture_tag_filter" />
 
       {sorted.length === 0 ? (
         <p class="text-text-muted">Architecture entries are coming as patterns emerge from real builds.</p>
@@ -69,37 +56,3 @@ const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
     </div>
   </main>
 </Base>
-
-<style>
-  .tag-active {
-    color: var(--color-primary-400);
-    border-color: var(--color-primary-600);
-    background-color: color-mix(in srgb, var(--color-primary-400) 10%, transparent);
-  }
-</style>
-
-<script>
-  import { safeCapture } from '../../lib/analytics';
-
-  // Processed Astro scripts are deferred modules, so the DOM is ready here.
-  // (Do not wrap in 'astro:page-load' — that only fires with <ClientRouter>,
-  // which this static MPA doesn't use, leaving the filter dead.)
-  const buttons = document.querySelectorAll<HTMLButtonElement>('.tag-filter');
-  const items = document.querySelectorAll<HTMLLIElement>('.arch-item');
-
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const tag = btn.dataset.tag ?? '';
-
-      buttons.forEach((b) => b.classList.remove('tag-active'));
-      btn.classList.add('tag-active');
-
-      items.forEach((item) => {
-        const itemTags = (item.dataset.tags ?? '').split(',');
-        item.style.display = tag === '' || itemTags.includes(tag) ? '' : 'none';
-      });
-
-      safeCapture('architecture_tag_filter', { tag: tag || 'all' });
-    });
-  });
-</script>

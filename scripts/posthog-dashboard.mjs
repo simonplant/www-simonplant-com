@@ -108,8 +108,11 @@ const INSIGHTS = [
   { name: 'User paths', query: paths() },
   // Which specific articles get read to the end (vs just opened).
   { name: 'Reads completed by article', query: trend([ev('read_complete')], { ...breakdown('title'), ...table }) },
-  // Which tags people explore via the blog filter (the now-working tag filter).
-  { name: 'Tag filters used', query: trend([ev('blog_tag_filter')], { ...breakdown('tag'), ...table }) },
+  // Which tags people explore via the blog and architecture filters.
+  {
+    name: 'Tag filters used',
+    query: trend([ev('blog_tag_filter'), ev('architecture_tag_filter')], { ...breakdown('tag'), ...table }),
+  },
 ];
 
 // --- session replay settings -------------------------------------------------

@@ -25,7 +25,7 @@ Thirty years in this industry and I wrote a spec with no acceptance criteria for
 
 ## The pattern is everywhere
 
-The industry numbers confirm this isn't just me. 51% of code committed to GitHub in early 2026 is AI-generated. It creates 1.7x more issues per pull request than human-written code. 63% of developers report spending more time debugging AI output than writing the code themselves would have taken. Developers merge 98% more PRs with AI assistance but spend 91% longer reviewing each one.
+The industry numbers confirm this isn't just me. [VERIFY: source every stat in this paragraph before publishing] 51% of code committed to GitHub in early 2026 is AI-generated. It creates 1.7x more issues per pull request than human-written code. 63% of developers report spending more time debugging AI output than writing the code themselves would have taken. Developers merge 98% more PRs with AI assistance but spend 91% longer reviewing each one.
 
 Those numbers measure defects — bugs, vulnerabilities, style violations. The failure I'm describing doesn't show up in a PR review because it's not a defect in any individual file. It's the absence of a working system. You can review every file, approve every PR, merge clean code all day, and not have an application that launches. The tests pass because they test the code, not the product. The function works; the system doesn't.
 

@@ -1,18 +1,26 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getPublishedCollection } from '../content/_helpers';
+import { getReadingTime } from '../utils/readingTime';
+import { formatDate, isoDate } from '../utils/formatDate';
+import { getCollection } from 'astro:content';
 
 const entries = await getPublishedCollection('commentary');
 const latestPosts = entries
   .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
   .slice(0, 3);
 
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+
+const description =
+  'Fractional CTO. Thirty years building the management layer around new infrastructure — from early AWS to AI agents in production.';
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Simon Plant',
-  url: 'https://www.simonplant.com',
-  description: 'Fractional CTO. Thirty years building the management layer around new infrastructure — from early AWS to AI agents in production.',
+  url: new URL('/', Astro.site).href,
+  description,
   author: {
     '@type': 'Person',
     name: 'Simon Plant',
@@ -20,11 +28,7 @@ const jsonLd = {
 };
 ---
 
-<Base
-  title="Simon Plant"
-  description="Fractional CTO. Thirty years building the management layer around new infrastructure — from early AWS to AI agents in production."
-  jsonLd={jsonLd}
->
+<Base title="Simon Plant" description={description} jsonLd={jsonLd}>
   <main class="section-spacing">
     <div class="container-prose">
 
@@ -32,7 +36,7 @@ const jsonLd = {
       <header class="mb-16">
         <h1 class="font-serif text-5xl md:text-6xl text-gray-50 mb-4">Simon Plant</h1>
         <p class="font-prose text-xl md:text-2xl text-text-secondary leading-relaxed">
-          Fractional CTO. Thirty years building the management layer around new infrastructure — from early AWS to AI agents in production.
+          {description}
         </p>
       </header>
 
@@ -40,28 +44,24 @@ const jsonLd = {
       <section class="mb-16">
         {latestPosts.length > 0 ? (
           <div class="space-y-8">
-            {latestPosts.map((entry) => {
-              const wordCount = entry.body ? entry.body.split(/\s+/).length : 0;
-              const readingTime = Math.max(1, Math.round(wordCount / 230));
-              return (
-                <a href={`/blog/${entry.id}`} class="group block border-b border-border-subtle pb-8 last:border-b-0">
-                  <h2 class="font-serif text-2xl text-gray-50 mb-2 group-hover:text-primary-400 transition-colors">
-                    {entry.data.title}
-                  </h2>
-                  <p class="text-text-secondary font-prose leading-relaxed mb-2">
-                    {entry.data.description}
-                  </p>
-                  <div class="flex flex-wrap items-center gap-2 text-sm font-sans">
-                    <time class="text-text-muted" datetime={entry.data.publishedDate.toISOString().slice(0, 10)}>
-                      {entry.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                    </time>
-                    <span class="text-text-muted">&middot;</span>
-                    <span class="text-text-muted">{readingTime} min read</span>
-                  </div>
-                </a>
-              );
-            })}
-            <a href="/writing" class="inline-block font-sans text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors">
+            {latestPosts.map((entry) => (
+              <a href={`/blog/${entry.id}`} class="group block border-b border-border-subtle pb-8 last:border-b-0">
+                <h2 class="font-serif text-2xl text-gray-50 mb-2 group-hover:text-primary-400 transition-colors">
+                  {entry.data.title}
+                </h2>
+                <p class="text-text-secondary font-prose leading-relaxed mb-2">
+                  {entry.data.description}
+                </p>
+                <div class="flex flex-wrap items-center gap-2 text-sm font-sans">
+                  <time class="text-text-muted" datetime={isoDate(entry.data.publishedDate)}>
+                    {formatDate(entry.data.publishedDate)}
+                  </time>
+                  <span class="text-text-muted">&middot;</span>
+                  <span class="text-text-muted">{getReadingTime(entry.body)}</span>
+                </div>
+              </a>
+            ))}
+            <a href="/blog" class="inline-block font-sans text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors">
               All posts &rarr;
             </a>
           </div>
@@ -69,6 +69,28 @@ const jsonLd = {
           <p class="text-text-muted font-prose">New writing is on the way.</p>
         )}
       </section>
+
+      <!-- What I'm building -->
+      {products.length > 0 && (
+        <section class="mb-16">
+          <h2 class="font-serif text-2xl text-gray-50 mb-3">What I'm building</h2>
+          <p class="font-prose text-text-secondary leading-relaxed mb-6">
+            The advice is grounded in shipping — open-source tools for running AI agents in production.
+          </p>
+          <ul class="space-y-3 list-none p-0 m-0">
+            {products.map((product) => (
+              <li class="m-0 p-0">
+                <a href={`/projects/${product.id}`} class="group font-sans text-sm no-underline">
+                  <span class="text-primary-400 group-hover:text-primary-300 font-medium transition-colors">
+                    {product.data.title}
+                  </span>
+                  <span class="text-text-secondary"> — {product.data.tagline}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <!-- Contact CTA -->
       <aside class="border-t border-border-default pt-8">

@@ -1,0 +1,80 @@
+---
+/**
+ * Tag filter buttons for a list page. Items to filter must carry a
+ * `data-tags` attribute (comma-joined) and match `itemSelector`.
+ */
+interface Props {
+  tags: string[];
+  /** CSS selector for the filterable list items, e.g. '.blog-item'. */
+  itemSelector: string;
+  /** PostHog event name fired on each filter click. */
+  eventName: string;
+}
+
+const { tags, itemSelector, eventName } = Astro.props;
+---
+
+{
+  tags.length > 0 && (
+    <nav
+      class="mb-12 flex flex-wrap gap-2"
+      aria-label="Filter by tag"
+      data-tag-filter
+      data-item-selector={itemSelector}
+      data-event-name={eventName}
+    >
+      <button
+        data-tag=""
+        class="tag-filter tag-active px-3 py-1 rounded-full text-sm font-sans border border-border-subtle transition-colors"
+      >
+        All
+      </button>
+      {tags.map((tag) => (
+        <button
+          data-tag={tag}
+          class="tag-filter px-3 py-1 rounded-full text-sm font-sans border border-border-subtle text-text-muted hover:text-primary-400 hover:border-primary-600 transition-colors"
+        >
+          {tag}
+        </button>
+      ))}
+    </nav>
+  )
+}
+
+<style>
+  .tag-active {
+    color: var(--color-primary-400);
+    border-color: var(--color-primary-600);
+    background-color: color-mix(in srgb, var(--color-primary-400) 10%, transparent);
+  }
+</style>
+
+<script>
+  import { safeCapture } from '../lib/analytics';
+
+  // Processed Astro scripts are deferred modules, so the DOM is ready here.
+  // (Do not wrap in 'astro:page-load' — that only fires with <ClientRouter>,
+  // which this static MPA doesn't use, leaving the filter dead.)
+  document.querySelectorAll<HTMLElement>('[data-tag-filter]').forEach((nav) => {
+    const itemSelector = nav.dataset.itemSelector ?? '';
+    const eventName = nav.dataset.eventName ?? 'tag_filter';
+    const buttons = nav.querySelectorAll<HTMLButtonElement>('.tag-filter');
+    const items = itemSelector ? document.querySelectorAll<HTMLElement>(itemSelector) : [];
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tag = btn.dataset.tag ?? '';
+
+        buttons.forEach((b) => b.classList.remove('tag-active'));
+        btn.classList.add('tag-active');
+
+        items.forEach((item) => {
+          const itemTags = (item.dataset.tags ?? '').split(',');
+          item.style.display = tag === '' || itemTags.includes(tag) ? '' : 'none';
+        });
+
+        safeCapture(eventName, { tag: tag || 'all' });
+      });
+    });
+  });
+</script>

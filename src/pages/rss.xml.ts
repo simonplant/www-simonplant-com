@@ -1,11 +1,9 @@
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
-import { getCollection } from 'astro:content';
+import { getPublishedCollection } from '../content/_helpers';
 
 export async function GET(context: APIContext) {
-  const allPosts = await getCollection('commentary', ({ data }) =>
-    import.meta.env.PROD ? data.status === 'published' : true,
-  );
+  const allPosts = await getPublishedCollection('commentary');
 
   const items = allPosts
     .map((entry) => ({

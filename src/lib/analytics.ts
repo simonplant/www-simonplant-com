@@ -27,6 +27,9 @@ export function safeCapture(event: string, properties?: Record<string, unknown>)
 export function initSiteTracking(ph: PostHogInterface): void {
   window.__posthog = ph;
   window.phCapture = safeCapture;
+  // Lets inline scripts that buffered events while PostHog was still loading
+  // (e.g. ScrollDepth) flush them now.
+  window.dispatchEvent(new Event('ph:ready'));
 
   // Outbound link clicks — autocapture sees the click, but a labelled event
   // makes "where do people leave to" a one-line insight.

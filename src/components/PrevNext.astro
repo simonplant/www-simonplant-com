@@ -1,0 +1,46 @@
+---
+/** Previous/next navigation between sibling entries of a collection. */
+interface Item {
+  href: string;
+  title: string;
+}
+
+interface Props {
+  prev: Item | null;
+  next: Item | null;
+  ariaLabel: string;
+  prevLabel?: string;
+  nextLabel?: string;
+}
+
+const { prev, next, ariaLabel, prevLabel = 'Previous', nextLabel = 'Next' } = Astro.props;
+---
+
+{
+  (prev || next) && (
+    <nav class="container-prose mt-16 pt-8 border-t border-border-default" aria-label={ariaLabel}>
+      <div class="flex justify-between gap-4">
+        {prev ? (
+          <a href={prev.href} class="group flex-1 min-w-0">
+            <span class="text-text-muted text-sm font-sans block mb-1">&larr; {prevLabel}</span>
+            <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
+              {prev.title}
+            </span>
+          </a>
+        ) : (
+          <div />
+        )}
+        {next ? (
+          <a href={next.href} class="group flex-1 min-w-0 text-right">
+            <span class="text-text-muted text-sm font-sans block mb-1">{nextLabel} &rarr;</span>
+            <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
+              {next.title}
+            </span>
+          </a>
+        ) : (
+          <div />
+        )}
+      </div>
+    </nav>
+  )
+}

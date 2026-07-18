@@ -14,7 +14,7 @@ This is an architecture reference for operators. Not a tutorial, not a pitch —
 
 The Gateway (`src/gateway/server.impl.ts`) is the entire control plane. It binds to `127.0.0.1:18789`, serves a WebSocket API, an HTTP API (including the Control UI), and manages every subsystem:
 
-<img src="/diagrams/openclaw-gateway.svg" alt="OpenClaw Gateway Architecture — single process control plane with channel adapters, agent runtime, plugin registry, and WebSocket hub" width="900" />
+<img src="/diagrams/openclaw-gateway.svg" alt="OpenClaw Gateway Architecture — single process control plane with channel adapters, agent runtime, plugin registry, and WebSocket hub" width="900" height="680" decoding="async" />
 
 One Gateway per host. One config file. One workspace directory. Clients — the CLI, the web UI, macOS/iOS/Android companion apps — all connect over the same WebSocket. The Gateway is the only process that holds messaging sessions (the WhatsApp Baileys session, the Telegram bot polling loop, etc.).
 
@@ -53,7 +53,7 @@ The entire `~/.openclaw/` directory should be `chmod 700`. Credentials and `.env
 
 ## The 8 auto-loaded files
 
-<img src="/diagrams/openclaw-workspace.svg" alt="The 8 auto-loaded workspace files and system prompt assembly order" width="900" />
+<img src="/diagrams/openclaw-workspace.svg" alt="The 8 auto-loaded workspace files and system prompt assembly order" width="900" height="700" loading="lazy" decoding="async" />
 
 This is the single most important architectural constraint in OpenClaw, and the one most operators don't understand:
 
@@ -171,7 +171,7 @@ Providers can override specific sections (`interaction_style`, `tool_call_style`
 
 ## The agent runtime
 
-<img src="/diagrams/openclaw-runtime.svg" alt="Pi agent runtime execution loop and two-layer memory system with lifecycle tiers" width="900" />
+<img src="/diagrams/openclaw-runtime.svg" alt="Pi agent runtime execution loop and two-layer memory system with lifecycle tiers" width="900" height="520" loading="lazy" decoding="async" />
 
 The Pi agent runtime (`src/agents/`) is the execution engine — roughly 400+ files handling model calls, tool dispatch, streaming, and session management. The core loop:
 

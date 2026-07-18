@@ -1,8 +1,10 @@
 ---
 import Base from '../../layouts/Base.astro';
 import ScrollDepth from '../../components/ScrollDepth.astro';
+import PrevNext from '../../components/PrevNext.astro';
 import { getPublishedCollection } from '../../content/_helpers';
 import { getReadingTime } from '../../utils/readingTime';
+import { formatDate, isoDate } from '../../utils/formatDate';
 import { render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -48,15 +50,15 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
   <main class="section-spacing">
-    <article data-ph-capture-attribute-content-type="writing" data-ph-capture-attribute-slug={entry.id}>
+    <article data-ph-capture-attribute-content-type="blog" data-ph-capture-attribute-slug={entry.id}>
       <header class="container-prose mb-8">
         <a href="/blog" class="text-text-muted text-sm font-sans hover:text-primary-400 transition-colors inline-flex items-center gap-1 mb-6">
           &larr; All posts
         </a>
         <h1 class="font-serif text-4xl text-gray-50 leading-tight mb-4">{entry.data.title}</h1>
         <div class="flex flex-wrap gap-3 text-text-muted text-sm font-sans mb-4">
-          <time datetime={entry.data.publishedDate.toISOString().slice(0, 10)}>
-            {entry.data.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          <time datetime={isoDate(entry.data.publishedDate)}>
+            {formatDate(entry.data.publishedDate)}
           </time>
           <span>&middot;</span>
           <span>{readingTime}</span>
@@ -74,28 +76,13 @@ const jsonLd = {
         <Content />
       </div>
 
-      {(prev || next) && (
-        <nav class="container-prose mt-16 pt-8 border-t border-border-default" aria-label="Post navigation">
-          <div class="flex justify-between gap-4">
-            {prev ? (
-              <a href={`/blog/${prev.id}`} class="group flex-1 min-w-0">
-                <span class="text-text-muted text-sm font-sans block mb-1">&larr; Newer</span>
-                <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
-                  {prev.data.title}
-                </span>
-              </a>
-            ) : <div />}
-            {next ? (
-              <a href={`/blog/${next.id}`} class="group flex-1 min-w-0 text-right">
-                <span class="text-text-muted text-sm font-sans block mb-1">Older &rarr;</span>
-                <span class="text-gray-50 font-serif group-hover:text-primary-400 transition-colors line-clamp-2">
-                  {next.data.title}
-                </span>
-              </a>
-            ) : <div />}
-          </div>
-        </nav>
-      )}
+      <PrevNext
+        ariaLabel="Post navigation"
+        prevLabel="Newer"
+        nextLabel="Older"
+        prev={prev ? { href: `/blog/${prev.id}`, title: prev.data.title } : null}
+        next={next ? { href: `/blog/${next.id}`, title: next.data.title } : null}
+      />
     </article>
   </main>
 

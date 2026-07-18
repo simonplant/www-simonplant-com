@@ -40,6 +40,36 @@ const { contentType } = Astro.props;
       }
     });
 
+    // Sentinels can intersect before the lazily-loaded PostHog sets
+    // window.phCapture (e.g. a short article fully visible on load), so
+    // buffer depths until 'ph:ready' instead of dropping them.
+    var pending = [];
+
+    function send(depth) {
+      window.phCapture('article_scroll_depth', {
+        slug: slug,
+        depth_percent: depth,
+        title: title,
+        content_type: contentType,
+      });
+      if (depth === 100) {
+        window.phCapture('read_complete', {
+          slug: slug,
+          title: title,
+          content_type: contentType,
+          dwell_seconds: Math.round((Date.now() - start) / 1000),
+        });
+      }
+    }
+
+    window.addEventListener(
+      'ph:ready',
+      function () {
+        pending.splice(0).forEach(send);
+      },
+      { once: true },
+    );
+
     var observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
@@ -48,20 +78,9 @@ const { contentType } = Astro.props;
           if (fired[depth]) return;
           fired[depth] = true;
           if (window.phCapture) {
-            window.phCapture('article_scroll_depth', {
-              slug: slug,
-              depth_percent: Number(depth),
-              title: title,
-              content_type: contentType,
-            });
-            if (Number(depth) === 100) {
-              window.phCapture('read_complete', {
-                slug: slug,
-                title: title,
-                content_type: contentType,
-                dwell_seconds: Math.round((Date.now() - start) / 1000),
-              });
-            }
+            send(Number(depth));
+          } else {
+            pending.push(Number(depth));
           }
           observer.unobserve(entry.target);
         });
