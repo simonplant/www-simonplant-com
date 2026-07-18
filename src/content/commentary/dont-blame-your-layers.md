@@ -3,7 +3,7 @@ title: "Don't Blame Your Layers"
 publishedDate: 2026-04-12
 tags: [agent-ops, debugging, infrastructure, day-2-operations]
 description: "When a customized agent deployment breaks, the instinct is to simplify. We almost ripped out our security stack to fix an upstream bug. The update pipeline saved us from ourselves."
-status: published
+status: archived
 tier: signal
 ---
 

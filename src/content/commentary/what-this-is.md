@@ -14,13 +14,11 @@ Now I'm building software again, and writing about what I'm learning.
 
 ## What I'm building
 
-**ClawHQ** — a management layer for OpenClaw, the open-source AI agent framework. Configuration governance, lifecycle management, security hardening. The operational tooling that the framework doesn't ship.
+**Sterling** — a sovereign, local-first advisory trading agent. It briefs, watches levels against a locked plan, and proposes trades — but never places an order. Local models on my own hardware, deterministic pipelines, a hash-chained event log as the system of record. The place where everything I've learned about operating AI agents in production actually lives.
 
-**Clawdius** — my personal OpenClaw agent, deployed via ClawHQ. Handles email, calendar, research, daily briefings. The test bed where I feel the consequences of my own design decisions.
+**Markdown** — a free, open-source markdown editor for iOS. Because markdown needs to be free and ubiquitous in the AI era, and the good editors are all proprietary or Electron.
 
-**AIShore** — autonomous sprint orchestration for Claude Code. The tool I use to make AI-assisted development actually produce working, wired-up code instead of isolated fragments.
-
-**Markdown** — a cross-platform markdown editor built with Rust and Tauri. Because markdown needs to be free and ubiquitous in the AI era, and the good editors are all proprietary or Electron.
+I've built and retired other tools along the way — an OpenClaw management layer, a personal agent, a sprint orchestrator for Claude Code. Some were superseded by how fast the underlying platforms improved; all of them taught me something that's now baked into what I run today. That churn is the point: this space moves fast enough that retiring your own tools is a skill.
 
 ## Why I'm writing
 
@@ -32,6 +30,6 @@ I've been in infrastructure long enough to recognize when I'm watching the same 
 
 Build logs, not thought leadership. Real decisions with real tradeoffs. When something breaks, what happened and what fixed it.
 
-Here's an example: [Don't Blame Your Layers](/blog/dont-blame-your-layers). An upstream OpenClaw update broke my agent's Telegram integration. I almost ripped out my entire security stack to diagnose it. The update pipeline saved me. That's the kind of thing I write about — specific, grounded, useful to someone building the same thing.
+Here's an example: [OpenClaw Architecture: Anatomy of a Personal AI Agent](/architecture/openclaw-anatomy). A full operator's map of the most widely deployed open-source agent framework — the process model, the workspace files, the config surface, and where the security defaults bite. That's the kind of thing I write: specific, grounded, useful to someone building the same thing.
 
 I don't have a posting schedule. I write when I hit something worth documenting.

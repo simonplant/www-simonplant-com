@@ -94,6 +94,7 @@ Content lives in `src/content/` with collections defined in `src/content.config.
 | `draft`     | Being written                    | No              | Anyone      |
 | `review`    | Ready for Simon's editorial pass | No              | Anyone      |
 | `published` | Live on site                     | Yes             | Simon only  |
+| `archived`  | Retired from the live site       | No              | Simon only  |
 
 Use `getPublishedCollection()` from `src/content/_helpers.ts` to filter content at build time — never re-implement the status filter inline (rss.xml.ts and llms.txt.ts also go through it).
 
@@ -114,7 +115,7 @@ Clawdius is the primary content producer. He operates under strict constraints:
 
 - Touch any file outside `src/content/`
 - Create or edit `src/content/products/` — products ship to production unconditionally, so they are owner-only
-- Set `status: published` — only `simonplant` can promote to production
+- Set `status: published` or `status: archived` — only `simonplant` promotes to or retires from production
 
 **Content quality bar:**
 

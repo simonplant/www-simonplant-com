@@ -2,7 +2,8 @@ import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
-const status = z.enum(['idea', 'draft', 'review', 'published']);
+// 'archived' = previously published, deliberately retired from the live site.
+const status = z.enum(['idea', 'draft', 'review', 'published', 'archived']);
 
 const commentary = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/commentary' }),

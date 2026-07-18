@@ -6,8 +6,7 @@ status: active
 role: iOS Markdown Editor
 github: https://github.com/simonplant/markdown
 tags: [markdown, editor, ios]
-order: 3
-relatedProducts: [aishore]
+order: 2
 ---
 
 ## What it is
@@ -22,6 +21,6 @@ Rust core (tree-sitter-markdown parsing and formatting), native Swift frontend o
 
 **Pre-release.** The app runs on device and in the iOS Simulator with wikilinks, footnotes, and GFM tables working; it has not yet shipped to TestFlight or the App Store.
 
-Built by autonomous agents using AIShore for sprint orchestration.
+Built largely by autonomous coding agents.
 
 [Repository →](https://github.com/simonplant/markdown)

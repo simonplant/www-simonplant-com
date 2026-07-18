@@ -3,7 +3,7 @@ title: "Confirm It's Still Fast"
 publishedDate: 2026-04-18
 tags: [local-inference, ollama, performance, agent-ops, openclaw]
 description: "A leftover extra_hosts entry in a generated docker-compose.yml silently routed every local-LLM request through the host gateway for an unknown period. Nothing alerted. A ~200 LOC regression harness is the only thing that would have told me — and the only thing that will tell you when yours breaks next."
-status: published
+status: archived
 tier: architecture
 ---
 

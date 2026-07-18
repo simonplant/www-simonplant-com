@@ -87,8 +87,8 @@ jobs:
                 ;;
               *)
                 case "$STATUS" in
-                  idea|draft|review|published) ;;
-                  *) ERRORS="$ERRORS\n  $f: invalid status '$STATUS' (must be idea/draft/review/published)" ;;
+                  idea|draft|review|published|archived) ;;
+                  *) ERRORS="$ERRORS\n  $f: invalid status '$STATUS' (must be idea/draft/review/published/archived)" ;;
                 esac
                 ;;
             esac

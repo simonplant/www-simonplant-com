@@ -8,7 +8,7 @@ vs `HN` would split into three rows).
 
 ```sh
 npm run utm -- <url> <source> [campaign]
-npm run utm -- https://www.simonplant.com/projects/clawhq hn clawhq-launch
+npm run utm -- https://www.simonplant.com/projects/markdown hn markdown-launch
 npm run utm -- --list      # known sources
 ```
 

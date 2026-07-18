@@ -3,7 +3,7 @@ title: "The Fix Was the Speedup"
 publishedDate: 2026-04-18
 tags: [agent-ops, local-inference, security, infrastructure, day-2-operations]
 description: "A drifted systemd override left an unauthenticated LLM endpoint on a public IPv6 and pinned gemma4 inference to an Ollama binary that hadn't yet flipped flash attention on. One cleanup closed both — same hardware, same weights, same vendored llama.cpp."
-status: published
+status: archived
 tier: deep-dive
 ---
 

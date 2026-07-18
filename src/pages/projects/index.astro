@@ -7,19 +7,19 @@ const products = await getCollection('products');
 const sorted = products.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base title="Projects — Simon Plant" description="Open-source tools for running AI agents in production." jsonLd={{
+<Base title="Projects — Simon Plant" description="AI systems I run in production and tools I build — from an advisory trading agent to an open-source markdown editor." jsonLd={{
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Projects — Simon Plant',
   url: new URL('/projects', Astro.site).href,
-  description: 'Open-source tools for running AI agents in production.',
+  description: 'AI systems I run in production and tools I build — from an advisory trading agent to an open-source markdown editor.',
 }}>
   <main class="section-spacing">
     <div class="container-wide">
       <div class="max-w-3xl mb-16">
         <h1 class="font-serif text-4xl text-gray-50 mb-4">Projects</h1>
         <p class="text-text-secondary text-lg font-prose leading-relaxed">
-          Open-source tools I build and maintain.
+          Systems I build and run — some open-source, some private with the architecture shared.
         </p>
       </div>
 
