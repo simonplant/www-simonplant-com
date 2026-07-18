@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+
+const description = 'Search the architecture patterns, security entries, and writing on this site.';
+---
+
+<Base title="Search — Simon Plant" description={description}>
+  <main class="section-spacing">
+    <div class="container-prose">
+      <h1 class="font-serif text-4xl text-gray-50 mb-4">Search</h1>
+      <p class="text-text-secondary text-lg mb-8 font-prose">
+        Full-text search across the architecture patterns, security entries, and blog.
+      </p>
+
+      <div id="search"></div>
+
+      <noscript>
+        <p class="text-text-muted font-prose">Search requires JavaScript. Browse
+          <a href="/architecture" class="text-primary-400">Architecture</a>,
+          <a href="/security" class="text-primary-400">Security</a>, or the
+          <a href="/blog" class="text-primary-400">Blog</a> instead.</p>
+      </noscript>
+    </div>
+  </main>
+</Base>
+
+<!--
+  Pagefind's UI bundle and index are emitted into /pagefind/ by the build step
+  (`pagefind --site dist`), so they exist in `npm run preview` and production but
+  NOT in `npm run dev`. The loader below degrades to a clear message in dev.
+-->
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script is:inline>
+  (function () {
+    var mount = document.getElementById('search');
+    var s = document.createElement('script');
+    s.src = '/pagefind/pagefind-ui.js';
+    s.onload = function () {
+      new window.PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: false,
+        excerptLength: 20,
+      });
+      var input = mount.querySelector('input');
+      if (input) input.focus();
+    };
+    s.onerror = function () {
+      mount.innerHTML =
+        '<p style="color:var(--color-text-muted)">Search index isn’t available in dev mode. Run <code>npm run build &amp;&amp; npm run preview</code> to try it.</p>';
+    };
+    document.head.appendChild(s);
+  })();
+</script>
+
+<style is:global>
+  /* Theme Pagefind UI to the site's dark + amber design tokens. */
+  #search {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: var(--color-primary-400);
+    --pagefind-ui-text: var(--color-text-primary);
+    --pagefind-ui-background: var(--color-surface-card);
+    --pagefind-ui-border: var(--color-border-default);
+    --pagefind-ui-tag: var(--color-surface-elevated);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 0.5rem;
+    --pagefind-ui-font: var(--font-sans);
+  }
+  #search .pagefind-ui__result-title a {
+    font-family: var(--font-serif);
+    color: var(--color-gray-50, #fafafa);
+  }
+  #search .pagefind-ui__result-title a:hover {
+    color: var(--color-primary-400);
+  }
+</style>
