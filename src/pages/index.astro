@@ -10,7 +10,9 @@ const latestPosts = entries
   .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
   .slice(0, 3);
 
-const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const products = (await getCollection('products'))
+  .filter((p) => p.data.status !== 'archived')
+  .sort((a, b) => a.data.order - b.data.order);
 
 const description =
   'Fractional CTO. Thirty years building the management layer around new infrastructure — from early AWS to AI agents in production.';
@@ -97,12 +99,20 @@ const jsonLd = {
         <p class="font-prose text-text-secondary mb-3">
           Working through a hard technology decision? That's the conversation I want to have.
         </p>
-        <a
-          href="mailto:website@simonplant.com"
-          class="inline-block font-sans text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors"
-        >
-          website@simonplant.com &rarr;
-        </a>
+        <div class="flex flex-wrap gap-x-6 gap-y-1">
+          <a
+            href="/services"
+            class="inline-block font-sans text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors"
+          >
+            Fractional CTO services &rarr;
+          </a>
+          <a
+            href="mailto:website@simonplant.com"
+            class="inline-block font-sans text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors"
+          >
+            website@simonplant.com &rarr;
+          </a>
+        </div>
       </aside>
 
     </div>

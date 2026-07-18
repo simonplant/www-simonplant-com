@@ -6,6 +6,7 @@ status: active
 role: Advisory Trading Agent
 tags: [trading, ai-agents, local-first, event-sourcing, openclaw]
 order: 1
+relatedProducts: [clawhq]
 ---
 
 ## What it is

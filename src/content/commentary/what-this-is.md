@@ -18,7 +18,7 @@ Now I'm building software again, and writing about what I'm learning.
 
 **Markdown** — a free, open-source markdown editor for iOS. Because markdown needs to be free and ubiquitous in the AI era, and the good editors are all proprietary or Electron.
 
-I've built and retired other tools along the way — an OpenClaw management layer, a personal agent, a sprint orchestrator for Claude Code. Some were superseded by how fast the underlying platforms improved; all of them taught me something that's now baked into what I run today. That churn is the point: this space moves fast enough that retiring your own tools is a skill.
+I've built and retired other tools along the way — [ClawHQ](/projects/clawhq), an OpenClaw management layer; a personal agent; [AIShore](/projects/aishore), a sprint orchestrator for Claude Code. Some were superseded by how fast the underlying platforms improved; all of them taught me something that's now baked into what I run today. That churn is the point: this space moves fast enough that retiring your own tools is a skill.
 
 ## Why I'm writing
 

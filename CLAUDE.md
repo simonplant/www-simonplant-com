@@ -82,7 +82,7 @@ Content lives in `src/content/` with collections defined in `src/content.config.
 
 - **commentary** — short-form posts. Required frontmatter: title, publishedDate, tags, description, status, and `tier` (`signal` | `architecture` | `deep-dive`); optional `pinned`
 - **architecture** — structured KB entries (title, status, tags, description; optional publishedDate)
-- **products** — project/product pages (title, tagline, description, role, tags, order; optional github, relatedProducts). Uses its own status enum (`active` | `beta` | `planned` | `stable`) — these are lifecycle labels, **not** the editorial gate. Products render unconditionally in every build, so this collection is owner-curated: content agents must not create or edit product entries.
+- **products** — project/product pages (title, tagline, description, role, tags, order; optional github, relatedProducts). Uses its own status enum (`active` | `beta` | `planned` | `stable` | `archived`) — these are lifecycle labels, **not** the editorial gate. `archived` products stay visible under "The journey" on /projects but are excluded from the homepage. Products render unconditionally in every build, so this collection is owner-curated: content agents must not create or edit product entries.
 
 (A **series** collection for long-form installments is planned but does not exist yet — do not write to `src/content/series/`.)
 

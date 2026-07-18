@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+
+const description =
+  'Fractional CTO for companies navigating AI adoption, architecture strategy, and high-stakes technology decisions. I work with 2–3 companies at a time.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Simon Plant — Fractional CTO',
+  url: new URL('/services', Astro.site).href,
+  description,
+  founder: { '@type': 'Person', name: 'Simon Plant' },
+  areaServed: 'Remote / Los Angeles',
+};
+---
+
+<Base title="Services — Simon Plant" description={description} jsonLd={jsonLd}>
+  <main class="section-spacing">
+    <div class="prose">
+      <h1>Fractional CTO</h1>
+
+      <p>
+        I work with 2–3 companies at a time on AI strategy, enterprise architecture, and the technology decisions that determine whether you scale or stall. Thirty years of pattern recognition — web hosting in 1994, enterprise cloud in 2008, DevOps in 2014, AI agents now — applied to your specific situation.
+      </p>
+
+      <h2>What I do</h2>
+
+      <ul>
+        <li><strong>AI reality checks.</strong> Cutting through the hype to find where AI actually moves the needle for your business — and protecting data privacy and IP while you do it. I run AI agents in production myself; the advice comes from operating the technology, not reading about it.</li>
+        <li><strong>Architecture strategy.</strong> Spotting the "small" decisions that become "large" technical debt. I've watched this movie enough times to recognize the pattern early — and to know which corners are safe to cut.</li>
+        <li><strong>Executive advisory.</strong> Build-vs-buy, vendor selection, team structure — the decisions where thirty years of context on what works and what doesn't is worth more than another meeting.</li>
+      </ul>
+
+      <h2>How I work</h2>
+
+      <p>
+        Fractional means senior attention without the full-time cost: a standing engagement, not a one-off report. I can code-review a Python data application in the morning and present AI strategy to your Board in the afternoon — that's the bridge I build. Based in Los Angeles, working remotely. CISSP.
+      </p>
+
+      <h2>Is this you?</h2>
+
+      <p>
+        You're working through a technology decision where the cost of getting it wrong is high — AI adoption, architecture strategy, build-vs-buy, team structure. You want someone who has operated at enterprise scale and still ships code. That's the conversation I want to have.
+      </p>
+
+      <p>
+        <a href="mailto:website@simonplant.com">website@simonplant.com</a> &middot;
+        <a href="https://www.linkedin.com/in/simonplant" rel="me">LinkedIn</a>
+      </p>
+    </div>
+  </main>
+</Base>

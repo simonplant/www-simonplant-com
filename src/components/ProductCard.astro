@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getStatusColors } from '../utils/productStatus';
+
+interface Props {
+  product: CollectionEntry<'products'>;
+}
+
+const { product } = Astro.props;
+const colors = getStatusColors(product.data.status);
+---
+
+<div class="bg-surface-card border border-border-subtle rounded-lg p-6">
+  <div class="flex items-start justify-between gap-3 mb-3">
+    <h3 class="font-serif text-2xl text-gray-50">
+      <a href={`/projects/${product.id}`} class="no-underline hover:text-primary-400 transition-colors">
+        {product.data.title}
+      </a>
+    </h3>
+    <span class={`shrink-0 text-xs font-sans font-medium px-2 py-0.5 rounded ${colors.bg} ${colors.text}`}>
+      {product.data.status}
+    </span>
+  </div>
+  <p class="text-primary-400/80 text-sm font-sans mb-3">{product.data.tagline}</p>
+  <p class="text-text-secondary font-prose text-sm leading-relaxed mb-4">
+    {product.data.description}
+  </p>
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <span class="text-text-muted text-xs font-sans uppercase tracking-wider">
+      {product.data.role}
+    </span>
+    <span class="flex items-center gap-4">
+      <a href={`/projects/${product.id}`} class="text-primary-400 text-sm font-sans hover:text-primary-300 transition-colors no-underline">
+        Details &rarr;
+      </a>
+      {product.data.github && (
+        <a href={product.data.github} class="text-text-muted text-sm hover:text-primary-400 transition-colors" target="_blank" rel="noopener noreferrer">
+          GitHub &rarr;
+        </a>
+      )}
+    </span>
+  </div>
+</div>

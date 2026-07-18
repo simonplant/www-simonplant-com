@@ -1,18 +1,23 @@
 ---
 import Base from '../../layouts/Base.astro';
+import ProductCard from '../../components/ProductCard.astro';
 import { getCollection } from 'astro:content';
-import { getStatusColors } from '../../utils/productStatus';
 
 const products = await getCollection('products');
 const sorted = products.sort((a, b) => a.data.order - b.data.order);
+const current = sorted.filter((p) => p.data.status !== 'archived');
+const retired = sorted.filter((p) => p.data.status === 'archived');
+
+const description =
+  'AI systems I run in production and tools I build — from an advisory trading agent to an open-source markdown editor.';
 ---
 
-<Base title="Projects — Simon Plant" description="AI systems I run in production and tools I build — from an advisory trading agent to an open-source markdown editor." jsonLd={{
+<Base title="Projects — Simon Plant" description={description} jsonLd={{
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Projects — Simon Plant',
   url: new URL('/projects', Astro.site).href,
-  description: 'AI systems I run in production and tools I build — from an advisory trading agent to an open-source markdown editor.',
+  description,
 }}>
   <main class="section-spacing">
     <div class="container-wide">
@@ -23,47 +28,28 @@ const sorted = products.sort((a, b) => a.data.order - b.data.order);
         </p>
       </div>
 
-      {sorted.length === 0 ? (
+      {current.length === 0 ? (
         <p class="text-text-muted">No projects listed yet.</p>
       ) : (
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {sorted.map((product) => {
-          const colors = getStatusColors(product.data.status);
-          return (
-            <div class="bg-surface-card border border-border-subtle rounded-lg p-6">
-              <div class="flex items-start justify-between gap-3 mb-3">
-                <h2 class="font-serif text-2xl text-gray-50">
-                  <a href={`/projects/${product.id}`} class="no-underline hover:text-primary-400 transition-colors">
-                    {product.data.title}
-                  </a>
-                </h2>
-                <span class={`shrink-0 text-xs font-sans font-medium px-2 py-0.5 rounded ${colors.bg} ${colors.text}`}>
-                  {product.data.status}
-                </span>
-              </div>
-              <p class="text-primary-400/80 text-sm font-sans mb-3">{product.data.tagline}</p>
-              <p class="text-text-secondary font-prose text-sm leading-relaxed mb-4">
-                {product.data.description}
-              </p>
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <span class="text-text-muted text-xs font-sans uppercase tracking-wider">
-                  {product.data.role}
-                </span>
-                <span class="flex items-center gap-4">
-                  <a href={`/projects/${product.id}`} class="text-primary-400 text-sm font-sans hover:text-primary-300 transition-colors no-underline">
-                    Details &rarr;
-                  </a>
-                  {product.data.github && (
-                    <a href={product.data.github} class="text-text-muted text-sm hover:text-primary-400 transition-colors" target="_blank" rel="noopener noreferrer">
-                      GitHub &rarr;
-                    </a>
-                  )}
-                </span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {current.map((product) => <ProductCard product={product} />)}
+        </div>
+      )}
+
+      {retired.length > 0 && (
+        <section class="mt-20">
+          <div class="max-w-3xl mb-8">
+            <h2 class="font-serif text-3xl text-gray-50 mb-3">The journey</h2>
+            <p class="text-text-secondary font-prose leading-relaxed">
+              Tools I built, learned from, and deliberately retired. This space moves fast enough
+              that retiring your own tools is a skill — each of these taught something that now
+              lives inside what I run today.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {retired.map((product) => <ProductCard product={product} />)}
+          </div>
+        </section>
       )}
     </div>
   </main>

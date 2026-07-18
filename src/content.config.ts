@@ -35,7 +35,8 @@ const products = defineCollection({
     title: z.string(),
     tagline: z.string(),
     description: z.string(),
-    status: z.enum(['active', 'beta', 'planned', 'stable']),
+    // 'archived' = retired experiment kept visible as part of the journey.
+    status: z.enum(['active', 'beta', 'planned', 'stable', 'archived']),
     role: z.string(),
     github: z.url().optional(),
     tags: z.array(z.string()),

@@ -81,8 +81,8 @@ jobs:
             case "$f" in
               src/content/products/*)
                 case "$STATUS" in
-                  active|beta|planned|stable) ;;
-                  *) ERRORS="$ERRORS\n  $f: invalid product status '$STATUS' (must be active/beta/planned/stable)" ;;
+                  active|beta|planned|stable|archived) ;;
+                  *) ERRORS="$ERRORS\n  $f: invalid product status '$STATUS' (must be active/beta/planned/stable/archived)" ;;
                 esac
                 ;;
               *)
