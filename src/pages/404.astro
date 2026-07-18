@@ -9,19 +9,20 @@ import Base from '../layouts/Base.astro';
     <p class="text-gray-400 mb-10 max-w-md">
       The page you're looking for doesn't exist or has been moved. Here are some places to start.
     </p>
-    <nav class="flex flex-wrap justify-center gap-4">
-      <a href="/" class="px-5 py-2.5 rounded-lg bg-primary-900/30 border border-primary-700/40 text-primary-200 hover:bg-primary-900/50 transition-colors">
-        Home
-      </a>
-      <a href="/architecture" class="px-5 py-2.5 rounded-lg bg-primary-900/30 border border-primary-700/40 text-primary-200 hover:bg-primary-900/50 transition-colors">
-        Architecture
-      </a>
-      <a href="/blog" class="px-5 py-2.5 rounded-lg bg-primary-900/30 border border-primary-700/40 text-primary-200 hover:bg-primary-900/50 transition-colors">
-        Blog
-      </a>
-      <a href="/projects" class="px-5 py-2.5 rounded-lg bg-primary-900/30 border border-primary-700/40 text-primary-200 hover:bg-primary-900/50 transition-colors">
-        Projects
-      </a>
+    <nav class="flex flex-wrap justify-center gap-3">
+      {[
+        { href: '/', label: 'Home' },
+        { href: '/services', label: 'Services' },
+        { href: '/architecture', label: 'Architecture' },
+        { href: '/security', label: 'Security' },
+        { href: '/blog', label: 'Blog' },
+        { href: '/projects', label: 'Projects' },
+        { href: '/about', label: 'About' },
+      ].map(({ href, label }) => (
+        <a href={href} class="px-5 py-2.5 rounded-lg bg-primary-900/30 border border-primary-700/40 text-primary-200 hover:bg-primary-900/50 transition-colors">
+          {label}
+        </a>
+      ))}
     </nav>
   </main>
 </Base>
