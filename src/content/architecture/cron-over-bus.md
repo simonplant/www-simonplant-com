@@ -1,6 +1,6 @@
 ---
 title: "Cron over Bus: Boring Scheduling for Agent Systems"
-status: review
+status: published
 tags: [pattern, ai-agents, operations, reliability]
 description: "Agent systems reach for pub-sub buses and orchestration frameworks long before they need them. One host scheduler driving deterministic scripts — with completion flags and typed state for coordination — is easier to reason about, debug, and trust."
 publishedDate: 2026-07-18

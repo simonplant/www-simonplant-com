@@ -1,6 +1,6 @@
 ---
 title: "The Advisory-Only Agent: A Structural Boundary for High-Stakes Domains"
-status: review
+status: published
 tags: [pattern, ai-agents, safety, agent-design]
 description: "When an AI agent operates in a domain where mistakes are expensive and irreversible, make execution structurally impossible — not a config flag. The agent proposes, briefs, and alerts; a human pulls every trigger."
 publishedDate: 2026-07-18

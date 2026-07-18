@@ -1,6 +1,6 @@
 ---
 title: "LLM at the Edges, Determinism in the Middle"
-status: review
+status: published
 tags: [pattern, ai-agents, reliability, llm-ops]
 description: "Confine model calls to the system's boundaries — extraction on the way in, prose on the way out — and keep everything between them deterministic code. Anything arithmetic is never the model's job."
 publishedDate: 2026-07-18

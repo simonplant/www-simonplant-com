@@ -1,6 +1,6 @@
 ---
 title: "Event Log as System of Record for AI Agents"
-status: review
+status: published
 tags: [pattern, ai-agents, data, reliability]
 description: "Give the agent one append-only, hash-chained event log as its single source of truth. Briefs, dashboards, and memories become disposable projections — replayable, auditable, and tamper-evident."
 publishedDate: 2026-07-18
