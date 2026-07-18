@@ -1,7 +1,7 @@
 ---
 title: "The Auto-Loaded Context Contract"
 status: published
-tags: [pattern, ai-agents, agent-design, memory]
+tags: [pattern, ai-agents, agent-design]
 description: "Every agent framework loads a fixed set of context at session start — and silently ignores everything else. Treat that set as a contract: design your agent's knowledge around what is guaranteed to be present after any restart or compaction."
 publishedDate: 2026-07-18
 ---

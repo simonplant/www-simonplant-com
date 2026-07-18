@@ -2,7 +2,7 @@
 title: "Prompt Injection for Solution Architects"
 description: "The defining vulnerability class of LLM systems, explained at the level where it can actually be fixed: architecture. Injection isn't a prompt-writing problem — it's a privilege-separation problem."
 status: review
-tags: [prompt-injection, ai-agents, architecture, fundamentals]
+tags: [prompt-injection, ai-agents, fundamentals]
 kind: technique
 stance: dual
 publishedDate: 2026-07-18

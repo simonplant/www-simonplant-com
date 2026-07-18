@@ -1,7 +1,7 @@
 ---
 title: "Credential Isolation for AI Agents"
 status: published
-tags: [pattern, ai-agents, security, agent-ops]
+tags: [pattern, ai-agents, security, sovereignty]
 description: "Assume the agent will eventually be manipulated. Design so that even then it cannot leak what it never held: credentials live behind a vending proxy, egress is allowlisted, and the runtime is read-only."
 publishedDate: 2026-07-18
 ---

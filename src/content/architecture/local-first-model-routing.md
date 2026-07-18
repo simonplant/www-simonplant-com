@@ -1,7 +1,7 @@
 ---
 title: "Local-First Model Routing with Explicit Escalation"
 status: published
-tags: [pattern, ai-agents, llm-ops, sovereignty]
+tags: [pattern, ai-agents, sovereignty, llm-ops]
 description: "Run the local model as the default for everything, and make frontier-model escalation an explicit, visible decision — never a silent fallback triggered by the presence of an API key."
 publishedDate: 2026-07-18
 ---

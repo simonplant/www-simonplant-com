@@ -2,7 +2,7 @@
 title: "Advisory: Your Local LLM Endpoint Is Probably Listening Too Widely"
 description: "Self-hosted inference servers ship with no authentication and an easy path to binding on all interfaces. Thousands end up reachable from the internet or an untrusted LAN. Five minutes of checking closes it."
 status: review
-tags: [local-inference, hardening, advisory, ollama]
+tags: [local-inference, ollama, sovereignty]
 kind: advisory
 stance: defense
 publishedDate: 2026-07-18
