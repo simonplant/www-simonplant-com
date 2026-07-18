@@ -9,7 +9,7 @@ const sorted = entries.sort((a, b) => a.data.title.localeCompare(b.data.title));
 const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
 
 const description =
-  'AI architecture patterns, decisions, and reference material — from someone building the management layer for AI agents in production.';
+  'AI architecture patterns, decisions, and reference material — written by a chief architect who designs and runs AI systems in production.';
 ---
 
 <Base title="Architecture — Simon Plant" description={description} jsonLd={{

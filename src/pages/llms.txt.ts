@@ -14,7 +14,7 @@ export async function GET(context: APIContext) {
   const lines: string[] = [
     '# Simon Plant',
     '',
-    '> Fractional CTO. Thirty years building the management layer around new infrastructure — from early AWS to AI agents in production.',
+    '> Chief architect turned fractional CTO. Thirty years designing and delivering the systems each new platform makes possible — web, cloud, DevOps, now AI. Hands-on in the code, and at the leadership table.',
     '',
   ];
 

@@ -8,7 +8,7 @@ tier: signal
 pinned: true
 ---
 
-I'm Simon Plant. I've spent thirty years in infrastructure — IBM, Capgemini, RightScale, AWS, a startup I co-founded and exited, Rackspace, Redapt, and now my own fractional CTO practice. Most of that time was spent on the same problem: making powerful platforms operatable.
+I'm Simon Plant. I've spent thirty years in enterprise technology — IBM, Capgemini, RightScale, AWS, a startup I co-founded and exited, Rackspace, Redapt, and now my own fractional CTO practice. Most of that time in the same seat: chief architect for whatever was new, designing the system and the plan that delivers it. These days the title says CTO; the work is still half code, half counsel.
 
 Now I'm building software again, and writing about what I'm learning.
 

@@ -5,8 +5,8 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'About — Simon Plant',
-  url: 'https://www.simonplant.com/about',
-  description: 'Fractional CTO with 30+ years in enterprise technology — from early AWS and enterprise cloud to AI agents in production.',
+  url: new URL('/about', Astro.site).href,
+  description: 'Chief architect turned fractional CTO — 30+ years designing and delivering enterprise systems, from early AWS to AI in production.',
   author: {
     '@type': 'Person',
     name: 'Simon Plant',
@@ -14,19 +14,23 @@ const jsonLd = {
 };
 ---
 
-<Base title="About — Simon Plant" description="Fractional CTO with 30+ years in enterprise technology — from early AWS and enterprise cloud to AI agents in production." jsonLd={jsonLd}>
+<Base title="About — Simon Plant" description="Chief architect turned fractional CTO — 30+ years designing and delivering enterprise systems, from early AWS to AI in production." jsonLd={jsonLd}>
   <main class="section-spacing">
     <div class="prose">
       <h1>About</h1>
 
       <p>
-        I've spent thirty years building the management layer around whatever infrastructure is new and chaotic. Web hosting in 1994. Enterprise cloud in 2008. DevOps in 2014. AI agents now. The pattern is always the same: a powerful new substrate shows up, everyone builds demos, and then someone has to make it actually work in production. That's usually been me.
+        I've spent thirty years as the chief architect for whatever is new — infrastructure services on one side, customer and company solutions on the other. Web hosting in 1994. Enterprise cloud in 2008. DevOps in 2014. AI now. The pattern is always the same: a powerful new platform shows up, everyone builds demos, and someone has to design the system — and the delivery plan — that makes it real. That's usually been me.
+      </p>
+
+      <p>
+        As I've gotten more senior, the seat has evolved into CTO roles. What hasn't changed: I still write code — more than ever now that I build solo — and I still spend the other half of the week advising leadership and program teams.
       </p>
 
       <h2>The short version</h2>
 
       <p>
-        I'm a Fractional CTO based in Los Angeles. I work with 2–3 companies at a time on AI strategy, enterprise architecture, and the technology decisions that determine whether you scale or stall. I also build open-source tools for running AI agents in production. CISSP. Originally from the UK.
+        I'm a Fractional CTO based in Los Angeles. I work with 2–3 companies at a time on AI strategy, enterprise architecture, and the technology decisions that determine whether you scale or stall. I also design, build, and run my own AI systems in production. CISSP. Originally from the UK.
       </p>
 
       <h2>The long version</h2>
@@ -48,7 +52,7 @@ const jsonLd = {
       </p>
 
       <p>
-        Now I'm back at Mode2 running a Fractional CTO practice. The throughline across all of it: I build the operational discipline around whatever the new infrastructure is, then help companies adopt it without the expensive mistakes.
+        Now I'm back at Mode2 running a Fractional CTO practice. The throughline across all of it: architect first — design the system, write the delivery plan, stay through delivery — then help companies adopt what's new without the expensive mistakes.
       </p>
 
       <h2>What I do for clients</h2>
