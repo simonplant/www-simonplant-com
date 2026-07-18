@@ -13,6 +13,10 @@ const patterns = (await getPublishedCollection('architecture'))
   .sort((a, b) => (b.data.publishedDate?.getTime() ?? 0) - (a.data.publishedDate?.getTime() ?? 0))
   .slice(0, 3);
 
+const securityEntries = (await getPublishedCollection('security'))
+  .sort((a, b) => (b.data.publishedDate?.getTime() ?? 0) - (a.data.publishedDate?.getTime() ?? 0))
+  .slice(0, 3);
+
 const products = (await getCollection('products'))
   .filter((p) => p.data.status !== 'archived')
   .sort((a, b) => a.data.order - b.data.order);
@@ -80,6 +84,32 @@ const jsonLd = {
           </div>
           <a href="/architecture" class="mt-6 inline-block font-sans text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors">
             All patterns &rarr;
+          </a>
+        </section>
+      )}
+
+      <!-- AI security -->
+      {securityEntries.length > 0 && (
+        <section class="mb-16">
+          <h2 class="font-serif text-2xl text-gray-50 mb-3">AI security</h2>
+          <p class="font-prose text-text-secondary leading-relaxed mb-6">
+            How AI systems get attacked and how to defend them — techniques, hardening, and
+            advisories from running hardened agents in production.
+          </p>
+          <div class="space-y-6">
+            {securityEntries.map((entry) => (
+              <a href={`/security/${entry.id}`} class="group block border-b border-border-subtle pb-6 last:border-b-0">
+                <h3 class="font-serif text-xl text-gray-50 mb-1 group-hover:text-primary-400 transition-colors">
+                  {entry.data.title}
+                </h3>
+                <p class="text-text-secondary font-prose text-sm leading-relaxed">
+                  {entry.data.description}
+                </p>
+              </a>
+            ))}
+          </div>
+          <a href="/security" class="mt-6 inline-block font-sans text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors">
+            All security entries &rarr;
           </a>
         </section>
       )}

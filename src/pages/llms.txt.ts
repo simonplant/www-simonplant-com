@@ -5,9 +5,10 @@ import { getPublishedCollection } from '../content/_helpers';
 export async function GET(context: APIContext) {
   const site = context.site?.toString().replace(/\/$/, '') ?? 'https://www.simonplant.com';
 
-  const [commentary, architecture, products] = await Promise.all([
+  const [commentary, architecture, security, products] = await Promise.all([
     getPublishedCollection('commentary'),
     getPublishedCollection('architecture'),
+    getPublishedCollection('security'),
     getCollection('products'),
   ]);
 
@@ -23,6 +24,7 @@ export async function GET(context: APIContext) {
   lines.push(`- [Home](${site}/): Main landing page`);
   lines.push(`- [About](${site}/about/): About Simon Plant`);
   lines.push(`- [Architecture](${site}/architecture/): AI architecture patterns and reference material`);
+  lines.push(`- [Security](${site}/security/): AI security techniques, hardening, and advisories`);
   lines.push(`- [Blog](${site}/blog/): Blog posts and technical writing`);
   lines.push(`- [Projects](${site}/projects/): Open-source tools`);
   lines.push('');
@@ -32,6 +34,15 @@ export async function GET(context: APIContext) {
     lines.push('## Architecture', '');
     for (const entry of architecture) {
       lines.push(`- [${entry.data.title}](${site}/architecture/${entry.id}/): ${entry.data.description}`);
+    }
+    lines.push('');
+  }
+
+  // Security
+  if (security.length > 0) {
+    lines.push('## Security', '');
+    for (const entry of security) {
+      lines.push(`- [${entry.data.title}](${site}/security/${entry.id}/): ${entry.data.description}`);
     }
     lines.push('');
   }

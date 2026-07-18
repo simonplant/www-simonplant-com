@@ -111,7 +111,7 @@ const INSIGHTS = [
   // Which tags people explore via the blog and architecture filters.
   {
     name: 'Tag filters used',
-    query: trend([ev('blog_tag_filter'), ev('architecture_tag_filter')], { ...breakdown('tag'), ...table }),
+    query: trend([ev('blog_tag_filter'), ev('architecture_tag_filter'), ev('security_tag_filter')], { ...breakdown('tag'), ...table }),
   },
 ];
 

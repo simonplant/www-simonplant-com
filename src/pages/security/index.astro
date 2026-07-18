@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import TagFilter from '../../components/TagFilter.astro';
+import { getPublishedCollection } from '../../content/_helpers';
+
+const entries = await getPublishedCollection('security');
+const sorted = entries.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const allTags = [...new Set(sorted.flatMap((e) => e.data.tags))].sort();
+
+const description =
+  'AI security techniques and defenses — how AI systems get attacked, how to harden them, and what to check in your own deployment. Written from operating hardened agents in production.';
+---
+
+<Base title="Security — Simon Plant" description={description} jsonLd={{
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Security — Simon Plant',
+  url: new URL('/security', Astro.site).href,
+  description,
+}}>
+  <main class="section-spacing">
+    <div class="container-prose">
+      <h1 class="font-serif text-4xl text-gray-50 mb-4">Security</h1>
+      <p class="text-text-secondary text-lg mb-8 font-prose">
+        How AI systems get attacked, and how to defend them — techniques, hardening guides, and
+        advisories from operating hardened agents in production.
+      </p>
+
+      <TagFilter tags={allTags} itemSelector=".security-item" eventName="security_tag_filter" />
+
+      {sorted.length === 0 ? (
+        <p class="text-text-muted">Entries are coming as the research lands.</p>
+      ) : (
+        <ol class="space-y-8 list-none p-0" id="security-list">
+          {sorted.map((entry) => (
+            <li class="security-item border-b border-border-subtle pb-8 last:border-b-0" data-tags={entry.data.tags.join(',')}>
+              <a href={`/security/${entry.id}`} class="group block">
+                <div class="flex flex-wrap items-center gap-2 mb-2 text-xs font-sans uppercase tracking-wider">
+                  <span class="text-primary-400">{entry.data.kind}</span>
+                  <span class="text-text-muted">&middot;</span>
+                  <span class="text-text-muted">{entry.data.stance}</span>
+                </div>
+                <h2 class="font-serif text-2xl text-gray-50 mb-2 group-hover:text-primary-400 transition-colors">
+                  {entry.data.title}
+                </h2>
+                <p class="text-text-secondary font-prose leading-relaxed mb-3">
+                  {entry.data.description}
+                </p>
+                <div class="flex flex-wrap items-center gap-2 text-sm font-sans">
+                  {entry.data.tags.map((tag) => (
+                    <span class="text-primary-400 bg-primary-400/10 px-2 py-0.5 rounded-full text-xs">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
+  </main>
+</Base>

@@ -45,4 +45,18 @@ const products = defineCollection({
   }),
 });
 
-export const collections = { commentary, architecture, products };
+const security = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/security' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    status,
+    tags: z.array(z.string()),
+    // technique = how attacks work; hardening = how to defend; advisory = a specific exposure worth acting on
+    kind: z.enum(['technique', 'hardening', 'advisory']),
+    stance: z.enum(['offense', 'defense', 'dual']),
+    publishedDate: z.coerce.date().optional(),
+  }),
+});
+
+export const collections = { commentary, architecture, products, security };

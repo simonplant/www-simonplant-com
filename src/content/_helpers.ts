@@ -1,7 +1,7 @@
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
-type ContentCollection = 'commentary' | 'architecture';
+type ContentCollection = 'commentary' | 'architecture' | 'security';
 
 /**
  * Returns collection entries filtered by editorial status.
