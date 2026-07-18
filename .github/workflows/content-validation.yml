@@ -26,6 +26,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # Products render unconditionally in every build (no editorial status gate),
+      # so only the owner may touch them.
+      - name: Block product edits by content agents
+        if: github.event.pull_request.user.login != 'simonplant'
+        run: |
+          FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- 'src/content/products/')
+          if [ -n "$FILES" ]; then
+            echo "::error::Only simonplant can create or edit src/content/products/ (products ship to production unconditionally). Found:"
+            echo "$FILES"
+            exit 1
+          fi
+
       # Block status: published in content agent PRs
       - name: Block unauthorized publishing
         if: github.event.pull_request.user.login != 'simonplant'
@@ -64,11 +76,21 @@ jobs:
                 ERRORS="$ERRORS\n  $f: missing '$field' field"
               fi
             done
-            # Check status is valid
+            # Check status is valid (products use lifecycle statuses, not the editorial gate)
             STATUS=$(head -30 "$f" | grep '^status:' | sed 's/status: *//')
-            case "$STATUS" in
-              idea|draft|review|published) ;;
-              *) ERRORS="$ERRORS\n  $f: invalid status '$STATUS' (must be idea/draft/review/published)" ;;
+            case "$f" in
+              src/content/products/*)
+                case "$STATUS" in
+                  active|beta|planned|stable) ;;
+                  *) ERRORS="$ERRORS\n  $f: invalid product status '$STATUS' (must be active/beta/planned/stable)" ;;
+                esac
+                ;;
+              *)
+                case "$STATUS" in
+                  idea|draft|review|published) ;;
+                  *) ERRORS="$ERRORS\n  $f: invalid status '$STATUS' (must be idea/draft/review/published)" ;;
+                esac
+                ;;
             esac
           done
           if [ -n "$ERRORS" ]; then

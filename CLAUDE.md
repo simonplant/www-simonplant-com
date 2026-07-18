@@ -80,9 +80,11 @@ This is a solo personal website. The load-bearing control is the `status: publis
 
 Content lives in `src/content/` with collections defined in `src/content.config.ts`:
 
-- **series** — long-form installments (number, title, tags, companion artifacts)
-- **commentary** — short-form posts (title, date, tags, description)
-- **architecture** — structured KB entries (concern, pattern type, tags, description)
+- **commentary** — short-form posts. Required frontmatter: title, publishedDate, tags, description, status, and `tier` (`signal` | `architecture` | `deep-dive`); optional `pinned`
+- **architecture** — structured KB entries (title, status, tags, description; optional publishedDate)
+- **products** — project/product pages (title, tagline, description, role, tags, order; optional github, relatedProducts). Uses its own status enum (`active` | `beta` | `planned` | `stable`) — these are lifecycle labels, **not** the editorial gate. Products render unconditionally in every build, so this collection is owner-curated: content agents must not create or edit product entries.
+
+(A **series** collection for long-form installments is planned but does not exist yet — do not write to `src/content/series/`.)
 
 ### Editorial Workflow
 
@@ -93,7 +95,9 @@ Content lives in `src/content/` with collections defined in `src/content.config.
 | `review`    | Ready for Simon's editorial pass | No              | Anyone      |
 | `published` | Live on site                     | Yes             | Simon only  |
 
-Use `getPublishedEntries()` from `src/content/_helpers.ts` to filter content at build time.
+Use `getPublishedCollection()` from `src/content/_helpers.ts` to filter content at build time — never re-implement the status filter inline (rss.xml.ts and llms.txt.ts also go through it).
+
+The editorial statuses above apply to **commentary** and **architecture**. The **products** collection has no editorial gate — see Content Pipeline.
 
 ### Content Agent Rules (Clawdius)
 
@@ -101,7 +105,7 @@ Clawdius is the primary content producer. He operates under strict constraints:
 
 **CAN do:**
 
-- Create/edit files in `src/content/commentary/`, `src/content/series/`, `src/content/architecture/`
+- Create/edit files in `src/content/commentary/` and `src/content/architecture/`
 - Set status to: `idea`, `draft`, `review`
 - Commit and push directly to `main`
 - Open PRs when useful (optional — for visual review of large drafts, not required)
@@ -109,6 +113,7 @@ Clawdius is the primary content producer. He operates under strict constraints:
 **CANNOT do:**
 
 - Touch any file outside `src/content/`
+- Create or edit `src/content/products/` — products ship to production unconditionally, so they are owner-only
 - Set `status: published` — only `simonplant` can promote to production
 
 **Content quality bar:**
@@ -118,8 +123,7 @@ Clawdius is the primary content producer. He operates under strict constraints:
 - No generic "AI is transforming..." filler
 - No fabricated benchmarks, dates, or project details
 - If unsure about a fact, flag it with `[VERIFY]` inline
-- Commentary: 300-800 words, externally triggered, tagged
-- Series: 1,500-3,000 words, follows the planned arc, ships with companion artifacts where appropriate
+- Commentary: 300-800 words, externally triggered, tagged, with a `tier` (`signal` | `architecture` | `deep-dive`)
 - Architecture KB: structured record template (problem, when to use, how it works, trade-offs, related patterns)
 
 ### CI Enforcement
@@ -129,7 +133,9 @@ The `content-validation` workflow enforces:
 - Scope restriction: content PRs can only touch `src/content/`
 - Publishing gate: only `simonplant` can set `status: published`
 - Batch limit: max 3 new content pieces per PR
-- Frontmatter validation: required fields (title, description, status, tags) and valid status values
+- Frontmatter validation: required fields (title, description, status, tags) and valid status values (editorial statuses for commentary/architecture; `active`/`beta`/`planned`/`stable` for products)
+
+Note: this workflow triggers on **pull requests only**. Direct pushes to `main` are validated by the build (`astro check` + Zod schemas), not by this workflow — the publishing gate for direct pushes is trust in the rules above.
 
 <!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
 
