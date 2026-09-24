@@ -1,7 +1,5 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## Project
 
 Personal website for Simon Plant — www.simonplant.com.
@@ -11,7 +9,7 @@ Personal website for Simon Plant — www.simonplant.com.
 - **Astro 6** — static output (`output: 'static'`), no SSR
 - **Tailwind CSS v4** — via `@tailwindcss/vite` plugin (CSS-based config, not JS)
 - **TypeScript** — strict mode (extends `astro/tsconfigs/strict`)
-- **PostHog analytics** — full capture, no consent gate (loads on every page load; capturing disabled only in dev)
+- **PostHog analytics** — lazy-loaded in `Analytics.astro` on every page, full capture, no consent gate; capturing disabled in dev
 - **Zero JS frameworks** — pure Astro components + vanilla `<script>` tags only
 
 ## Commands
@@ -35,7 +33,7 @@ footer, and listing pages don't pollute results.
 - `src/pages/` — file-based routing (each `.astro` file = one route)
 - `src/components/` — reusable Astro components
 - `src/styles/global.css` — Tailwind v4 `@theme` tokens and `.prose` typography system
-- `src/content/` — content collections (series, commentary, architecture) with Zod schemas in `src/content.config.ts`
+- `src/content/` — content collections (commentary, architecture, security, products) with Zod schemas in `src/content.config.ts`
 - `src/content/_helpers.ts` — build-time content filtering (excludes non-published in production)
 - `astro.config.mjs` — Tailwind is wired as a Vite plugin, not an Astro integration
 
@@ -64,9 +62,7 @@ footer, and listing pages don't pollute results.
 ## Key Conventions
 
 - Tailwind v4 uses `@theme` blocks in CSS for customization — there is no `tailwind.config.js`
-- PostHog is lazy-loaded via dynamic `import()` in `Analytics.astro` on every page load (full capture; no consent gate — capturing disabled only in dev)
 - Environment variables: `PUBLIC_POSTHOG_KEY` (client, bundled) and `POSTHOG_HOST` (server-only `/ingest` proxy target, optional) — see `.env.example`
-- PostHog auto-disables capturing in dev mode
 - All new pages must use `Base.astro` layout and pass a `title` prop
 - Long-form content pages should wrap body content in a `<div class="prose">` container
 
@@ -92,7 +88,7 @@ Content lives in `src/content/` with collections defined in `src/content.config.
 - **security** — AI security entries (title, description, status, tags, `kind`: `technique` | `hardening` | `advisory`, `stance`: `offense` | `defense` | `dual`; optional publishedDate). Editorial statuses apply. Framing is defense-forward: offensive techniques are presented as red-team/hardening knowledge, never as exploit drops. `kind` and `stance` are the primary axes and render as badges, so don't duplicate them in `tags` (no `hardening`/`advisory`/`technique` tag) — keep tags topical.
 - **products** — project/product pages (title, tagline, description, role, tags, order; optional github, relatedProducts). Uses its own status enum (`active` | `beta` | `planned` | `stable` | `archived`) — these are lifecycle labels, **not** the editorial gate. `archived` products stay visible under "The journey" on /projects but are excluded from the homepage. Products render unconditionally in every build, so this collection is owner-curated: content agents must not create or edit product entries.
 
-(A **series** collection for long-form installments is planned but does not exist yet — do not write to `src/content/series/`.)
+There is no `series` collection — do not write to `src/content/series/`.
 
 ### Editorial Workflow
 
@@ -106,7 +102,7 @@ Content lives in `src/content/` with collections defined in `src/content.config.
 
 Use `getPublishedCollection()` from `src/content/_helpers.ts` to filter content at build time — never re-implement the status filter inline (rss.xml.ts and llms.txt.ts also go through it).
 
-The editorial statuses above apply to **commentary** and **architecture**. The **products** collection has no editorial gate — see Content Pipeline.
+The editorial statuses apply to **commentary**, **architecture**, and **security**. **products** has no editorial gate — see Content Pipeline.
 
 ### Content Agent Rules (Clawdius)
 
@@ -114,7 +110,7 @@ Clawdius is the primary content producer. He operates under strict constraints:
 
 **CAN do:**
 
-- Create/edit files in `src/content/commentary/` and `src/content/architecture/`
+- Create/edit files in `src/content/commentary/`, `src/content/architecture/`, `src/content/security/`
 - Set status to: `idea`, `draft`, `review`
 - Commit and push directly to `main`
 - Open PRs when useful (optional — for visual review of large drafts, not required)
@@ -142,53 +138,14 @@ The `content-validation` workflow enforces:
 - Scope restriction: content PRs can only touch `src/content/`
 - Publishing gate: only `simonplant` can set `status: published`
 - Batch limit: max 3 new content pieces per PR
-- Frontmatter validation: required fields (title, description, status, tags) and valid status values (editorial statuses for commentary/architecture; `active`/`beta`/`planned`/`stable` for products)
+- Frontmatter validation: required fields (title, description, status, tags) and valid status values (editorial statuses for commentary/architecture/security; lifecycle statuses for products)
 
 Note: this workflow triggers on **pull requests only**. Direct pushes to `main` are validated by the build (`astro check` + Zod schemas), not by this workflow — the publishing gate for direct pushes is trust in the rules above.
 
 <!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
-
 <!-- Customizations here will be lost. Add project-specific instructions above this section. -->
 
-<!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
 
-<!-- Customizations here will be lost. Add project-specific instructions above this section. -->
-
-<!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
-
-<!-- Customizations here will be lost. Add project-specific instructions above this section. -->
-
-<!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
-
-<!-- Customizations here will be lost. Add project-specific instructions above this section. -->
-
-<!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
-
-<!-- Customizations here will be lost. Add project-specific instructions above this section. -->
-
-<!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
-
-<!-- Customizations here will be lost. Add project-specific instructions above this section. -->
-
-## Sprint Orchestration (aishore)
-
-This project uses aishore for autonomous sprint execution. Backlog lives in `backlog/`, tool lives in `.aishore/`.
-
-**Agent rules (mandatory):**
-
-- **Core before features.** The working core — the primary end-to-end path — must pass before feature work proceeds. Check the item's `track` field: `core` items build the foundation; `feature` items decorate it.
-- **Intent is the north star.** Every item has a commander's intent field. When steps or AC are ambiguous, follow intent.
-- **Prove it runs.** Wire code to real entry points. If the build command exists, run it. If a verify command exists, execute it. Working code that's reachable beats tested code that's isolated.
-- **No mocks or stubs** in production code unless the item explicitly requests them.
-- **Stay in scope.** Implement only the assigned item. Don't fix unrelated code, add unrequested features, or refactor surrounding code.
-- **Commit before signaling.** Always commit with a meaningful message before writing result.json.
-
-**Typical flow:** `init` → `refine` (fill PRODUCT.md) → `backlog populate` → `groom` → `run`
-
-```bash
-.aishore/aishore run [N|ID|scope]    # Run sprints (scope: done, p0, p1, p2)
-.aishore/aishore groom              # Groom backlog items (AI adds steps, AC, priority)
-.aishore/aishore scaffold           # Establish working core, detect fragment risk
-.aishore/aishore review             # Architecture review
-.aishore/aishore status             # Backlog overview
-```
+<!-- aishore -->
+@ENGINEERING.md
+@.aishore/aishore/scaffold/claude-role.md

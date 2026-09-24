@@ -25,9 +25,10 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# aishore runtime files
-.aishore/data/logs/
-.aishore/data/status/
-.aishore/data/code-analysis.md
-.aishore/data/code-audit.md
 .env.local
+# aishore
+.aishore/state/
+ESCALATE.md
+PLAN.md
+tests/_review/
+__pycache__/
