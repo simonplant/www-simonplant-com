@@ -41,11 +41,6 @@
 ├── docs/
 │   ├── ARCHITECTURE.md    # This file
 │   └── SITE_PLAN.md       # Product strategy and content plan
-├── backlog/               # Aishore sprint backlog
-│   ├── backlog.json       # Feature items
-│   ├── bugs.json          # Bug/tech debt items
-│   └── archive/           # Sprint history and regression suite
-├── .aishore/              # Sprint orchestration tooling
 └── astro.config.mjs       # Astro config (Tailwind as Vite plugin)
 ```
 

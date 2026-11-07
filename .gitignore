@@ -26,8 +26,6 @@ pnpm-debug.log*
 .idea/
 
 .env.local
-# aishore
-.aishore/state/
 ESCALATE.md
 PLAN.md
 tests/_review/

@@ -141,11 +141,3 @@ The `content-validation` workflow enforces:
 - Frontmatter validation: required fields (title, description, status, tags) and valid status values (editorial statuses for commentary/architecture/security; lifecycle statuses for products)
 
 Note: this workflow triggers on **pull requests only**. Direct pushes to `main` are validated by the build (`astro check` + Zod schemas), not by this workflow — the publishing gate for direct pushes is trust in the rules above.
-
-<!-- This section is managed by aishore and will be overwritten on `aishore update`. -->
-<!-- Customizations here will be lost. Add project-specific instructions above this section. -->
-
-
-<!-- aishore -->
-@ENGINEERING.md
-@.aishore/aishore/scaffold/claude-role.md

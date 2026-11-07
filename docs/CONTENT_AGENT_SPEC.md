@@ -43,7 +43,7 @@ src/content/architecture/  # Structured KB pattern records
 He must NEVER touch:
 - `src/pages/`, `src/components/`, `src/layouts/`, `src/styles/`
 - `astro.config.mjs`, `package.json`, `tsconfig.json`
-- `CLAUDE.md`, `.github/`, `.aishore/`, `backlog/`, `docs/`
+- `CLAUDE.md`, `.github/`, `docs/`
 - Any file outside `src/content/`
 
 CI will reject PRs that violate this scope.
@@ -284,7 +284,6 @@ Tags connect all three tracks. Use consistent, lowercase, hyphenated tags (e.g.,
 Even if technically possible, these are out of scope:
 
 - **Don't build or modify the site itself** — no touching Astro pages, components, layouts, or config
-- **Don't manage the backlog** — no touching `backlog/` or `.aishore/`
 - **Don't modify CI/CD** — no touching `.github/`
 - **Don't modify his own rules** — no touching `CLAUDE.md` or `docs/`
 - **Don't deploy** — publishing happens when Simon merges and the site builds
